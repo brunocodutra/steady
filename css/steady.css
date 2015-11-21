@@ -1,0 +1,34 @@
+html, body {
+    height:100%;
+}
+
+.navbar-nav > li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-right {
+    float: right !important;
+}
+
+#content {
+    height: calc(100% - 140px);
+}
+
+#footer {
+    height: 40px;
+    font-size: 0.9em;
+    margin-top: 20px;
+    padding: 8px 0px;
+    border-top: 1px solid #DDD;
+    text-align: center;
+}
+
+.social-btns li {
+    display: inline-block;
+    margin: 0px;
+}
+
+.github-btn {
+    overflow: hidden;
+    border: 0px none;
+}
