@@ -1,0 +1,160 @@
+html, body {
+    height:100%;
+}
+
+.navbar-nav > li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-right {
+    float: right !important;
+}
+
+#content {
+    height: calc(100% - 140px);
+}
+
+#footer {
+    height: 40px;
+    font-size: 0.9em;
+    margin-top: 20px;
+    padding: 8px 0px;
+    border-top: 1px solid #DDD;
+    text-align: center;
+}
+
+.social-btns li {
+    display: inline-block;
+    margin: 0px;
+}
+
+.github-btn {
+    overflow: hidden;
+    border: 0px none;
+}
+
+.row {
+    height: 100%;
+}
+
+[class*='col-'] {
+    height: 100%;
+}
+
+#toolbar {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#toolbar > * {
+    padding: 0px;
+    margin: 0px;
+}
+
+#toolbar > a.previous,
+#toolbar > a.next {
+    border: none;
+}
+
+#toolbar > a.previous > span,
+#toolbar > a.next > span {
+    position: absolute;
+    top: calc(50% - 8px);
+}
+
+#toolbar > a.previous {
+    position: absolute;
+    float: left;
+    width: 30px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+#toolbar > a.next {
+    position: absolute;
+    float: right;
+    width: 30px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+#toolbar > ul.selector {
+    float: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#toolbar > ul.selector > li {
+    display: inline-block;
+}
+
+a.thumbnail.active,
+a.thumbnail.active:active,
+a.thumbnail.active:focus,
+a.thumbnail.active:hover,
+a.thumbnail:active,
+a.thumbnail:focus,
+a.thumbnail:hover {
+    background-color: #D9EDF7;
+    border-color: #D9EDF7;
+}
+
+#schematics {
+    height: calc(100% - 80px);
+    font-size: 0px;
+    margin: 0px;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.component {
+    display: inline-block;
+    vertical-align: top;
+    height: 100px;
+    width: 100px;
+    margin: 0px;
+}
+
+.component-sm {
+    height: 80px;
+    width: 80px;
+}
+
+.branch {
+    display: inline-block;
+    height: 200px;
+    width: 100px;
+    padding-left: 100px;
+    background-image: url("../icons/branch.svg");
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.dummy {
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dummy:hover {
+    background-color: #D9EDF7;
+}
+
+.carret {
+    border-radius: 4px;
+    background-color: #D9EDF7;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { background: white; }
+}
+
+
