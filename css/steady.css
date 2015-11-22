@@ -32,3 +32,88 @@ html, body {
     overflow: hidden;
     border: 0px none;
 }
+
+.row {
+    height: 100%;
+}
+
+[class*='col-'] {
+    height: 100%;
+}
+
+#toolbar {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#toolbar > * {
+    padding: 0px;
+    margin: 0px;
+}
+
+#toolbar > a.previous,
+#toolbar > a.next {
+    border: none;
+}
+
+#toolbar > a.previous > span,
+#toolbar > a.next > span {
+    position: absolute;
+    top: calc(50% - 8px);
+}
+
+#toolbar > a.previous {
+    position: absolute;
+    float: left;
+    width: 30px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+#toolbar > a.next {
+    position: absolute;
+    float: right;
+    width: 30px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+#toolbar > ul.selector {
+    float: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#toolbar > ul.selector > li {
+    display: inline-block;
+}
+
+a.thumbnail.active,
+a.thumbnail.active:active,
+a.thumbnail.active:focus,
+a.thumbnail.active:hover,
+a.thumbnail:active,
+a.thumbnail:focus,
+a.thumbnail:hover {
+    background-color: #D9EDF7;
+    border-color: #D9EDF7;
+}
+
+.component {
+    display: inline-block;
+    vertical-align: top;
+    height: 100px;
+    width: 100px;
+    margin: 0px;
+}
+
+.component-sm {
+    height: 80px;
+    width: 80px;
+}

@@ -8,7 +8,7 @@
     <meta name="author" content="Bruno Dutra">
 
     <title>Steady</title>
-    
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/octicons.css" rel="stylesheet">
     <link href="css/steady.css" rel="stylesheet">
@@ -43,6 +43,28 @@
     </nav>
 
     <div id="content" class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div id="toolbar">
+            <a class="previous" role="button"><span class="octicon octicon-chevron-left"></span></a>
+            <ul class="selector">
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/r_series.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/r_shunt.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/l_series.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/l_shunt.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/c_series.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/c_shunt.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/z_series.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/z_shunt.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/xformer.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/xline.svg"></img></a></li>
+              <li><a class="component component-sm thumbnail" role="button"><img src="icons/load.svg"></img></a></li>
+            </ul>
+            <a class="next" role="button"><span class="octicon octicon-chevron-right"></span></a>
+          </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="footer">
@@ -68,5 +90,17 @@
     }
     </script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script>
+      $(document).ready(function(){
+        $('#toolbar .previous').click(function(){
+          $('~ .selector > :first-child', this).appendTo($('~ .selector', this));
+        });
+
+        $('#toolbar .next').click(function(){
+          $(this).parent().find('.selector > :last-child').prependTo($(this).parent().find('.selector'));
+        });
+      });
+    </script>
   </body>
 </html>
