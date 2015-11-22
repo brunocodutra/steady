@@ -62,6 +62,40 @@
             </ul>
             <a class="next" role="button"><span class="octicon octicon-chevron-right"></span></a>
           </div>
+          <div id="schematics">
+            <div class="bus">
+              <object class="component" data="icons/vsrc.svg"></object>
+              <object class="component" data="icons/xline.svg"></object>
+              <object class="component" data="icons/xformer.svg"></object>
+              <div class="branch">
+                <div class="bus">
+                  <object class="component" data="icons/l_shunt.svg"></object>
+                  <object class="component" data="icons/l_series.svg"></object>
+                  <object class="component dummy" data=""></object>
+                </div>
+                <div class="bus">
+                  <object class="component" data="icons/r_series.svg"></object>
+                  <div class="branch">
+                    <div class="bus">
+                      <object class="component" data="icons/z_shunt.svg"></object>
+                      <object class="component" data="icons/c_series.svg"></object>
+                      <object class="component carret" data=""></object>
+                    </div>
+                    <div class="bus">
+                      <object class="component" data="icons/r_series.svg"></object>
+                      <object class="component" data="icons/c_shunt.svg"></object>
+                      <object class="component" data="icons/r_series.svg"></object>
+                      <object class="component" data="icons/z_series.svg"></object>
+                      <object class="component" data="icons/r_shunt.svg"></object>
+                      <object class="component" data="icons/r_series.svg"></object>
+                      <object class="component" data="icons/load.svg"></object>
+                      <object class="component" data="icons/c_shunt.svg"></object>
+                      <object class="component dummy" data=""></object>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -93,6 +127,13 @@
 
     <script>
       $(document).ready(function(){
+        $('#toolbar .selector a').click(function(){
+          $('#schematics .carret').attr({
+            'data': $(this).children('img').attr('src'),
+            'type': 'image/svg+xml'
+          });
+        });
+
         $('#toolbar .previous').click(function(){
           $('~ .selector > :first-child', this).appendTo($('~ .selector', this));
         });

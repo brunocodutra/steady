@@ -105,6 +105,16 @@ a.thumbnail:hover {
     border-color: #D9EDF7;
 }
 
+#schematics {
+    height: calc(100% - 80px);
+    font-size: 0px;
+    margin: 0px;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
 .component {
     display: inline-block;
     vertical-align: top;
@@ -117,3 +127,34 @@ a.thumbnail:hover {
     height: 80px;
     width: 80px;
 }
+
+.branch {
+    display: inline-block;
+    height: 200px;
+    width: 100px;
+    padding-left: 100px;
+    background-image: url("../icons/branch.svg");
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.dummy {
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dummy:hover {
+    background-color: #D9EDF7;
+}
+
+.carret {
+    border-radius: 4px;
+    background-color: #D9EDF7;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { background: white; }
+}
+
+
