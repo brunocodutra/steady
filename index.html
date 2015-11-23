@@ -45,56 +45,28 @@
     <div id="content" class="container">
       <div class="row">
         <div class="col-sm-12">
-          <div id="toolbar">
-            <a class="previous" role="button"><span class="octicon octicon-chevron-left"></span></a>
+          <div class="toolbar">
+            <a class="previous" role="button"><span class="mega-octicon octicon-chevron-left"></span></a>
             <ul class="selector">
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/r_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/r_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/l_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/l_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/c_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/c_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/z_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/z_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/xformer.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/xline.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/load.svg"></img></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/r_series.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/r_shunt.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/l_series.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/l_shunt.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/c_series.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/c_shunt.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/z_series.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/z_shunt.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/xformer.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/xline.svg"></object></a></li>
+              <li><a class="tool" role="button"><object class="component" data="icons/load.svg"></object></a></li>
+              <li><a class="tool" role="button"><span class="branch"></span></a></li>
             </ul>
-            <a class="next" role="button"><span class="octicon octicon-chevron-right"></span></a>
+            <a class="next" role="button"><span class="mega-octicon octicon-chevron-right"></span></a>
           </div>
           <div id="schematics">
             <div class="bus">
               <object class="component" data="icons/vsrc.svg"></object>
-              <object class="component" data="icons/xline.svg"></object>
-              <object class="component" data="icons/xformer.svg"></object>
-              <div class="branch">
-                <div class="bus">
-                  <object class="component" data="icons/l_shunt.svg"></object>
-                  <object class="component" data="icons/l_series.svg"></object>
-                  <object class="component dummy" data=""></object>
-                </div>
-                <div class="bus">
-                  <object class="component" data="icons/r_series.svg"></object>
-                  <div class="branch">
-                    <div class="bus">
-                      <object class="component" data="icons/z_shunt.svg"></object>
-                      <object class="component" data="icons/c_series.svg"></object>
-                      <object class="component carret" data=""></object>
-                    </div>
-                    <div class="bus">
-                      <object class="component" data="icons/r_series.svg"></object>
-                      <object class="component" data="icons/c_shunt.svg"></object>
-                      <object class="component" data="icons/r_series.svg"></object>
-                      <object class="component" data="icons/z_series.svg"></object>
-                      <object class="component" data="icons/r_shunt.svg"></object>
-                      <object class="component" data="icons/r_series.svg"></object>
-                      <object class="component" data="icons/load.svg"></object>
-                      <object class="component" data="icons/c_shunt.svg"></object>
-                      <object class="component dummy" data=""></object>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <object class="component carret" data=""></object>
             </div>
           </div>
         </div>
@@ -127,19 +99,37 @@
 
     <script>
       $(document).ready(function(){
-        $('#toolbar .selector a').click(function(){
-          $('#schematics .carret').attr({
-            'data': $(this).children('img').attr('src'),
-            'type': 'image/svg+xml'
-          });
+        $(".toolbar .selector a.tool:has('object.component')").click(function(){
+          $('#schematics .carret')
+            .attr("data", $(this).find("object.component").attr("data"))
+            .removeClass("carret")
+            .parent()
+            .append("<object class='component carret'>");
         });
 
-        $('#toolbar .previous').click(function(){
-          $('~ .selector > :first-child', this).appendTo($('~ .selector', this));
+        $(".toolbar .selector a.tool:has('.branch')").click(function(){
+            $('#schematics .carret')
+              .replaceWith(
+                $("<div class='branch'>")
+                  .append(
+                    $("<div class='bus'>").append(
+                      $("<a class='component dummy' role='button'>")
+                        .click(function(){
+                          $('#schematics .carret').parent().append($(this).clone(true));
+                          $(this).replaceWith($('#schematics .carret'));
+                        })
+                    )
+                  )
+                  .append("<div class='bus'><object class='component carret' data=''></div>")
+              );
         });
 
-        $('#toolbar .next').click(function(){
-          $(this).parent().find('.selector > :last-child').prependTo($(this).parent().find('.selector'));
+        $(".toolbar .previous").click(function(){
+          $("~ .selector > :last-child", this).prependTo($("~ .selector", this));
+        });
+
+        $(".toolbar .next").click(function(){
+          $(this).parent().find(".selector > :first-child").appendTo($(this).parent().find(".selector"));
         });
       });
     </script>
