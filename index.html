@@ -47,27 +47,32 @@
         <div class="col-sm-12">
           <div class="toolbar">
             <a class="previous" role="button"><span class="mega-octicon octicon-chevron-left"></span></a>
-            <ul class="selector">
-              <li><a class="tool" role="button"><object class="component" data="icons/r_series.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/r_shunt.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/l_series.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/l_shunt.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/c_series.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/c_shunt.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/z_series.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/z_shunt.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/xformer.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/xline.svg"></object></a></li>
-              <li><a class="tool" role="button"><object class="component" data="icons/load.svg"></object></a></li>
-              <li><a class="tool" role="button"><span class="branch"></span></a></li>
-            </ul>
             <a class="next" role="button"><span class="mega-octicon octicon-chevron-right"></span></a>
+            <ul class="roulette">
+              <li><span class="tool" role="button"><object data="icons/r_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/r_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/l_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/l_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/c_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/c_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/z_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/z_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/xformer.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/xline.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/load.svg"></object></span></li>
+              <li>
+                <span class="tool" role="button">
+                  <span class="branch">
+                    <span class="component placeholder" role="button"></span>
+                  </span>
+                </span>
+              </li>
+            </ul>
+
           </div>
           <div id="schematics">
-            <div class="bus">
-              <object class="component" data="icons/vsrc.svg"></object>
-              <object class="component carret" data=""></object>
-            </div>
+            <span class="component"><object data="icons/vsrc.svg"></object></span>
+            <span class="component carret"></span>
           </div>
         </div>
       </div>
@@ -91,45 +96,29 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>if (typeof jQuery === 'undefined') {
-      document.write(unescape('%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E'));
-    }
+    <script>
+      if (typeof jQuery === 'undefined') {
+        document.write(unescape('%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E'));
+      }
     </script>
     <script src="js/bootstrap.min.js"></script>
 
     <script>
       $(document).ready(function(){
-        $(".toolbar .selector a.tool:has('object.component')").click(function(){
-          $('#schematics .carret')
-            .attr("data", $(this).find("object.component").attr("data"))
-            .removeClass("carret")
-            .parent()
-            .append("<object class='component carret'>");
-        });
-
-        $(".toolbar .selector a.tool:has('.branch')").click(function(){
-            $('#schematics .carret')
-              .replaceWith(
-                $("<div class='branch'>")
-                  .append(
-                    $("<div class='bus'>").append(
-                      $("<a class='component dummy' role='button'>")
-                        .click(function(){
-                          $('#schematics .carret').parent().append($(this).clone(true));
-                          $(this).replaceWith($('#schematics .carret'));
-                        })
-                    )
-                  )
-                  .append("<div class='bus'><object class='component carret' data=''></div>")
-              );
-        });
-
         $(".toolbar .previous").click(function(){
-          $("~ .selector > :last-child", this).prependTo($("~ .selector", this));
+          $("~ .roulette > :last-child", this).prependTo($("~ .roulette", this));
         });
 
         $(".toolbar .next").click(function(){
-          $(this).parent().find(".selector > :first-child").appendTo($(this).parent().find(".selector"));
+          $("~ .roulette > :first-child", this).appendTo($("~ .roulette", this));
+        });
+
+        $(".tool").click(function(){
+          $('#schematics .carret').before($("<span class='component'>").append($(this).contents().clone(true)));
+        });
+
+        $(".placeholder").click(function(){
+          $(this).parent().append($('#schematics .carret').before(this));
         });
       });
     </script>

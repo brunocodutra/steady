@@ -70,15 +70,17 @@ html, body {
     background-position: left center;
 }
 
-a.dummy {
+.component.placeholder {
     border-radius: 4px;
 }
 
-a.dummy:hover {
+.component.placeholder:active,
+.component.placeholder:focus,
+.component.placeholder:hover {
     background-color: #D9EDF7;
 }
 
-.carret {
+.component.carret {
     border-radius: 4px;
     background-color: #D9EDF7;
     animation: blinker 1s linear infinite;
@@ -96,63 +98,43 @@ a.dummy:hover {
     margin-bottom: 10px;
 }
 
-.toolbar > a.previous,
-.toolbar > a.next {
-    border: none;
-}
-
-.toolbar > a.previous > span,
-.toolbar > a.next > span {
+.toolbar > .previous,
+.toolbar > .next {
     position: absolute;
-    top: calc(50% - 16px);
+    top: 50%;
+    margin-top: -16px;
 }
 
-.toolbar > a.previous > span {
-    left: 0;
-}
-
-.toolbar > a.next > span {
-    right: 0;
-}
-
-.toolbar > a.previous,
-.toolbar > a.next {
-    position: absolute;
-    width: 30px;
-    top: 0px;
-    bottom: 0px;
-}
-
-.toolbar > a.previous {
-    float: left;
+.toolbar > .previous {
     left: 0px;
 }
 
-.toolbar > a.next {
-    float: right;
+.toolbar > .next {
     right: 0px;
 }
 
-.toolbar > ul.selector {
-    float: center;
+ul.roulette {
     overflow: hidden;
     white-space: nowrap;
     padding: 0;
 }
 
-.toolbar > ul.selector > li {
+ul.roulette > li {
     display: inline-block;
 }
 
-.toolbar  > ul.selector > li > a.tool {
-    position: relative;
+.tool {
     display: inline-block;
+    position: relative;
+    height: 70px;
+    width: 70px;
     padding: 4px;
     border: 1px solid #DDD;
     border-radius: 4px;
+    overflow: hidden;
 }
 
-.toolbar  > ul.selector > li > a.tool:after {
+.tool:after {
     content: "";
     position: absolute;
     top: 0;
@@ -161,20 +143,9 @@ a.dummy:hover {
     left: 0;
 }
 
-.toolbar  > ul.selector > li > a.tool.active,
-.toolbar  > ul.selector > li > a.tool.active:active,
-.toolbar  > ul.selector > li > a.tool.active:focus,
-.toolbar  > ul.selector > li > a.tool.active:hover,
-.toolbar  > ul.selector > li > a.tool:active,
-.toolbar  > ul.selector > li > a.tool:focus,
-.toolbar  > ul.selector > li > a.tool:hover {
+.tool:active,
+.tool:focus,
+.tool:hover {
     background-color: #D9EDF7;
     border-color: #D9EDF7;
 }
-
-.toolbar  > ul.selector > li > a.tool > * {
-    height: 70px;
-    width: 70px;
-    padding: 0;
-}
-
