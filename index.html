@@ -114,11 +114,25 @@
         });
 
         $(".tool").click(function(){
-          $('#schematics .carret').before($("<span class='component'>").append($(this).contents().clone(true)));
+          var component = $(this).contents().clone(true);
+          if(component.hasClass("branch")){
+            $("#schematics .carret")
+              .parentsUntil("#schematics")
+              .andSelf()
+              .filter(".component")
+              .prevAll()
+              .find("> .branch")
+              .css({
+                "height": "+=100%",
+                "padding-top": "+=100%"
+              });
+          }
+
+          $("#schematics .carret").before($("<span class='component'>").append(component));
         });
 
         $(".placeholder").click(function(){
-          $(this).parent().append($('#schematics .carret').before(this));
+          $(this).parent().append($("#schematics .carret").before(this));
         });
       });
     </script>

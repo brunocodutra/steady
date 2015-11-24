@@ -61,13 +61,24 @@ html, body {
 
 .branch {
     display: inline-block;
-    vertical-align: top;
-    height: 200px;
-    width: 100px;
-    padding-left: 100px;
-    background-image: url("../icons/branch.svg");
-    background-repeat: no-repeat;
-    background-position: left center;
+    position: relative;
+    height: 200%;
+    width: 100%;
+    padding: 100% 0 0 100%;
+    background-image: url("../icons/branch_top.svg"), url("../icons/branch_bottom.svg");
+    background-repeat: no-repeat, no-repeat;
+    background-position: left top, left bottom;
+}
+
+.branch:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 100% 0 100% 0;
+    background: url("../icons/wire.svg") left center repeat-y;
 }
 
 .component.placeholder {
