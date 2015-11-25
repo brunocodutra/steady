@@ -45,57 +45,34 @@
     <div id="content" class="container">
       <div class="row">
         <div class="col-sm-12">
-          <div id="toolbar">
-            <a class="previous" role="button"><span class="octicon octicon-chevron-left"></span></a>
-            <ul class="selector">
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/r_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/r_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/l_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/l_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/c_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/c_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/z_series.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/z_shunt.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/xformer.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/xline.svg"></img></a></li>
-              <li><a class="component component-sm thumbnail" role="button"><img src="icons/load.svg"></img></a></li>
+          <div class="toolbar">
+            <a class="previous" role="button"><span class="mega-octicon octicon-chevron-left"></span></a>
+            <a class="next" role="button"><span class="mega-octicon octicon-chevron-right"></span></a>
+            <ul class="roulette">
+              <li><span class="tool" role="button"><object data="icons/r_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/r_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/l_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/l_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/c_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/c_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/z_series.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/z_shunt.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/xformer.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/xline.svg"></object></span></li>
+              <li><span class="tool" role="button"><object data="icons/load.svg"></object></span></li>
+              <li>
+                <span class="tool" role="button">
+                  <span class="branch">
+                    <span class="component placeholder" role="button"></span>
+                  </span>
+                </span>
+              </li>
             </ul>
-            <a class="next" role="button"><span class="octicon octicon-chevron-right"></span></a>
+
           </div>
           <div id="schematics">
-            <div class="bus">
-              <object class="component" data="icons/vsrc.svg"></object>
-              <object class="component" data="icons/xline.svg"></object>
-              <object class="component" data="icons/xformer.svg"></object>
-              <div class="branch">
-                <div class="bus">
-                  <object class="component" data="icons/l_shunt.svg"></object>
-                  <object class="component" data="icons/l_series.svg"></object>
-                  <object class="component dummy" data=""></object>
-                </div>
-                <div class="bus">
-                  <object class="component" data="icons/r_series.svg"></object>
-                  <div class="branch">
-                    <div class="bus">
-                      <object class="component" data="icons/z_shunt.svg"></object>
-                      <object class="component" data="icons/c_series.svg"></object>
-                      <object class="component carret" data=""></object>
-                    </div>
-                    <div class="bus">
-                      <object class="component" data="icons/r_series.svg"></object>
-                      <object class="component" data="icons/c_shunt.svg"></object>
-                      <object class="component" data="icons/r_series.svg"></object>
-                      <object class="component" data="icons/z_series.svg"></object>
-                      <object class="component" data="icons/r_shunt.svg"></object>
-                      <object class="component" data="icons/r_series.svg"></object>
-                      <object class="component" data="icons/load.svg"></object>
-                      <object class="component" data="icons/c_shunt.svg"></object>
-                      <object class="component dummy" data=""></object>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <span class="component"><object data="icons/vsrc.svg"></object></span>
+            <span class="component carret"></span>
           </div>
         </div>
       </div>
@@ -119,27 +96,43 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>if (typeof jQuery === 'undefined') {
-      document.write(unescape('%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E'));
-    }
+    <script>
+      if (typeof jQuery === 'undefined') {
+        document.write(unescape('%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E'));
+      }
     </script>
     <script src="js/bootstrap.min.js"></script>
 
     <script>
       $(document).ready(function(){
-        $('#toolbar .selector a').click(function(){
-          $('#schematics .carret').attr({
-            'data': $(this).children('img').attr('src'),
-            'type': 'image/svg+xml'
-          });
+        $(".toolbar .previous").click(function(){
+          $("~ .roulette > :last-child", this).prependTo($("~ .roulette", this));
         });
 
-        $('#toolbar .previous').click(function(){
-          $('~ .selector > :first-child', this).appendTo($('~ .selector', this));
+        $(".toolbar .next").click(function(){
+          $("~ .roulette > :first-child", this).appendTo($("~ .roulette", this));
         });
 
-        $('#toolbar .next').click(function(){
-          $(this).parent().find('.selector > :last-child').prependTo($(this).parent().find('.selector'));
+        $(".tool").click(function(){
+          var component = $(this).contents().clone(true);
+          if(component.hasClass("branch")){
+            $("#schematics .carret")
+              .parentsUntil("#schematics")
+              .andSelf()
+              .filter(".component")
+              .prevAll()
+              .find("> .branch")
+              .css({
+                "height": "+=100%",
+                "padding-top": "+=100%"
+              });
+          }
+
+          $("#schematics .carret").before($("<span class='component'>").append(component));
+        });
+
+        $(".placeholder").click(function(){
+          $(this).parent().append($("#schematics .carret").before(this));
         });
       });
     </script>
