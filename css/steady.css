@@ -60,7 +60,7 @@ ul.toolbar > li {
     display: inline-block;
 }
 
-.tool {
+.toolbar .tool {
     display: inline-block;
     position: relative;
     height: 60px;
@@ -71,18 +71,9 @@ ul.toolbar > li {
     overflow: hidden;
 }
 
-.tool:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.tool:active,
-.tool:focus,
-.tool:hover {
+.toolbar .tool:active,
+.toolbar .tool:focus,
+.toolbar .tool:hover {
     background-color: #D9EDF7;
     border-color: #D9EDF7;
 }
@@ -97,26 +88,24 @@ ul.toolbar > li {
     white-space: nowrap;
 }
 
-.component {
+.schematics .component {
     display: inline-block;
+    position: relative;
     vertical-align: top;
     height: 80px;
     width: 80px;
-    margin: 0px;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
 }
 
-.branch {
-    display: inline-block;
-    position: relative;
-    height: 200%;
-    width: 100%;
-    padding: 100% 0 0 100%;
-    background-image: url("../icons/branch_top.svg"), url("../icons/branch_bottom.svg");
-    background-repeat: no-repeat, no-repeat;
-    background-position: left top, left bottom;
+.schematics .component:active,
+.schematics .component:focus,
+.schematics .component:hover {
+    background-color: #D9EDF7;
 }
 
-.branch:before {
+.schematics .component.branch:before {
     content: '';
     position: absolute;
     left: 0;
@@ -128,24 +117,44 @@ ul.toolbar > li {
     background-size: 100% auto;
 }
 
-.component.placeholder {
-    border-radius: 4px;
+.schematics .component.branch > .series {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
-.component.placeholder:active,
-.component.placeholder:focus,
-.component.placeholder:hover {
-    background-color: #D9EDF7;
+.schematics .component.branch > .shunt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
-.component.carret {
+.schematics .component.branch > .components {
+    display: inline-block;
+    position: absolute;
+    top: 100%;
+    margin: -100% 0 0 100%;
+}
+
+.schematics .component.carret {
     border-radius: 4px;
     background-color: #D9EDF7;
     animation: blinker 1s linear infinite;
 }
 
 @keyframes blinker {
-    50% { background: white; }
+    50% { background: none; }
+}
+
+.toolbar .tool:after, .schematics .component:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 @media (min-width: 768px) {
@@ -153,16 +162,16 @@ ul.toolbar > li {
         padding-top: 60px;
     }
 
-    .schematics {
-        height: calc(100% - 90px);
-    }
-
-    .tool{
+    .toolbar .tool{
         height: 70px;
         width: 70px;
     }
 
-    .component {
+    .schematics {
+        height: calc(100% - 90px);
+    }
+
+    .schematics  .component {
         height: 90px;
         width: 90px;
     }

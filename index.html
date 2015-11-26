@@ -46,28 +46,30 @@
         <div class="row">
           <div class="col-sm-12">
             <ul class="toolbar">
-              <li><span class="tool" role="button"><object data="icons/r_series.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/r_shunt.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/l_series.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/l_shunt.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/c_series.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/c_shunt.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/z_series.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/z_shunt.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/xformer.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/xline.svg"></object></span></li>
-              <li><span class="tool" role="button"><object data="icons/load.svg"></object></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_series.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_shunt.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/l_series.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/l_shunt.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/c_series.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/c_shunt.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/z_series.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/z_shunt.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/xformer.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/xline.svg"></object></span></span></li>
+              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/load.svg"></object></span></span></li>
               <li>
-                <span class="tool" role="button">
-                  <span class="branch">
-                    <span class="component placeholder" role="button"></span>
+                <span class="tool add" role="button">
+                  <span class="component branch" role="button">
+                    <object class="series" data="icons/branch_series.svg"></object>
+                    <object class="shunt" data="icons/branch_shunt.svg"></object>
+                    <span class="components"><span class="component placeholder"></span></span>
                   </span>
                 </span>
               </li>
             </ul>
             <div class="schematics">
-              <span class="component"><object data="icons/vsrc.svg"></object></span>
-              <span class="component carret"></span>
+              <span class="component fixed"><object data="icons/vsrc.svg"></object></span>
+              <span class="component placeholder carret" role="button"></span>
             </div>
           </div>
         </div>
@@ -99,30 +101,35 @@
     <script src="js/bootstrap.min.js"></script>
 
     <script>
-      $(document).ready(function(){
-        $(".tool").click(function(){
-          var component = $(this).contents().clone(true);
+       $(document).ready(function(){
+        $(".tool.add").click(function(){
+          var component = $(this).contents().clone(true, true);
           var carret = $(".schematics .carret");
 
+          component.css({"opacity": 0}).insertBefore(carret);
           if(component.hasClass("branch")){
+            var nextBranch = carret.nextAll().andSelf().filter(".branch:first");
+            if(nextBranch != null)
+              component.css({"height": nextBranch.prop("scrollHeight")});
+
             carret
               .parentsUntil(".schematics")
               .andSelf()
               .filter(".component")
               .prevAll()
-              .find("> .branch")
-              .css({
-                "height": "+=100%",
-                "padding-top": "+=100%"
-              });
+              .filter(".branch")
+              .css({"overflow": "visible"})
+              .animate({"height": "+=" + carret.css("width")})
+              .css({"overflow": ""});
           }
-
-          $("<span class='component'>").append(component).insertBefore(carret);
+          component.animate({"opacity": 1});
         });
 
-        $(".placeholder").click(function(){
-          $(this).parent().append($(".schematics .carret").before(this));
-        });
+        $(".component:not(.fixed)").click(function(event){
+          event.stopPropagation();
+          $(".schematics .carret").removeClass("carret");
+          $(this).addClass("carret");
+        })
       });
     </script>
   </body>
