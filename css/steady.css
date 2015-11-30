@@ -48,6 +48,39 @@ ul.social-btns > li {
     height: 100%;
 }
 
+a:hover, a:active, a:focus {
+    text-decoration: initial;
+}
+
+ul.dropdown-menu {
+    min-width: 90px;
+}
+
+ul.dropdown-menu  > li > a {
+    padding-left: 5px;
+}
+
+.octicon {
+    margin-right: 5px;
+}
+
+.octicon-x {
+    color: red;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    padding: 4px;
+    height: 22px;
+    width: 22px;
+    text-align: center;
+    border-radius: 13px;
+}
+
 .toolbar {
     position: relative;
     font-size: 0;
@@ -75,15 +108,6 @@ ul.social-btns > li {
     bottom: 0;
 }
 
-.toolbar > .left:active,
-.toolbar > .left:focus,
-.toolbar > .left:hover,
-.toolbar > .right:active,
-.toolbar > .right:focus,
-.toolbar > .right:hover {
-    text-decoration: initial;
-}
-
 .toolbar > .left {
     left: 0;
 }
@@ -99,8 +123,8 @@ ul.social-btns > li {
     width: 100%;
 }
 
-.toolbar > .left > span > span,
-.toolbar > .right > span > span {
+.toolbar > .left > span > *,
+.toolbar > .right > span > * {
     display: table-cell;
     vertical-align: middle;
 }
@@ -116,9 +140,9 @@ ul.social-btns > li {
     overflow: hidden;
 }
 
+.toolbar .tool:hover,
 .toolbar .tool:active,
-.toolbar .tool:focus,
-.toolbar .tool:hover {
+.toolbar .tool:focus {
     background-color: #D9EDF7;
     border-color: #D9EDF7;
 }
@@ -144,10 +168,21 @@ ul.social-btns > li {
     border-radius: 4px;
 }
 
+.schematics .component:hover,
 .schematics .component:active,
-.schematics .component:focus,
-.schematics .component:hover {
+.schematics .component:focus {
     background-color: #D9EDF7;
+}
+
+.menu.open,
+.schematics .component:hover > .menu,
+.schematics .component:active > .menu,
+.schematics .component.active > .menu {
+    display: block;
+}
+
+.schematics .component > .menu:hover {
+    background-color: white;
 }
 
 .schematics .component.branch:before {
@@ -183,7 +218,7 @@ ul.social-btns > li {
     margin: -100% 0 0 100%;
 }
 
-.schematics .component.carret {
+.schematics .component.active {
     border-radius: 4px;
     background-color: #D9EDF7;
     animation: blinker 1s linear infinite;

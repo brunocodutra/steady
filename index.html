@@ -46,8 +46,8 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="toolbar">
-              <a class="left hidden-xs" role="button"><span><span class="mega-octicon octicon-chevron-left"></span></span></a>
-              <a class="right hidden-xs" role="button"><span><span class="mega-octicon octicon-chevron-right"></span></span></a>
+              <a class="left hidden-xs" href="#"><span><span class="mega-octicon octicon-chevron-left"></span></span></a>
+              <a class="right hidden-xs" href="#"><span><span class="mega-octicon octicon-chevron-right"></span></span></a>
               <ul>
                 <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_series.svg"></object></span></span></li>
                 <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_shunt.svg"></object></span></span></li>
@@ -73,7 +73,7 @@
             </div>
             <div class="schematics">
               <span class="component fixed"><object data="icons/vsrc.svg"></object></span>
-              <span class="component placeholder carret" role="button"></span>
+              <span class="component placeholder active" role="button"></span>
             </div>
           </div>
         </div>
@@ -96,54 +96,81 @@
       </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>
-      if (typeof jQuery === 'undefined') {
-        document.write(unescape('%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E'));
-      }
-    </script>
+    <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
     <script>
        $(document).ready(function(){
-        $(".toolbar .left").click(function(){
+        $(".toolbar .left").on("click", function(){
           var roulette = $("~ ul", this);
           $("> :last-child", roulette).css({"opacity": 0}).prependTo(roulette).animate({"opacity": 1});
         });
 
-        $(".toolbar .right").click(function(){
+        $(".toolbar .right").on("click", function(){
           var roulette = $("~ ul", this);
           $("> :first-child", roulette).css({"opacity": 0}).appendTo(roulette).animate({"opacity": 1});
         });
 
-        $(".tool.add").click(function(){
+        $(".tool.add").on("click", function(){
           var component = $(this).contents().clone(true, true);
-          var carret = $(".schematics .carret");
+          var active = $(".schematics .active");
 
-          component.css({"opacity": 0}).insertBefore(carret);
+          component.css({"opacity": 0}).insertBefore(active);
           if(component.hasClass("branch")){
-            var nextBranch = carret.nextAll().andSelf().filter(".branch:first");
+            var nextBranch = active.nextAll().andSelf().filter(".branch:first");
             if(nextBranch != null)
               component.css({"height": nextBranch.prop("scrollHeight")});
 
-            carret
+            active
               .parentsUntil(".schematics")
               .andSelf()
               .filter(".component")
               .prevAll()
               .filter(".branch")
               .css({"overflow": "visible"})
-              .animate({"height": "+=" + carret.css("width")})
+              .animate({"height": "+=" + active.css("width")})
               .css({"overflow": ""});
           }
           component.animate({"opacity": 1});
         });
 
-        $(".component:not(.fixed)").click(function(event){
-          event.stopPropagation();
-          $(".schematics .carret").removeClass("carret");
-          $(this).addClass("carret");
-        })
+        $(".component:not(.fixed)").on("click", function(event){
+          if(event.target == this){
+            event.stopPropagation();
+            $(".schematics .active").removeClass("active");
+            $(this).addClass("active");
+          }
+        });
+
+        $(".component:not(.fixed):not(.placeholder)").append(
+          '<span class="menu dropdown"> \
+            <a class="dropdown-toggle octicon octicon-gear" data-toggle="dropdown" href="#"></a> \
+            <ul class="dropdown-menu dropdown-menu-left"> \
+              <li><a class="delete"><span class="octicon octicon-x"></span> Delete</a></li> \
+            </ul> \
+          </span>'
+        );
+
+        $(".component a.delete").on("click", function(){
+          $(this)
+            .parent()
+            .closest(".component")
+            .animate({"opacity": 0}, function(){
+              if($(this).hasClass("branch")){
+                $(this)
+                  .parentsUntil(".schematics")
+                  .andSelf()
+                  .filter(".component")
+                  .prevAll()
+                  .filter(".branch")
+                  .css({"overflow": "visible"})
+                  .animate({"height": "-=" + $(this).css("width")})
+                  .css({"overflow": ""});
+              }
+              $(this).animate({"width": 0}, function(){$(this).remove()});
+            });
+        });
+
       });
     </script>
   </body>
