@@ -68,7 +68,70 @@ ul.dropdown-menu  > li > a {
     color: red;
 }
 
-.menu {
+.component {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+}
+
+.component.r {
+    background: url("../icons/r_series.svg");
+}
+
+.component.r.shunt {
+    background: url("../icons/r_shunt.svg");
+}
+
+.component.l {
+    background: url("../icons/l_series.svg");
+}
+
+.component.l.shunt {
+    background: url("../icons/l_shunt.svg");
+}
+
+.component.c {
+    background: url("../icons/c_series.svg");
+}
+
+.component.c.shunt {
+    background: url("../icons/c_shunt.svg");
+}
+
+.component.z {
+    background: url("../icons/z_series.svg");
+}
+
+.component.z.shunt {
+    background: url("../icons/z_shunt.svg");
+}
+
+.component.xformer {
+    background: url("../icons/xformer.svg");
+}
+
+.component.xline {
+    background: url("../icons/xline.svg");
+}
+
+.component.source {
+    background: url("../icons/source.svg");
+}
+
+.component.load {
+    background: url("../icons/load.svg");
+}
+
+.component.branch {
+    background-image: url("../icons/branch_series.svg"), url("../icons/branch_shunt.svg");
+    background-position: left top, left bottom;
+    background-repeat: no-repeat, no-repeat;
+}
+
+.component > .menu {
     display: none;
     position: absolute;
     left: 0;
@@ -79,6 +142,7 @@ ul.dropdown-menu  > li > a {
     width: 22px;
     text-align: center;
     border-radius: 13px;
+    background-color: white;
 }
 
 .toolbar {
@@ -140,6 +204,24 @@ ul.dropdown-menu  > li > a {
     overflow: hidden;
 }
 
+.toolbar .tool:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.toolbar .tool .component {
+    height: 100%;
+    width: 100%;
+}
+
+.toolbar .tool .component.branch {
+    height: 200%;
+}
+
 .toolbar .tool:hover,
 .toolbar .tool:active,
 .toolbar .tool:focus {
@@ -158,14 +240,8 @@ ul.dropdown-menu  > li > a {
 }
 
 .schematics .component {
-    display: inline-block;
-    position: relative;
-    vertical-align: top;
     height: 90px;
     width: 90px;
-    margin: 0;
-    padding: 0;
-    border-radius: 4px;
 }
 
 .schematics .component:hover,
@@ -174,15 +250,11 @@ ul.dropdown-menu  > li > a {
     background-color: #D9EDF7;
 }
 
-.menu.open,
+.schematics .componen > .menu.open,
 .schematics .component:hover > .menu,
 .schematics .component:active > .menu,
 .schematics .component.active > .menu {
     display: block;
-}
-
-.schematics .component > .menu:hover {
-    background-color: white;
 }
 
 .schematics .component.branch:before {
@@ -195,20 +267,6 @@ ul.dropdown-menu  > li > a {
     margin: 100% 0 100% 0;
     background: url("../icons/wire.svg") center center repeat-y;
     background-size: 100% auto;
-}
-
-.schematics .component.branch > .series {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-}
-
-.schematics .component.branch > .shunt {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
 
 .schematics .component.branch > .components {
@@ -226,15 +284,6 @@ ul.dropdown-menu  > li > a {
 
 @keyframes blinker {
     50% { background: none; }
-}
-
-.toolbar .tool:after, .schematics .component:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
 }
 
 @media (min-width: 768px) {
