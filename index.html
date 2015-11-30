@@ -126,7 +126,7 @@
               .prevAll()
               .filter(".branch")
               .css({"overflow": "visible"})
-              .animate({"height": "+=" + active.css("width")})
+              .animate({"height": "+=" + active.width()})
               .css({"overflow": ""});
           }
           component.animate({"opacity": 1});
@@ -155,6 +155,9 @@
             .closest(".component")
             .animate({"opacity": 0}, function(){
               if($(this).hasClass("branch")){
+                var nextBranch = $(this).nextAll().filter(".branch:first");
+                var offset = $(this).prop("scrollHeight") - (nextBranch.length ? nextBranch.prop("scrollHeight") : $(this).width());
+
                 $(this)
                   .parentsUntil(".schematics")
                   .andSelf()
@@ -162,13 +165,12 @@
                   .prevAll()
                   .filter(".branch")
                   .css({"overflow": "visible"})
-                  .animate({"height": "-=" + $(this).css("width")})
+                  .animate({"height": "-=" + offset + "px"})
                   .css({"overflow": ""});
               }
               $(this).animate({"width": 0}, function(){$(this).remove()});
             });
         });
-
       });
     </script>
   </body>
