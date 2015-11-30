@@ -11,21 +11,28 @@ html, body {
 }
 
 #content {
-    height: calc(100% - 140px);
+    height: 100%;
+    margin-bottom: -60px;
+    padding-top: 77px;
+    padding-bottom: 60px;
 }
 
 #footer {
     height: 40px;
-    font-size: 0.9em;
+    padding: 10px 0px;
     margin-top: 20px;
-    padding: 8px 0px;
     border-top: 1px solid #DDD;
     text-align: center;
 }
 
-.social-btns li {
+.social-btns {
+    padding: 0;
+    margin: 0;
+}
+
+.social-btns .social-btn {
     display: inline-block;
-    margin: 0px;
+    margin: 0;
 }
 
 .github-btn {
@@ -41,7 +48,238 @@ html, body {
     height: 100%;
 }
 
-#schematics {
+a:hover, a:active, a:focus {
+    text-decoration: initial;
+}
+
+.component {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.component.r.series {
+    background: url("../icons/r_series.svg");
+}
+
+.component.r.shunt {
+    background: url("../icons/r_shunt.svg");
+}
+
+.component.l.series {
+    background: url("../icons/l_series.svg");
+}
+
+.component.l.shunt {
+    background: url("../icons/l_shunt.svg");
+}
+
+.component.c.series {
+    background: url("../icons/c_series.svg");
+}
+
+.component.c.shunt {
+    background: url("../icons/c_shunt.svg");
+}
+
+.component.z.series {
+    background: url("../icons/z_series.svg");
+}
+
+.component.z.shunt {
+    background: url("../icons/z_shunt.svg");
+}
+
+.component.xformer {
+    background: url("../icons/xformer.svg");
+}
+
+.component.xline {
+    background: url("../icons/xline.svg");
+}
+
+.component.source {
+    background: url("../icons/source.svg");
+}
+
+.component.load {
+    background: url("../icons/load.svg");
+}
+
+.component.branch {
+    background-image: url("../icons/branch_series.svg"), url("../icons/branch_shunt.svg");
+    background-position: left top, left bottom;
+    background-repeat: no-repeat, no-repeat;
+}
+
+.component > .ctrl {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    border-radius: 13px;
+    background-color: white;
+}
+
+.component > .ctrl.config {
+    left: 0;
+    top: 0;
+}
+
+.component > .ctrl.config.open {
+    display: table;
+}
+
+.component > .ctrl.delete {
+    right: 0;
+    top: 0;
+}
+
+.component > .ctrl  .octicon {
+    color: #777;
+}
+
+.component > .ctrl .octicon {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.component > .ctrl .octicon-gear:hover,
+.component > .ctrl .octicon-gear:active,
+.component > .ctrl .octicon-gear:focus {
+    color: orange;
+}
+
+.component > .ctrl .octicon-trashcan:hover,
+.component > .ctrl .octicon-trashcan:active,
+.component > .ctrl .octicon-trashcan:focus {
+    color: red;
+}
+
+.component > .property {
+    position: absolute;
+    font-size: 8pt;
+    color: #777;
+    text-align: center;
+}
+
+.component.xformer > .property.value,
+.component.xline > .property.value,
+.component.series > .property.value {
+    top: 30%;
+    left: 0;
+    right: 0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.component.c.series > .property.value {
+    top: 40%;
+}
+
+.component.xformer > .property.value {
+    top: 5%;
+}
+
+.component.xline > .property.value {
+    top: 20%;
+}
+
+.component.source > .property.value,
+.component.load > .property.value,
+.component.shunt > .property.value {
+    left: 60%;
+    top: 30%;
+}
+
+.toolbar {
+    position: relative;
+    font-size: 0;
+    text-align: center;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+.toolbar > .tools {
+    overflow-x: scroll;
+    padding: 0;
+    margin: 0;
+}
+
+.toolbar > .tools > .tool {
+    display: inline-block;
+    position: relative;
+    height: 60px;
+    width: 60px;
+    margin: 2px;
+    padding: 4px;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.toolbar > .tools > .tool:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.toolbar > .tools > .tool:hover,
+.toolbar > .tools > .tool:active,
+.toolbar > .tools > .tool:focus {
+    background-color: #D9EDF7;
+    border-color: #D9EDF7;
+}
+
+.toolbar > .tools > .tool > .component {
+    height: 100%;
+    width: 100%;
+}
+
+.toolbar > .tools > .tool > .component.branch {
+    height: 200%;
+}
+
+.toolbar > .left,
+.toolbar > .right {
+    position:absolute;
+    width: 50px;
+    top: 0;
+    bottom: 0;
+}
+
+.toolbar > .left {
+    left: 0;
+}
+
+.toolbar > .right {
+    right: 0;
+}
+
+.toolbar > .left > span,
+.toolbar > .right > span {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.toolbar > .left > span > *,
+.toolbar > .right > span > * {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.schematics {
     height: calc(100% - 80px);
     font-size: 0px;
     margin: 0px;
@@ -51,26 +289,18 @@ html, body {
     white-space: nowrap;
 }
 
-.component {
-    display: inline-block;
-    vertical-align: top;
-    height: 100px;
-    width: 100px;
-    margin: 0px;
+.schematics .component {
+    height: 90px;
+    width: 90px;
 }
 
-.branch {
-    display: inline-block;
-    position: relative;
-    height: 200%;
-    width: 100%;
-    padding: 100% 0 0 100%;
-    background-image: url("../icons/branch_top.svg"), url("../icons/branch_bottom.svg");
-    background-repeat: no-repeat, no-repeat;
-    background-position: left top, left bottom;
+.schematics .component:hover,
+.schematics .component:active,
+.schematics .component:focus {
+    background-color: #D9EDF7;
 }
 
-.branch:before {
+.schematics .component.branch:before {
     content: '';
     position: absolute;
     left: 0;
@@ -78,85 +308,47 @@ html, body {
     top: 0;
     bottom: 0;
     margin: 100% 0 100% 0;
-    background: url("../icons/wire.svg") left center repeat-y;
+    background: url("../icons/wire.svg") center center repeat-y;
+    background-size: 100% auto;
 }
 
-.component.placeholder {
-    border-radius: 4px;
+.schematics .component.branch > .components {
+    display: inline-block;
+    position: absolute;
+    top: 100%;
+    margin: -100% 0 0 100%;
 }
 
-.component.placeholder:active,
-.component.placeholder:focus,
-.component.placeholder:hover {
-    background-color: #D9EDF7;
-}
-
-.component.carret {
+.schematics .component.active {
     border-radius: 4px;
     background-color: #D9EDF7;
     animation: blinker 1s linear infinite;
 }
 
+.schematics .component:hover > .ctrl,
+.schematics .component:active > .ctrl,
+.schematics .component:focus > .ctrl,
+.schematics .component.active > .ctrl {
+    display: table;
+}
+
 @keyframes blinker {
-    50% { background: white; }
+    50% { background: none; }
 }
 
-.toolbar {
-    position: relative;
-    width: 100%;
-    text-align: center;
-    padding: 0 40px 0px 40px;
-    margin-bottom: 10px;
-}
+@media (min-width: 768px) {
+    #content {
+        padding-top: 60px;
+    }
 
-.toolbar > .previous,
-.toolbar > .next {
-    position: absolute;
-    top: 50%;
-    margin-top: -16px;
-}
+    .toolbar > .tools {
+        overflow: hidden;
+        padding: 0;
+        margin: 0 50px 0 50px;
+    }
 
-.toolbar > .previous {
-    left: 0px;
-}
-
-.toolbar > .next {
-    right: 0px;
-}
-
-ul.roulette {
-    overflow: hidden;
-    white-space: nowrap;
-    padding: 0;
-}
-
-ul.roulette > li {
-    display: inline-block;
-}
-
-.tool {
-    display: inline-block;
-    position: relative;
-    height: 70px;
-    width: 70px;
-    padding: 4px;
-    border: 1px solid #DDD;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.tool:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.tool:active,
-.tool:focus,
-.tool:hover {
-    background-color: #D9EDF7;
-    border-color: #D9EDF7;
+    .toolbar > .tools > .tool {
+        height: 70px;
+        width: 70px;
+    }
 }
