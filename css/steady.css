@@ -30,7 +30,7 @@ ul.social-btns {
     margin: 0;
 }
 
-ul.social-btns li {
+ul.social-btns > li {
     display: inline-block;
     margin: 0;
 }
@@ -48,16 +48,61 @@ ul.social-btns li {
     height: 100%;
 }
 
-ul.toolbar {
+.toolbar {
+    position: relative;
+    font-size: 0;
     text-align: center;
     white-space: nowrap;
-    overflow-x: scroll;
-    padding: 0;
     margin-bottom: 10px;
 }
 
-ul.toolbar > li {
+.toolbar > ul {
+    overflow-x: scroll;
+    padding: 0;
+    margin: 0;
+}
+
+.toolbar > ul > li {
     display: inline-block;
+    margin: 2px;
+}
+
+.toolbar > .left,
+.toolbar > .right {
+    position:absolute;
+    width: 50px;
+    top: 0;
+    bottom: 0;
+}
+
+.toolbar > .left:active,
+.toolbar > .left:focus,
+.toolbar > .left:hover,
+.toolbar > .right:active,
+.toolbar > .right:focus,
+.toolbar > .right:hover {
+    text-decoration: initial;
+}
+
+.toolbar > .left {
+    left: 0;
+}
+
+.toolbar > .right {
+    right: 0;
+}
+
+.toolbar > .left > span,
+.toolbar > .right > span {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.toolbar > .left > span > span,
+.toolbar > .right > span > span {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .toolbar .tool {
@@ -92,8 +137,8 @@ ul.toolbar > li {
     display: inline-block;
     position: relative;
     vertical-align: top;
-    height: 80px;
-    width: 80px;
+    height: 90px;
+    width: 90px;
     margin: 0;
     padding: 0;
     border-radius: 4px;
@@ -162,17 +207,14 @@ ul.toolbar > li {
         padding-top: 60px;
     }
 
+    .toolbar > ul {
+        overflow: hidden;
+        padding: 0;
+        margin: 0 50px 0 50px;
+    }
+
     .toolbar .tool{
         height: 70px;
         width: 70px;
-    }
-
-    .schematics {
-        height: calc(100% - 90px);
-    }
-
-    .schematics  .component {
-        height: 90px;
-        width: 90px;
     }
 }

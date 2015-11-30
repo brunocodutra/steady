@@ -45,28 +45,32 @@
     <div id="content" class="container-fluid">
         <div class="row">
           <div class="col-sm-12">
-            <ul class="toolbar">
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_series.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_shunt.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/l_series.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/l_shunt.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/c_series.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/c_shunt.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/z_series.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/z_shunt.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/xformer.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/xline.svg"></object></span></span></li>
-              <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/load.svg"></object></span></span></li>
-              <li>
-                <span class="tool add" role="button">
-                  <span class="component branch" role="button">
-                    <object class="series" data="icons/branch_series.svg"></object>
-                    <object class="shunt" data="icons/branch_shunt.svg"></object>
-                    <span class="components"><span class="component placeholder"></span></span>
+            <div class="toolbar">
+              <a class="left hidden-xs" role="button"><span><span class="mega-octicon octicon-chevron-left"></span></span></a>
+              <a class="right hidden-xs" role="button"><span><span class="mega-octicon octicon-chevron-right"></span></span></a>
+              <ul>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_series.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/r_shunt.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/l_series.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/l_shunt.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/c_series.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/c_shunt.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/z_series.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/z_shunt.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/xformer.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/xline.svg"></object></span></span></li>
+                <li><span class="tool add" role="button"><span class="component" role="button"><object data="icons/load.svg"></object></span></span></li>
+                <li>
+                  <span class="tool add" role="button">
+                    <span class="component branch" role="button">
+                      <object class="series" data="icons/branch_series.svg"></object>
+                      <object class="shunt" data="icons/branch_shunt.svg"></object>
+                      <span class="components"><span class="component placeholder"></span></span>
+                    </span>
                   </span>
-                </span>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
             <div class="schematics">
               <span class="component fixed"><object data="icons/vsrc.svg"></object></span>
               <span class="component placeholder carret" role="button"></span>
@@ -102,6 +106,16 @@
 
     <script>
        $(document).ready(function(){
+        $(".toolbar .left").click(function(){
+          var roulette = $("~ ul", this);
+          $("> :last-child", roulette).css({"opacity": 0}).prependTo(roulette).animate({"opacity": 1});
+        });
+
+        $(".toolbar .right").click(function(){
+          var roulette = $("~ ul", this);
+          $("> :first-child", roulette).css({"opacity": 0}).appendTo(roulette).animate({"opacity": 1});
+        });
+
         $(".tool.add").click(function(){
           var component = $(this).contents().clone(true, true);
           var carret = $(".schematics .carret");
