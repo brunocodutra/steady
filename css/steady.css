@@ -333,7 +333,7 @@ a:hover, a:active, a:focus {
 }
 
 @keyframes blinker {
-    50% { background: none; }
+    50% { background-color: white; }
 }
 
 @media (min-width: 768px) {
