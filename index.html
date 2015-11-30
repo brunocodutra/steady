@@ -140,37 +140,35 @@
           }
         });
 
-        $(".component:not(.fixed):not(.placeholder)").append(
-          '<span class="menu dropdown"> \
+        $(".component:not(.placeholder):not(.branch)").append(
+          '<span class="ctrl config dropdown"> \
             <a class="dropdown-toggle octicon octicon-gear" data-toggle="dropdown" href="#"></a> \
             <ul class="dropdown-menu dropdown-menu-left"> \
-              <li><a class="delete"><span class="octicon octicon-x"></span> Delete</a></li> \
             </ul> \
           </span>'
         );
 
-        $(".component a.delete").on("click", function(){
-          $(this)
-            .parent()
-            .closest(".component")
-            .animate({"opacity": 0}, function(){
-              if($(this).hasClass("branch")){
-                var nextBranch = $(this).nextAll().filter(".branch:first");
-                var offset = $(this).prop("scrollHeight") - (nextBranch.length ? nextBranch.prop("scrollHeight") : $(this).width());
-
-                $(this)
-                  .parentsUntil(".schematics")
-                  .andSelf()
-                  .filter(".component")
-                  .prevAll()
-                  .filter(".branch")
-                  .css({"overflow": "visible"})
-                  .animate({"height": "-=" + offset + "px"})
-                  .css({"overflow": ""});
-              }
-              $(this).animate({"width": 0}, function(){$(this).remove()});
-            });
-        });
+        $('<span class="ctrl delete"><a class="octicon octicon-trashcan" href="#"></a></span>')
+          .appendTo(".component:not(.fixed):not(.placeholder)")
+          .on("click", function(){
+            $(this)
+              .parent()
+              .closest(".component")
+              .animate({"opacity": 0}, function(){
+                if($(this).hasClass("branch")){
+                  $(this)
+                    .parentsUntil(".schematics")
+                    .andSelf()
+                    .filter(".component")
+                    .prevAll()
+                    .filter(".branch")
+                    .css({"overflow": "visible"})
+                    .animate({"height": "-=" + ($(this).prop("scrollHeight") - $(this).width()) + "px"})
+                    .css({"overflow": ""});
+                }
+                $(this).animate({"width": 0}, function(){$(this).remove()});
+              });
+          });
       });
     </script>
   </body>

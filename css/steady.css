@@ -60,14 +60,6 @@ ul.dropdown-menu  > li > a {
     padding-left: 5px;
 }
 
-.octicon {
-    margin-right: 5px;
-}
-
-.octicon-x {
-    color: red;
-}
-
 .component {
     display: inline-block;
     position: relative;
@@ -131,18 +123,50 @@ ul.dropdown-menu  > li > a {
     background-repeat: no-repeat, no-repeat;
 }
 
-.component > .menu {
+.component > .ctrl {
     display: none;
     position: absolute;
-    left: 0;
-    top: 0;
     z-index: 1;
-    padding: 4px;
-    height: 22px;
-    width: 22px;
+    height: 20px;
+    width: 20px;
     text-align: center;
     border-radius: 13px;
     background-color: white;
+}
+
+.component > .ctrl.config {
+    left: 0;
+    top: 0;
+}
+
+.component > .ctrl.config.open {
+    display: table;
+}
+
+.component > .ctrl.delete {
+    right: 0;
+    top: 0;
+}
+
+.component > .ctrl  .octicon {
+    color: #777;
+}
+
+.component > .ctrl .octicon {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.component > .ctrl .octicon-gear:hover,
+.component > .ctrl .octicon-gear:active,
+.component > .ctrl .octicon-gear:focus {
+    color: orange;
+}
+
+.component > .ctrl .octicon-trashcan:hover,
+.component > .ctrl .octicon-trashcan:active,
+.component > .ctrl .octicon-trashcan:focus {
+    color: red;
 }
 
 .toolbar {
@@ -250,13 +274,6 @@ ul.dropdown-menu  > li > a {
     background-color: #D9EDF7;
 }
 
-.schematics .componen > .menu.open,
-.schematics .component:hover > .menu,
-.schematics .component:active > .menu,
-.schematics .component.active > .menu {
-    display: block;
-}
-
 .schematics .component.branch:before {
     content: '';
     position: absolute;
@@ -280,6 +297,13 @@ ul.dropdown-menu  > li > a {
     border-radius: 4px;
     background-color: #D9EDF7;
     animation: blinker 1s linear infinite;
+}
+
+.schematics .component:hover > .ctrl,
+.schematics .component:active > .ctrl,
+.schematics .component:focus > .ctrl,
+.schematics .component.active > .ctrl {
+    display: table;
 }
 
 @keyframes blinker {
