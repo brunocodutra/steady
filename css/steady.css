@@ -60,54 +60,56 @@ a:hover, a:active, a:focus {
     padding: 0;
     border-radius: 4px;
     cursor: pointer;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
 }
 
 .component.r.series {
-    background: url("../icons/r_series.svg");
+    background-image: url("../icons/r_series.svg");
 }
 
 .component.r.shunt {
-    background: url("../icons/r_shunt.svg");
+    background-image: url("../icons/r_shunt.svg");
 }
 
 .component.l.series {
-    background: url("../icons/l_series.svg");
+    background-image: url("../icons/l_series.svg");
 }
 
 .component.l.shunt {
-    background: url("../icons/l_shunt.svg");
+    background-image: url("../icons/l_shunt.svg");
 }
 
 .component.c.series {
-    background: url("../icons/c_series.svg");
+    background-image: url("../icons/c_series.svg");
 }
 
 .component.c.shunt {
-    background: url("../icons/c_shunt.svg");
+    background-image: url("../icons/c_shunt.svg");
 }
 
 .component.z.series {
-    background: url("../icons/z_series.svg");
+    background-image: url("../icons/z_series.svg");
 }
 
 .component.z.shunt {
-    background: url("../icons/z_shunt.svg");
+    background-image: url("../icons/z_shunt.svg");
 }
 
 .component.xformer {
-    background: url("../icons/xformer.svg");
+    background-image: url("../icons/xformer.svg");
 }
 
 .component.xline {
-    background: url("../icons/xline.svg");
+    background-image: url("../icons/xline.svg");
 }
 
 .component.source {
-    background: url("../icons/source.svg");
+    background-image: url("../icons/source.svg");
 }
 
 .component.load {
-    background: url("../icons/load.svg");
+    background-image: url("../icons/load.svg");
 }
 
 .component.branch {
@@ -195,7 +197,12 @@ a:hover, a:active, a:focus {
 .component.load > .property.value,
 .component.shunt > .property.value {
     left: 60%;
-    top: 30%;
+    top: 40%;
+}
+
+.component.c.shunt > .property.value,
+.component.source > .property.value {
+    top: 25%;
 }
 
 .toolbar {
