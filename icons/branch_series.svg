@@ -49,36 +49,34 @@
   <g>
    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
     <g class="Page">
-     <g class="Group">
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id3">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 0,667 L 3000,667"/>
-       </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id3">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 0,667 L 3000,667"/>
       </g>
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id4">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 0,2333 L 3000,2333"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id4">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 0,2333 L 3000,2333"/>
       </g>
-      <g class="com.sun.star.drawing.EllipseShape">
-       <g id="id5">
-        <path fill="rgb(0,0,0)" stroke="none" d="M 674,752 C 658,752 645,748 632,741 618,733 609,724 601,710 594,697 590,684 590,669 590,653 594,640 601,627 609,613 618,604 632,596 645,589 658,585 674,585 689,585 702,589 715,596 729,604 738,613 746,627 753,640 757,653 757,668 757,684 753,697 746,710 738,724 729,733 715,741 702,748 689,752 674,752 L 674,752 Z"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.EllipseShape">
+      <g id="id5">
+       <path fill="rgb(0,0,0)" stroke="none" d="M 674,752 C 658,752 645,748 632,741 618,733 609,724 601,710 594,697 590,684 590,669 590,653 594,640 601,627 609,613 618,604 632,596 645,589 658,585 674,585 689,585 702,589 715,596 729,604 738,613 746,627 753,640 757,653 757,668 757,684 753,697 746,710 738,724 729,733 715,741 702,748 689,752 674,752 L 674,752 Z"/>
       </g>
-      <g class="com.sun.star.drawing.EllipseShape">
-       <g id="id6">
-        <path fill="rgb(0,0,0)" stroke="none" d="M 674,2426 C 658,2426 645,2422 632,2415 618,2407 609,2398 601,2384 594,2371 590,2358 590,2343 590,2327 594,2314 601,2301 609,2287 618,2278 632,2270 645,2263 658,2259 674,2259 689,2259 702,2263 715,2270 729,2278 738,2287 746,2301 753,2314 757,2327 757,2343 757,2358 753,2371 746,2384 738,2398 729,2407 715,2415 702,2422 689,2426 674,2426 L 674,2426 Z"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.EllipseShape">
+      <g id="id6">
+       <path fill="rgb(0,0,0)" stroke="none" d="M 674,2426 C 658,2426 645,2422 632,2415 618,2407 609,2398 601,2384 594,2371 590,2358 590,2343 590,2327 594,2314 601,2301 609,2287 618,2278 632,2270 645,2263 658,2259 674,2259 689,2259 702,2263 715,2270 729,2278 738,2287 746,2301 753,2314 757,2327 757,2343 757,2358 753,2371 746,2384 738,2398 729,2407 715,2415 702,2422 689,2426 674,2426 L 674,2426 Z"/>
       </g>
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id7">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 666,666 L 1703,3000"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id7">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 666,666 L 1703,3000"/>
       </g>
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id8">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 666,2333 L 962,3000"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id8">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 666,2333 L 962,3000"/>
       </g>
      </g>
     </g>
