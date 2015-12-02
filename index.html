@@ -53,6 +53,8 @@
               <a class="left hidden-xs" href="#"><span><span class="mega-octicon octicon-chevron-left"></span></span></a>
               <a class="right hidden-xs" href="#"><span><span class="mega-octicon octicon-chevron-right"></span></span></a>
               <ul class="tools">
+                <li class="tool"><span class="component v series"></span></li>
+                <li class="tool"><span class="component i shunt"></span></li>
                 <li class="tool"><span class="component r series"></span></li>
                 <li class="tool"><span class="component r shunt"></span></li>
                 <li class="tool"><span class="component l series"></span></li>
@@ -61,9 +63,8 @@
                 <li class="tool"><span class="component c shunt"></span></li>
                 <li class="tool"><span class="component z series"></span></li>
                 <li class="tool"><span class="component z shunt"></span></li>
-                <li class="tool"><span class="component xformer"></span></li>
-                <li class="tool"><span class="component xline"></span></li>
-                <li class="tool"><span class="component load"></span></li>
+                <li class="tool"><span class="component xformer series"></span></li>
+                <li class="tool"><span class="component xline series"></span></li>
                 <li class="tool">
                   <span class="component branch">
                     <span class="components"><span class="component placeholder"></span></span>
@@ -73,7 +74,7 @@
             </div>
             <div class="schematics">
               <span class="components">
-                <span class="component fixed source"></span>
+                <span class="component fixed earth"></span>
                 <span class="component placeholder active"></span>
               </span>
             </div>
@@ -158,21 +159,22 @@
             });
         });
 
-      $(".component:not(.placeholder):not(.branch):not(.xline)")
+      $(".component:not(.placeholder):not(.branch):not(.earth)")
         .append(
           '<span class="ctrl config dropdown"> \
             <a class="dropdown-toggle octicon octicon-gear" data-toggle="dropdown" href="#"></a> \
-            <ul class="properties dropdown-menu dropdown-menu-left"> \
-              <li class="property value input-group"> \
-                <input type="text" class="numeric form-control" placeholder="Value" aria-label="Value"> \
-                <span class="unit input-group-addon"></span> \
-              </li> \
-            </ul> \
+            <ul class="properties dropdown-menu dropdown-menu-left"></ul> \
           </span> \
           <span class="property value"></span>'
         );
 
-      $(".numeric").numeric();
+      $(".component:not(.xline) .properties")
+        .append(
+          '<li class="property value input-group"> \
+            <input type="text" class="numeric form-control" placeholder="Value" aria-label="Value"> \
+            <span class="unit input-group-addon"></span> \
+          </li>'
+        );
 
       $(".component > .ctrl .property.value > input")
         .bind("propertychange change click keyup input paste", function(){
@@ -184,14 +186,13 @@
             .text($(this).val() + " " + $("+ .unit", this).text());
         });
 
-      $(".component.source .unit").text("V");
-      $(".component.load .unit").text("VA");
+      $(".component.v .unit").text("V");
+      $(".component.i .unit").text("A");
       $(".component.r .unit").text("Ω");
       $(".component.l .unit").text("H");
       $(".component.c .unit").text("F");
       $(".component.z .unit").text("Ω");
       $(".component.xformer .unit").text(": 1");
-
 
       $(".component:not(.fixed)")
         .on("click", function(event){
@@ -201,6 +202,8 @@
             $(this).addClass("active");
           }
         });
+
+      $(".numeric").numeric();
     </script>
   </body>
 </html>

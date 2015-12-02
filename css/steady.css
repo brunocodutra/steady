@@ -64,6 +64,18 @@ a:hover, a:active, a:focus {
     background-repeat: no-repeat;
 }
 
+.component.fixed {
+	cursor: initial;
+}
+
+.component.v.series {
+    background-image: url("../icons/v_series.svg");
+}
+
+.component.i.shunt {
+    background-image: url("../icons/i_shunt.svg");
+}
+
 .component.r.series {
     background-image: url("../icons/r_series.svg");
 }
@@ -96,20 +108,16 @@ a:hover, a:active, a:focus {
     background-image: url("../icons/z_shunt.svg");
 }
 
-.component.xformer {
+.component.xformer.series {
     background-image: url("../icons/xformer.svg");
 }
 
-.component.xline {
+.component.xline.series {
     background-image: url("../icons/xline.svg");
 }
 
-.component.source {
-    background-image: url("../icons/source.svg");
-}
-
-.component.load {
-    background-image: url("../icons/load.svg");
+.component.earth {
+    background-image: url("../icons/earth.svg");
 }
 
 .component.branch {
@@ -171,8 +179,6 @@ a:hover, a:active, a:focus {
     text-align: center;
 }
 
-.component.xformer > .property.value,
-.component.xline > .property.value,
 .component.series > .property.value {
     top: 30%;
     left: 0;
@@ -181,27 +187,29 @@ a:hover, a:active, a:focus {
     margin-right:auto;
 }
 
+.component.v.series > .property.value {
+	top: 35%;
+}
+
 .component.c.series > .property.value {
     top: 40%;
 }
 
 .component.xformer > .property.value {
-    top: 5%;
+    top: 3%;
 }
 
 .component.xline > .property.value {
     top: 20%;
 }
 
-.component.source > .property.value,
-.component.load > .property.value,
 .component.shunt > .property.value {
     left: 60%;
     top: 40%;
 }
 
-.component.c.shunt > .property.value,
-.component.source > .property.value {
+.component.i.shunt > .property.value,
+.component.c.shunt > .property.value {
     top: 25%;
 }
 
