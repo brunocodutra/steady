@@ -233,7 +233,6 @@ a:hover, a:active, a:focus {
     font-size: 0;
     text-align: center;
     white-space: nowrap;
-    margin-bottom: 10px;
 }
 
 .toolbar > .tools {
@@ -321,9 +320,9 @@ a:hover, a:active, a:focus {
 }
 
 .schematics {
-    height: calc(100% - 80px);
+    height: calc(100% - 10px);
     font-size: 0px;
-    margin: 0px;
+    margin: 10px 0 0 0;
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: auto;
@@ -380,6 +379,10 @@ a:hover, a:active, a:focus {
 @media (min-width: 768px) {
     #content {
         padding-top: 60px;
+    }
+
+    .schematics {
+        height: calc(100% - 84px);
     }
 
     .toolbar > .tools {
