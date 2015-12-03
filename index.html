@@ -64,7 +64,7 @@
                 <li class="tool"><span class="component z series"></span></li>
                 <li class="tool"><span class="component z shunt"></span></li>
                 <li class="tool"><span class="component xformer series"></span></li>
-                <li class="tool"><span class="component xline series"></span></li>
+                <li class="tool" disabled="true"><span class="component xline series"></span></li>
                 <li class="tool">
                   <span class="component branch">
                     <span class="components"><span class="component placeholder"></span></span>
@@ -111,7 +111,7 @@
         $("> :first-child", roulette).css({"opacity": 0}).appendTo(roulette).animate({"opacity": 1});
       });
 
-      $(".toolbar > .tools > .tool").on("click", function(){
+      $(".toolbar > .tools > .tool:not([disabled])").on("click", function(){
         var component = $(this).contents().clone(true, true);
         var active = $(".schematics .active");
 
@@ -161,31 +161,31 @@
 
       $(".component:not(.placeholder):not(.branch):not(.earth)")
         .append(
-          '<span class="property value">\
-            <span class="ctrl mag">\
-              <input type="text" class="numeric">\
-              <span class="display">0</span>\
-            </span>\
-          </span>'
+          '<span class="property value"><span class="ctrl mag"><input type="text" class="numeric"><span class="display">0</span></span>\
+          <span class="prefix"></span></span>'
         );
 
-      $(".component.v > .property.value, .component.i > .property.value, .component.z > .property.value")
-        .append(
-          '<span class="ctrl angle">\
-            &ang;<input type="text" class="numeric"><span class="display">0</span>°\
-          </span>'
-        )
+      $(".component.v > .property.value > .mag, .component.i > .property.value > .mag, .component.z > .property.value > .mag")
+        .after('<span class="ctrl angle">&ang;<input type="text" class="numeric"><span class="display">0</span>°</span>')
+
+      $(".component > .property.value")
+        .bind("focusin", function(){
+          $(this).css({"z-index": 999});
+          $(this).animate({left: 0});
+        })
+        .bind("focusout", function(){
+          var left = $(this).css({left: ""}).position().left;
+          $(this)
+            .css({left: 0})
+            .animate({left: left}, function(){
+              $(this).css({"z-index": ""});
+            });
+        });
 
       $(".component > .property.value > .ctrl")
         .on("click", function(){
-          var property = $(this).parent().closest(".property");
-          var display = $("> .display", this);
-          var width = display.width();
-
-          display.html("");
-          property.css({"z-index": 999}).animate({left: 0});
           $("> input", this)
-            .css({width: width})
+            .css({width: $("> .display", this).hide().width()})
             .show()
             .focus()
             .animate({width: "100%"});
@@ -196,20 +196,81 @@
           e.stopPropagation();
         })
         .on("focusout", function(){
-          var property = $(this).parent().closest(".property");
           var display = $("~ .display", this);
-          var width = display.html($(this).val()).width();
-          var left = property.css({left: ""}).position().left;
+          var width = display.html($(this).val()).trigger("change").width();
 
-          display.hide();
-          property.css({left: 0}).animate({left: left});
           $(this)
             .animate({width: width}, function(){
               $(this).css({width: ""}).hide();
               display.show();
-              property.css({"z-index": ""});
             });
         });
+
+      $(".component > .property.value > .ctrl.mag > .display")
+        .on("change", function(){
+
+          if($(this).text() == "")
+            $(this).text(0);
+
+          var val = parseFloat($(this).text());
+          var text = "";
+          var prefix = "";
+
+          if(val < 0){
+            val = -val;
+            text = "-";
+          }
+
+          if(val < 1E-15) {
+            text += (0).toFixed(2);
+          } else if(val < 1E-12) {
+            text += (val/1E-15).toFixed(2);
+            prefix = "f"
+          } else if(val < 1E-9) {
+            text += (val/1E-12).toFixed(2);
+            prefix = "p";
+          } else if(val < 1E-6) {
+            text += (val/1E-9).toFixed(2);
+            prefix = "n";
+          } else if(val < 1E-3) {
+            text += (val/1E-6).toFixed(2);
+            prefix = "μ";
+          } else if(val < 1) {
+            text += (val/1E-3).toFixed(2);
+            prefix = "m";
+          } else if(val < 1E3) {
+            text += val.toFixed(2);
+          } else if(val < 1E6) {
+            text += (val/1E3).toFixed(2);
+            prefix = "k";
+          } else if(val < 1E9) {
+            text += (val/1E6).toFixed(2);
+            prefix = "M";
+          } else if(val < 1E12) {
+            text += (val/1E9).toFixed(2);
+            prefix = "G";
+          } else if(val < 1E15) {
+            text += (val/1E12).toFixed(2);
+            prefix = "T";
+          } else {
+            text += "∞";
+          }
+
+          $(this).html(text).parent().closest(".property").find(".prefix").html(prefix);
+
+        }).trigger("change");
+
+      $(".component > .property.value > .ctrl.angle > .display")
+        .on("change", function(){
+          if($(this).text() == "")
+            $(this).text(0);
+
+          var val = parseFloat($(this).text())%360;
+          if(val > 180)
+            val = val - 360;
+
+          $(this).html((val).toFixed(0));
+        }).trigger("change");
 
       $(".component:not(.fixed)")
         .on("click", function(event){

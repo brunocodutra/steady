@@ -251,6 +251,14 @@ a:hover, a:active, a:focus {
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: hidden;
+    cursor: pointer;
+}
+
+.toolbar > .tools > .tool[disabled] {
+    cursor: initial;
+    background-color: #D3D3D3;
+    border-color: #D3D3D3;
+
 }
 
 .toolbar > .tools > .tool:after {
@@ -260,12 +268,11 @@ a:hover, a:active, a:focus {
     right: 0;
     bottom: 0;
     left: 0;
-    cursor: pointer;
 }
 
-.toolbar > .tools > .tool:hover,
-.toolbar > .tools > .tool:active,
-.toolbar > .tools > .tool:focus {
+.toolbar > .tools > .tool:not([disabled]):hover,
+.toolbar > .tools > .tool:not([disabled]):active,
+.toolbar > .tools > .tool:not([disabled]):focus {
     background-color: #D9EDF7;
     border-color: #D9EDF7;
 }
