@@ -16,6 +16,8 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.numeric.min.js"></script>
+    <script src="js/numeric.min.js"></script>
+    <script src="js/steady.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -57,10 +59,10 @@
                 <li class="tool"><span class="component i shunt"></span></li>
                 <li class="tool"><span class="component r series"></span></li>
                 <li class="tool"><span class="component r shunt"></span></li>
-                <li class="tool"><span class="component l series"></span></li>
-                <li class="tool"><span class="component l shunt"></span></li>
-                <li class="tool"><span class="component c series"></span></li>
-                <li class="tool"><span class="component c shunt"></span></li>
+                <li class="tool" disabled="true"><span class="component l series"></span></li>
+                <li class="tool" disabled="true"><span class="component l shunt"></span></li>
+                <li class="tool" disabled="true"><span class="component c series"></span></li>
+                <li class="tool" disabled="true"><span class="component c shunt"></span></li>
                 <li class="tool"><span class="component z series"></span></li>
                 <li class="tool"><span class="component z shunt"></span></li>
                 <li class="tool"><span class="component xformer series"></span></li>
@@ -196,6 +198,41 @@
             .animate({left: left}, {queue: false, done: function(){
               $(this).css({"z-index": ""});
             }});
+        });
+
+      $(".component.v.series")
+        .on("change", function(){
+          $(this).data({component: V($("> .property.value", this).data().value)});
+        });
+
+      $(".component.i.shunt")
+        .on("change", function(){
+          $(this).data({component: Is($("> .property.value", this).data().value)});
+        });
+
+      $(".component.r.series, .component.z.series")
+        .on("change", function(){
+          $(this).data({component: Z($("> .property.value", this).data().value)});
+        });
+
+      $(".component.r.shunt, .component.z.shunt")
+        .on("change", function(){
+          $(this).data({component: Zs($("> .property.value", this).data().value)});
+        });
+
+      $(".component.xformer.series")
+        .on("change", function(){
+          $(this).data({component: Xformer($("> .property.value", this).data().value)});
+        });
+
+      $(".component > .property.value")
+        .on("change", function(){
+          $(this).data({
+            value: {
+              mag: $("> .ctrl.mag > input", this).val(),
+              ang: $("> .ctrl.angle > input", this).val()
+            }
+          });
         });
 
       $(".component > .property.value > .ctrl")
