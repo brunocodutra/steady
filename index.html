@@ -134,7 +134,7 @@
         component.animate({"opacity": 1});
       });
 
-      $('<span class="ctrl delete"><a class="octicon octicon-trashcan" href="#"></a></span>')
+      $('<span class="property remove"><span class="ctrl octicon octicon-x"></span></span>')
         .appendTo(".component:not(.fixed):not(.placeholder)")
         .on("click", function(){
           $(this)
@@ -161,38 +161,55 @@
 
       $(".component:not(.placeholder):not(.branch):not(.earth)")
         .append(
-          '<span class="ctrl config dropdown"> \
-            <a class="dropdown-toggle octicon octicon-gear" data-toggle="dropdown" href="#"></a> \
-            <ul class="properties dropdown-menu dropdown-menu-left"></ul> \
-          </span> \
-          <span class="property value"></span>'
+          '<span class="property value">\
+            <span class="ctrl mag">\
+              <input type="text" class="numeric">\
+              <span class="display">0</span>\
+            </span>\
+          </span>'
         );
 
-      $(".component:not(.xline) .properties")
+      $(".component.v > .property.value, .component.i > .property.value, .component.z > .property.value")
         .append(
-          '<li class="property value input-group"> \
-            <input type="text" class="numeric form-control" placeholder="Value" aria-label="Value"> \
-            <span class="unit input-group-addon"></span> \
-          </li>'
-        );
+          '<span class="ctrl angle">\
+            &ang;<input type="text" class="numeric"><span class="display">0</span>°\
+          </span>'
+        )
 
-      $(".component > .ctrl .property.value > input")
-        .bind("propertychange change click keyup input paste", function(){
-          $(this)
-            .parent()
-            .closest(".component")
-            .children()
-            .filter(".property.value")
-            .text($(this).val() + " " + $("+ .unit", this).text());
+      $(".component > .property.value > .ctrl")
+        .on("click", function(){
+          var property = $(this).parent().closest(".property");
+          var display = $("> .display", this);
+          var width = display.width();
+
+          display.html("");
+          property.css({"z-index": 999}).animate({left: 0});
+          $("> input", this)
+            .css({width: width})
+            .show()
+            .focus()
+            .animate({width: "100%"});
         });
 
-      $(".component.v .unit").text("V");
-      $(".component.i .unit").text("A");
-      $(".component.r .unit").text("Ω");
-      $(".component.l .unit").text("H");
-      $(".component.c .unit").text("F");
-      $(".component.z .unit").text("Ω");
-      $(".component.xformer .unit").text(": 1");
+      $(".component > .property.value > .ctrl >  input")
+        .on("click", function(e){
+          e.stopPropagation();
+        })
+        .on("focusout", function(){
+          var property = $(this).parent().closest(".property");
+          var display = $("~ .display", this);
+          var width = display.html($(this).val()).width();
+          var left = property.css({left: ""}).position().left;
+
+          display.hide();
+          property.css({left: 0}).animate({left: left});
+          $(this)
+            .animate({width: width}, function(){
+              $(this).css({width: ""}).hide();
+              display.show();
+              property.css({"z-index": ""});
+            });
+        });
 
       $(".component:not(.fixed)")
         .on("click", function(event){
