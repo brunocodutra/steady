@@ -52,6 +52,13 @@ a:hover, a:active, a:focus {
     text-decoration: initial;
 }
 
+.ctrl:hover,
+.ctrl:active,
+.ctrl:focus {
+    color: #FF9933;
+    cursor: pointer;
+}
+
 .component {
     display: inline-block;
     position: relative;
@@ -207,12 +214,6 @@ a:hover, a:active, a:focus {
 
 .component.xformer > .property.value:after {
     content: ": 1";
-}
-
-.component .ctrl:hover,
-.component .ctrl:active,
-.component .ctrl:focus {
-    color: #FF9933;
 }
 
 .component > .property.value > .ctrl > input {
