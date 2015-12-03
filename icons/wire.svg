@@ -49,16 +49,14 @@
   <g>
    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
     <g class="Page">
-     <g class="Group">
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id3">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 963,0 L 963,3000"/>
-       </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id3">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 962,2 L 962,3002"/>
       </g>
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id4">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1704,0 L 1704,3000"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id4">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1703,2 L 1703,3002"/>
       </g>
      </g>
     </g>

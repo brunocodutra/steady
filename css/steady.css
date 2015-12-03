@@ -64,6 +64,18 @@ a:hover, a:active, a:focus {
     background-repeat: no-repeat;
 }
 
+.component.fixed {
+    cursor: initial;
+}
+
+.component.v.series {
+    background-image: url("../icons/v_series.svg");
+}
+
+.component.i.shunt {
+    background-image: url("../icons/i_shunt.svg");
+}
+
 .component.r.series {
     background-image: url("../icons/r_series.svg");
 }
@@ -96,20 +108,16 @@ a:hover, a:active, a:focus {
     background-image: url("../icons/z_shunt.svg");
 }
 
-.component.xformer {
+.component.xformer.series {
     background-image: url("../icons/xformer.svg");
 }
 
-.component.xline {
+.component.xline.series {
     background-image: url("../icons/xline.svg");
 }
 
-.component.source {
-    background-image: url("../icons/source.svg");
-}
-
-.component.load {
-    background-image: url("../icons/load.svg");
+.component.earth {
+    background-image: url("../icons/earth.svg");
 }
 
 .component.branch {
@@ -118,91 +126,106 @@ a:hover, a:active, a:focus {
     background-repeat: no-repeat, no-repeat;
 }
 
-.component > .ctrl {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    height: 20px;
-    width: 20px;
-    text-align: center;
-    border-radius: 13px;
-    background-color: white;
-}
-
-.component > .ctrl.config {
-    left: 0;
-    top: 0;
-}
-
-.component > .ctrl.config.open {
-    display: table;
-}
-
-.component > .ctrl.delete {
-    right: 0;
-    top: 0;
-}
-
-.component > .ctrl  .octicon {
-    color: #777;
-}
-
-.component > .ctrl .octicon {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.component > .ctrl .octicon-gear:hover,
-.component > .ctrl .octicon-gear:active,
-.component > .ctrl .octicon-gear:focus {
-    color: orange;
-}
-
-.component > .ctrl .octicon-trashcan:hover,
-.component > .ctrl .octicon-trashcan:active,
-.component > .ctrl .octicon-trashcan:focus {
-    color: red;
-}
-
 .component > .property {
     position: absolute;
+    z-index: 100;
+    color: #999;
+    font-weight: bold;
+    padding: 1px 2px 1px 2px;
+    margin: 0;
+}
+
+.component > .property.remove {
+    display: none;
+    z-index: 500;
+}
+
+.component > .property.remove {
+    top: 2px;
+    right: 2px;
+}
+
+.component > .property.value {
     font-size: 8pt;
-    color: #777;
+    line-height: 8pt;
+    width: 100%;
+}
+
+.component.series > .property.value {
+    top: 32%;
+    left: 0;
     text-align: center;
 }
 
-.component.xformer > .property.value,
-.component.xline > .property.value,
-.component.series > .property.value {
-    top: 30%;
-    left: 0;
-    right: 0;
-    margin-left:auto;
-    margin-right:auto;
+.component.v.series > .property.value {
+    top: 37%;
 }
 
 .component.c.series > .property.value {
-    top: 40%;
-}
-
-.component.xformer > .property.value {
-    top: 5%;
+    top: 42%;
 }
 
 .component.xline > .property.value {
     top: 20%;
 }
 
-.component.source > .property.value,
-.component.load > .property.value,
-.component.shunt > .property.value {
-    left: 60%;
-    top: 40%;
+.component.xformer > .property.value {
+    top: 5%;
 }
 
-.component.c.shunt > .property.value,
-.component.source > .property.value {
-    top: 25%;
+.component.shunt > .property.value {
+    top: 43%;
+    left: 58%;
+    text-align: left;
+}
+
+.component.i.shunt > .property.value,
+.component.c.shunt > .property.value {
+    top: 27%;
+}
+
+.component.v > .property.value:after {
+    content: "V";
+}
+
+.component.i > .property.value:after {
+    content: "A";
+}
+
+.component.r > .property.value:after,
+.component.z > .property.value:after {
+    content: "Ω";
+}
+
+.component.l > .property.value:after {
+    content: "H";
+}
+
+.component.c > .property.value:after {
+    content: "F";
+}
+
+.component.xformer > .property.value:after {
+    content: ": 1";
+}
+
+.component .ctrl:hover,
+.component .ctrl:active,
+.component .ctrl:focus {
+    color: #FF9933;
+}
+
+.component > .property.value > .ctrl > input {
+    display: none;
+    background: white;
+    height: calc(8pt + 4px);
+    width: 100%;
+    color: #FF9933;
+    outline: none;
+    border: 1px solid #FF9933;
+    border-radius: 4px;
+    padding: 1px;
+    margin-top: -2px;
 }
 
 .toolbar {
@@ -229,6 +252,14 @@ a:hover, a:active, a:focus {
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: hidden;
+    cursor: pointer;
+}
+
+.toolbar > .tools > .tool[disabled] {
+    cursor: initial;
+    background-color: #D3D3D3;
+    border-color: #D3D3D3;
+
 }
 
 .toolbar > .tools > .tool:after {
@@ -238,12 +269,11 @@ a:hover, a:active, a:focus {
     right: 0;
     bottom: 0;
     left: 0;
-    cursor: pointer;
 }
 
-.toolbar > .tools > .tool:hover,
-.toolbar > .tools > .tool:active,
-.toolbar > .tools > .tool:focus {
+.toolbar > .tools > .tool:not([disabled]):hover,
+.toolbar > .tools > .tool:not([disabled]):active,
+.toolbar > .tools > .tool:not([disabled]):focus {
     background-color: #D9EDF7;
     border-color: #D9EDF7;
 }
@@ -255,6 +285,10 @@ a:hover, a:active, a:focus {
 
 .toolbar > .tools > .tool > .component.branch {
     height: 200%;
+}
+
+.toolbar > .tools > .tool > .component > .property {
+    display: none;
 }
 
 .toolbar > .left,
@@ -332,11 +366,11 @@ a:hover, a:active, a:focus {
     animation: blinker 1s linear infinite;
 }
 
-.schematics .component:hover > .ctrl,
-.schematics .component:active > .ctrl,
-.schematics .component:focus > .ctrl,
-.schematics .component.active > .ctrl {
-    display: table;
+.schematics .component:hover > .property.remove,
+.schematics .component:active > .property.remove,
+.schematics .component:focus > .property.remove,
+.schematics .component.active > .property.remove {
+    display: inline-block;
 }
 
 @keyframes blinker {

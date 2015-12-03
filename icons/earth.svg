@@ -7,7 +7,7 @@
   </clipPath>
  </defs>
  <defs class="TextShapeIndex">
-  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6"/>
+  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8"/>
  </defs>
  <defs class="EmbeddedBulletChars">
   <g id="bullet-char-template(57356)" transform="scale(0.00048828125,-0.00048828125)">
@@ -49,27 +49,32 @@
   <g>
    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
     <g class="Page">
-     <g class="Group">
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id3">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 0,667 L 3000,667"/>
-       </g>
+     <g class="com.sun.star.drawing.RectangleShape">
+      <g id="id3"/>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id4">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1500,2666 L 1500,2333"/>
       </g>
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id4">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 0,2334 L 3000,2334"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id5">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1166,2666 L 1833,2666"/>
       </g>
-      <g class="com.sun.star.drawing.LineShape">
-       <g id="id5">
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1500,2001 L 1500,668"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id6">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1266,2777 L 1744,2777"/>
       </g>
-      <g class="com.sun.star.drawing.PolyPolygonShape">
-       <g id="id6">
-        <path fill="rgb(255,255,255)" stroke="none" d="M 1333,2001 L 1666,2001 1500,2334 1333,2001 Z"/>
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1333,2001 L 1666,2001 1500,2334 1333,2001 Z"/>
-       </g>
+     </g>
+     <g class="com.sun.star.drawing.LineShape">
+      <g id="id7">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 1332,2888 L 1666,2888"/>
+      </g>
+     </g>
+     <g class="com.sun.star.drawing.PolyLineShape">
+      <g id="id8">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="40" stroke-linejoin="round" d="M 3000,2333 L 1500,2333 1500,666 3000,666"/>
       </g>
      </g>
     </g>
