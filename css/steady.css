@@ -137,6 +137,7 @@ a:hover, a:active, a:focus {
 
 .component > .property.remove {
     display: none;
+    z-index: 500;
 }
 
 .component > .property.remove {
