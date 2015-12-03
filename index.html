@@ -137,10 +137,10 @@
               .prevAll()
               .filter(".branch")
               .css({"overflow": "visible"})
-              .animate({"height": "+=" + active.width()}, {queue: false})
+              .animate({"height": "+=" + active.width()})
               .css({"overflow": ""});
           }
-          component.animate({"opacity": 1}, {queue: false});
+          component.animate({"opacity": 1});
         });
 
       $('<span class="property remove"><span class="ctrl octicon octicon-x"></span></span>')
