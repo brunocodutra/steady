@@ -4,16 +4,20 @@ html, body {
 
 .navbar-nav > li, .navbar-nav {
     float: left !important;
+    padding: 0;
+    margin: 0;
 }
 
 .navbar-right {
     float: right !important;
+    padding: 0;
+    margin: 0;
 }
 
 #content {
     height: 100%;
     margin-bottom: -60px;
-    padding-top: 77px;
+    padding-top: 60px;
     padding-bottom: 60px;
 }
 
@@ -56,6 +60,7 @@ a:hover, a:active, a:focus {
 .ctrl:active,
 .ctrl:focus {
     color: #FF9933;
+    font-weight: bold;
     cursor: pointer;
 }
 
@@ -216,12 +221,16 @@ a:hover, a:active, a:focus {
     content: ": 1";
 }
 
+.component.xformer > .property.value > .prefix {
+    margin-left: -2px;
+    margin-right: 2px;
+}
+
 .component > .property.value > .ctrl > input {
     display: none;
     background: white;
     height: calc(8pt + 4px);
     width: 100%;
-    color: #FF9933;
     outline: none;
     border: 1px solid #FF9933;
     border-radius: 4px;
