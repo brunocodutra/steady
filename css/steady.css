@@ -53,14 +53,20 @@ html, body {
 }
 
 a:hover, a:active, a:focus {
-    text-decoration: initial;
+    text-decoration: initial !important;
+    outline: initial !important;
+}
+
+
+.highlight:hover,
+.highlight:active,
+.highlight:focus {
+    color: #FF9933 !important;
 }
 
 .ctrl:hover,
 .ctrl:active,
 .ctrl:focus {
-    color: #FF9933;
-    font-weight: bold;
     cursor: pointer;
 }
 
@@ -143,6 +149,8 @@ a:hover, a:active, a:focus {
     z-index: 100;
     color: #999;
     font-weight: bold;
+    font-size: 8pt;
+    line-height: 8pt;
     padding: 1px 2px 1px 2px;
     margin: 0;
 }
@@ -157,9 +165,16 @@ a:hover, a:active, a:focus {
     right: 2px;
 }
 
+.component.placeholder > .property.v,
+.component.placeholder > .property.i,
+.component.earth > .property.v,
+.component.earth > .property.i,
+.component.branch > .property.v,
+.component.branch > .property.i {
+    display: none;
+}
+
 .component > .property.value {
-    font-size: 8pt;
-    line-height: 8pt;
     width: 100%;
 }
 
@@ -226,7 +241,9 @@ a:hover, a:active, a:focus {
     margin-right: 2px;
 }
 
-.component > .property.value > .ctrl > input {
+.component > .property.i input,
+.component > .property.v input,
+.component > .property.value input {
     display: none;
     background: white;
     height: calc(8pt + 4px);
@@ -236,6 +253,24 @@ a:hover, a:active, a:focus {
     border-radius: 4px;
     padding: 1px;
     margin-top: -2px;
+}
+
+.component > .property.v {
+    top: 80%;
+    left: 0%;
+}
+
+.component > .property.v:after {
+    content: "V";
+}
+
+.component > .property.i {
+    top: 92%;
+    left: 0%;
+}
+
+.component > .property.i:after {
+    content: "A";
 }
 
 .toolbar {
@@ -296,13 +331,13 @@ a:hover, a:active, a:focus {
     height: 200%;
 }
 
-.toolbar > .tools > .tool > .component > .property {
+.toolbar > .tools > .tool > .component .property {
     display: none;
 }
 
 .toolbar > .left,
 .toolbar > .right {
-    position:absolute;
+    position: absolute;
     width: 50px;
     top: 0;
     bottom: 0;
@@ -348,6 +383,25 @@ a:hover, a:active, a:focus {
 .schematics .component:active,
 .schematics .component:focus {
     background-color: #D9EDF7;
+}
+
+.schematics .component:after {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url("../icons/overlay.svg");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+
+.schematics .component.placeholder:after,
+.schematics .component.earth:after,
+.schematics .component.branch:after {
+    background-image: none;
 }
 
 .schematics .component.branch:before {
