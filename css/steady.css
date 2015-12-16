@@ -16,17 +16,18 @@ html, body {
 
 #content {
     height: 100%;
-    margin-bottom: -60px;
     padding-top: 60px;
     padding-bottom: 60px;
+    margin-bottom: -60px;
 }
 
 #footer {
     height: 40px;
-    padding: 10px 0px;
-    margin-top: 20px;
-    border-top: 1px solid #DDD;
+    font-size: 0.9em;
     text-align: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #DDD;
 }
 
 .social-btns {
@@ -241,10 +242,13 @@ a:hover, a:active, a:focus {
     margin-right: 2px;
 }
 
-.component > .property.i input,
-.component > .property.v input,
-.component > .property.value input {
+.component > .property > .mag, .component > .property > .ang {
+    padding: 1px 0;
+}
+
+.component > .property input {
     display: none;
+    color: #FF9933;
     background: white;
     height: calc(8pt + 4px);
     width: 100%;
@@ -253,6 +257,11 @@ a:hover, a:active, a:focus {
     border-radius: 4px;
     padding: 1px;
     margin-top: -2px;
+}
+
+.component > .property input[readonly] {
+    color: #999;
+    border-color: #999;
 }
 
 .component > .property.v {
@@ -388,7 +397,6 @@ a:hover, a:active, a:focus {
 .schematics .component:after {
     content: "";
     position: absolute;
-
     top: 0;
     right: 0;
     bottom: 0;

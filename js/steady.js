@@ -172,11 +172,11 @@ $(function() {
   $(".component")
     .append(
       '<span class="property v highlight">\
-        <span class="mag"><input type="text" class="numeric"><span class="display"></span></span><span class="ang">&ang;<input type="text" class="numeric"><span class="display"></span>°</span>\
+        <span class="mag"><input readonly="readonly" type="text" class="numeric"><span class="display"></span></span><span class="ang">&ang;<input readonly="readonly" type="text" class="numeric"><span class="display"></span>°</span>\
         <span class="prefix"></span></span>\
       </span>\
       <span class="property i highlight">\
-        <span class="mag"><input type="text" class="numeric"><span class="display"></span></span><span class="ang">&ang;<input type="text" class="numeric"><span class="display"></span>°</span>\
+        <span class="mag"><input readonly="readonly" type="text" class="numeric"><span class="display"></span></span><span class="ang">&ang;<input readonly="readonly" type="text" class="numeric"><span class="display"></span>°</span>\
         <span class="prefix"></span></span>\
       </span>'
     );
@@ -303,7 +303,7 @@ $(function() {
       });
     });
 
-  $(".component > .property.value > .mag, .component > .property.value > .ang")
+  $(".component > .property > .mag, .component > .property > .ang")
     .on("click", function(){
       $("> input", this)
         .css({width: $("> .display", this).hide().width()})
@@ -312,7 +312,7 @@ $(function() {
         .animate({width: "100%"}, {queue: false});
     });
 
-  $(".component > .property.value input")
+  $(".component > .property input")
     .on("click", function(e){
       e.stopPropagation();
     })
@@ -326,7 +326,7 @@ $(function() {
     });
 
   $(".mag > input")
-    .on("change", function(){
+    .on("change keyup", function(){
       if($(this).val() == "")
         $(this).val($(this).data().default);
 
@@ -396,11 +396,9 @@ $(function() {
 
   $(".component:not(.earth)")
     .on("click", function(event){
-      if(event.target == this){
         event.stopPropagation();
         $(".schematics .active").removeClass("active");
         $(this).addClass("active");
-      }
     });
 
   $(".numeric").numeric();

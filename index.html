@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+
     <meta name="author" content="Bruno Dutra">
 
     <title>Steady</title>
@@ -13,7 +13,12 @@
     <link href="css/octicons.css" rel="stylesheet">
     <link href="css/steady.css" rel="stylesheet">
 
-    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        if (typeof jQuery === 'undefined') {
+            document.write(unescape('%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E'));
+        }
+    </script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.numeric.min.js"></script>
     <script src="js/numeric.min.js"></script>
@@ -24,7 +29,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
   <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
@@ -37,7 +41,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a class="highlight" href="https://github.com/brunocodutra/steady">
+            <a class="highlight" aria-label="View on GitHub" href="https://github.com/brunocodutra/steady">
               <span class="hidden-xs"> View on GitHub </span>
               <span class="hidden-xs octicon octicon-mark-github" aria-hidden="true"></span>
               <span class="visible-xs-block mega-octicon octicon-mark-github" aria-hidden="true"></span>
