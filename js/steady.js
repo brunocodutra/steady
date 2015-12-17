@@ -127,7 +127,7 @@ $(function() {
     });
 
   $('<span class="property ctrl remove"><span class="highlight octicon octicon-x"></span></span>')
-    .appendTo(".toolbar .component")
+    .appendTo(".component:not(.earth):not(.placeholder)")
     .on("click", function(){
       $(this)
         .parent()
@@ -204,7 +204,8 @@ $(function() {
     })
     .on("update", function(e){
       e.stopPropagation();
-      $("> .component:first-child", this)
+      $("> .component", this)
+        .first()
         .data({state: $(this).data().state})
         .triggerHandler("update");
     });
@@ -396,9 +397,9 @@ $(function() {
 
   $(".component:not(.earth)")
     .on("click", function(event){
-        event.stopPropagation();
-        $(".schematics .active").removeClass("active");
-        $(this).addClass("active");
+      event.stopPropagation();
+      $(".schematics .active").removeClass("active");
+      $(this).addClass("active");
     });
 
   $(".numeric").numeric();
