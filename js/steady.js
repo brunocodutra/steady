@@ -109,19 +109,19 @@ $(function() {
         .parent().trigger("change");
 
       if(component.hasClass("branch")){
-      var nextBranch = active.nextAll().andSelf().filter(".branch:first");
-      if(nextBranch != null)
-          component.css({"height": nextBranch.prop("scrollHeight")});
+        var nextBranch = active.nextAll().andSelf().filter(".branch").first();
+        if(nextBranch != null)
+            component.css({"height": nextBranch.prop("scrollHeight")});
 
-      active
-          .parentsUntil(".schematics")
-          .andSelf()
-          .filter(".component")
-          .prevAll()
-          .filter(".branch")
-          .css({"overflow": "visible"})
-          .animate({"height": "+=" + active.width()})
-          .css({"overflow": ""});
+        active
+            .parentsUntil(".schematics")
+            .andSelf()
+            .filter(".component")
+            .prevAll()
+            .filter(".branch")
+            .css({"overflow": "visible"})
+            .animate({"height": "+=" + active.outerWidth()})
+            .css({"overflow": ""});
       }
       component.animate({"opacity": 1});
     });
@@ -134,11 +134,11 @@ $(function() {
         .closest(".component")
         .animate({"opacity": 0}, {queue: false, done: function(){
           if($(this).hasClass("branch")){
-            var nextBranch = $(this).nextAll().filter(".branch:first");
+            var nextBranch = $(this).nextAll().filter(".branch").first();
             var offset = $(this).prop("scrollHeight") - (
                 nextBranch.length ?
                 nextBranch.prop("scrollHeight") :
-                $(this).width()
+                $(this).outerWidth()
             );
 
             $(this)
@@ -282,7 +282,7 @@ $(function() {
       $(this).triggerHandler("update");
     });
 
-  $(".component > .property.value")
+  $(".component > .property:has(input)")
     .on("focusin", function(){
       $(this).css({"z-index": 999});
       $(this).animate({left: 0}, {queue: false});
@@ -307,10 +307,18 @@ $(function() {
   $(".component > .property > .mag, .component > .property > .ang")
     .on("click", function(){
       $("> input", this)
-        .css({width: $("> .display", this).hide().width()})
+        .css({width: $("> .display", this).hide().outerWidth()})
         .show()
         .focus()
         .animate({width: "100%"}, {queue: false});
+    });
+
+  $(".component > .property > .mag")
+    .on("focusin", function(){
+      $("~ .prefix", this).hide();
+    })
+    .on("focusout", function(){
+      $("~ .prefix", this).show();
     });
 
   $(".component > .property input")
@@ -320,14 +328,14 @@ $(function() {
     .on("focusout", function(){
       var display = $("~ .display", this);
       $(this)
-        .animate({width: display.width()}, {queue: false, done: function(){
+        .animate({width: display.outerWidth()}, {queue: false, done: function(){
           $(this).css({width: ""}).hide();
           display.show();
         }});
     });
 
   $(".mag > input")
-    .on("change keyup", function(){
+    .on("change", function(){
       if($(this).val() == "")
         $(this).val($(this).data().default);
 
