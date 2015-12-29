@@ -1,0 +1,6 @@
+<svg version="1.2" width="100%" height="100%" viewBox="0 0 3000 3000" preserveAspectRatio="xMidYMid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path fill="none" stroke="black" stroke-width="20" stroke-linejoin="round" stroke-linecap="round" d="M 83,2166 C 273,1500 163,1239 120,1000"/>
+  <path fill="black" stroke="none" d="M 83,833 L 63,1022 180,996 83,833 Z"/>
+  <path fill="none" stroke="black" stroke-width="20" stroke-linejoin="round" stroke-linecap="round" d="M 0,500 L 495,500"/>
+  <path fill="black" stroke="none" d="M 667,500 L 487,440 487,560 667,500 Z"/>
+</svg>

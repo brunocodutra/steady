@@ -4,25 +4,30 @@ html, body {
 
 .navbar-nav > li, .navbar-nav {
     float: left !important;
+    padding: 0;
+    margin: 0;
 }
 
 .navbar-right {
     float: right !important;
+    padding: 0;
+    margin: 0;
 }
 
 #content {
     height: 100%;
-    margin-bottom: -60px;
-    padding-top: 77px;
+    padding-top: 60px;
     padding-bottom: 60px;
+    margin-bottom: -60px;
 }
 
 #footer {
     height: 40px;
-    padding: 10px 0px;
-    margin-top: 20px;
-    border-top: 1px solid #DDD;
+    font-size: 0.9em;
     text-align: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #DDD;
 }
 
 .social-btns {
@@ -49,7 +54,26 @@ html, body {
 }
 
 a:hover, a:active, a:focus {
-    text-decoration: initial;
+    text-decoration: initial !important;
+    outline: initial !important;
+}
+
+[disabled] {
+    background-color: #D3D3D3;
+    border-color: #D3D3D3;
+}
+
+.highlight:not([disabled]):hover,
+.highlight:not([disabled]):active,
+.highlight:not([disabled]):focus {
+    color: #0065CA !important;
+    border-color: #0065CA !important;
+}
+
+.ctrl:not([disabled]):hover,
+.ctrl:not([disabled]):active,
+.ctrl:not([disabled]):focus {
+    cursor: pointer;
 }
 
 .component {
@@ -59,71 +83,38 @@ a:hover, a:active, a:focus {
     margin: 0;
     padding: 0;
     border-radius: 4px;
-    cursor: pointer;
-    background-size: 100% auto;
-    background-repeat: no-repeat;
 }
 
-.component.fixed {
-    cursor: initial;
+.component svg {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 40;
+    stroke-linejoin: round;
+    stroke-linecap: round;
 }
 
-.component.v.series {
-    background-image: url("../icons/v_series.svg");
+.component.branch > .wire {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 100% 0 100% 0;
 }
 
-.component.i.shunt {
-    background-image: url("../icons/i_shunt.svg");
-}
-
-.component.r.series {
-    background-image: url("../icons/r_series.svg");
-}
-
-.component.r.shunt {
-    background-image: url("../icons/r_shunt.svg");
-}
-
-.component.l.series {
-    background-image: url("../icons/l_series.svg");
-}
-
-.component.l.shunt {
-    background-image: url("../icons/l_shunt.svg");
-}
-
-.component.c.series {
-    background-image: url("../icons/c_series.svg");
-}
-
-.component.c.shunt {
-    background-image: url("../icons/c_shunt.svg");
-}
-
-.component.z.series {
-    background-image: url("../icons/z_series.svg");
-}
-
-.component.z.shunt {
-    background-image: url("../icons/z_shunt.svg");
-}
-
-.component.xformer.series {
-    background-image: url("../icons/xformer.svg");
-}
-
-.component.xline.series {
-    background-image: url("../icons/xline.svg");
-}
-
-.component.earth {
-    background-image: url("../icons/earth.svg");
-}
-
-.component.branch {
-    background-image: url("../icons/branch_series.svg"), url("../icons/branch_shunt.svg");
-    background-position: left top, left bottom;
-    background-repeat: no-repeat, no-repeat;
+.component.branch > .components {
+    display: inline-block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin: -100% 0 0 100%;
 }
 
 .component > .property {
@@ -131,6 +122,8 @@ a:hover, a:active, a:focus {
     z-index: 100;
     color: #999;
     font-weight: bold;
+    font-size: 8pt;
+    line-height: 8pt;
     padding: 1px 2px 1px 2px;
     margin: 0;
 }
@@ -138,22 +131,23 @@ a:hover, a:active, a:focus {
 .component > .property.remove {
     display: none;
     z-index: 500;
-}
-
-.component > .property.remove {
     top: 2px;
     right: 2px;
 }
 
-.component > .property.value {
-    font-size: 8pt;
-    line-height: 8pt;
-    width: 100%;
+.component.placeholder > .property.v,
+.component.placeholder > .property.i,
+.component.earth > .property.v,
+.component.earth > .property.i,
+.component.branch > .property.v,
+.component.branch > .property.i {
+    display: none;
 }
 
 .component.series > .property.value {
     top: 32%;
     left: 0;
+    right: 0;
     text-align: center;
 }
 
@@ -209,23 +203,48 @@ a:hover, a:active, a:focus {
     content: ": 1";
 }
 
-.component .ctrl:hover,
-.component .ctrl:active,
-.component .ctrl:focus {
-    color: #FF9933;
+.component.xformer > .property.value > .prefix {
+    margin-left: -2px;
+    margin-right: 2px;
 }
 
-.component > .property.value > .ctrl > input {
+.component > .property > .mag,
+.component > .property > .ang {
+    padding: 1px 0;
+}
+
+.component > .property input {
     display: none;
     background: white;
     height: calc(8pt + 4px);
-    width: 100%;
-    color: #FF9933;
+    width: 0px;
     outline: none;
-    border: 1px solid #FF9933;
+    border: 1px solid #0065CA;
     border-radius: 4px;
     padding: 1px;
     margin-top: -2px;
+}
+
+.component > .property input[readonly] {
+    border-color: #999;
+}
+
+.component > .property.v {
+    top: 80%;
+    left: 0%;
+}
+
+.component > .property.v:after {
+    content: "V";
+}
+
+.component > .property.i {
+    top: 92%;
+    left: 0%;
+}
+
+.component > .property.i:after {
+    content: "A";
 }
 
 .toolbar {
@@ -251,14 +270,6 @@ a:hover, a:active, a:focus {
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: hidden;
-    cursor: pointer;
-}
-
-.toolbar > .tools > .tool[disabled] {
-    cursor: initial;
-    background-color: #D3D3D3;
-    border-color: #D3D3D3;
-
 }
 
 .toolbar > .tools > .tool:after {
@@ -270,13 +281,6 @@ a:hover, a:active, a:focus {
     left: 0;
 }
 
-.toolbar > .tools > .tool:not([disabled]):hover,
-.toolbar > .tools > .tool:not([disabled]):active,
-.toolbar > .tools > .tool:not([disabled]):focus {
-    background-color: #D9EDF7;
-    border-color: #D9EDF7;
-}
-
 .toolbar > .tools > .tool > .component {
     height: 100%;
     width: 100%;
@@ -286,13 +290,13 @@ a:hover, a:active, a:focus {
     height: 200%;
 }
 
-.toolbar > .tools > .tool > .component > .property {
+.toolbar > .tools > .tool > .component .property {
     display: none;
 }
 
 .toolbar > .left,
 .toolbar > .right {
-    position:absolute;
+    position: absolute;
     width: 50px;
     top: 0;
     bottom: 0;
@@ -323,6 +327,7 @@ a:hover, a:active, a:focus {
     height: calc(100% - 10px);
     font-size: 0px;
     margin: 10px 0 0 0;
+    padding: 5px;
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: auto;
@@ -334,35 +339,8 @@ a:hover, a:active, a:focus {
     width: 90px;
 }
 
-.schematics .component:hover,
-.schematics .component:active,
-.schematics .component:focus {
-    background-color: #D9EDF7;
-}
-
-.schematics .component.branch:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: 100% 0 100% 0;
-    background: url("../icons/wire.svg") center center repeat-y;
-    background-size: 100% auto;
-}
-
-.schematics .component.branch > .components {
-    display: inline-block;
-    position: absolute;
-    top: 100%;
-    margin: -100% 0 0 100%;
-}
-
-.schematics .component.active {
-    border-radius: 4px;
-    background-color: #D9EDF7;
-    animation: blinker 1s linear infinite;
+.schematics .component.placeholder {
+    border: 1px dashed transparent;
 }
 
 .schematics .component:hover > .property.remove,
@@ -372,8 +350,33 @@ a:hover, a:active, a:focus {
     display: inline-block;
 }
 
+.schematics .component:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    border-radius: 4px;
+    border: 1px dashed transparent;
+}
+
+.schematics .component:not(.placeholder):not(.earth):not(.branch):after {
+    content: "";
+    background-image: url("../icons/overlay.svg");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+
+.schematics .component.active {
+    animation: blinker 1s linear infinite;
+}
+
 @keyframes blinker {
-    50% { background-color: white; }
+    50% {
+        color: #0065CA;
+        border-color: #0065CA;
+    }
 }
 
 @media (min-width: 768px) {

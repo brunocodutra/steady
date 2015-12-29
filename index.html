@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+
     <meta name="author" content="Bruno Dutra">
 
     <title>Steady</title>
@@ -13,11 +13,15 @@
     <link href="css/octicons.css" rel="stylesheet">
     <link href="css/steady.css" rel="stylesheet">
 
-    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+      if(typeof jQuery == "undefined")
+        document.write(unescape("%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E"));
+    </script>
+
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.numeric.min.js"></script>
     <script src="js/numeric.min.js"></script>
-    <script src="js/steady.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,20 +29,19 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
   <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <ul class="nav navbar-nav navbar-left">
           <li>
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">Steady</a>
+              <a class="navbar-brand ctrl highlight">Steady</a>
             </div>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="https://github.com/brunocodutra/steady">
+            <a class="ctrl highlight" aria-label="View on GitHub" href="https://github.com/brunocodutra/steady">
               <span class="hidden-xs"> View on GitHub </span>
               <span class="hidden-xs octicon octicon-mark-github" aria-hidden="true"></span>
               <span class="visible-xs-block mega-octicon octicon-mark-github" aria-hidden="true"></span>
@@ -60,32 +63,187 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="toolbar navbar-collapse collapse">
-              <a class="left hidden-xs" href="#"><span><span class="mega-octicon octicon-chevron-left"></span></span></a>
-              <a class="right hidden-xs" href="#"><span><span class="mega-octicon octicon-chevron-right"></span></span></a>
+              <span class="left ctrl hidden-xs"><span><span class="highlight mega-octicon octicon-chevron-left"></span></span></span>
+              <span class="right ctrl hidden-xs"><span><span class="highlight mega-octicon octicon-chevron-right"></span></span></span>
               <ul class="tools">
-                <li class="tool"><span class="component v series"></span></li>
-                <li class="tool"><span class="component i shunt"></span></li>
-                <li class="tool"><span class="component r series"></span></li>
-                <li class="tool"><span class="component r shunt"></span></li>
-                <li class="tool" disabled="true"><span class="component l series"></span></li>
-                <li class="tool" disabled="true"><span class="component l shunt"></span></li>
-                <li class="tool" disabled="true"><span class="component c series"></span></li>
-                <li class="tool" disabled="true"><span class="component c shunt"></span></li>
-                <li class="tool"><span class="component z series"></span></li>
-                <li class="tool"><span class="component z shunt"></span></li>
-                <li class="tool"><span class="component xformer series"></span></li>
-                <li class="tool" disabled="true"><span class="component xline series"></span></li>
-                <li class="tool">
-                  <span class="component branch">
-                    <span class="components"><span class="component placeholder"></span></span>
+                <li class="tool ctrl highlight">
+                  <span class="component v series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 1166,666"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1833,666 L 3000,667"/>
+                      <path fill="none" d="M 1499,999 C 1438,999 1386,985 1333,954 1279,924 1241,886 1211,833 1180,779 1166,727 1166,666 1166,605 1180,553 1211,500 1241,446 1279,408 1332,378 1386,347 1438,333 1499,333 1560,333 1612,347 1665,378 1719,408 1757,446 1787,499 1818,553 1832,605 1832,666 1832,727 1818,779 1787,832 1757,886 1719,924 1666,954 1612,985 1560,999 1499,999 L 1499,999 Z"/>
+                      <path fill="none" d="M 1277,666 C 1277,666 1335,555 1387,555 1492,555 1505,776 1610,777 1662,776 1721,665 1721,665"/>
+                      <path fill="none" d="M 1832,417 L 1999,417"/>
+                      <path fill="none" d="M 1915,500 L 1915,333"/>
+                      <path fill="none" d="M 1833,417 L 2000,417"/>
+                      <path fill="none" d="M 1832,417 L 1999,417"/>
+                      <path fill="none" d="M 1915,500 L 1915,333"/>
+                      <path fill="none" d="M 1833,417 L 2000,417"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component i shunt ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 3000,667"/>
+                      <path fill="none" d="M 1500,1166 L 1500,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1500,2333 L 1500,1833"/>
+                      <path fill="none" d="M 1500,1833 C 1439,1833 1387,1819 1334,1788 1280,1758 1242,1720 1212,1667 1181,1613 1167,1561 1167,1500 1167,1439 1181,1387 1212,1334 1242,1280 1280,1242 1333,1212 1387,1181 1439,1167 1500,1167 1561,1167 1613,1181 1666,1212 1720,1242 1758,1280 1788,1333 1819,1387 1833,1439 1833,1500 1833,1561 1819,1613 1788,1666 1758,1720 1720,1758 1667,1788 1613,1819 1561,1833 1500,1833 L 1500,1833 Z"/>
+                      <path fill="none" d="M 1500,1750 L 1500,1428"/>
+                      <path stroke="none" d="M 1584,1426 L 1509,1257 1505,1252 1500,1250 1495,1252 1491,1256 1416,1426 1415,1428 1415,1430 1416,1433 1418,1437 1421,1439 1424,1440 1576,1440 1579,1439 1583,1437 1584,1433 1585,1430 1585,1428 1584,1426 Z"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component r series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 1000,667 1082,500 1249,833 1416,500 1583,834 1750,500 1917,834 2000,667 3000,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component r shunt ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 3000,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1500,2333 L 1500,2000 1333,1918 1666,1751 1333,1584 1667,1417 1333,1250 1667,1083 1500,1000 1500,667"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight" disabled="true">
+                  <span class="component l series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 1000,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 2000,667 L 3000,667"/>
+                      <path fill="none" d="M 999,670 C 999,670 1058,504 1109,503 1161,503 1219,591 1219,671 1218,748 1156,866 1109,836 1076,815 1090,718 1109,671 1152,565 1248,483 1329,503 1379,517 1438,592 1438,670 1438,749 1376,866 1329,836 1295,816 1309,717 1329,671 1371,564 1466,483 1547,503 1599,517 1657,591 1657,670 1657,748 1595,867 1547,836 1514,815 1528,717 1547,670 1590,564 1685,484 1766,503 1817,516 1876,591 1876,671 1875,748 1813,866 1766,836 1733,815 1747,718 1766,671 1797,596 1888,481 1986,508 2022,537 1992,653 2000,666"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight" disabled="true">
+                  <span class="component l shunt ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 3000,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1500,2333 L 1500,2000"/>
+                      <path fill="none" d="M 1500,1000 L 1500,667"/>
+                      <path fill="none" d="M 1497,2004 C 1497,2004 1663,1946 1663,1895 1663,1843 1575,1785 1496,1785 1419,1785 1301,1848 1331,1895 1352,1928 1449,1914 1497,1895 1602,1852 1683,1756 1663,1674 1650,1625 1574,1566 1496,1566 1419,1567 1300,1628 1331,1675 1351,1709 1449,1695 1496,1675 1602,1633 1683,1538 1663,1457 1650,1405 1576,1347 1495,1347 1419,1347 1300,1409 1330,1457 1350,1490 1450,1476 1495,1457 1602,1414 1684,1319 1664,1238 1650,1187 1576,1128 1496,1128 1418,1128 1300,1191 1330,1238 1351,1271 1449,1257 1496,1238 1570,1207 1686,1116 1658,1018 1629,982 1514,1012 1500,1004"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight" disabled="true">
+                  <span class="component c series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,668 L 1333,668"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1666,668 L 3000,668"/>
+                      <path fill="none" d="M 1333,1168 L 1333,167"/>
+                      <path fill="none" d="M 1666,1168 L 1666,168"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight" disabled="true">
+                  <span class="component c shunt ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,668 L 3000,668"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1500,2333 L 1500,1666"/>
+                      <path fill="none" d="M 1500,1333 L 1500,668"/>
+                      <path fill="none" d="M 1000,1334 L 2000,1334"/>
+                      <path fill="none" d="M 1000,1667 L 2000,1667"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component z series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 1000,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 2000,667 L 3000,667"/>
+                      <path fill="none" d="M 2000,667 L 2000,833 1000,833 1000,500 2000,500 2000,667 Z"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component z shunt ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 0,667 L 3000,667"/>
+                      <path fill="none" d="M 1500,1000 L 1500,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 1500,2000 L 1333,2000 1333,1000 1666,1000 1666,2000 1500,2000 Z"/>
+                      <path fill="none" d="M 1500,2333 L 1500,2000"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component xformer series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 1157,2001 C 1157,2001 1323,1943 1323,1892 1323,1840 1235,1782 1156,1782 1079,1782 961,1845 991,1892 1012,1925 1109,1911 1157,1892 1262,1849 1343,1753 1323,1671 1310,1622 1234,1563 1156,1563 1079,1564 960,1625 991,1672 1011,1706 1109,1692 1156,1672 1262,1630 1343,1535 1323,1454 1310,1402 1236,1344 1155,1344 1079,1344 960,1406 990,1454 1010,1487 1110,1473 1155,1454 1262,1411 1344,1316 1324,1235 1310,1184 1236,1125 1156,1125 1078,1125 960,1188 990,1235 1011,1268 1109,1254 1156,1235 1230,1204 1346,1113 1318,1015 1289,979 1174,1009 1160,1001"/>
+                      <path fill="none" d="M 1829,2001 C 1829,2001 1662,1943 1663,1892 1662,1840 1750,1782 1829,1782 1907,1782 2025,1845 1995,1892 1974,1925 1876,1911 1829,1892 1723,1849 1642,1753 1663,1672 1675,1622 1751,1563 1830,1563 1908,1563 2025,1625 1995,1673 1975,1706 1876,1692 1829,1672 1723,1630 1642,1535 1662,1454 1675,1402 1750,1344 1830,1344 1907,1344 2025,1406 1995,1454 1975,1487 1876,1473 1830,1454 1723,1411 1642,1316 1662,1235 1675,1184 1750,1125 1829,1125 1908,1125 2026,1188 1996,1235 1975,1268 1876,1254 1829,1235 1755,1204 1640,1113 1667,1015 1697,979 1811,1009 1825,1001"/>
+                      <path fill="none" d="M 1405,1997 L 1405,997"/>
+                      <path fill="none" d="M 1566,1997 L 1566,997"/>
+                      <path fill="none" d="M 0,667 L 1166,667 1167,1000"/>
+                      <path fill="none" d="M 1833,1001 L 1833,667 3000,667"/>
+                      <path fill="none" d="M 0,2334 L 1166,2334 1166,2001"/>
+                      <path fill="none" d="M 1833,2001 L 1833,2334 3000,2334"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight" disabled="true">
+                  <span class="component xline series ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000">
+                      <path fill="none" d="M 3000,2334 L 2666,2334 2666,1667 2333,1667"/>
+                      <path fill="none" d="M 3000,667 L 2666,667 2666,1334 2333,1334"/>
+                      <path fill="none" d="M 500,1500 C 500,1683 551,1834 612,1834 L 2388,1834 C 2449,1834 2501,1683 2501,1500 2501,1318 2449,1166 2388,1166 L 612,1166 C 551,1166 500,1318 500,1500 L 500,1500 Z"/>
+                      <path fill="none" d="M 500,1500 C 500,1683 551,1834 612,1834 674,1834 725,1683 725,1500 725,1318 674,1166 612,1166 551,1166 500,1318 500,1500 L 500,1500 Z"/>
+                      <path fill="none" d="M 0,2334 L 333,2334 333,1667 593,1667"/>
+                      <path fill="none" d="M 0,667 L 333,667 333,1334 593,1334"/>
+                    </svg>
+                  </span>
+                </li>
+                <li class="tool ctrl highlight">
+                  <span class="component branch ctrl highlight">
+                    <svg version="1.2" viewBox="0 0 3000 3000" preserveAspectRatio="xMinYMin">
+                      <path fill="none" d="M 0,667 L 3000,667"/>
+                      <path fill="none" d="M 0,2333 L 3000,2333"/>
+                      <path fill="none" d="M 666,666 L 1703,3000"/>
+                      <path fill="none" d="M 666,2333 L 962,3000"/>
+                      <path stroke="none" d="M 674,752 C 658,752 645,748 632,741 618,733 609,724 601,710 594,697 590,684 590,669 590,653 594,640 601,627 609,613 618,604 632,596 645,589 658,585 674,585 689,585 702,589 715,596 729,604 738,613 746,627 753,640 757,653 757,668 757,684 753,697 746,710 738,724 729,733 715,741 702,748 689,752 674,752 L 674,752 Z"/>
+                      <path stroke="none" d="M 674,2426 C 658,2426 645,2422 632,2415 618,2407 609,2398 601,2384 594,2371 590,2358 590,2343 590,2327 594,2314 601,2301 609,2287 618,2278 632,2270 645,2263 658,2259 674,2259 689,2259 702,2263 715,2270 729,2278 738,2287 746,2301 753,2314 757,2327 757,2343 757,2358 753,2371 746,2384 738,2398 729,2407 715,2415 702,2422 689,2426 674,2426 L 674,2426 Z"/>
+                    </svg>
+                    <span class="wire">
+                      <svg version="1.2" viewBox="0 0 3000 3000" preserveAspectRatio="none">
+                        <path fill="none" d="M 962,2 L 962,3002"/>
+                        <path fill="none" d="M 1703,2 L 1703,3002"/>
+                      </svg>
+                    </span>
+                    <svg version="1.2" viewBox="0 0 3000 3000" preserveAspectRatio="xMinYMax">
+                      <path fill="none" d="M 1704,0 L 2001,665 3000,666"/>
+                      <path fill="none" d="M 965,0 L 2000,2333 3000,2333"/>
+                    </svg>
+                    <span class="components">
+                      <span class="component placeholder ctrl highlight">
+                      </span>
+                    </span>
                   </span>
                 </li>
               </ul>
             </div>
             <div class="schematics">
               <span class="components">
-                <span class="component fixed earth"></span>
-                <span class="component placeholder active"></span>
+                <span class="component earth">
+                  <svg version="1.2" viewBox="0 0 3000 3000">
+                    <path fill="none" d="M 1500,2666 L 1500,2333"/>
+                    <path fill="none" d="M 1166,2666 L 1833,2666"/>
+                    <path fill="none" d="M 1266,2777 L 1744,2777"/>
+                    <path fill="none" d="M 1332,2888 L 1666,2888"/>
+                    <path fill="none" d="M 3000,2333 L 1500,2333 1500,666 3000,666"/>
+                  </svg>
+                </span>
+                <span class="component placeholder active ctrl highlight"></span>
               </span>
             </div>
           </div>
@@ -109,251 +267,7 @@
       </div>
     </div>
 
+    <script src="js/steady.js"></script>
 
-    <script>
-      $(".toolbar")
-        .on("show.bs.collapse", function(){
-        console.log($(this).height())
-          $("~ .schematics", this).css({height: "-=" + $(this).height()});
-        })
-        .on("hidden.bs.collapse", function(){
-          $(this).css({height: ""});
-          $("~ .schematics", this).css({height: ""})
-        });
-
-      $(".toolbar > .left").on("click", function(){
-        var roulette = $("~ ul", this);
-        $("> :last-child", roulette)
-            .css({"opacity": 0})
-            .prependTo(roulette)
-            .animate({"opacity": 1}, {queue: false});
-      });
-
-      $(".toolbar > .right").on("click", function(){
-        var roulette = $("~ ul", this);
-        $("> :first-child", roulette)
-            .css({"opacity": 0})
-            .appendTo(roulette)
-            .animate({"opacity": 1}, {queue: false});
-      });
-
-      $(".toolbar > .tools > .tool:not([disabled])")
-        .on("click", function(){
-          var component = $(this).contents().clone(true, true);
-          var active = $(".schematics .active");
-
-          component.css({"opacity": 0}).insertBefore(active);
-          if(component.hasClass("branch")){
-          var nextBranch = active.nextAll().andSelf().filter(".branch:first");
-          if(nextBranch != null)
-              component.css({"height": nextBranch.prop("scrollHeight")});
-
-          active
-              .parentsUntil(".schematics")
-              .andSelf()
-              .filter(".component")
-              .prevAll()
-              .filter(".branch")
-              .css({"overflow": "visible"})
-              .animate({"height": "+=" + active.width()})
-              .css({"overflow": ""});
-          }
-          component.animate({"opacity": 1});
-        });
-
-      $('<span class="property remove"><span class="ctrl octicon octicon-x"></span></span>')
-        .appendTo(".component:not(.fixed):not(.placeholder)")
-        .on("click", function(){
-          $(this)
-            .parent()
-            .closest(".component")
-            .animate({"opacity": 0}, {queue: false, done: function(){
-              if($(this).hasClass("branch")){
-                var nextBranch = $(this).nextAll().filter(".branch:first");
-                var offset = $(this).prop("scrollHeight") - (
-                    nextBranch.length ?
-                    nextBranch.prop("scrollHeight") :
-                    $(this).width()
-                );
-
-                $(this)
-                  .parentsUntil(".schematics")
-                  .andSelf()
-                  .filter(".component")
-                  .prevAll()
-                  .filter(".branch")
-                  .css({"overflow": "visible"})
-                  .animate({"height": "-=" + offset + "px"}, {queue: false})
-                  .css({"overflow": ""});
-              }
-              $(this).animate({"width": 0}, {queue: false, done: function(){
-                $(this).remove()
-              }});
-            }});
-        });
-
-      $(".component.r, .component.l, .component.c, .component.z, .component.v, .component.i, .component.xformer")
-        .append(
-          '<span class="property value">\
-            <span class="ctrl mag"><input type="text" class="numeric"><span class="display"></span></span><span class="ctrl angle">&ang;<input type="text" class="numeric"><span class="display"></span>°</span>\
-            <span class="prefix"></span></span>\
-          </span>'
-        );
-
-      $(".component:not(.z):not(.v):not(.i) > .property.value > .ctrl.angle").hide();
-      $(".component > .property.value > .ctrl > input").data({default: 0});
-      $(".component.xformer > .property.value > .ctrl.mag > input").data({default: 1});
-
-      $(".component > .property.value")
-        .on("focusin", function(){
-          $(this).css({"z-index": 999});
-          $(this).animate({left: 0}, {queue: false});
-        })
-        .on("focusout", function(){
-          var left = $(this).css({left: ""}).position().left;
-          $(this)
-            .css({left: 0})
-            .animate({left: left}, {queue: false, done: function(){
-              $(this).css({"z-index": ""});
-            }});
-        });
-
-      $(".component.v.series")
-        .on("change", function(){
-          $(this).data({component: V($("> .property.value", this).data().value)});
-        });
-
-      $(".component.i.shunt")
-        .on("change", function(){
-          $(this).data({component: Is($("> .property.value", this).data().value)});
-        });
-
-      $(".component.r.series, .component.z.series")
-        .on("change", function(){
-          $(this).data({component: Z($("> .property.value", this).data().value)});
-        });
-
-      $(".component.r.shunt, .component.z.shunt")
-        .on("change", function(){
-          $(this).data({component: Zs($("> .property.value", this).data().value)});
-        });
-
-      $(".component.xformer.series")
-        .on("change", function(){
-          $(this).data({component: Xformer($("> .property.value", this).data().value)});
-        });
-
-      $(".component > .property.value")
-        .on("change", function(){
-          $(this).data({
-            value: {
-              mag: $("> .ctrl.mag > input", this).val(),
-              ang: $("> .ctrl.angle > input", this).val()
-            }
-          });
-        });
-
-      $(".component > .property.value > .ctrl")
-        .on("click", function(){
-          $("> input", this)
-            .css({width: $("> .display", this).hide().width()})
-            .show()
-            .focus()
-            .animate({width: "100%"}, {queue: false});
-        });
-
-      $(".component > .property.value > .ctrl >  input")
-        .on("click", function(e){
-          e.stopPropagation();
-        })
-        .on("focusout", function(){
-          var display = $("~ .display", this);
-          $(this)
-            .animate({width: display.width()}, {queue: false, done: function(){
-              $(this).css({width: ""}).hide();
-              display.show();
-            }});
-        });
-
-      $(".ctrl.mag > input")
-        .on("change", function(){
-          if($(this).val() == "")
-            $(this).val($(this).data().default);
-
-          var val = $(this).val();
-          var text = "";
-          var prefix = "";
-
-          if(val < 0){
-            val = -val;
-            text = "-";
-          }
-
-          if(val < 1E-15) {
-            text += (0).toFixed(0);
-          } else if(val < 1E-12) {
-            text += (val/1E-15);
-            prefix = "f"
-          } else if(val < 1E-9) {
-            text += (val/1E-12);
-            prefix = "p";
-          } else if(val < 1E-6) {
-            text += (val/1E-9);
-            prefix = "n";
-          } else if(val < 1E-3) {
-            text += (val/1E-6);
-            prefix = "μ";
-          } else if(val < 1) {
-            text += (val/1E-3);
-            prefix = "m";
-          } else if(val < 1E3) {
-            text += (val/1E0);
-          } else if(val < 1E6) {
-            text += (val/1E3);
-            prefix = "k";
-          } else if(val < 1E9) {
-            text += (val/1E6);
-            prefix = "M";
-          } else if(val < 1E12) {
-            text += (val/1E9);
-            prefix = "G";
-          } else if(val < 1E15) {
-            text += (val/1E12);
-            prefix = "T";
-          } else {
-            text += "∞";
-          }
-
-          text = text.substring(0, 4);
-          if(text[3] == ".")
-            text = text.substring(0, 3);
-
-          $("~ .display", this).html(text).parent().closest(".property").find(".prefix").html(prefix);
-
-        }).trigger("change");
-
-      $(".ctrl.angle > input")
-        .on("change", function(){
-          if($(this).val() == "")
-            $(this).val($(this).data().default);
-
-          var val = $(this).val()%360;
-          if(val > 180)
-            val = val - 360;
-
-          $("~ .display", this).html((val).toFixed(0));
-        }).trigger("change");
-
-      $(".component:not(.fixed)")
-        .on("click", function(event){
-          if(event.target == this){
-            event.stopPropagation();
-            $(".schematics .active").removeClass("active");
-            $(this).addClass("active");
-          }
-        });
-
-      $(".numeric").numeric();
-    </script>
   </body>
 </html>
