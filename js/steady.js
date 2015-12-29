@@ -267,7 +267,7 @@ $(function() {
       i.x = i.x ? i.x : 0;
       i.y = i.y ? i.y : 0;
 
-      $(this).data({value: Ys({real: y.x, imag: y.y}).dot(Is({real: i.x, imag: i.y}))});
+      $(this).data({value: Ys({real: -y.x, imag: -y.y}).dot(Is({real: i.x, imag: i.y}))});
     })
     .on("update", function(e){
       e.stopPropagation();

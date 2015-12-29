@@ -13,16 +13,12 @@
     <link href="css/octicons.css" rel="stylesheet">
     <link href="css/steady.css" rel="stylesheet">
 
-    <script>
-      setTimeout(function() {
-        if(window.jQuery)
-          return;
-
-        var node = document.getElementsByTagName("script")[0];
-        node.parentNode.insertBefore(document.createElement("script"), node).src = "js/jquery-1.11.3.min.js";
-      }, 5000);
-    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+      if(typeof jQuery == "undefined")
+        document.write(unescape("%3Cscript%20src%3D%22js/jquery-1.11.3.min.js%22%3E%3C/script%3E"));
+    </script>
+
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.numeric.min.js"></script>
     <script src="js/numeric.min.js"></script>
