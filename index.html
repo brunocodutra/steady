@@ -12,6 +12,19 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/octicons.css" rel="stylesheet">
     <link href="css/steady.css" rel="stylesheet">
+    <style>
+      /*!
+       * IE10 viewport hack for Surface/desktop Windows 8 bug
+       * Copyright 2014-2015 Twitter, Inc.
+       * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+       */
+       
+      @-webkit-viewport { width: device-width; }
+      @-moz-viewport    { width: device-width; }
+      @-ms-viewport     { width: device-width; }
+      @-o-viewport      { width: device-width; }
+      @viewport         { width: device-width; }
+    </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>
@@ -268,6 +281,27 @@
     </div>
 
     <script src="js/steady.js"></script>
+    <script>
+      /*!
+       * IE10 viewport hack for Surface/desktop Windows 8 bug
+       * Copyright 2014-2015 Twitter, Inc.
+       * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+       */
 
+      (function () {
+        'use strict';
+      
+        if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+          var msViewportStyle = document.createElement('style')
+          msViewportStyle.appendChild(
+            document.createTextNode(
+              '@-ms-viewport{width:auto!important}'
+            )
+          )
+          document.querySelector('head').appendChild(msViewportStyle)
+        }
+      
+      })();
+    </script>
   </body>
 </html>
