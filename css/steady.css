@@ -16,32 +16,39 @@ html, body {
 #content {
     height: 100%;
     padding-top: 60px;
-    padding-bottom: 60px;
-    margin-bottom: -60px;
+    padding-bottom: 40px;
+    margin-bottom: -40px;
+}
+
+@media (min-width: 768px) {
+    #content {
+        padding-top: 60px;
+    }
 }
 
 #footer {
     height: 40px;
     font-size: 0.9em;
     text-align: center;
-    margin-top: 20px;
     padding-top: 10px;
-    border-top: 1px solid #DDD;
-}
-
-.social-btns {
-    padding: 0;
-    margin: 0;
-}
-
-.social-btns .social-btn {
-    display: inline-block;
-    margin: 0;
 }
 
 .github-btn {
+    height: 20px;
+    width: 102px;
     overflow: hidden;
     border: 0px none;
+}
+
+.copyright {
+    position: absolute;
+    right: 15px;
+}
+
+@media (max-width: 600px) {
+  .copyright { 
+    display: none;
+  }
 }
 
 .row {
@@ -53,8 +60,8 @@ html, body {
 }
 
 a:hover, a:active, a:focus {
-    text-decoration: initial !important;
-    outline: initial !important;
+    text-decoration: none !important;
+    outline: none !important;
 }
 
 [disabled] {
@@ -251,12 +258,21 @@ a:hover, a:active, a:focus {
     font-size: 0;
     text-align: center;
     white-space: nowrap;
+    padding: 0;
 }
 
 .toolbar > .tools {
     overflow-x: scroll;
     padding: 0;
     margin: 0;
+}
+
+@media (min-width: 768px) {
+    .toolbar > .tools {
+        overflow: hidden;
+        padding: 0;
+        margin: 0 50px 0 50px;
+    }
 }
 
 .toolbar > .tools > .tool {
@@ -269,6 +285,13 @@ a:hover, a:active, a:focus {
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .toolbar > .tools > .tool {
+        height: 70px;
+        width: 70px;
+    }
 }
 
 .toolbar > .tools > .tool:after {
@@ -333,6 +356,12 @@ a:hover, a:active, a:focus {
     white-space: nowrap;
 }
 
+@media (min-width: 768px) {
+    .schematics {
+        height: calc(100% - 84px);
+    }
+}
+
 .schematics .component {
     height: 90px;
     width: 90px;
@@ -375,26 +404,5 @@ a:hover, a:active, a:focus {
     50% {
         color: #0065CA;
         border-color: #0065CA;
-    }
-}
-
-@media (min-width: 768px) {
-    #content {
-        padding-top: 60px;
-    }
-
-    .schematics {
-        height: calc(100% - 84px);
-    }
-
-    .toolbar > .tools {
-        overflow: hidden;
-        padding: 0;
-        margin: 0 50px 0 50px;
-    }
-
-    .toolbar > .tools > .tool {
-        height: 70px;
-        width: 70px;
     }
 }
