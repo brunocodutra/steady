@@ -2,16 +2,15 @@ html, body {
     height:100%;
 }
 
-.navbar-nav > li, .navbar-nav {
-    float: left !important;
-    padding: 0;
+.navbar-right {
+    position: absolute;
+    right: 0;
+    top: 0;
     margin: 0;
 }
 
-.navbar-right {
-    float: right !important;
-    padding: 0;
-    margin: 0;
+.navbar-right > li {
+    float: left;
 }
 
 #content {
