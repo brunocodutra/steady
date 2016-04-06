@@ -75,11 +75,10 @@ function state(i, v){
 $(function() {
   $(".toolbar")
     .on("show.bs.collapse", function(){
-      $("~ .schematics", this).css({height: "-=" + $(this).height()});
+      $("~ .schematics", this).addClass("small");
     })
-    .on("hidden.bs.collapse", function(){
-      $(this).css({height: ""});
-      $("~ .schematics", this).css({height: ""})
+    .on("hide.bs.collapse", function(){
+      $("~ .schematics", this).removeClass("small");
     });
 
   $(".toolbar > .left").on("click", function(){

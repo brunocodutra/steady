@@ -46,7 +46,7 @@ html, body {
 }
 
 @media (max-width: 600px) {
-  .copyright { 
+  .copyright {
     display: none;
   }
 }
@@ -258,7 +258,15 @@ a:hover, a:active, a:focus {
     font-size: 0;
     text-align: center;
     white-space: nowrap;
+    border: none;
     padding: 0;
+    margin: 0;
+}
+
+.toolbar.collapsing {
+    -moz-transition: none;
+    -webkit-transition: none;
+    transition: none;
 }
 
 .toolbar > .tools {
@@ -346,9 +354,9 @@ a:hover, a:active, a:focus {
 }
 
 .schematics {
-    height: calc(100% - 10px);
+    height: 100%;
     font-size: 0px;
-    margin: 10px 0 0 0;
+    margin: 0 0 0 0;
     padding: 5px;
     border: 1px solid #DDD;
     border-radius: 4px;
@@ -359,6 +367,14 @@ a:hover, a:active, a:focus {
 @media (min-width: 768px) {
     .schematics {
         height: calc(100% - 84px);
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .schematics.small{
+        height: calc(100% - 89px);
+        margin-top: 10px;
     }
 }
 
