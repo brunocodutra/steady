@@ -2,47 +2,47 @@ html, body {
     height:100%;
 }
 
-.navbar-nav > li, .navbar-nav {
-    float: left !important;
-    padding: 0;
+.navbar-right {
+    position: absolute;
+    right: 0;
+    top: 0;
     margin: 0;
 }
 
-.navbar-right {
-    float: right !important;
-    padding: 0;
-    margin: 0;
+.navbar-right > li {
+    float: left;
 }
 
 #content {
     height: 100%;
     padding-top: 60px;
-    padding-bottom: 60px;
-    margin-bottom: -60px;
+    padding-bottom: 40px;
+    margin-bottom: -40px;
 }
 
 #footer {
     height: 40px;
     font-size: 0.9em;
     text-align: center;
-    margin-top: 20px;
     padding-top: 10px;
-    border-top: 1px solid #DDD;
-}
-
-.social-btns {
-    padding: 0;
-    margin: 0;
-}
-
-.social-btns .social-btn {
-    display: inline-block;
-    margin: 0;
 }
 
 .github-btn {
+    height: 20px;
+    width: 102px;
     overflow: hidden;
     border: 0px none;
+}
+
+.copyright {
+    position: absolute;
+    right: 15px;
+}
+
+@media (max-width: 600px) {
+    .copyright {
+        display: none;
+    }
 }
 
 .row {
@@ -54,8 +54,8 @@ html, body {
 }
 
 a:hover, a:active, a:focus {
-    text-decoration: initial !important;
-    outline: initial !important;
+    text-decoration: none !important;
+    outline: none !important;
 }
 
 [disabled] {
@@ -66,8 +66,8 @@ a:hover, a:active, a:focus {
 .highlight:not([disabled]):hover,
 .highlight:not([disabled]):active,
 .highlight:not([disabled]):focus {
-    color: #0065CA !important;
-    border-color: #0065CA !important;
+    color: #FF8C00 !important;
+    border-color: #FF8C00 !important;
 }
 
 .ctrl:not([disabled]):hover,
@@ -219,7 +219,7 @@ a:hover, a:active, a:focus {
     height: calc(8pt + 4px);
     width: 0px;
     outline: none;
-    border: 1px solid #0065CA;
+    border: 1px solid #FF8C00;
     border-radius: 4px;
     padding: 1px;
     margin-top: -2px;
@@ -247,24 +247,41 @@ a:hover, a:active, a:focus {
     content: "A";
 }
 
-.toolbar {
+#toolbar {
     position: relative;
     font-size: 0;
     text-align: center;
     white-space: nowrap;
-}
-
-.toolbar > .tools {
-    overflow-x: scroll;
+    border: none;
     padding: 0;
     margin: 0;
 }
 
-.toolbar > .tools > .tool {
+#toolbar.collapsing {
+    -moz-transition: none;
+    -webkit-transition: none;
+    transition: none;
+}
+
+#toolbar > .tools {
+    overflow: hidden;
+    padding: 0;
+    margin: 0 50px 0 50px;
+}
+
+@media (max-width: 768px) {
+    #toolbar > .tools {
+        overflow-x: scroll;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+#toolbar > .tools > .tool {
     display: inline-block;
     position: relative;
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 70px;
     margin: 2px;
     padding: 4px;
     border: 1px solid #DDD;
@@ -272,7 +289,14 @@ a:hover, a:active, a:focus {
     overflow: hidden;
 }
 
-.toolbar > .tools > .tool:after {
+@media (max-width: 768px) {
+    #toolbar > .tools > .tool {
+        height: 60px;
+        width: 60px;
+    }
+}
+
+#toolbar > .tools > .tool:after {
     content: "";
     position: absolute;
     top: 0;
@@ -281,57 +305,69 @@ a:hover, a:active, a:focus {
     left: 0;
 }
 
-.toolbar > .tools > .tool > .component {
+#toolbar > .tools > .tool > .component {
     height: 100%;
     width: 100%;
 }
 
-.toolbar > .tools > .tool > .component.branch {
+#toolbar > .tools > .tool > .component.branch {
     height: 200%;
 }
 
-.toolbar > .tools > .tool > .component .property {
+#toolbar > .tools > .tool > .component .property {
     display: none;
 }
 
-.toolbar > .left,
-.toolbar > .right {
+#toolbar > .left,
+#toolbar > .right {
     position: absolute;
     width: 50px;
     top: 0;
     bottom: 0;
 }
 
-.toolbar > .left {
+#toolbar > .left {
     left: 0;
 }
 
-.toolbar > .right {
+#toolbar > .right {
     right: 0;
 }
 
-.toolbar > .left > span,
-.toolbar > .right > span {
+#toolbar > .left > span,
+#toolbar > .right > span {
     display: table;
     height: 100%;
     width: 100%;
 }
 
-.toolbar > .left > span > *,
-.toolbar > .right > span > * {
+#toolbar > .left > span > *,
+#toolbar > .right > span > * {
     display: table-cell;
     vertical-align: middle;
 }
 
 .schematics {
-    height: calc(100% - 10px);
+    height: calc(100% - 84px);
     font-size: 0px;
-    margin: 10px 0 0 0;
+    margin-top: 10px;
     padding: 5px;
     border: 1px solid #DDD;
     border-radius: 4px;
     overflow: auto;
     white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .schematics {
+        height: 100%;
+        margin: 0;
+    }
+
+    .schematics.small{
+        height: calc(100% - 89px);
+        margin-top: 10px;
+    }
 }
 
 .schematics .component {
@@ -374,28 +410,7 @@ a:hover, a:active, a:focus {
 
 @keyframes blinker {
     50% {
-        color: #0065CA;
-        border-color: #0065CA;
-    }
-}
-
-@media (min-width: 768px) {
-    #content {
-        padding-top: 60px;
-    }
-
-    .schematics {
-        height: calc(100% - 84px);
-    }
-
-    .toolbar > .tools {
-        overflow: hidden;
-        padding: 0;
-        margin: 0 50px 0 50px;
-    }
-
-    .toolbar > .tools > .tool {
-        height: 70px;
-        width: 70px;
+        color: #FF8C00;
+        border-color: #FF8C00;
     }
 }
