@@ -1,4 +1,4 @@
-function rectangular(c){
+function rect(c){
   if(typeof c.real != "undefined" && typeof c.imag != "undefined")
     return c;
   else
@@ -19,7 +19,7 @@ function polar(c){
 }
 
 function V(v){
-  v = rectangular(v);
+  v = rect(v);
   return new numeric.T(
     [[1, 0, v.real], [0, 1, 0], [0, 0, 1]],
     [[0, 0, v.imag], [0, 0, 0], [0, 0, 0]]
@@ -27,7 +27,7 @@ function V(v){
 }
 
 function Is(i){
-  i = rectangular(i);
+  i = rect(i);
   return new numeric.T(
     [[1, 0, 0], [0, 1, i.real], [0, 0, 1]],
     [[0, 0, 0], [0, 0, i.imag], [0, 0, 0]]
@@ -35,7 +35,7 @@ function Is(i){
 }
 
 function Z(z){
-  z = rectangular(z);
+  z = rect(z);
   return new numeric.T(
     [[1, -z.real, 0], [0, 1, 0], [0, 0, 1]],
     [[0, -z.imag, 0], [0, 0, 0], [0, 0, 0]]
@@ -43,7 +43,7 @@ function Z(z){
 }
 
 function Ys(y){
-  y = rectangular(y);
+  y = rect(y);
   return new numeric.T(
     [[1, 0, 0], [-y.real, 1, 0], [0, 0, 1]],
     [[0, 0, 0], [-y.imag, 0, 0], [0, 0, 0]]
@@ -64,8 +64,8 @@ function Xformer(n){
 }
 
 function state(i, v){
-  i = rectangular(i);
-  v = rectangular(v);
+  i = rect(i);
+  v = rect(v);
   return new numeric.T(
     [i.real, v.real, 1],
     [i.imag, v.imag, 0]
@@ -73,7 +73,7 @@ function state(i, v){
 }
 
 $(function() {
-  $(".toolbar")
+  $("#toolbar")
     .on("show.bs.collapse", function(){
       $("~ .schematics", this).addClass("small");
     })
@@ -81,7 +81,7 @@ $(function() {
       $("~ .schematics", this).removeClass("small");
     });
 
-  $(".toolbar > .left").on("click", function(){
+  $("#toolbar > .left").on("click", function(){
     var roulette = $("~ ul", this);
     $("> :last-child", roulette)
         .css({"opacity": 0})
@@ -89,7 +89,7 @@ $(function() {
         .animate({"opacity": 1}, {queue: false});
   });
 
-  $(".toolbar > .right").on("click", function(){
+  $("#toolbar > .right").on("click", function(){
     var roulette = $("~ ul", this);
     $("> :first-child", roulette)
         .css({"opacity": 0})
@@ -97,7 +97,7 @@ $(function() {
         .animate({"opacity": 1}, {queue: false});
   });
 
-  $(".toolbar > .tools > .tool:not([disabled])")
+  $("#toolbar > .tools > .tool:not([disabled])")
     .on("click", function(){
       var component = $(this).contents().clone(true, true);
       var active = $(".schematics .active");
