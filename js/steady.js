@@ -169,6 +169,14 @@ $(function() {
   $(".component:not(.z):not(.v):not(.i) > .property.value > .ang").hide();
 
   $(".component")
+    .on("mouseover", function(e){
+        e.stopPropagation();
+        $(this).addClass("highlight")
+    })
+    .on("mouseout", function(e){
+        e.stopPropagation();
+        $(this).removeClass("highlight")
+    })
     .append(
       '<span class="property v highlight">\
         <span class="mag"><input readonly="readonly" type="text" class="numeric"><span class="display"></span></span><span class="ang">&ang;<input readonly="readonly" type="text" class="numeric"><span class="display"></span>°</span>\
