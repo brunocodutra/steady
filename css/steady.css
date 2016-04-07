@@ -66,8 +66,8 @@ a:hover, a:active, a:focus {
 .highlight:not([disabled]):hover,
 .highlight:not([disabled]):active,
 .highlight:not([disabled]):focus {
-    color: #0065CA !important;
-    border-color: #0065CA !important;
+    color: #FF8C00 !important;
+    border-color: #FF8C00 !important;
 }
 
 .ctrl:not([disabled]):hover,
@@ -219,7 +219,7 @@ a:hover, a:active, a:focus {
     height: calc(8pt + 4px);
     width: 0px;
     outline: none;
-    border: 1px solid #0065CA;
+    border: 1px solid #FF8C00;
     border-radius: 4px;
     padding: 1px;
     margin-top: -2px;
@@ -410,7 +410,7 @@ a:hover, a:active, a:focus {
 
 @keyframes blinker {
     50% {
-        color: #0065CA;
-        border-color: #0065CA;
+        color: #FF8C00;
+        border-color: #FF8C00;
     }
 }
