@@ -70,6 +70,18 @@ a:hover, a:active, a:focus {
     border-color: #FF8C00 !important;
 }
 
+.highlight {
+    -moz-transition-property: color, border;
+    -moz-transition-timing-function: ease;
+    -moz-transition-duration: 0.35s;
+    -webkit-transition-property: color, border;
+    -webkit-transition-timing-function: ease;
+    -webkit-transition-duration: 0.35s;
+    transition-property: color, border;
+    transition-timing-function: ease;
+    transition-duration: 0.35s;
+}
+
 .ctrl:not([disabled]):hover,
 .ctrl:not([disabled]):active,
 .ctrl:not([disabled]):focus {
@@ -124,7 +136,7 @@ a:hover, a:active, a:focus {
     font-weight: bold;
     font-size: 8pt;
     line-height: 8pt;
-    padding: 1px 2px 1px 2px;
+    padding: 1px 2px;
     margin: 0;
 }
 
@@ -255,12 +267,6 @@ a:hover, a:active, a:focus {
     border: none;
     padding: 0;
     margin: 0;
-}
-
-#toolbar.collapsing {
-    -moz-transition: none;
-    -webkit-transition: none;
-    transition: none;
 }
 
 #toolbar > .tools {
