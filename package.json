@@ -1,0 +1,15 @@
+{
+  "name": "steady",
+  "version": "0.1.0",
+  "description": "A pocket electric circuit simulator",
+  "homepage": "http://brunocodutra.github.io/steady",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunocodutra/steady.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brunocodutra/steady/issues"
+  },
+  "author": "Bruno Dutra <brunocodutra@gmail.com>",
+}
