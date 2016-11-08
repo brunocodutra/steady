@@ -17,3 +17,8 @@ html, body {
     width: 100px;
 }
 
+.board {
+    font-size: 0;
+    overflow: auto;
+    white-space: nowrap;
+}

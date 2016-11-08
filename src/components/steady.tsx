@@ -1,9 +1,13 @@
 import * as React from 'react';
 
+import Schematics from 'components/schematics';
+
 export default class extends React.Component< {}, {} > {
   public render() {
     return (
-      <div className='steady'/>
+      <div className='steady d-flex flex-column flex-grow'>
+        <Schematics/>
+      </div>
     );
   }
 }
