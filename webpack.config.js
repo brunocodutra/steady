@@ -18,7 +18,7 @@ module.exports = env => ({
 
   entry: {
     'app': [
-      'index.jsx'
+      'index.tsx'
     ]
   },
 
@@ -30,8 +30,18 @@ module.exports = env => ({
   },
 
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     modules: [path.resolve(__dirname, 'src'), 'node_modules']
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/
+      }
+    ]
   },
 
   stats,

@@ -17,8 +17,11 @@
     "dist": "webpack -p --env=production --progress"
   },
   "dependencies": {
+    "@types/node": "^8.0.24",
+    "awesome-typescript-loader": "^3.2.3",
     "html-webpack-plugin": "^2.30.1",
     "path": "^0.12.7",
+    "typescript": "^2.5.1",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
   }
