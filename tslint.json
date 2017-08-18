@@ -1,0 +1,13 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:latest"
+  ],
+  "rules": {
+    "interface-over-type-literal": false,
+    "no-submodule-imports": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "quotemark": [true, "single"]
+  }
+}

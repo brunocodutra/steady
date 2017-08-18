@@ -38,6 +38,16 @@ module.exports = env => ({
     rules: [
       {
         test: /\.(ts|tsx)$/,
+        loader: 'tslint-loader',
+        exclude: /node_modules/,
+        enforce: 'pre',
+        options: {
+          typeCheck: true
+        }
+      },
+
+      {
+        test: /\.(ts|tsx)$/,
         loader: 'awesome-typescript-loader',
         exclude: /node_modules/
       }
