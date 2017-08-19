@@ -19,6 +19,7 @@ module.exports = env => ({
   entry: {
     'app': [
       'react-hot-loader/patch',
+      'styles.css',
       'index.tsx'
     ]
   },
@@ -51,6 +52,24 @@ module.exports = env => ({
         test: /\.(ts|tsx)$/,
         loader: 'awesome-typescript-loader',
         exclude: /node_modules/
+      },
+
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ]
       }
     ]
   },
