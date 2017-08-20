@@ -29,3 +29,21 @@ html, body {
     position: relative;
     display: inline-block;
 }
+
+.interactive {
+    cursor: pointer;
+}
+
+.blink {
+    animation: blinker 1s ease infinite;
+}
+
+.blink:hover {
+    animation: unset;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}

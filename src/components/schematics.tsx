@@ -19,7 +19,7 @@ export default connect(mapState)(
     public render() {
       return (
         <div className='schematics board flex-grow border rounded p-3'>
-          <Component model={this.props.entry}/>
+          <Component id={[]} model={this.props.entry}/>
         </div>
       );
     }
