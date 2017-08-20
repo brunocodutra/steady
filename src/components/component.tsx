@@ -16,6 +16,9 @@ export default class Component extends React.Component< Prop, {} > {
       case Models.GROUND:
         return <span className='ground tile'/>;
 
+      case Models.PLACEHOLDER:
+        return <span className='placeholder tile border rounded'/>;
+
       case Models.SERIES:
         return (
           <span className='series tile'>
