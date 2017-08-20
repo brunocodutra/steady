@@ -1,5 +1,10 @@
 export const enum Models {
+  GROUND,
   SERIES,
+};
+
+export type Ground = {
+  readonly kind: Models.GROUND,
 };
 
 export type Series = {
@@ -7,5 +12,5 @@ export type Series = {
   readonly components: Model[],
 };
 
-export type Model = Series;
+export type Model = Ground | Series;
 

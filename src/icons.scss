@@ -23,3 +23,8 @@ i.x250 {
     @extend .icon;
     mask-image: url('./icons/github.svg');
 }
+
+.ground {
+    @extend .icon;
+    mask-image: url('./icons/ground.svg');
+}

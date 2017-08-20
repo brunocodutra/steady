@@ -8,7 +8,7 @@ export type State = {
 };
 
 const init: State = {
-  schematics: {kind: Models.SERIES, components: []},
+  schematics: {kind: Models.SERIES, components: [{kind: Models.GROUND}]},
 };
 
 export const reducer: Reducer<State> = (state = init, action: Action) => {

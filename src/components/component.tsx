@@ -13,6 +13,9 @@ export default class Component extends React.Component< Prop, {} > {
     };
 
     switch (this.props.model.kind) {
+      case Models.GROUND:
+        return <span className='ground tile'/>;
+
       case Models.SERIES:
         return (
           <span className='series tile'>
@@ -21,7 +24,7 @@ export default class Component extends React.Component< Prop, {} > {
         );
 
       default:
-        return UnhandledModel(this.props.model.kind);
+        return UnhandledModel(this.props.model);
     }
   }
 }
