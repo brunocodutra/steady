@@ -22,3 +22,10 @@ html, body {
     overflow: auto;
     white-space: nowrap;
 }
+
+.tile {
+    width: 5rem;
+    height: 5rem;
+    position: relative;
+    display: inline-block;
+}

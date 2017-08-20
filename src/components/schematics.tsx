@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {Model} from 'model';
 import {State} from 'reducer';
 
+import Component from 'components/component';
+
 type Props = {
   readonly entry: Model,
 };
@@ -16,7 +18,9 @@ export default connect(mapState)(
   class extends React.Component< Props, {} > {
     public render() {
       return (
-        <div className='schematics board flex-grow border rounded p-3'/>
+        <div className='schematics board flex-grow border rounded p-3'>
+          <Component model={this.props.entry}/>
+        </div>
       );
     }
 });
