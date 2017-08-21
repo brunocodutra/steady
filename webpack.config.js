@@ -77,7 +77,12 @@ module.exports = env => ({
             loader: 'sass-loader'
           }
         ]
-      }
+      },
+
+      {
+        test: /\.(svg)$/,
+        loader: 'url-loader'
+      },
     ]
   },
 
