@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import Tile from 'components/tile';
 import {Model, Models} from 'model';
 import {State} from 'reducer';
 
@@ -17,33 +18,33 @@ const mapState = ({active}: State, {id}: PropsBase) => ({
 
 const Component = connect(mapState)(
   class extends React.Component< Props, {} > {
-    public render() {
-      return (
-        <span className={this.props.active ? 'blink' : ''}>
-          {this.content()}
-        </span>
-      );
-    }
-
-    private content(): JSX.Element {
+    public render(): JSX.Element {
       const UnhandledModel = (_: never): never => {
         throw new Error('UnhandledModel');
       };
 
       switch (this.props.model.kind) {
         case Models.GROUND:
-          return <span className='ground tile'/>;
+          return (
+            <Tile>
+              <span className='ground'/>
+            </Tile>
+          );
 
         case Models.PLACEHOLDER:
-          return <span className='placeholder tile border rounded interactive'/>;
+          return (
+            <Tile active={this.props.active} interactive={true}>
+              <span className='placeholder'/>
+            </Tile>
+          );
 
         case Models.SERIES:
           return (
-            <span className='series tile'>
+            <Tile>
               {this.props.model.components.map((model, i) => (
                 <Component id={[...this.props.id, i]} model={model} key={i}/>),
               )}
-            </span>
+            </Tile>
           );
 
         default:

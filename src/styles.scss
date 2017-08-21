@@ -67,6 +67,12 @@ i.x250 {
     mask-image: url('./icons/ground.svg');
 }
 
+.placeholder {
+    @extend .stretch;
+    @extend .border;
+    @extend .rounded;
+}
+
 .interactive {
     cursor: pointer;
 }
