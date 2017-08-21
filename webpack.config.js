@@ -115,6 +115,7 @@ module.exports = env => ({
     }),
 
     new HtmlWebpackPlugin({
+      title: 'Steady',
       template: path.resolve(__dirname, 'index.html'),
       inject: 'body'
     })

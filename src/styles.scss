@@ -1,1 +1,19 @@
 @import '~bootstrap/scss/bootstrap';
+
+@import 'icons';
+
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.github-btn {
+    height: 20px;
+    width: 100px;
+}
+
