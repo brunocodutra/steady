@@ -18,6 +18,7 @@ module.exports = env => ({
 
   entry: {
     'app': [
+      'react-hot-loader/patch',
       'index.tsx'
     ]
   },
