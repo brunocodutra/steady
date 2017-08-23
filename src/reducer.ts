@@ -1,6 +1,6 @@
 import {Reducer} from 'redux';
 
-import {Action} from 'action';
+import {Action, Actions} from 'action';
 import {Model, Models} from 'model';
 
 export type State = {
@@ -23,6 +23,9 @@ const init: State = {
 
 export const reducer: Reducer<State> = (state = init, action: Action) => {
   switch (action.type) {
+    case Actions.ACTIVATE:
+      return {...state, active: action.id};
+
     default:
       return state;
   }

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
+import {activate} from 'action';
 import Tile from 'components/tile';
 import {Model, Models} from 'model';
 import {State} from 'reducer';
@@ -10,13 +12,22 @@ type PropsBase = {
   readonly model: Model,
 };
 
-type Props = PropsBase & {readonly active: boolean};
+type Props = PropsBase & {
+  readonly active: boolean,
+  readonly activate: () => void,
+};
 
 const mapState = ({active}: State, {id}: PropsBase) => ({
   active: JSON.stringify(active) === JSON.stringify(id),
 });
 
-const Component = connect(mapState)(
+const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
+  activate: () => {
+    dispatch(activate(props.id));
+  },
+});
+
+const Component = connect(mapState, mapDispatch)(
   class extends React.Component< Props, {} > {
     public render(): JSX.Element {
       const UnhandledModel = (_: never): never => {
@@ -33,7 +44,7 @@ const Component = connect(mapState)(
 
         case Models.PLACEHOLDER:
           return (
-            <Tile active={this.props.active} interactive={true}>
+            <Tile active={this.props.active} onClick={this.props.activate}>
               <span className='placeholder'/>
             </Tile>
           );
@@ -41,9 +52,11 @@ const Component = connect(mapState)(
         case Models.SERIES:
           return (
             <Tile>
-              {this.props.model.components.map((model, i) => (
-                <Component id={[...this.props.id, i]} model={model} key={i}/>),
-              )}
+              <span>
+                {this.props.model.components.map((model, i) => (
+                  <Component id={[...this.props.id, i]} model={model} key={i}/>),
+                )}
+              </span>
             </Tile>
           );
 
