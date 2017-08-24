@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 import {Action, Actions} from 'action';
-import {Model, Models} from 'model';
+import {ground, Model, series} from 'model';
 
 export type State = {
   readonly schematics: Model,
@@ -9,15 +9,7 @@ export type State = {
 };
 
 const init: State = {
-  schematics: {
-    kind: Models.SERIES,
-
-    components: [
-      {kind: Models.GROUND},
-      {kind: Models.PLACEHOLDER},
-    ],
-  },
-
+  schematics: series(ground()),
   active: [1],
 };
 
