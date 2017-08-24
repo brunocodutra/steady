@@ -26,6 +26,7 @@
     "awesome-typescript-loader": "^3.2.3",
     "bootstrap": "^4.0.0-beta",
     "css-loader": "^0.28.5",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
     "jquery": "^3.2.1",

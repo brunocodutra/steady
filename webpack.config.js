@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const stats = {
   colors: true,
@@ -57,26 +58,26 @@ module.exports = env => ({
 
       {
         test: /\.(css$|scss)$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
 
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2,
+              }
+            },
+
+            {
+              loader: 'postcss-loader'
+            },
+
+            {
+              loader: 'sass-loader'
             }
-          },
-
-          {
-            loader: 'postcss-loader'
-          },
-
-          {
-            loader: 'sass-loader'
-          }
-        ]
+          ]
+        })
       },
 
       {
@@ -106,6 +107,11 @@ module.exports = env => ({
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],
+    }),
+
+    new ExtractTextPlugin({
+      filename: '[name].[chunkhash].css',
+      disable: env !== 'production'
     }),
 
     new HtmlWebpackPlugin({
