@@ -42,6 +42,7 @@ const Component = connect(mapState, mapDispatch)(
             </Tile>
           );
 
+        case Models.vsrc:
         case Models.placeholder:
           return (
             <Tile active={this.props.active} onClick={this.props.activate}>

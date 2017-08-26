@@ -1,7 +1,8 @@
 export enum Models {
   ground,
-  placeholder,
+  vsrc,
   series,
+  placeholder,
 }
 
 type Ground = {
@@ -12,12 +13,12 @@ export const ground = (): Ground => ({
   kind: Models.ground,
 });
 
-type Placeholder = {
-  readonly kind: Models.placeholder,
+type Vsrc = {
+  readonly kind: Models.vsrc,
 };
 
-export const placeholder = (): Placeholder => ({
-  kind: Models.placeholder,
+export const vsrc = (): Vsrc => ({
+  kind: Models.vsrc,
 });
 
 type Series = {
@@ -30,4 +31,12 @@ export const series = (...components: Model[]): Series => ({
   components: [...components, placeholder()],
 });
 
-export type Model = Ground | Placeholder | Series;
+type Placeholder = {
+  readonly kind: Models.placeholder,
+};
+
+export const placeholder = (): Placeholder => ({
+  kind: Models.placeholder,
+});
+
+export type Model = Ground | Vsrc | Series | Placeholder;
