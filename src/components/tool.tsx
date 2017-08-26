@@ -1,17 +1,32 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
 
-import {Models} from 'model';
+import {insert} from 'action';
+import {ModelFactory, Models} from 'model';
 
-type Props = {
+type PropsBase = {
   readonly kind: Models,
 };
 
-export default class extends React.Component< Props, {} > {
-  public render() {
-    return (
-      <span className={'tool'}>
-        <span className={Models[this.props.kind]}/>
-      </span>
-    );
-  }
-}
+type Props = PropsBase & {
+  readonly insert: () => void,
+};
+
+const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
+  insert: () => {
+    dispatch(insert(ModelFactory[props.kind]()));
+  },
+});
+
+export default connect(null, mapDispatch)(
+  class extends React.Component< Props, {} > {
+    public render() {
+      return (
+        <span className={'tool'} onClick={this.props.insert}>
+          <span className={Models[this.props.kind]}/>
+        </span>
+      );
+    }
+  },
+);

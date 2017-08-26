@@ -1,5 +1,8 @@
+import {Model} from 'model';
+
 export const enum Actions {
   ACTIVATE,
+  INSERT,
 }
 
 type Activate = {
@@ -12,4 +15,14 @@ export const activate = (id: number[]): Activate => ({
   id,
 });
 
-export type Action = Activate;
+type Insert = {
+  readonly type: Actions.INSERT,
+  readonly model: Model,
+};
+
+export const insert = (model: Model): Insert => ({
+  type: Actions.INSERT,
+  model,
+});
+
+export type Action = Activate | Insert;

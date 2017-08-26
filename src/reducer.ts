@@ -18,6 +18,45 @@ export const reducer: Reducer<State> = (state = init, action: Action) => {
     case Actions.ACTIVATE:
       return {...state, active: action.id};
 
+    case Actions.INSERT:
+      if (state.schematics.kind !== Models.series) {
+        throw new Error(`unexpected ${Models[state.schematics.kind]}`);
+      }
+
+      if (state.active.length === 1) {
+        return ({
+          schematics: {
+            kind: state.schematics.kind,
+            components: [
+              ...state.schematics.components.slice(0, state.active[0]),
+              action.model,
+              ...state.schematics.components.slice(state.active[0]),
+            ],
+          },
+          active: [state.active[0] + 1],
+        });
+      } else {
+        const nested = reducer(
+          {
+            schematics: state.schematics.components[state.active[0]],
+            active: state.active.slice(1),
+          },
+          action,
+        );
+
+        return ({
+          schematics: {
+            kind: state.schematics.kind,
+            components: [
+              ...state.schematics.components.slice(0, state.active[0]),
+              nested.schematics,
+              ...state.schematics.components.slice(state.active[0] + 1),
+            ],
+          },
+          active: [state.active[0], ...nested.active],
+        });
+      }
+
     default:
       return state;
   }
