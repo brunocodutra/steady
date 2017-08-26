@@ -1,32 +1,32 @@
-export const enum Models {
-  GROUND,
-  PLACEHOLDER,
-  SERIES,
+export enum Models {
+  ground,
+  placeholder,
+  series,
 }
 
 type Ground = {
-  readonly kind: Models.GROUND,
+  readonly kind: Models.ground,
 };
 
 export const ground = (): Ground => ({
-  kind: Models.GROUND,
+  kind: Models.ground,
 });
 
 type Placeholder = {
-  readonly kind: Models.PLACEHOLDER,
+  readonly kind: Models.placeholder,
 };
 
 export const placeholder = (): Placeholder => ({
-  kind: Models.PLACEHOLDER,
+  kind: Models.placeholder,
 });
 
 type Series = {
-  readonly kind: Models.SERIES,
+  readonly kind: Models.series,
   readonly components: Model[],
 };
 
 export const series = (...components: Model[]): Series => ({
-  kind: Models.SERIES,
+  kind: Models.series,
   components: [...components, placeholder()],
 });
 

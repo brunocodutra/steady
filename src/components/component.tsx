@@ -35,21 +35,21 @@ const Component = connect(mapState, mapDispatch)(
       };
 
       switch (this.props.model.kind) {
-        case Models.GROUND:
+        case Models.ground:
           return (
             <Tile>
-              <span className='ground'/>
+              <span className={Models[this.props.model.kind]}/>
             </Tile>
           );
 
-        case Models.PLACEHOLDER:
+        case Models.placeholder:
           return (
             <Tile active={this.props.active} onClick={this.props.activate}>
-              <span className='placeholder'/>
+              <span className={Models[this.props.model.kind]}/>
             </Tile>
           );
 
-        case Models.SERIES:
+        case Models.series:
           return (
             <Tile>
               <span>
