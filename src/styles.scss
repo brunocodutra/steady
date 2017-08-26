@@ -31,6 +31,10 @@ i.x250 {
     width: 100px;
 }
 
+.interactive {
+    cursor: pointer;
+}
+
 .board {
     font-size: 0;
     overflow: auto;
@@ -42,6 +46,19 @@ i.x250 {
     height: 5rem;
     position: relative;
     display: inline-block;
+    flex-shrink: 0;
+}
+
+.tool {
+    @extend .p-1;
+    @extend .mr-1;
+    @extend .tile;
+    @extend .border;
+    @extend .rounded;
+    @extend .interactive;
+
+    width: 4rem;
+    height: 4rem;
 }
 
 .stretch {
@@ -77,10 +94,6 @@ i.x250 {
     @extend .stretch;
     @extend .border;
     @extend .rounded;
-}
-
-.interactive {
-    cursor: pointer;
 }
 
 .blink {
