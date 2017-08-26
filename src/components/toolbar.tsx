@@ -9,6 +9,7 @@ export default class extends React.Component< {}, {} > {
       <div className='toolbar collapse d-md-block'>
         <div className='board d-flex flex-row pb-1 mb-1'>
           <Tool kind={Models.vsrc}/>
+          <Tool kind={Models.isrc}/>
         </div>
       </div>
     );

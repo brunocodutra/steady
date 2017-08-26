@@ -90,6 +90,12 @@ i.x250 {
     mask-image: url('./icons/vsrc.svg');
 }
 
+.isrc {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/isrc.svg');
+}
+
 .placeholder {
     @extend .stretch;
     @extend .border;
