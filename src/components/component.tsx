@@ -50,7 +50,7 @@ const Component = connect(mapState, mapDispatch)(
         case Models.xline:
         case Models.placeholder:
           return (
-            <Tile active={this.props.active} onClick={this.props.activate}>
+            <Tile active={this.props.active} activate={this.props.activate}>
               <span className={Models[this.props.model.kind]}/>
             </Tile>
           );
@@ -68,7 +68,7 @@ const Component = connect(mapState, mapDispatch)(
 
         case Models.shunt:
           return (
-            <Tile active={this.props.active} onClick={this.props.activate}>
+            <Tile active={this.props.active} activate={this.props.activate}>
               <span className='d-flex flex-column'>
                 <Tile><span className={Models[this.props.model.kind]}/></Tile>
                 <span className='d-flex flex-row'>

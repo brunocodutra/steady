@@ -69,7 +69,7 @@ i.x250 {
     flex-shrink: 0;
 }
 
-.tile.interactive:hover, .tile.interactive:focus {
+.tile.interactive:focus {
     @extend .focused;
 }
 
