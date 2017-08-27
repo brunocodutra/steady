@@ -96,6 +96,12 @@ i.x250 {
     mask-image: url('./icons/isrc.svg');
 }
 
+.impedance {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/impedance.svg');
+}
+
 .placeholder {
     @extend .stretch;
     @extend .border;
