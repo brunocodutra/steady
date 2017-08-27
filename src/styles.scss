@@ -130,6 +130,6 @@ i.x250 {
 
 .placeholder {
     @extend .stretch;
-    @extend .border;
-    @extend .rounded;
+    @extend .mask;
+    mask-image: url('./icons/placeholder.svg');
 }
