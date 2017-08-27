@@ -8,12 +8,12 @@ type Props = {
 
 export default class extends React.Component< Props, {} > {
   public render() {
-    const active = !!this.props.active ? 'blink' : '';
-    const interactive = !!this.props.onClick ? 'interactive' : '';
+    const active = !!this.props.active ? ' active' : '';
+    const interactive = !!this.props.onClick ? ' interactive' : '';
 
     return (
       <span
-        className={`tile ${active} ${interactive}`}
+        className={`tile${active}${interactive}`}
         onClick={this.props.onClick}
       >
         {this.props.children}

@@ -6,6 +6,13 @@ html, body {
     flex-direction: column;
 }
 
+:focus {
+    @extend .rounded;
+
+    outline: none !important;
+    box-shadow: 0 0 0 $border-width $gray-400;
+}
+
 .flex-grow {
     flex-grow: 1;
 }
@@ -33,6 +40,19 @@ i.x250 {
 
 .interactive {
     cursor: pointer;
+}
+
+.active {
+    @extend :focus;
+
+    background-color: rgba($gray-500, .2);
+    animation: blinker 1s ease infinite;
+}
+
+@keyframes blinker {
+    50% {
+        background-color: unset;
+    }
 }
 
 .board {
@@ -112,18 +132,4 @@ i.x250 {
     @extend .stretch;
     @extend .border;
     @extend .rounded;
-}
-
-.blink {
-    animation: blinker 1s ease infinite;
-}
-
-.blink:hover {
-    animation: unset;
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0;
-    }
 }
