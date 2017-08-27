@@ -58,10 +58,25 @@ const Component = connect(mapState, mapDispatch)(
         case Models.series:
           return (
             <Tile>
-              <span>
+              <span className='d-flex flex-row'>
                 {this.props.model.components.map((model, i) => (
                   <Component id={[...this.props.id, i]} model={model} key={i}/>),
                 )}
+              </span>
+            </Tile>
+          );
+
+        case Models.shunt:
+          return (
+            <Tile active={this.props.active} onClick={this.props.activate}>
+              <span className='d-flex flex-column'>
+                <Tile><span className={Models[this.props.model.kind]}/></Tile>
+                <span className='d-flex flex-row'>
+                  <Tile><span className='knee'/></Tile>
+                  {this.props.model.components.map((model, i) =>
+                    <Component id={[...this.props.id, i]} model={model} key={i}/>,
+                  )}
+                </span>
               </span>
             </Tile>
           );

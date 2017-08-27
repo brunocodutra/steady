@@ -13,13 +13,13 @@ const init: State = {
   active: [1],
 };
 
-export const reducer: Reducer<State> = (state = init, action: Action) => {
+export const reducer: Reducer<State> = (state = init, action: Action): State => {
   switch (action.type) {
     case Actions.ACTIVATE:
       return {...state, active: action.id};
 
     case Actions.INSERT:
-      if (state.schematics.kind !== Models.series) {
+      if ((state.schematics.kind !== Models.series) && (state.schematics.kind !== Models.shunt)) {
         throw new Error(`unexpected ${Models[state.schematics.kind]}`);
       }
 

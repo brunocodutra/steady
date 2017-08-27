@@ -7,6 +7,7 @@ export enum Models {
   xformer,
   xline,
   series,
+  shunt,
   placeholder,
 }
 
@@ -38,8 +39,8 @@ type Xline = {
   readonly kind: Models.xline,
 };
 
-type Series = {
-  readonly kind: Models.series,
+type Circuit = {
+  readonly kind: Models.series | Models.shunt,
   readonly components: Model[],
 };
 
@@ -55,7 +56,7 @@ export type Model =
   | Admittance
   | Xformer
   | Xline
-  | Series
+  | Circuit
   | Placeholder
 ;
 
@@ -88,8 +89,13 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     kind: Models.xline,
   }),
 
-  [Models.series]: (...components: Model[]): Series => ({
+  [Models.series]: (...components: Model[]): Circuit => ({
     kind: Models.series,
+    components: [...components, ModelFactory[Models.placeholder]()],
+  }),
+
+  [Models.shunt]: (...components: Model[]): Circuit => ({
+    kind: Models.shunt,
     components: [...components, ModelFactory[Models.placeholder]()],
   }),
 

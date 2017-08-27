@@ -65,7 +65,7 @@ i.x250 {
     width: 5rem;
     height: 5rem;
     position: relative;
-    display: inline-block;
+    vertical-align: top;
     flex-shrink: 0;
 }
 
@@ -83,7 +83,6 @@ i.x250 {
     width: 4rem;
     height: 4rem;
     position: relative;
-    display: inline-block;
     flex-shrink: 0;
 }
 
@@ -149,6 +148,18 @@ i.x250 {
     @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/xline.svg');
+}
+
+.shunt {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/shunt.svg');
+}
+
+.knee {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/knee.svg');
 }
 
 .placeholder {

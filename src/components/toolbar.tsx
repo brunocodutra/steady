@@ -14,6 +14,7 @@ export default class extends React.Component< {}, {} > {
           <Tool kind={Models.admittance}/>
           <Tool kind={Models.xformer}/>
           <Tool kind={Models.xline}/>
+          <Tool kind={Models.shunt}/>
         </div>
       </div>
     );
