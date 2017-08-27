@@ -4,6 +4,7 @@ export enum Models {
   isrc,
   impedance,
   admittance,
+  xformer,
   series,
   placeholder,
 }
@@ -28,6 +29,10 @@ type Admittance = {
   readonly kind: Models.admittance,
 };
 
+type Xformer = {
+  readonly kind: Models.xformer,
+};
+
 type Series = {
   readonly kind: Models.series,
   readonly components: Model[],
@@ -43,6 +48,7 @@ export type Model =
   | Isrc
   | Impedance
   | Admittance
+  | Xformer
   | Series
   | Placeholder
 ;
@@ -66,6 +72,10 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
 
   [Models.admittance]: (): Admittance => ({
     kind: Models.admittance,
+  }),
+
+  [Models.xformer]: (): Xformer => ({
+    kind: Models.xformer,
   }),
 
   [Models.series]: (...components: Model[]): Series => ({

@@ -12,6 +12,7 @@ export default class extends React.Component< {}, {} > {
           <Tool kind={Models.isrc}/>
           <Tool kind={Models.impedance}/>
           <Tool kind={Models.admittance}/>
+          <Tool kind={Models.xformer}/>
         </div>
       </div>
     );

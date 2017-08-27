@@ -139,6 +139,12 @@ i.x250 {
     mask-image: url('./icons/admittance.svg');
 }
 
+.xformer {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/xformer.svg');
+}
+
 .placeholder {
     @extend .stretch;
     @extend .mask;
