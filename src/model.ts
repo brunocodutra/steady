@@ -5,6 +5,7 @@ export enum Models {
   impedance,
   admittance,
   xformer,
+  xline,
   series,
   placeholder,
 }
@@ -33,6 +34,10 @@ type Xformer = {
   readonly kind: Models.xformer,
 };
 
+type Xline = {
+  readonly kind: Models.xline,
+};
+
 type Series = {
   readonly kind: Models.series,
   readonly components: Model[],
@@ -49,6 +54,7 @@ export type Model =
   | Impedance
   | Admittance
   | Xformer
+  | Xline
   | Series
   | Placeholder
 ;
@@ -76,6 +82,10 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
 
   [Models.xformer]: (): Xformer => ({
     kind: Models.xformer,
+  }),
+
+  [Models.xline]: (): Xline => ({
+    kind: Models.xline,
   }),
 
   [Models.series]: (...components: Model[]): Series => ({

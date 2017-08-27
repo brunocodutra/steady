@@ -47,6 +47,7 @@ const Component = connect(mapState, mapDispatch)(
         case Models.impedance:
         case Models.admittance:
         case Models.xformer:
+        case Models.xline:
         case Models.placeholder:
           return (
             <Tile active={this.props.active} onClick={this.props.activate}>

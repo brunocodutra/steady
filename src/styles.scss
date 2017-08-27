@@ -145,6 +145,12 @@ i.x250 {
     mask-image: url('./icons/xformer.svg');
 }
 
+.xline {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/xline.svg');
+}
+
 .placeholder {
     @extend .stretch;
     @extend .mask;
