@@ -18,7 +18,7 @@ export default connect(mapState)(
   class extends React.Component< Props, {} > {
     public render() {
       return (
-        <div className='schematics board flex-grow border rounded p-3'>
+        <div className='schematics board flex-grow border rounded p-3' tabIndex={-1}>
           <Component id={[]} model={this.props.entry}/>
         </div>
       );

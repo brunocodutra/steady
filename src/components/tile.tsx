@@ -1,3 +1,4 @@
+import * as classes from 'classnames';
 import * as React from 'react';
 
 type Props = {
@@ -8,13 +9,15 @@ type Props = {
 
 export default class extends React.Component< Props, {} > {
   public render() {
-    const active = !!this.props.active ? ' active' : '';
-    const interactive = !!this.props.onClick ? ' interactive' : '';
+    const active = this.props.active;
+    const interactive = (!active && !!this.props.onClick);
 
     return (
       <span
-        className={`tile${active}${interactive}`}
-        onClick={this.props.onClick}
+        className={classes('tile', {active, interactive})}
+        onMouseDown={this.props.onClick}
+        onKeyDown={({key}) => (key === ' ' || key === 'Enter') && this.props.onClick && this.props.onClick()}
+        tabIndex={interactive ? 0 : -1}
       >
         {this.props.children}
       </span>

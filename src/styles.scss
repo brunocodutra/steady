@@ -6,13 +6,6 @@ html, body {
     flex-direction: column;
 }
 
-:focus {
-    @extend .rounded;
-
-    outline: none !important;
-    box-shadow: 0 0 0 $border-width $gray-400;
-}
-
 .flex-grow {
     flex-grow: 1;
 }
@@ -42,8 +35,15 @@ i.x250 {
     cursor: pointer;
 }
 
+.focused {
+    @extend .rounded;
+
+    outline: none !important;
+    box-shadow: 0 0 0 $border-width $gray-400;
+}
+
 .active {
-    @extend :focus;
+    @extend .focused;
 
     background-color: rgba($gray-500, .2);
     animation: blinker 1s ease infinite;
@@ -69,16 +69,27 @@ i.x250 {
     flex-shrink: 0;
 }
 
+.tile.interactive:hover, .tile.interactive:focus {
+    @extend .focused;
+}
+
 .tool {
     @extend .p-1;
     @extend .mr-1;
-    @extend .tile;
     @extend .border;
     @extend .rounded;
     @extend .interactive;
 
     width: 4rem;
     height: 4rem;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.tool:hover, .tool:focus {
+    outline: none !important;
+    background-color: rgba($gray-500, .2);
 }
 
 .stretch {
@@ -132,4 +143,8 @@ i.x250 {
     @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/placeholder.svg');
+}
+
+a:focus, button:focus {
+    @extend .focused;
 }

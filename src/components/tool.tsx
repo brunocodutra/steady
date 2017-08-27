@@ -23,7 +23,12 @@ export default connect(null, mapDispatch)(
   class extends React.Component< Props, {} > {
     public render() {
       return (
-        <span className={'tool'} onClick={this.props.insert}>
+        <span
+          className={'tool'}
+          onClick={this.props.insert}
+          onKeyDown={({key}) => (key === ' ' || key === 'Enter') && this.props.insert()}
+          tabIndex={0}
+        >
           <span className={Models[this.props.kind]}/>
         </span>
       );
