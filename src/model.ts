@@ -3,6 +3,7 @@ export enum Models {
   vsrc,
   isrc,
   impedance,
+  admittance,
   series,
   placeholder,
 }
@@ -23,6 +24,10 @@ type Impedance = {
   readonly kind: Models.impedance,
 };
 
+type Admittance = {
+  readonly kind: Models.admittance,
+};
+
 type Series = {
   readonly kind: Models.series,
   readonly components: Model[],
@@ -32,7 +37,15 @@ type Placeholder = {
   readonly kind: Models.placeholder,
 };
 
-export type Model = Ground | Vsrc | Isrc | Impedance | Series | Placeholder;
+export type Model =
+    Ground
+  | Vsrc
+  | Isrc
+  | Impedance
+  | Admittance
+  | Series
+  | Placeholder
+;
 
 export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
   [Models.ground]: (): Ground => ({
@@ -49,6 +62,10 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
 
   [Models.impedance]: (): Impedance => ({
     kind: Models.impedance,
+  }),
+
+  [Models.admittance]: (): Admittance => ({
+    kind: Models.admittance,
   }),
 
   [Models.series]: (...components: Model[]): Series => ({

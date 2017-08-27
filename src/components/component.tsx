@@ -45,6 +45,7 @@ const Component = connect(mapState, mapDispatch)(
         case Models.vsrc:
         case Models.isrc:
         case Models.impedance:
+        case Models.admittance:
         case Models.placeholder:
           return (
             <Tile active={this.props.active} onClick={this.props.activate}>

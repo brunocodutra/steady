@@ -102,6 +102,12 @@ i.x250 {
     mask-image: url('./icons/impedance.svg');
 }
 
+.admittance {
+    @extend .stretch;
+    @extend .mask;
+    mask-image: url('./icons/admittance.svg');
+}
+
 .placeholder {
     @extend .stretch;
     @extend .border;
