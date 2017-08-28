@@ -19,7 +19,8 @@ module.exports = env => ({
   entry: {
     'app': [
       'react-hot-loader/patch',
-      'styles.css',
+      'bootstrap',
+      'styles.scss',
       'index.tsx'
     ]
   },
@@ -94,6 +95,13 @@ module.exports = env => ({
       ? new webpack.HashedModuleIdsPlugin()
       : new webpack.NamedModulesPlugin()
     ,
+
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default'],
+    }),
 
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'index.html'),
