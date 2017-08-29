@@ -7,7 +7,7 @@ type Props = {
   readonly children: JSX.Element,
 };
 
-export default class extends React.Component< Props, {} > {
+export default class extends React.PureComponent< Props, {} > {
   public render() {
     const active = this.props.active;
     const interactive = (!active && !!this.props.activate);

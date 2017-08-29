@@ -28,7 +28,7 @@ const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
 });
 
 const Component = connect(mapState, mapDispatch)(
-  class extends React.Component< Props, {} > {
+  class extends React.PureComponent< Props, {} > {
     public render(): JSX.Element {
       const UnhandledModel = (_: never): never => {
         throw new Error('UnhandledModel');

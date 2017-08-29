@@ -20,7 +20,7 @@ const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
 });
 
 export default connect(null, mapDispatch)(
-  class extends React.Component< Props, {} > {
+  class extends React.PureComponent< Props, {} > {
     public render() {
       return (
         <span

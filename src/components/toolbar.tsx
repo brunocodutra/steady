@@ -3,7 +3,7 @@ import * as React from 'react';
 import Tool from 'components/tool';
 import {Models} from 'model';
 
-export default class extends React.Component< {}, {} > {
+export default class extends React.PureComponent< {}, {} > {
   public render() {
     return (
       <div className='toolbar collapse d-md-block'>
