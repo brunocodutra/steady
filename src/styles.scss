@@ -1,3 +1,18 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 432px,
+  md: 576px,
+  lg: 768px,
+  xl: 992px
+);
+
+$container-max-widths: (
+  sm: map-get($grid-breakpoints, md),
+  md: map-get($grid-breakpoints, lg),
+  lg: map-get($grid-breakpoints, xl),
+  xl: map-get($grid-breakpoints, xl)*1.2
+);
+
 @import '~bootstrap/scss/bootstrap';
 
 html, body {
@@ -45,7 +60,7 @@ i.x250 {
 .active {
     @extend .focused;
 
-    background-color: rgba($gray-500, .2);
+    background-color: rgba($gray-200, .5);
     animation: blinker 1s ease infinite;
 }
 
@@ -75,7 +90,6 @@ i.x250 {
 
 .tool {
     @extend .p-1;
-    @extend .mr-1;
     @extend .border;
     @extend .rounded;
     @extend .interactive;
@@ -84,11 +98,20 @@ i.x250 {
     height: 4rem;
     position: relative;
     flex-shrink: 0;
+
+    @media (min-width: map-get($grid-breakpoints, lg)) {
+        width: 5rem;
+        height: 5rem;
+    }
+}
+
+.tool + .tool {
+    @extend .ml-1;
 }
 
 .tool:hover, .tool:focus {
     outline: none !important;
-    background-color: rgba($gray-500, .2);
+    background-color: rgba($gray-200, .5);
 }
 
 .stretch {
