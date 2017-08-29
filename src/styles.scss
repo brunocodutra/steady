@@ -29,16 +29,16 @@ i {
     width: 1em;
     height: 1em;
     display: inline-block;
-}
 
-i.x125 {
-    width: 1.25em;
-    height: 1.25em;
-}
+    &.x125 {
+        width: 1.25em;
+        height: 1.25em;
+    }
 
-i.x250 {
-    width: 2.5em;
-    height: 2.5em;
+    &.x250 {
+        width: 2.5em;
+        height: 2.5em;
+    }
 }
 
 .github-btn {
@@ -82,10 +82,10 @@ i.x250 {
     position: relative;
     vertical-align: top;
     flex-shrink: 0;
-}
 
-.tile.interactive:focus {
-    @extend .focused;
+    &.interactive:focus {
+        @extend .focused;
+    }
 }
 
 .tool {
@@ -103,15 +103,15 @@ i.x250 {
         width: 5rem;
         height: 5rem;
     }
-}
 
-.tool + .tool {
-    @extend .ml-1;
-}
+    &:hover, &:focus {
+        outline: none !important;
+        background-color: rgba($gray-200, .5);
+    }
 
-.tool:hover, .tool:focus {
-    outline: none !important;
-    background-color: rgba($gray-200, .5);
+    +.tool {
+        @extend .ml-1;
+    }
 }
 
 .stretch {
