@@ -25,6 +25,20 @@ html, body {
     flex-grow: 1;
 }
 
+.stretch {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    position: relative;
+}
+
+.mask {
+    @extend .stretch;
+
+    background-color: currentcolor;
+    mask-repeat: no-repeat;
+}
+
 i {
     width: 1em;
     height: 1em;
@@ -39,6 +53,11 @@ i {
         width: 2.5em;
         height: 2.5em;
     }
+}
+
+.github {
+    @extend .mask;
+    mask-image: url('./icons/github.svg');
 }
 
 .github-btn {
@@ -76,18 +95,6 @@ i {
     white-space: nowrap;
 }
 
-.tile {
-    width: 5rem;
-    height: 5rem;
-    position: relative;
-    vertical-align: top;
-    flex-shrink: 0;
-
-    &.interactive:focus {
-        @extend .focused;
-    }
-}
-
 .tool {
     @extend .p-1;
     @extend .border;
@@ -114,79 +121,67 @@ i {
     }
 }
 
-.stretch {
-    width: 100%;
-    height: 100%;
-    display: inline-block;
+.schematics {
+    background-color: white;
 }
 
-.mask {
-    background-color: currentcolor;
-    mask-repeat: no-repeat;
-}
+.tile {
+    width: 5rem;
+    height: 5rem;
+    position: relative;
+    flex-shrink: 0;
 
-.github {
-    @extend .stretch;
-    @extend .mask;
-    mask-image: url('./icons/github.svg');
+    &.interactive:focus {
+        @extend .focused;
+    }
 }
 
 .ground {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/ground.svg');
 }
 
 .vsrc {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/vsrc.svg');
 }
 
 .isrc {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/isrc.svg');
 }
 
 .impedance {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/impedance.svg');
 }
 
 .admittance {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/admittance.svg');
 }
 
 .xformer {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/xformer.svg');
 }
 
 .xline {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/xline.svg');
 }
 
 .shunt {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/shunt.svg');
 }
 
 .knee {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/knee.svg');
 }
 
 .placeholder {
-    @extend .stretch;
     @extend .mask;
     mask-image: url('./icons/placeholder.svg');
 }
