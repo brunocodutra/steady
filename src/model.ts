@@ -42,6 +42,7 @@ type Xline = {
 type Circuit = {
   readonly kind: Models.series | Models.shunt,
   readonly components: Model[],
+  readonly indentation: number,
 };
 
 type Placeholder = {
@@ -92,11 +93,13 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
   [Models.series]: (...components: Model[]): Circuit => ({
     kind: Models.series,
     components: [...components, ModelFactory[Models.placeholder]()],
+    indentation: 0,
   }),
 
   [Models.shunt]: (...components: Model[]): Circuit => ({
     kind: Models.shunt,
     components: [...components, ModelFactory[Models.placeholder]()],
+    indentation: 0,
   }),
 
   [Models.placeholder]: (): Placeholder => ({

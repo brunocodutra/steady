@@ -176,6 +176,11 @@ i {
     mask-image: url('./icons/shunt.svg');
 }
 
+.wire {
+    @extend .mask;
+    mask-image: url('./icons/wire.svg');
+}
+
 .knee {
     @extend .mask;
     mask-image: url('./icons/knee.svg');

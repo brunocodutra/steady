@@ -67,10 +67,14 @@ const Component = connect(mapState, mapDispatch)(
           );
 
         case Models.shunt:
+          const wire = Array.apply(null, Array(this.props.model.indentation))
+            .map((_: undefined, i: number) => <Tile key={i}><span className='wire'/></Tile>);
+
           return (
             <Tile active={this.props.active} activate={this.props.activate}>
               <span className='d-flex flex-column'>
                 <Tile><span className={Models[this.props.model.kind]}/></Tile>
+                {wire}
                 <span className='d-flex flex-row'>
                   <Tile><span className='knee'/></Tile>
                   {this.props.model.components.map((model, i) =>

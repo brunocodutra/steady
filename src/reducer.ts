@@ -13,6 +13,27 @@ const init: State = {
   active: [1],
 };
 
+const indentation = (models: Model[]): number => {
+  for (const model of models) {
+    if (model.kind === Models.shunt) {
+      return model.indentation + indentation(model.components) + 1;
+    }
+  }
+
+  return 0;
+};
+
+const indent = (model: Model, offset = 1): Model => {
+  switch (model.kind) {
+    case Models.series:
+    case Models.shunt:
+      return { ...model, indentation: model.indentation + offset };
+
+    default:
+      return model;
+  }
+};
+
 export const reducer: Reducer<State> = (state = init, action: Action): State => {
   switch (action.type) {
     case Actions.ACTIVATE:
@@ -23,35 +44,35 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         throw new Error(`unexpected ${Models[state.schematics.kind]}`);
       }
 
+      const {components} = state.schematics;
+      const before = components.slice(0, state.active[0])
+        .map(action.model.kind === Models.shunt ? (_: Model) => indent(_) : (_: Model) => _);
+
       if (state.active.length === 1) {
+        const after = components.slice(state.active[0]);
+
         return ({
           schematics: {
-            kind: state.schematics.kind,
-            components: [
-              ...state.schematics.components.slice(0, state.active[0]),
-              action.model,
-              ...state.schematics.components.slice(state.active[0]),
-            ],
+            ...state.schematics,
+            components: [...before, indent(action.model, indentation(after)), ...after],
           },
           active: [state.active[0] + 1],
         });
       } else {
         const nested = reducer(
           {
-            schematics: state.schematics.components[state.active[0]],
+            schematics: components[state.active[0]],
             active: state.active.slice(1),
           },
           action,
         );
 
+        const after = components.slice(state.active[0] + 1);
+
         return ({
           schematics: {
-            kind: state.schematics.kind,
-            components: [
-              ...state.schematics.components.slice(0, state.active[0]),
-              nested.schematics,
-              ...state.schematics.components.slice(state.active[0] + 1),
-            ],
+            ...state.schematics,
+            components: [...before, nested.schematics, ...after],
           },
           active: [state.active[0], ...nested.active],
         });
