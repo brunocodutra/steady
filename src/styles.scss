@@ -25,44 +25,8 @@ html, body {
     flex-grow: 1;
 }
 
-.stretch {
-    width: 100%;
-    height: 100%;
-    display: inline-block;
-    position: relative;
-}
-
-.mask {
-    @extend .stretch;
-
-    background-color: currentcolor;
-    mask-repeat: no-repeat;
-}
-
-i {
-    width: 1em;
-    height: 1em;
-    display: inline-block;
-
-    &.x125 {
-        width: 1.25em;
-        height: 1.25em;
-    }
-
-    &.x250 {
-        width: 2.5em;
-        height: 2.5em;
-    }
-}
-
-.github {
-    @extend .mask;
-    mask-image: url('./icons/github.svg');
-}
-
-.github-btn {
-    height: 20px;
-    width: 100px;
+.line-height-0 {
+    line-height: 0 !important;
 }
 
 .interactive {
@@ -87,6 +51,23 @@ i {
     50% {
         background-color: unset;
     }
+}
+
+svg.github {
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: currentcolor;
+
+    @media (min-width: map-get($grid-breakpoints, md)) {
+        width: 1.25rem;
+        height: 1.25rem;
+        vertical-align: text-bottom;
+    }
+}
+
+.github-btn {
+    height: 20px;
+    width: 100px;
 }
 
 .board {
@@ -136,59 +117,65 @@ i {
     }
 }
 
+.stretch {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+
 .ground {
-    @extend .mask;
-    mask-image: url('./icons/ground.svg');
+    @extend .stretch;
+    background-image: url('./icons/ground.svg');
 }
 
 .vsrc {
-    @extend .mask;
-    mask-image: url('./icons/vsrc.svg');
+    @extend .stretch;
+    background-image: url('./icons/vsrc.svg');
 }
 
 .isrc {
-    @extend .mask;
-    mask-image: url('./icons/isrc.svg');
+    @extend .stretch;
+    background-image: url('./icons/isrc.svg');
 }
 
 .impedance {
-    @extend .mask;
-    mask-image: url('./icons/impedance.svg');
+    @extend .stretch;
+    background-image: url('./icons/impedance.svg');
 }
 
 .admittance {
-    @extend .mask;
-    mask-image: url('./icons/admittance.svg');
+    @extend .stretch;
+    background-image: url('./icons/admittance.svg');
 }
 
 .xformer {
-    @extend .mask;
-    mask-image: url('./icons/xformer.svg');
+    @extend .stretch;
+    background-image: url('./icons/xformer.svg');
 }
 
 .xline {
-    @extend .mask;
-    mask-image: url('./icons/xline.svg');
+    @extend .stretch;
+    background-image: url('./icons/xline.svg');
 }
 
 .shunt {
-    @extend .mask;
-    mask-image: url('./icons/shunt.svg');
+    @extend .stretch;
+    background-image: url('./icons/shunt.svg');
 }
 
 .wire {
-    @extend .mask;
-    mask-image: url('./icons/wire.svg');
+    @extend .stretch;
+    background-image: url('./icons/wire.svg');
 }
 
 .knee {
-    @extend .mask;
-    mask-image: url('./icons/knee.svg');
+    @extend .stretch;
+    background-image: url('./icons/knee.svg');
 }
 
 .placeholder {
-    @extend .mask;
-    mask-image: url('./icons/placeholder.svg');
+    @extend .stretch;
+    background-image: url('./icons/placeholder.svg');
 }
 
 a:focus, button:focus {
