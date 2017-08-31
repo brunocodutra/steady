@@ -21,16 +21,12 @@ const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
 });
 
 export default connect(null, mapDispatch)(
-  class extends React.PureComponent< Props, {} > {
-    public render() {
-      return (
-        <span
-          className={classes('tool', Models[this.props.kind])}
-          onClick={this.props.insert}
-          onKeyDown={({key}) => (key === ' ' || key === 'Enter') && this.props.insert()}
-          tabIndex={0}
-        />
-      );
-    }
-  },
+  ({kind, insert}: Props) => (
+    <span
+      className={classes('tool', Models[kind])}
+      onClick={insert}
+      onKeyDown={({key}) => (key === ' ' || key === 'Enter') && insert()}
+      tabIndex={0}
+    />
+  ),
 );

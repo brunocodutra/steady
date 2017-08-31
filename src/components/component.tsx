@@ -29,65 +29,53 @@ const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
 });
 
 const Component = connect(mapState, mapDispatch)(
-  class extends React.PureComponent< Props, {} > {
-    public render(): JSX.Element {
-      const UnhandledModel = (_: never): never => {
-        throw new Error('UnhandledModel');
-      };
+  ({active, activate, model, id}: Props): JSX.Element => {
+    const UnhandledModel = (_: never): never => {
+      throw new Error('UnhandledModel');
+    };
 
-      switch (this.props.model.kind) {
-        case Models.ground:
-          return <Tile className={Models[this.props.model.kind]}/>;
+    switch (model.kind) {
+      case Models.ground:
+        return <Tile className={Models[model.kind]}/>;
 
-        case Models.vsrc:
-        case Models.isrc:
-        case Models.impedance:
-        case Models.admittance:
-        case Models.xformer:
-        case Models.xline:
-        case Models.placeholder:
-          return (
+      case Models.vsrc:
+      case Models.isrc:
+      case Models.impedance:
+      case Models.admittance:
+      case Models.xformer:
+      case Models.xline:
+      case Models.placeholder:
+        return <Tile active={active} activate={activate} className={Models[model.kind]}/>;
+
+      case Models.series:
+        return (
+          <Tile>
+            {model.components.map((m, i) => <Component id={[...id, i]} model={m} key={i}/>)}
+          </Tile>
+        );
+
+      case Models.shunt:
+        const fill = Array.apply(null, Array(model.indentation + 1))
+          .map((_: undefined, i: number) => <Tile key={i}/>);
+
+        return (
+          <Tile>
             <Tile
-              active={this.props.active}
-              activate={this.props.activate}
-              className={Models[this.props.model.kind]}
-            />
-          );
-
-        case Models.series:
-          return (
-            <Tile>
-              {this.props.model.components.map((model, i) => (
-                <Component id={[...this.props.id, i]} model={model} key={i}/>
-              ))}
+              active={active}
+              activate={activate}
+              className={classes('d-flex flex-column', Models[model.kind])}
+            >
+              {fill}
             </Tile>
-          );
-
-        case Models.shunt:
-          const fill = Array.apply(null, Array(this.props.model.indentation + 1))
-            .map((_: undefined, i: number) => <Tile key={i}/>);
-
-          return (
             <Tile>
-              <Tile
-                active={this.props.active}
-                activate={this.props.activate}
-                className={classes('d-flex flex-column', Models[this.props.model.kind])}
-              >
-                {fill}
-              </Tile>
-              <Tile>
-                <Tile className='knee'/>
-                {this.props.model.components.map((model, i) => (
-                  <Component id={[...this.props.id, i]} model={model} key={i}/>
-                ))}
-              </Tile>
+              <Tile className='knee'/>
+              {model.components.map((m, i) => <Component id={[...id, i]} model={m} key={i}/>)}
             </Tile>
-          );
+          </Tile>
+        );
 
-        default:
-          return UnhandledModel(this.props.model);
-      }
+      default:
+        return UnhandledModel(model);
     }
   },
 );

@@ -15,12 +15,9 @@ const mapState = ({schematics}: State): Props => ({
 });
 
 export default connect(mapState)(
-  class extends React.PureComponent< Props, {} > {
-    public render() {
-      return (
-        <div className='schematics board flex-grow border rounded p-3' tabIndex={-1}>
-          <Component id={[]} model={this.props.entry}/>
-        </div>
-      );
-    }
-});
+  ({entry}: Props) => (
+    <div className='schematics board flex-grow border rounded p-3' tabIndex={-1}>
+      <Component id={[]} model={entry}/>
+    </div>
+  ),
+);
