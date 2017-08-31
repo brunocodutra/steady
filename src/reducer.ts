@@ -36,10 +36,10 @@ const indent = (model: Model, offset = 1): Model => {
 
 export const reducer: Reducer<State> = (state = init, action: Action): State => {
   switch (action.type) {
-    case Actions.ACTIVATE:
+    case Actions.activate:
       return {...state, active: action.id};
 
-    case Actions.INSERT:
+    case Actions.insert:
       if ((state.schematics.kind !== Models.series) && (state.schematics.kind !== Models.shunt)) {
         throw new Error(`unexpected ${Models[state.schematics.kind]}`);
       }

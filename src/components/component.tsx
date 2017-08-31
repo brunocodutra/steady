@@ -3,7 +3,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {activate} from 'action';
+import {ActionFactory, Actions} from 'action';
 import Tile from 'components/tile';
 import {Model, Models} from 'model';
 import {State} from 'reducer';
@@ -24,7 +24,7 @@ const mapState = ({active}: State, {id}: PropsBase) => ({
 
 const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
   activate: () => {
-    dispatch(activate(props.id));
+    dispatch(ActionFactory[Actions.activate](props.id));
   },
 });
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {insert} from 'action';
+import {ActionFactory, Actions} from 'action';
 import {ModelFactory, Models} from 'model';
 
 type PropsBase = {
@@ -16,7 +16,7 @@ type Props = PropsBase & {
 
 const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
   insert: () => {
-    dispatch(insert(ModelFactory[props.kind]()));
+    dispatch(ActionFactory[Actions.insert](ModelFactory[props.kind]()));
   },
 });
 

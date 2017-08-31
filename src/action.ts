@@ -1,28 +1,30 @@
 import {Model} from 'model';
 
 export const enum Actions {
-  ACTIVATE,
-  INSERT,
+  activate,
+  insert,
 }
 
 type Activate = {
-  readonly type: Actions.ACTIVATE,
+  readonly type: Actions.activate,
   readonly id: number[],
 };
 
-export const activate = (id: number[]): Activate => ({
-  type: Actions.ACTIVATE,
-  id,
-});
-
 type Insert = {
-  readonly type: Actions.INSERT,
+  readonly type: Actions.insert,
   readonly model: Model,
 };
 
-export const insert = (model: Model): Insert => ({
-  type: Actions.INSERT,
-  model,
-});
-
 export type Action = Activate | Insert;
+
+export const ActionFactory: {[type: number]: (...args: any[]) => Action} = {
+  [Actions.activate]: (id: number[]): Activate => ({
+    type: Actions.activate,
+    id,
+  }),
+
+  [Actions.insert]: (model: Model): Insert => ({
+    type: Actions.insert,
+    model,
+  }),
+};
