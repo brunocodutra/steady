@@ -6,6 +6,7 @@ export enum Models {
   xformer,
   xline,
   ground,
+  knee,
   connector,
   series,
   shunt,
@@ -23,7 +24,7 @@ type Element = {
 };
 
 type Placeholder = {
-  readonly kind: Models.ground | Models.connector,
+  readonly kind: Models.ground | Models.knee | Models.connector,
 };
 
 type Series = {
@@ -68,18 +69,22 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     kind: Models.ground,
   }),
 
+  [Models.knee]: (): Placeholder => ({
+    kind: Models.knee,
+  }),
+
   [Models.connector]: (): Placeholder => ({
     kind: Models.connector,
   }),
 
-  [Models.series]: (...components: Model[]): Series => ({
+  [Models.series]: (): Series => ({
     kind: Models.series,
-    components: [...components, ModelFactory[Models.connector]()],
+    components: [ModelFactory[Models.ground](), ModelFactory[Models.connector]()],
   }),
 
-  [Models.shunt]: (...components: Model[]): Shunt => ({
+  [Models.shunt]: (): Shunt => ({
     kind: Models.shunt,
-    components: [...components, ModelFactory[Models.connector]()],
+    components: [ModelFactory[Models.knee](), ModelFactory[Models.connector]()],
     indentation: 0,
   }),
 };

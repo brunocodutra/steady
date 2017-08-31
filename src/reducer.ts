@@ -9,7 +9,7 @@ export type State = {
 };
 
 const init: State = {
-  schematics: ModelFactory[Models.series](ModelFactory[Models.ground]()),
+  schematics: ModelFactory[Models.series](),
   active: [1],
 };
 

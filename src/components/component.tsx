@@ -35,6 +35,7 @@ const Component = connect(mapState, mapDispatch)(
     };
 
     switch (model.kind) {
+      case Models.knee:
       case Models.ground:
         return <Tile className={Models[model.kind]}/>;
 
@@ -67,10 +68,7 @@ const Component = connect(mapState, mapDispatch)(
             >
               {fill}
             </Tile>
-            <Tile>
-              <Tile className='knee'/>
-              {model.components.map((m, i) => <Component id={[...id, i]} model={m} key={i}/>)}
-            </Tile>
+            <Component id={id} model={{...model, kind: Models.series}}/>
           </Tile>
         );
 
