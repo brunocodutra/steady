@@ -44,7 +44,7 @@ const Component = connect(mapState, mapDispatch)(
       case Models.admittance:
       case Models.xformer:
       case Models.xline:
-      case Models.placeholder:
+      case Models.connector:
         return <Tile active={active} activate={activate} className={Models[model.kind]}/>;
 
       case Models.series:

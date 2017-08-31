@@ -1,14 +1,14 @@
 export enum Models {
-  ground,
   vsrc,
   isrc,
   impedance,
   admittance,
   xformer,
   xline,
+  ground,
+  connector,
   series,
   shunt,
-  placeholder,
 }
 
 type Element = {
@@ -23,7 +23,7 @@ type Element = {
 };
 
 type Placeholder = {
-  readonly kind: Models.ground | Models.placeholder,
+  readonly kind: Models.ground | Models.connector,
 };
 
 type Circuit = {
@@ -63,19 +63,19 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     kind: Models.ground,
   }),
 
-  [Models.placeholder]: (): Placeholder => ({
-    kind: Models.placeholder,
+  [Models.connector]: (): Placeholder => ({
+    kind: Models.connector,
   }),
 
   [Models.series]: (...components: Model[]): Circuit => ({
     kind: Models.series,
-    components: [...components, ModelFactory[Models.placeholder]()],
+    components: [...components, ModelFactory[Models.connector]()],
     indentation: 0,
   }),
 
   [Models.shunt]: (...components: Model[]): Circuit => ({
     kind: Models.shunt,
-    components: [...components, ModelFactory[Models.placeholder]()],
+    components: [...components, ModelFactory[Models.connector]()],
     indentation: 0,
   }),
 };
