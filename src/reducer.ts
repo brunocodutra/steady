@@ -25,7 +25,6 @@ const indentation = (models: Model[]): number => {
 
 const indent = (model: Model, offset = 1): Model => {
   switch (model.kind) {
-    case Models.series:
     case Models.shunt:
       return { ...model, indentation: model.indentation + offset };
 

@@ -26,13 +26,18 @@ type Placeholder = {
   readonly kind: Models.ground | Models.connector,
 };
 
-type Circuit = {
-  readonly kind: Models.series | Models.shunt,
+type Series = {
+  readonly kind: Models.series,
+  readonly components: Model[],
+};
+
+type Shunt = {
+  readonly kind: Models.shunt,
   readonly components: Model[],
   readonly indentation: number,
 };
 
-export type Model = Element | Placeholder | Circuit;
+export type Model = Element | Placeholder | Series | Shunt;
 
 export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
   [Models.vsrc]: (): Element => ({
@@ -67,13 +72,12 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     kind: Models.connector,
   }),
 
-  [Models.series]: (...components: Model[]): Circuit => ({
+  [Models.series]: (...components: Model[]): Series => ({
     kind: Models.series,
     components: [...components, ModelFactory[Models.connector]()],
-    indentation: 0,
   }),
 
-  [Models.shunt]: (...components: Model[]): Circuit => ({
+  [Models.shunt]: (...components: Model[]): Shunt => ({
     kind: Models.shunt,
     components: [...components, ModelFactory[Models.connector]()],
     indentation: 0,
