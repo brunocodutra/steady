@@ -1,3 +1,4 @@
+import * as classes from 'classnames';
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
@@ -36,11 +37,7 @@ const Component = connect(mapState, mapDispatch)(
 
       switch (this.props.model.kind) {
         case Models.ground:
-          return (
-            <Tile>
-              <span className={Models[this.props.model.kind]}/>
-            </Tile>
-          );
+          return <Tile className={Models[this.props.model.kind]}/>;
 
         case Models.vsrc:
         case Models.isrc:
@@ -50,38 +47,41 @@ const Component = connect(mapState, mapDispatch)(
         case Models.xline:
         case Models.placeholder:
           return (
-            <Tile active={this.props.active} activate={this.props.activate}>
-              <span className={Models[this.props.model.kind]}/>
-            </Tile>
+            <Tile
+              active={this.props.active}
+              activate={this.props.activate}
+              className={Models[this.props.model.kind]}
+            />
           );
 
         case Models.series:
           return (
             <Tile>
-              <span className='d-flex flex-row'>
-                {this.props.model.components.map((model, i) => (
-                  <Component id={[...this.props.id, i]} model={model} key={i}/>),
-                )}
-              </span>
+              {this.props.model.components.map((model, i) => (
+                <Component id={[...this.props.id, i]} model={model} key={i}/>
+              ))}
             </Tile>
           );
 
         case Models.shunt:
-          const wire = Array.apply(null, Array(this.props.model.indentation))
-            .map((_: undefined, i: number) => <Tile key={i}><span className='wire'/></Tile>);
+          const fill = Array.apply(null, Array(this.props.model.indentation + 1))
+            .map((_: undefined, i: number) => <Tile key={i}/>);
 
           return (
-            <Tile active={this.props.active} activate={this.props.activate}>
-              <span className='d-flex flex-column'>
-                <Tile><span className={Models[this.props.model.kind]}/></Tile>
-                {wire}
-                <span className='d-flex flex-row'>
-                  <Tile><span className='knee'/></Tile>
-                  {this.props.model.components.map((model, i) =>
-                    <Component id={[...this.props.id, i]} model={model} key={i}/>,
-                  )}
-                </span>
-              </span>
+            <Tile>
+              <Tile
+                active={this.props.active}
+                activate={this.props.activate}
+                className={classes('d-flex flex-column', Models[this.props.model.kind])}
+              >
+                {fill}
+              </Tile>
+              <Tile>
+                <Tile className='knee'/>
+                {this.props.model.components.map((model, i) => (
+                  <Component id={[...this.props.id, i]} model={model} key={i}/>
+                ))}
+              </Tile>
             </Tile>
           );
 

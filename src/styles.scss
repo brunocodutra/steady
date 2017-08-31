@@ -15,6 +15,8 @@ $container-max-widths: (
 
 @import '~bootstrap/scss/bootstrap';
 
+$tile: 5rem;
+
 html, body {
     height: 100%;
     display: flex;
@@ -82,14 +84,14 @@ svg.github {
     @extend .rounded;
     @extend .interactive;
 
-    width: 4rem;
-    height: 4rem;
+    width: 0.8*$tile;
+    height: 0.8*$tile;
     position: relative;
     flex-shrink: 0;
 
     @media (min-width: map-get($grid-breakpoints, lg)) {
-        width: 5rem;
-        height: 5rem;
+        width: $tile;
+        height: $tile;
     }
 
     &:hover, &:focus {
@@ -107,9 +109,11 @@ svg.github {
 }
 
 .tile {
-    width: 5rem;
-    height: 5rem;
+    width: $tile;
+    min-height: $tile;
     position: relative;
+    display: inline-block;
+    vertical-align: top;
     flex-shrink: 0;
 
     &.interactive:focus {
@@ -117,65 +121,75 @@ svg.github {
     }
 }
 
-.stretch {
-    width: 100%;
-    height: 100%;
-    display: inline-block;
-}
-
 .ground {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/ground.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .vsrc {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/vsrc.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .isrc {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/isrc.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .impedance {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/impedance.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .admittance {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/admittance.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .xformer {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/xformer.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .xline {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/xline.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .shunt {
-    @extend .stretch;
-    background-image: url('./icons/shunt.svg');
-}
-
-.wire {
-    @extend .stretch;
-    background-image: url('./icons/wire.svg');
+    display: inline-block;
+    background-image: url('./icons/shunt.svg'), url('./icons/wire.svg');
+    background-position: top, 0 $tile;
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .knee {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/knee.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 .placeholder {
-    @extend .stretch;
+    display: inline-block;
     background-image: url('./icons/placeholder.svg');
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }
 
 a:focus, button:focus {
