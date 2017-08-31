@@ -17,6 +17,10 @@ $container-max-widths: (
 
 $tile: 5rem;
 
+* {
+    flex-shrink: 0;
+}
+
 html, body {
     height: 100%;
     display: flex;
@@ -75,6 +79,7 @@ svg.github {
 .board {
     font-size: 0;
     overflow: auto;
+    flex-basis: 0;
     white-space: nowrap;
 }
 
@@ -87,7 +92,6 @@ svg.github {
     width: 0.8*$tile;
     height: 0.8*$tile;
     position: relative;
-    flex-shrink: 0;
 
     @media (min-width: map-get($grid-breakpoints, lg)) {
         width: $tile;
@@ -114,7 +118,6 @@ svg.github {
     position: relative;
     display: inline-block;
     vertical-align: top;
-    flex-shrink: 0;
 
     &.interactive:focus {
         @extend .focused;
@@ -172,10 +175,21 @@ svg.github {
 
 .shunt {
     display: inline-block;
-    background-image: url('./icons/shunt.svg'), url('./icons/wire.svg');
-    background-position: top, 0 $tile;
+    background-image: url('./icons/shunt.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
+
+    &:after {
+        content: '';
+        top: $tile;
+        bottom: 0;
+        width: 100%;
+        position: absolute;
+        display: inline-block;
+        background-image: url('./icons/wire.svg');
+        background-repeat: repeat-y;
+        background-origin: content-box;
+    }
 }
 
 .knee {
