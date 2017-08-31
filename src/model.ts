@@ -14,17 +14,16 @@ export enum Models {
 
 type Element = {
   readonly kind:
-      Models.vsrc
+      Models.ground
+    | Models.vsrc
     | Models.isrc
     | Models.impedance
     | Models.admittance
     | Models.xformer
     | Models.xline
+    | Models.knee
+    | Models.connector
   ,
-};
-
-type Placeholder = {
-  readonly kind: Models.ground | Models.knee | Models.connector,
 };
 
 type Series = {
@@ -38,7 +37,7 @@ type Shunt = {
   readonly indentation: number,
 };
 
-export type Model = Element | Placeholder | Series | Shunt;
+export type Model = Element | Series | Shunt;
 
 export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
   [Models.vsrc]: (): Element => ({
@@ -65,15 +64,15 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     kind: Models.xline,
   }),
 
-  [Models.ground]: (): Placeholder => ({
+  [Models.ground]: (): Element => ({
     kind: Models.ground,
   }),
 
-  [Models.knee]: (): Placeholder => ({
+  [Models.knee]: (): Element => ({
     kind: Models.knee,
   }),
 
-  [Models.connector]: (): Placeholder => ({
+  [Models.connector]: (): Element => ({
     kind: Models.connector,
   }),
 
