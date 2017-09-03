@@ -101,3 +101,21 @@ export const div = (p: Phasor, q: Phasor): Phasor => {
   const D = (c * c + d * d);
   return rect((a * c + b * d) / D, (b * c - a * d) / D);
 };
+
+export const sinh = (p: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+
+  const cosha = (Math.exp(a) + Math.exp(-a)) / 2;
+  const sinha = (Math.exp(a) - Math.exp(-a)) / 2;
+
+  return rect(sinha * Math.cos(b), cosha * Math.sin(b));
+};
+
+export const cosh = (p: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+
+  const cosha = (Math.exp(a) + Math.exp(-a)) / 2;
+  const sinha = (Math.exp(a) - Math.exp(-a)) / 2;
+
+  return rect(cosha * Math.cos(b), sinha * Math.sin(b));
+};
