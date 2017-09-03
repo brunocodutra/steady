@@ -66,3 +66,38 @@ export const polar = (mag: number, ang: number = 0): Polar => ({
   mag,
   ang,
 });
+
+export const neg = (p: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+
+  return rect(-a, -b);
+};
+
+export const add = (p: Phasor, q: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+  const {real: c, imag: d} = toRect(q);
+
+  return rect(a + c, b + d);
+};
+
+export const sub = (p: Phasor, q: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+  const {real: c, imag: d} = toRect(q);
+
+  return rect(a - c, b - d);
+};
+
+export const mul = (p: Phasor, q: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+  const {real: c, imag: d} = toRect(q);
+
+  return rect(a * c - b * d, a * d + b * c);
+};
+
+export const div = (p: Phasor, q: Phasor): Phasor => {
+  const {real: a, imag: b} = toRect(p);
+  const {real: c, imag: d} = toRect(q);
+
+  const D = (c * c + d * d);
+  return rect((a * c + b * d) / D, (b * c - a * d) / D);
+};
