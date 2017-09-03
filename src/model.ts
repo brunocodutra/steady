@@ -40,7 +40,7 @@ type Series = {
 type Shunt = {
   readonly kind: Models.shunt,
   readonly indentation: number,
-  readonly components: Model[],
+  readonly branch: Model,
   readonly params: Quadripole,
 };
 
@@ -95,16 +95,16 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     params: quadripole(),
   }),
 
-  [Models.series]: (): Series => ({
+  [Models.series]: (head = ModelFactory[Models.ground]()): Series => ({
     kind: Models.series,
-    components: [ModelFactory[Models.ground](), ModelFactory[Models.connector]()],
+    components: [head, ModelFactory[Models.connector]()],
     params: quadripole(),
   }),
 
   [Models.shunt]: (): Shunt => ({
     kind: Models.shunt,
     indentation: 0,
-    components: [ModelFactory[Models.knee](), ModelFactory[Models.connector]()],
+    branch: ModelFactory[Models.series](ModelFactory[Models.knee]()),
     params: quadripole(),
   }),
 };

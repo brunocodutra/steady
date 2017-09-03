@@ -68,7 +68,7 @@ const Component = connect(mapState, mapDispatch)(
             >
               {fill}
             </Tile>
-            <Component id={id} model={{...model, kind: Models.series}}/>
+            <Component id={id} model={model.branch}/>
           </Tile>
         );
 
