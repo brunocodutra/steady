@@ -52,3 +52,17 @@ export const cat = (q: Quadripole, p: Quadripole): Quadripole => {
     ],
   };
 };
+
+export const solve = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, io]: VI = [rect(0), rect(0)]): VI => {
+  const ii = div(sub(io, add(i, mul(c, vi))), d);
+  const vo = add(add(mul(a, vi), mul(b, ii)), v);
+
+  return [vo, ii];
+};
+
+export const apply = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, ii]: VI): VI => {
+  return [
+    add(add(mul(a, vi), mul(b, ii)), v),
+    add(add(mul(c, vi), mul(d, ii)), i),
+  ];
+};
