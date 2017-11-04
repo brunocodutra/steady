@@ -21,7 +21,7 @@ type Props = PropsBase & {
   readonly activate: () => void,
 };
 
-const mapState = ({active}: State, {id}: PropsBase) => ({
+const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
   active: JSON.stringify(active) === JSON.stringify(id),
 });
 

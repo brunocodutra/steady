@@ -12,8 +12,8 @@ type Props = {
   readonly entry: Model,
 };
 
-const mapState = ({schematics}: State): Props => ({
-  entry: schematics,
+const mapState = ({schematics: {entry}}: State): Props => ({
+  entry,
 });
 
 export default connect(mapState)(
