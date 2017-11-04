@@ -30,18 +30,14 @@
             </svg>
           </a>
         </li>
-        <li class='nav-item'>
-          <button class='navbar-toggler p-1 ml-3' type='button' data-toggle='collapse' data-target='#toolbar' aria-controls='toolbar' aria-expanded='false' aria-label='Toggle toolbar'>
-            <span class='navbar-toggler-icon'></span>
-          </button>
-        </li>
+        <li class='nav-item' id='toggler'></li>
       </ul>
     </header>
 
     <div class='container d-flex flex-column flex-grow'>
       <div class='row d-flex flex-grow'>
         <div class='col d-flex flex-column flex-grow py-3'>
-          <div id='toolbar' class='collapse d-md-block'></div>
+          <div id='toolbar'></div>
           <div id='schematics' class='board flex-grow border rounded p-3' tabIndex=-1></div>
         </div>
       </div>

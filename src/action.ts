@@ -1,9 +1,14 @@
 import {Model} from 'model';
 
 export const enum Actions {
+  toggle,
   activate,
   insert,
 }
+
+type Toggle = {
+  readonly type: Actions.toggle,
+};
 
 type Activate = {
   readonly type: Actions.activate,
@@ -15,9 +20,13 @@ type Insert = {
   readonly model: Model,
 };
 
-export type Action = Activate | Insert;
+export type Action = Toggle | Activate | Insert;
 
 export const ActionFactory: {[type: number]: (...args: any[]) => Action} = {
+  [Actions.toggle]: (): Toggle => ({
+    type: Actions.toggle,
+  }),
+
   [Actions.activate]: (id: number[]): Activate => ({
     type: Actions.activate,
     id,
