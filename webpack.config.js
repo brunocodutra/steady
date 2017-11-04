@@ -89,7 +89,8 @@ module.exports = env => ({
   stats,
 
   devServer: {
-    stats
+    stats,
+    overlay: true,
   },
 
   plugins: [
