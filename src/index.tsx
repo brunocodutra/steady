@@ -3,26 +3,36 @@ import * as ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 
-import Steady from 'components/steady';
+import Schematics from 'components/schematics';
+import Toolbar from 'components/toolbar';
 import {reducer} from 'reducer';
 import {store} from 'store';
 
-const render = (Component: typeof Steady) => ReactDOM.render(
+const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.render(
   <AppContainer>
     <Provider store={store}>
-      <Component/>
+      {component}
     </Provider>
   </AppContainer>,
-  document.getElementById('content'),
+  placeholder,
 );
 
-render(Steady);
+const toolbar = document.getElementById('toolbar');
+const schematics = document.getElementById('schematics');
+
+if (!toolbar || !schematics) {
+  throw new Error('placeholder not found');
+}
+
+render(<Toolbar/>, toolbar);
+render(<Schematics/>, schematics);
 
 declare const module: any;
 
 if (module.hot) {
   module.hot.accept(() => {
     store.replaceReducer(reducer);
-    render(Steady);
+    render(<Toolbar/>, toolbar);
+    render(<Schematics/>, schematics);
   });
 }
