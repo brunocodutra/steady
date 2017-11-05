@@ -21,8 +21,7 @@ type Static = {
     | Elements.knee
     | Elements.connector
   ,
-
-  model(): Quadripole,
+  readonly value?: undefined,
 };
 
 type Lumped = {
@@ -33,26 +32,22 @@ type Lumped = {
     | Elements.admittance
     | Elements.xformer
   ,
-  value: Phasor,
-  model(): Quadripole,
+  readonly value: Phasor,
 };
 
 type Distributed = {
   readonly kind: Elements.xline,
-  value: [Phasor, Phasor],
-  model(): Quadripole,
+  readonly value: [Phasor, Phasor],
 };
 
 type Series = {
   readonly kind: Elements.series,
   readonly elements: Element[],
-  model(): Quadripole,
 };
 
 type Shunt = {
   readonly kind: Elements.shunt,
   readonly branch: Element,
-  model(): Quadripole,
 };
 
 export type Element = Static | Lumped | Distributed | Series | Shunt;
@@ -60,98 +55,78 @@ export type Element = Static | Lumped | Distributed | Series | Shunt;
 export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
   [Elements.ground]: (): Static => ({
     kind: Elements.ground,
-    model() {
-      return quadripole();
-    },
   }),
 
   [Elements.knee]: (): Static => ({
     kind: Elements.knee,
-    model() {
-      return quadripole();
-    },
   }),
 
   [Elements.connector]: (): Static => ({
     kind: Elements.connector,
-    model() {
-      return quadripole();
-    },
   }),
 
   [Elements.vsrc]: (value = rect(0)): Lumped => ({
     kind: Elements.vsrc,
     value,
-    model() {
-      return quadripole(eye, [this.value, rect(0)]);
-    },
   }),
 
   [Elements.isrc]: (value = rect(0)): Lumped => ({
     kind: Elements.isrc,
     value,
-    model() {
-      return quadripole(eye, [rect(0), this.value]);
-    },
   }),
 
   [Elements.impedance]: (value = rect(0)): Lumped => ({
     kind: Elements.impedance,
     value,
-    model() {
-      return quadripole([[rect(1), neg(this.value)], [rect(0), rect(1)]]);
-    },
   }),
 
   [Elements.admittance]: (value = rect(0)): Lumped => ({
     kind: Elements.admittance,
     value,
-    model() {
-      return quadripole([[rect(1), rect(0)], [neg(this.value), rect(1)]]);
-    },
   }),
 
   [Elements.xformer]: (value = rect(1)): Lumped => ({
     kind: Elements.xformer,
     value,
-    model() {
-      return quadripole([[this.value, rect(0)], [rect(0), div(rect(1), this.value)]]);
-    },
   }),
 
   [Elements.xline]: (z = rect(1), y = rect(0)): Distributed => ({
     kind: Elements.xline,
     value: [z, y],
-    model() {
-      const [zz, yy] = this.value;
-
-      return quadripole([
-        [cosh(yy), neg(mul(zz, sinh(yy)))],
-        [neg(div(sinh(yy), zz)), cosh(yy)],
-      ]);
-    },
   }),
 
   [Elements.series]: (head = ElementFactory[Elements.ground]()): Series => ({
     kind: Elements.series,
     elements: [head, ElementFactory[Elements.connector]()],
-    model() {
-      return this.elements.map((e) => e.model()).reduce(cat, quadripole());
-    },
   }),
 
   [Elements.shunt]: (): Shunt => ({
     kind: Elements.shunt,
     branch: ElementFactory[Elements.series](ElementFactory[Elements.knee]()),
-    model() {
-      const {vi, abcd} = this.branch.model();
-
-      return cat(
-        ElementFactory[Elements.isrc](div(vi[1], abcd[1][1])).model(),
-        ElementFactory[Elements.admittance](neg(div(abcd[1][0], abcd[1][1]))).model(),
-      );
-    },
   }),
+};
+
+const ModelFactory: {[kind: number]: (...args: any[]) => Quadripole} = {
+  [Elements.ground]: (): Quadripole => quadripole(),
+  [Elements.knee]: (): Quadripole => quadripole(),
+  [Elements.connector]: (): Quadripole => quadripole(),
+  [Elements.vsrc]: (value: Phasor): Quadripole => quadripole(eye, [value, rect(0)]),
+  [Elements.isrc]: (value: Phasor): Quadripole => quadripole(eye, [rect(0), value]),
+  [Elements.impedance]: (value: Phasor): Quadripole => quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
+  [Elements.admittance]: (value: Phasor): Quadripole => quadripole([[rect(1), rect(0)], [neg(value), rect(1)]]),
+  [Elements.xformer]: (value: Phasor): Quadripole => quadripole([[value, rect(0)], [rect(0), div(rect(1), value)]]),
+
+  [Elements.xline]: ([z, y]: [Phasor, Phasor]): Quadripole => quadripole([
+    [cosh(y), neg(mul(z, sinh(y)))],
+    [neg(div(sinh(y), z)), cosh(y)],
+  ]),
+
+  [Elements.series]: (models: Quadripole[]): Quadripole => models.reduce(cat, quadripole()),
+
+  [Elements.shunt]: ({vi, abcd}: Quadripole): Quadripole => cat(
+    ModelFactory[Elements.isrc](div(vi[1], abcd[1][1])),
+    ModelFactory[Elements.admittance](neg(div(abcd[1][0], abcd[1][1]))),
+  ),
 };
 
 type ExpandedSeries = Series & {
@@ -164,6 +139,7 @@ type ExpandedShunt = Shunt & {
 
 export type ExpandedElement = (Static | Lumped | Distributed | ExpandedSeries | ExpandedShunt) & {
   readonly height: number,
+  readonly model: Quadripole,
 };
 
 export const expand = (element: Element): ExpandedElement => {
@@ -185,6 +161,7 @@ export const expand = (element: Element): ExpandedElement => {
         ...element,
         elements,
         height,
+        model: ModelFactory[element.kind](elements.map(({model}) => model)),
       };
     }
 
@@ -195,6 +172,7 @@ export const expand = (element: Element): ExpandedElement => {
         ...element,
         branch,
         height: 1 + branch.height,
+        model: ModelFactory[element.kind](branch.model),
       };
     }
 
@@ -202,6 +180,7 @@ export const expand = (element: Element): ExpandedElement => {
       return {
         ...element,
         height: 0,
+        model: ModelFactory[element.kind](element.value),
       };
   }
 };

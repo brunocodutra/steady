@@ -56,7 +56,7 @@ const Component = connect(mapState, mapDispatch)(
           <Tile>
             {element.elements.map((e: ExpandedElement, k) => {
               const c = <Component id={[...id, k]} element={e} vi={vi} key={k}/>;
-              vi = apply(e.model(), vi);
+              vi = apply(e.model, vi);
               return c;
             })}
           </Tile>
@@ -78,7 +78,7 @@ const Component = connect(mapState, mapDispatch)(
             <Component
               id={id}
               element={element.branch}
-              vi={apply(inv(element.model()), [vi[0], rect(0)])}
+              vi={apply(inv(element.model), [vi[0], rect(0)])}
             />
           </Tile>
         );
