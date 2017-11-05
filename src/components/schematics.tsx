@@ -18,6 +18,6 @@ const mapState = ({schematics: {entry}}: State): Props => ({
 
 export default connect(mapState)(
   ({entry}: Props) => (
-    <Component id={[]} model={entry} vi={[rect(0), solve(entry.params)[1]]}/>
+    <Component id={[]} model={entry} vi={[rect(0), solve(entry.params())[1]]}/>
   ),
 );

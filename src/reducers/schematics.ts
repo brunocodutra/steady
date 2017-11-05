@@ -2,8 +2,6 @@ import {Reducer} from 'redux';
 
 import {Action, Actions} from 'action';
 import {Model, ModelFactory, Models} from 'model';
-import {div, neg} from 'phasor';
-import {cat, quadripole} from 'quadripole';
 
 export type State = {
   readonly entry: Model,
@@ -51,10 +49,9 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         if (state.active.length === 1) {
           const after = state.entry.components.slice(state.active[0]);
           const components = [...before, indent(action.model, indentation(after)), ...after];
-          const params = components.map((m) => m.params).reduce(cat, quadripole());
 
           return ({
-            entry: {...state.entry, components, params},
+            entry: {...state.entry, components},
             active: [state.active[0] + 1],
           });
         } else {
@@ -68,10 +65,9 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
 
           const after = state.entry.components.slice(state.active[0] + 1);
           const components = [...before, nested.entry, ...after];
-          const params = components.map((m) => m.params).reduce(cat, quadripole());
 
           return ({
-            entry: {...state.entry, components, params},
+            entry: {...state.entry, components},
             active: [state.active[0], ...nested.active],
           });
         }
@@ -84,18 +80,8 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
           action,
         );
 
-        const branch = nested.entry;
-
-        const i = div(branch.params.vi[1], branch.params.abcd[1][1]);
-        const y = neg(div(branch.params.abcd[1][0], branch.params.abcd[1][1]));
-
-        const params = cat(
-          ModelFactory[Models.isrc](i).params,
-          ModelFactory[Models.admittance](y).params,
-        );
-
         return ({
-          entry: {...state.entry, branch, params},
+          entry: {...state.entry, branch: nested.entry},
           active: nested.active,
         });
 

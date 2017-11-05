@@ -1,5 +1,5 @@
-import {cosh, div, mul, neg, rect, sinh} from 'phasor';
-import {eye, Quadripole, quadripole} from 'quadripole';
+import {cosh, div, mul, neg, Phasor, rect, sinh} from 'phasor';
+import {cat, eye, Quadripole, quadripole} from 'quadripole';
 
 export enum Models {
   vsrc,
@@ -15,96 +15,143 @@ export enum Models {
   shunt,
 }
 
-type Element = {
+type Static = {
   readonly kind:
       Models.ground
-    | Models.vsrc
-    | Models.isrc
-    | Models.impedance
-    | Models.admittance
-    | Models.xformer
-    | Models.xline
     | Models.knee
     | Models.connector
   ,
 
-  readonly params: Quadripole,
+  params(): Quadripole,
+};
+
+type Lumped = {
+  readonly kind:
+      Models.vsrc
+    | Models.isrc
+    | Models.impedance
+    | Models.admittance
+    | Models.xformer
+  ,
+  value: Phasor,
+  params(): Quadripole,
+};
+
+type Distributed = {
+  readonly kind: Models.xline,
+  value: [Phasor, Phasor],
+  params(): Quadripole,
 };
 
 type Series = {
   readonly kind: Models.series,
   readonly components: Model[],
-  readonly params: Quadripole,
+  params(): Quadripole,
 };
 
 type Shunt = {
   readonly kind: Models.shunt,
   readonly indentation: number,
   readonly branch: Model,
-  readonly params: Quadripole,
+  params(): Quadripole,
 };
 
-export type Model = Element | Series | Shunt;
+export type Model = Static | Lumped | Distributed | Series | Shunt;
 
 export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
-  [Models.vsrc]: (v = rect(0)): Element => ({
-    kind: Models.vsrc,
-    params: quadripole(eye, [v, rect(0)]),
-  }),
-
-  [Models.isrc]: (i = rect(0)): Element => ({
-    kind: Models.isrc,
-    params: quadripole(eye, [rect(0), i]),
-  }),
-
-  [Models.impedance]: (z = rect(0)): Element => ({
-    kind: Models.impedance,
-    params: quadripole([[rect(1), neg(z)], [rect(0), rect(1)]]),
-  }),
-
-  [Models.admittance]: (y = rect(0)): Element => ({
-    kind: Models.admittance,
-    params: quadripole([[rect(1), rect(0)], [neg(y), rect(1)]]),
-  }),
-
-  [Models.xformer]: (n = 1): Element => ({
-    kind: Models.xformer,
-    params: quadripole([[rect(n), rect(0)], [rect(0), rect(1 / n)]]),
-  }),
-
-  [Models.xline]: (z = rect(1), y = rect(0)): Element => ({
-    kind: Models.xline,
-    params: quadripole([
-      [cosh(y), neg(mul(z, sinh(y)))],
-      [neg(div(sinh(y), z)), cosh(y)],
-    ]),
-  }),
-
-  [Models.ground]: (): Element => ({
+  [Models.ground]: (): Static => ({
     kind: Models.ground,
-    params: quadripole(),
+    params() {
+      return quadripole();
+    },
   }),
 
-  [Models.knee]: (): Element => ({
+  [Models.knee]: (): Static => ({
     kind: Models.knee,
-    params: quadripole(),
+    params() {
+      return quadripole();
+    },
   }),
 
-  [Models.connector]: (): Element => ({
+  [Models.connector]: (): Static => ({
     kind: Models.connector,
-    params: quadripole(),
+    params() {
+      return quadripole();
+    },
+  }),
+
+  [Models.vsrc]: (value = rect(0)): Lumped => ({
+    kind: Models.vsrc,
+    value,
+    params() {
+      return quadripole(eye, [this.value, rect(0)]);
+    },
+  }),
+
+  [Models.isrc]: (value = rect(0)): Lumped => ({
+    kind: Models.isrc,
+    value,
+    params() {
+      return quadripole(eye, [rect(0), this.value]);
+    },
+  }),
+
+  [Models.impedance]: (value = rect(0)): Lumped => ({
+    kind: Models.impedance,
+    value,
+    params() {
+      return quadripole([[rect(1), neg(this.value)], [rect(0), rect(1)]]);
+    },
+  }),
+
+  [Models.admittance]: (value = rect(0)): Lumped => ({
+    kind: Models.admittance,
+    value,
+    params() {
+      return quadripole([[rect(1), rect(0)], [neg(this.value), rect(1)]]);
+    },
+  }),
+
+  [Models.xformer]: (value = rect(1)): Lumped => ({
+    kind: Models.xformer,
+    value,
+    params() {
+      return quadripole([[this.value, rect(0)], [rect(0), div(rect(1), this.value)]]);
+    },
+  }),
+
+  [Models.xline]: (z = rect(1), y = rect(0)): Distributed => ({
+    kind: Models.xline,
+    value: [z, y],
+    params() {
+      const [zz, yy] = this.value;
+
+      return quadripole([
+        [cosh(yy), neg(mul(zz, sinh(yy)))],
+        [neg(div(sinh(yy), zz)), cosh(yy)],
+      ]);
+    },
   }),
 
   [Models.series]: (head = ModelFactory[Models.ground]()): Series => ({
     kind: Models.series,
     components: [head, ModelFactory[Models.connector]()],
-    params: quadripole(),
+    params() {
+      return this.components.map((m) => m.params()).reduce(cat, quadripole());
+    },
   }),
 
   [Models.shunt]: (): Shunt => ({
     kind: Models.shunt,
     indentation: 0,
     branch: ModelFactory[Models.series](ModelFactory[Models.knee]()),
-    params: quadripole(),
+    params() {
+      const {vi, abcd} = this.branch.params();
+
+      return cat(
+        ModelFactory[Models.isrc](div(vi[1], abcd[1][1])).params(),
+        ModelFactory[Models.admittance](neg(div(abcd[1][0], abcd[1][1]))).params(),
+      );
+    },
   }),
 };

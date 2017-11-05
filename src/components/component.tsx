@@ -6,7 +6,7 @@ import {Dispatch} from 'redux';
 import {ActionFactory, Actions} from 'action';
 import Tile from 'components/tile';
 import {Model, Models} from 'model';
-import {Phasor, polar} from 'phasor';
+import {Phasor, rect} from 'phasor';
 import {apply, inv} from 'quadripole';
 import {State} from 'reducer';
 
@@ -56,7 +56,7 @@ const Component = connect(mapState, mapDispatch)(
           <Tile>
             {model.components.map((m, k) => {
               const c = <Component id={[...id, k]} model={m} vi={vi} key={k}/>;
-              vi = apply(m.params, vi);
+              vi = apply(m.params(), vi);
               return c;
             })}
           </Tile>
@@ -78,7 +78,7 @@ const Component = connect(mapState, mapDispatch)(
             <Component
               id={id}
               model={model.branch}
-              vi={apply(inv(model.params), [vi[0], polar(0)])}
+              vi={apply(inv(model.params()), [vi[0], rect(0)])}
             />
           </Tile>
         );
