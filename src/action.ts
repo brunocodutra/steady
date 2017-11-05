@@ -1,4 +1,4 @@
-import {Model} from 'model';
+import {Element} from 'model';
 
 export const enum Actions {
   toggle,
@@ -17,7 +17,7 @@ type Activate = {
 
 type Insert = {
   readonly type: Actions.insert,
-  readonly model: Model,
+  readonly element: Element,
 };
 
 export type Action = Toggle | Activate | Insert;
@@ -32,8 +32,8 @@ export const ActionFactory: {[type: number]: (...args: any[]) => Action} = {
     id,
   }),
 
-  [Actions.insert]: (model: Model): Insert => ({
+  [Actions.insert]: (element: Element): Insert => ({
     type: Actions.insert,
-    model,
+    element,
   }),
 };

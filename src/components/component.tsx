@@ -5,14 +5,14 @@ import {Dispatch} from 'redux';
 
 import {ActionFactory, Actions} from 'action';
 import Tile from 'components/tile';
-import {Model, Models} from 'model';
+import {Element, Elements} from 'model';
 import {Phasor, rect} from 'phasor';
 import {apply, inv} from 'quadripole';
 import {State} from 'reducer';
 
 type PropsBase = {
   readonly id: number[],
-  readonly model: Model,
+  readonly element: Element,
   readonly vi: [Phasor, Phasor],
 };
 
@@ -32,38 +32,38 @@ const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
 });
 
 const Component = connect(mapState, mapDispatch)(
-  ({active, activate, model, id, vi}: Props): JSX.Element => {
-    const UnhandledModel = (_: never): never => {
-      throw new Error('UnhandledModel');
+  ({active, activate, element, id, vi}: Props): JSX.Element => {
+    const UnhandledElement = (_: never): never => {
+      throw new Error('UnhandledElement');
     };
 
-    switch (model.kind) {
-      case Models.knee:
-      case Models.ground:
-        return <Tile className={Models[model.kind]}/>;
+    switch (element.kind) {
+      case Elements.knee:
+      case Elements.ground:
+        return <Tile className={Elements[element.kind]}/>;
 
-      case Models.vsrc:
-      case Models.isrc:
-      case Models.impedance:
-      case Models.admittance:
-      case Models.xformer:
-      case Models.xline:
-      case Models.connector:
-        return <Tile active={active} activate={activate} className={Models[model.kind]}/>;
+      case Elements.vsrc:
+      case Elements.isrc:
+      case Elements.impedance:
+      case Elements.admittance:
+      case Elements.xformer:
+      case Elements.xline:
+      case Elements.connector:
+        return <Tile active={active} activate={activate} className={Elements[element.kind]}/>;
 
-      case Models.series:
+      case Elements.series:
         return (
           <Tile>
-            {model.components.map((m, k) => {
-              const c = <Component id={[...id, k]} model={m} vi={vi} key={k}/>;
-              vi = apply(m.params(), vi);
+            {element.elements.map((e, k) => {
+              const c = <Component id={[...id, k]} element={e} vi={vi} key={k}/>;
+              vi = apply(e.model(), vi);
               return c;
             })}
           </Tile>
         );
 
-      case Models.shunt:
-        const fill = Array.apply(null, Array(model.indentation + 1))
+      case Elements.shunt:
+        const fill = Array.apply(null, Array(element.indentation + 1))
           .map((_: undefined, k: number) => <Tile key={k}/>);
 
         return (
@@ -71,20 +71,20 @@ const Component = connect(mapState, mapDispatch)(
             <Tile
               active={active}
               activate={activate}
-              className={classes('d-flex flex-column', Models[model.kind])}
+              className={classes('d-flex flex-column', Elements[element.kind])}
             >
               {fill}
             </Tile>
             <Component
               id={id}
-              model={model.branch}
-              vi={apply(inv(model.params()), [vi[0], rect(0)])}
+              element={element.branch}
+              vi={apply(inv(element.model()), [vi[0], rect(0)])}
             />
           </Tile>
         );
 
       default:
-        return UnhandledModel(model);
+        return UnhandledElement(element);
     }
   },
 );

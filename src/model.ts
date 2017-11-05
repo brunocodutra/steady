@@ -1,7 +1,7 @@
 import {cosh, div, mul, neg, Phasor, rect, sinh} from 'phasor';
 import {cat, eye, Quadripole, quadripole} from 'quadripole';
 
-export enum Models {
+export enum Elements {
   vsrc,
   isrc,
   impedance,
@@ -17,113 +17,113 @@ export enum Models {
 
 type Static = {
   readonly kind:
-      Models.ground
-    | Models.knee
-    | Models.connector
+      Elements.ground
+    | Elements.knee
+    | Elements.connector
   ,
 
-  params(): Quadripole,
+  model(): Quadripole,
 };
 
 type Lumped = {
   readonly kind:
-      Models.vsrc
-    | Models.isrc
-    | Models.impedance
-    | Models.admittance
-    | Models.xformer
+      Elements.vsrc
+    | Elements.isrc
+    | Elements.impedance
+    | Elements.admittance
+    | Elements.xformer
   ,
   value: Phasor,
-  params(): Quadripole,
+  model(): Quadripole,
 };
 
 type Distributed = {
-  readonly kind: Models.xline,
+  readonly kind: Elements.xline,
   value: [Phasor, Phasor],
-  params(): Quadripole,
+  model(): Quadripole,
 };
 
 type Series = {
-  readonly kind: Models.series,
-  readonly components: Model[],
-  params(): Quadripole,
+  readonly kind: Elements.series,
+  readonly elements: Element[],
+  model(): Quadripole,
 };
 
 type Shunt = {
-  readonly kind: Models.shunt,
+  readonly kind: Elements.shunt,
   readonly indentation: number,
-  readonly branch: Model,
-  params(): Quadripole,
+  readonly branch: Element,
+  model(): Quadripole,
 };
 
-export type Model = Static | Lumped | Distributed | Series | Shunt;
+export type Element = Static | Lumped | Distributed | Series | Shunt;
 
-export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
-  [Models.ground]: (): Static => ({
-    kind: Models.ground,
-    params() {
+export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
+  [Elements.ground]: (): Static => ({
+    kind: Elements.ground,
+    model() {
       return quadripole();
     },
   }),
 
-  [Models.knee]: (): Static => ({
-    kind: Models.knee,
-    params() {
+  [Elements.knee]: (): Static => ({
+    kind: Elements.knee,
+    model() {
       return quadripole();
     },
   }),
 
-  [Models.connector]: (): Static => ({
-    kind: Models.connector,
-    params() {
+  [Elements.connector]: (): Static => ({
+    kind: Elements.connector,
+    model() {
       return quadripole();
     },
   }),
 
-  [Models.vsrc]: (value = rect(0)): Lumped => ({
-    kind: Models.vsrc,
+  [Elements.vsrc]: (value = rect(0)): Lumped => ({
+    kind: Elements.vsrc,
     value,
-    params() {
+    model() {
       return quadripole(eye, [this.value, rect(0)]);
     },
   }),
 
-  [Models.isrc]: (value = rect(0)): Lumped => ({
-    kind: Models.isrc,
+  [Elements.isrc]: (value = rect(0)): Lumped => ({
+    kind: Elements.isrc,
     value,
-    params() {
+    model() {
       return quadripole(eye, [rect(0), this.value]);
     },
   }),
 
-  [Models.impedance]: (value = rect(0)): Lumped => ({
-    kind: Models.impedance,
+  [Elements.impedance]: (value = rect(0)): Lumped => ({
+    kind: Elements.impedance,
     value,
-    params() {
+    model() {
       return quadripole([[rect(1), neg(this.value)], [rect(0), rect(1)]]);
     },
   }),
 
-  [Models.admittance]: (value = rect(0)): Lumped => ({
-    kind: Models.admittance,
+  [Elements.admittance]: (value = rect(0)): Lumped => ({
+    kind: Elements.admittance,
     value,
-    params() {
+    model() {
       return quadripole([[rect(1), rect(0)], [neg(this.value), rect(1)]]);
     },
   }),
 
-  [Models.xformer]: (value = rect(1)): Lumped => ({
-    kind: Models.xformer,
+  [Elements.xformer]: (value = rect(1)): Lumped => ({
+    kind: Elements.xformer,
     value,
-    params() {
+    model() {
       return quadripole([[this.value, rect(0)], [rect(0), div(rect(1), this.value)]]);
     },
   }),
 
-  [Models.xline]: (z = rect(1), y = rect(0)): Distributed => ({
-    kind: Models.xline,
+  [Elements.xline]: (z = rect(1), y = rect(0)): Distributed => ({
+    kind: Elements.xline,
     value: [z, y],
-    params() {
+    model() {
       const [zz, yy] = this.value;
 
       return quadripole([
@@ -133,24 +133,24 @@ export const ModelFactory: {[kind: number]: (...args: any[]) => Model} = {
     },
   }),
 
-  [Models.series]: (head = ModelFactory[Models.ground]()): Series => ({
-    kind: Models.series,
-    components: [head, ModelFactory[Models.connector]()],
-    params() {
-      return this.components.map((m) => m.params()).reduce(cat, quadripole());
+  [Elements.series]: (head = ElementFactory[Elements.ground]()): Series => ({
+    kind: Elements.series,
+    elements: [head, ElementFactory[Elements.connector]()],
+    model() {
+      return this.elements.map((e) => e.model()).reduce(cat, quadripole());
     },
   }),
 
-  [Models.shunt]: (): Shunt => ({
-    kind: Models.shunt,
+  [Elements.shunt]: (): Shunt => ({
+    kind: Elements.shunt,
     indentation: 0,
-    branch: ModelFactory[Models.series](ModelFactory[Models.knee]()),
-    params() {
-      const {vi, abcd} = this.branch.params();
+    branch: ElementFactory[Elements.series](ElementFactory[Elements.knee]()),
+    model() {
+      const {vi, abcd} = this.branch.model();
 
       return cat(
-        ModelFactory[Models.isrc](div(vi[1], abcd[1][1])).params(),
-        ModelFactory[Models.admittance](neg(div(abcd[1][0], abcd[1][1]))).params(),
+        ElementFactory[Elements.isrc](div(vi[1], abcd[1][1])).model(),
+        ElementFactory[Elements.admittance](neg(div(abcd[1][0], abcd[1][1]))).model(),
       );
     },
   }),
