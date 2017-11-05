@@ -5,14 +5,14 @@ import {Dispatch} from 'redux';
 
 import {ActionFactory, Actions} from 'action';
 import Tile from 'components/tile';
-import {Element, Elements} from 'model';
+import {Elements, ExpandedElement} from 'model';
 import {Phasor, rect} from 'phasor';
 import {apply, inv} from 'quadripole';
 import {State} from 'reducer';
 
 type PropsBase = {
   readonly id: number[],
-  readonly element: Element,
+  readonly element: ExpandedElement,
   readonly vi: [Phasor, Phasor],
 };
 
@@ -54,7 +54,7 @@ const Component = connect(mapState, mapDispatch)(
       case Elements.series:
         return (
           <Tile>
-            {element.elements.map((e, k) => {
+            {element.elements.map((e: ExpandedElement, k) => {
               const c = <Component id={[...id, k]} element={e} vi={vi} key={k}/>;
               vi = apply(e.model(), vi);
               return c;
@@ -63,7 +63,7 @@ const Component = connect(mapState, mapDispatch)(
         );
 
       case Elements.shunt:
-        const fill = Array.apply(null, Array(element.indentation + 1))
+        const fill = Array.apply(null, Array(element.height - element.branch.height))
           .map((_: undefined, k: number) => <Tile key={k}/>);
 
         return (

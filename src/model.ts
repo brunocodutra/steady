@@ -51,7 +51,6 @@ type Series = {
 
 type Shunt = {
   readonly kind: Elements.shunt,
-  readonly indentation: number,
   readonly branch: Element,
   model(): Quadripole,
 };
@@ -143,7 +142,6 @@ export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
 
   [Elements.shunt]: (): Shunt => ({
     kind: Elements.shunt,
-    indentation: 0,
     branch: ElementFactory[Elements.series](ElementFactory[Elements.knee]()),
     model() {
       const {vi, abcd} = this.branch.model();
@@ -154,4 +152,56 @@ export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
       );
     },
   }),
+};
+
+type ExpandedSeries = Series & {
+  readonly elements: ExpandedElement[],
+};
+
+type ExpandedShunt = Shunt & {
+  readonly branch: ExpandedElement,
+};
+
+export type ExpandedElement = (Static | Lumped | Distributed | ExpandedSeries | ExpandedShunt) & {
+  readonly height: number,
+};
+
+export const expand = (element: Element): ExpandedElement => {
+  switch (element.kind) {
+    case Elements.series: {
+      const elements = element.elements.map(expand);
+
+      let height = 0;
+      for (let i = elements.length; i > 0; --i) {
+        elements[i - 1] = {
+          ...elements[i - 1],
+          height: elements[i - 1].height + height,
+        };
+
+        height = elements[i - 1].height;
+      }
+
+      return {
+        ...element,
+        elements,
+        height,
+      };
+    }
+
+    case Elements.shunt: {
+      const branch = expand(element.branch);
+
+      return {
+        ...element,
+        branch,
+        height: 1 + branch.height,
+      };
+    }
+
+    default:
+      return {
+        ...element,
+        height: 0,
+      };
+  }
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {Element} from 'model';
+import {expand, ExpandedElement} from 'model';
 import {rect} from 'phasor';
 import {solve} from 'quadripole';
 import {State} from 'reducer';
@@ -9,11 +9,11 @@ import {State} from 'reducer';
 import Component from 'components/component';
 
 type Props = {
-  readonly entry: Element,
+  readonly entry: ExpandedElement,
 };
 
 const mapState = ({schematics: {entry}}: State): Props => ({
-  entry,
+  entry: expand(entry),
 });
 
 export default connect(mapState)(
