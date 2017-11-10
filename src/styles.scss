@@ -15,7 +15,7 @@ $container-max-widths: (
 
 @import '~bootstrap/scss/bootstrap';
 
-$tile: 5rem;
+$tile: 6rem;
 
 * {
     flex-shrink: 0;
@@ -89,14 +89,9 @@ svg.github {
     @extend .rounded;
     @extend .interactive;
 
-    width: 0.8*$tile;
-    height: 0.8*$tile;
+    width: 0.75*$tile;
+    height: 0.75*$tile;
     position: relative;
-
-    @media (min-width: map-get($grid-breakpoints, lg)) {
-        width: $tile;
-        height: $tile;
-    }
 
     &:hover, &:focus {
         outline: none !important;
