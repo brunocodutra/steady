@@ -114,13 +114,31 @@ svg.github {
 
 .tile {
     width: $tile;
-    min-height: $tile;
+    height: $tile;
     position: relative;
     display: inline-block;
     vertical-align: top;
 
     &.interactive:focus {
         @extend .focused;
+    }
+
+    &.shunt {
+        height: auto;
+        padding-bottom: $tile;
+        margin-bottom: -$tile;
+
+        &:after {
+            content: '';
+            top: $tile;
+            bottom: $tile;
+            width: 100%;
+            position: absolute;
+            display: inline-block;
+            background-image: url('./icons/wire.svg');
+            background-repeat: repeat-y;
+            background-origin: content-box;
+        }
     }
 }
 
@@ -178,18 +196,6 @@ svg.github {
     background-image: url('./icons/shunt.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
-
-    &:after {
-        content: '';
-        top: $tile;
-        bottom: 0;
-        width: 100%;
-        position: absolute;
-        display: inline-block;
-        background-image: url('./icons/wire.svg');
-        background-repeat: repeat-y;
-        background-origin: content-box;
-    }
 }
 
 .knee {
