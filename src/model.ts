@@ -6,8 +6,8 @@ export enum Elements {
   isrc,
   impedance,
   admittance,
-  xformer,
   xline,
+  xformer,
   ground,
   knee,
   connector,
@@ -30,7 +30,6 @@ type Lumped = {
     | Elements.isrc
     | Elements.impedance
     | Elements.admittance
-    | Elements.xformer
   ,
   readonly value: Phasor,
 };
@@ -38,6 +37,11 @@ type Lumped = {
 type Distributed = {
   readonly kind: Elements.xline,
   readonly value: [Phasor, Phasor],
+};
+
+type XFormer = {
+  readonly kind: Elements.xformer,
+  readonly value: number,
 };
 
 type Series = {
@@ -50,7 +54,7 @@ type Shunt = {
   readonly branch: Element,
 };
 
-export type Element = Static | Lumped | Distributed | Series | Shunt;
+export type Element = Static | Lumped | Distributed | XFormer | Series | Shunt;
 
 export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
   [Elements.ground]: (): Static => ({
@@ -85,14 +89,14 @@ export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
     value,
   }),
 
-  [Elements.xformer]: (value = rect(1)): Lumped => ({
-    kind: Elements.xformer,
-    value,
-  }),
-
   [Elements.xline]: (z = rect(1), y = rect(0)): Distributed => ({
     kind: Elements.xline,
     value: [z, y],
+  }),
+
+  [Elements.xformer]: (value = 1): XFormer => ({
+    kind: Elements.xformer,
+    value,
   }),
 
   [Elements.series]: (head = ElementFactory[Elements.ground]()): Series => ({
@@ -114,13 +118,13 @@ const ModelFactory: {[kind: number]: (...args: any[]) => Quadripole} = {
   [Elements.isrc]: (value: Phasor): Quadripole => quadripole(eye, [rect(0), value]),
   [Elements.impedance]: (value: Phasor): Quadripole => quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
   [Elements.admittance]: (value: Phasor): Quadripole => quadripole([[rect(1), rect(0)], [neg(value), rect(1)]]),
-  [Elements.xformer]: (value: Phasor): Quadripole => quadripole([[value, rect(0)], [rect(0), div(rect(1), value)]]),
 
   [Elements.xline]: ([z, y]: [Phasor, Phasor]): Quadripole => quadripole([
     [cosh(y), neg(mul(z, sinh(y)))],
     [neg(div(sinh(y), z)), cosh(y)],
   ]),
 
+  [Elements.xformer]: (value: number): Quadripole => quadripole([[rect(1 / value), rect(0)], [rect(0), rect(value)]]),
   [Elements.series]: (models: Quadripole[]): Quadripole => models.reduce(cat, quadripole()),
 
   [Elements.shunt]: ({vi, abcd}: Quadripole): Quadripole => cat(
@@ -137,7 +141,7 @@ type ExpandedShunt = Shunt & {
   readonly branch: ExpandedElement,
 };
 
-export type ExpandedElement = (Static | Lumped | Distributed | ExpandedSeries | ExpandedShunt) & {
+export type ExpandedElement = (Static | Lumped | Distributed | XFormer | ExpandedSeries | ExpandedShunt) & {
   readonly height: number,
   readonly model: Quadripole,
 };
