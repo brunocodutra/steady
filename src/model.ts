@@ -84,7 +84,7 @@ export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
     value,
   }),
 
-  [Elements.admittance]: (value = rect(0)): Lumped => ({
+  [Elements.admittance]: (value = rect(Infinity)): Lumped => ({
     kind: Elements.admittance,
     value,
   }),
@@ -117,7 +117,11 @@ const ModelFactory: {[kind: number]: (...args: any[]) => Quadripole} = {
   [Elements.vsrc]: (value: Phasor): Quadripole => quadripole(eye, [value, rect(0)]),
   [Elements.isrc]: (value: Phasor): Quadripole => quadripole(eye, [rect(0), value]),
   [Elements.impedance]: (value: Phasor): Quadripole => quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
-  [Elements.admittance]: (value: Phasor): Quadripole => quadripole([[rect(1), rect(0)], [neg(value), rect(1)]]),
+
+  [Elements.admittance]: (value: Phasor): Quadripole => quadripole([
+    [rect(1), rect(0)],
+    [div(rect(1), neg(value)), rect(1)],
+  ]),
 
   [Elements.xline]: ([z, y]: [Phasor, Phasor]): Quadripole => quadripole([
     [cosh(y), neg(mul(z, sinh(y)))],
