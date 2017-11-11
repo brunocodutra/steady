@@ -36,6 +36,10 @@ html, body {
     flex-direction: column;
 }
 
+a:focus, button:focus {
+    @extend .focused;
+}
+
 .flex-grow {
     flex-grow: 1;
 }
@@ -230,6 +234,78 @@ svg.github {
     background-origin: content-box;
 }
 
-a:focus, button:focus {
-    @extend .focused;
+.phasor {
+    .ang {
+        &:before {
+            content: '∠';
+        }
+
+        &:after {
+            content: '°';
+        }
+    }
+}
+
+.unit {
+    margin-left: 0.35em;
+
+    &.volt:after {
+        content: 'V';
+    }
+
+    &.ampre:after {
+        content: 'A';
+    }
+
+    &.ohm:after {
+        content: 'Ω';
+    }
+
+    &.ratio:after {
+        content: ': 1';
+    }
+}
+
+.prefix {
+    margin: 0 -0.35em 0 0.35em;
+
+    &.femto:after {
+        content: 'f';
+    }
+
+    &.pico:after {
+        content: 'p';
+    }
+
+    &.nano:after {
+        content: 'n';
+    }
+
+    &.micro:after {
+        content: 'μ';
+    }
+
+    &.milli:after {
+        content: 'm';
+    }
+
+    &.kilo:after {
+        content: 'k';
+    }
+
+    &.mega:after {
+        content: 'M';
+    }
+
+    &.giga:after {
+        content: 'G';
+    }
+
+    &.tera:after {
+        content: 'T';
+    }
+
+    &.peta:after {
+        content: 'P';
+    }
 }
