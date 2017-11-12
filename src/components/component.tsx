@@ -4,11 +4,14 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {ActionFactory, Actions} from 'action';
-import Tile from 'components/tile';
-import {Elements, ExpandedElement} from 'model';
+import {Elements, ElementUnit, ExpandedElement} from 'model';
 import {Phasor, rect} from 'phasor';
 import {apply, inv} from 'quadripole';
 import {State} from 'reducer';
+import {Unit} from 'unit';
+
+import Quantity from 'components/quantity';
+import Tile from 'components/tile';
 
 type PropsBase = {
   readonly id: number[],
@@ -42,14 +45,41 @@ const Component = connect(mapState, mapDispatch)(
       case Elements.ground:
         return <Tile className={Elements[element.kind]}/>;
 
+      case Elements.connector:
+        return <Tile active={active} activate={activate} className={Elements[element.kind]}/>;
+
       case Elements.vsrc:
       case Elements.isrc:
       case Elements.impedance:
       case Elements.admittance:
       case Elements.xformer:
+        return (
+          <Tile active={active} activate={activate} className={Elements[element.kind]}>
+            <div className='value'>
+              <Quantity value={element.value} unit={ElementUnit[element.kind]}/>
+            </div>
+          </Tile>
+        );
+
       case Elements.xline:
-      case Elements.connector:
-        return <Tile active={active} activate={activate} className={Elements[element.kind]}/>;
+        return (
+          <Tile active={active} activate={activate} className={Elements[element.kind]}>
+            <div className='value'>
+              <div className='d-flex flex-column'>
+                <span>Z</span>
+                <span>γ</span>
+              </div>
+              <div className='d-flex flex-column mx-1'>
+                <span>=</span>
+                <span>=</span>
+              </div>
+              <div className='d-flex flex-column'>
+                <Quantity value={element.value[0]} unit={ElementUnit[element.kind]}/>
+                <Quantity value={element.value[1]} unit={Unit.constant}/>
+              </div>
+            </div>
+          </Tile>
+        );
 
       case Elements.series:
         return (

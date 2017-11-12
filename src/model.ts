@@ -1,5 +1,6 @@
 import {cosh, div, mul, neg, Phasor, rect, sinh} from 'phasor';
 import {cat, eye, Quadripole, quadripole} from 'quadripole';
+import {Unit} from 'unit';
 
 export enum Elements {
   vsrc,
@@ -14,6 +15,15 @@ export enum Elements {
   series,
   shunt,
 }
+
+export const ElementUnit: {[kind: number]: Unit} = {
+  [Elements.vsrc]: Unit.volt,
+  [Elements.isrc]: Unit.ampere,
+  [Elements.impedance]: Unit.ohm,
+  [Elements.admittance]: Unit.ohm,
+  [Elements.xline]: Unit.ohm,
+  [Elements.xformer]: Unit.ratio,
+};
 
 type Static = {
   readonly kind:

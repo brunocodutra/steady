@@ -234,6 +234,38 @@ svg.github {
     background-origin: content-box;
 }
 
+.value {
+    @extend .d-flex;
+    @extend .text-muted;
+    @extend .justify-content-center;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    font-size: .7rem;
+    font-weight: bold;
+    line-height: 1em;
+}
+
+.vsrc, .impedance {
+    .value {
+        top: 40%;
+    }
+}
+
+.isrc, .admittance, .xformer {
+    .value {
+        top: 85%;
+    }
+}
+
+.xline {
+    .value {
+        top: 80%;
+    }
+}
+
 .phasor {
     .ang {
         &:before {
