@@ -1,16 +1,9 @@
 $grid-breakpoints: (
   xs: 0,
-  sm: 432px,
+  sm: 320px,
   md: 576px,
   lg: 768px,
   xl: 992px
-);
-
-$container-max-widths: (
-  sm: map-get($grid-breakpoints, md),
-  md: map-get($grid-breakpoints, lg),
-  lg: map-get($grid-breakpoints, xl),
-  xl: map-get($grid-breakpoints, xl)*1.2
 );
 
 @import '~bootstrap/scss/bootstrap';
@@ -19,6 +12,22 @@ $tile: 6rem;
 
 * {
     flex-shrink: 0;
+}
+
+html {
+    font-size: 12px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 14px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        font-size: 16px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        font-size: 18px;
+    }
 }
 
 html, body {
@@ -64,7 +73,7 @@ svg.github {
     height: 2.5rem;
     fill: currentcolor;
 
-    @media (min-width: map-get($grid-breakpoints, md)) {
+    @include media-breakpoint-up(md) {
         width: 1.25rem;
         height: 1.25rem;
         vertical-align: text-bottom;
@@ -73,7 +82,17 @@ svg.github {
 
 .github-btn {
     height: 20px;
-    width: 100px;
+    width: 90px;
+}
+
+.copyright {
+    @include media-breakpoint-up(md) {
+        font-size: .9rem;
+    }
+
+    @include media-breakpoint-up(xl) {
+        font-size: .8rem;
+    }
 }
 
 .board {
