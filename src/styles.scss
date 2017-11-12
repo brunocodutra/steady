@@ -1,3 +1,5 @@
+@import 'icons';
+
 $grid-breakpoints: (
   xs: 0,
   sm: 320px,
@@ -151,13 +153,14 @@ svg.github {
         margin-bottom: -$tile;
 
         &:after {
+            @include wire-svg(#000);
+
             content: '';
             top: $tile;
             bottom: $tile;
             width: 100%;
             position: absolute;
             display: inline-block;
-            background-image: url('./icons/wire.svg');
             background-repeat: repeat-y;
             background-origin: content-box;
         }
@@ -165,71 +168,81 @@ svg.github {
 }
 
 .ground {
+    @include ground-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/ground.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .vsrc {
+    @include vsrc-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/vsrc.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .isrc {
+    @include isrc-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/isrc.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .impedance {
+    @include impedance-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/impedance.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .admittance {
+    @include admittance-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/admittance.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .xformer {
+    @include xformer-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/xformer.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .xline {
+    @include xline-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/xline.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .shunt {
+    @include shunt-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/shunt.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .knee {
+    @include knee-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/knee.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
 
 .connector {
+    @include connector-svg(#000);
+
     display: inline-block;
-    background-image: url('./icons/connector.svg');
     background-repeat: no-repeat;
     background-origin: content-box;
 }
