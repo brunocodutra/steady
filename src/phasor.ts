@@ -46,6 +46,7 @@ export const real = ({mag, tan}: Phasor): number => (1 / tan) && (mag / hypot(1,
 export const imag = ({mag, tan}: Phasor): number => sign(tan) * real({mag, tan: 1 / tan});
 
 export const neg = ({mag, tan}: Phasor): Phasor => phasor(-mag, tan);
+export const conj = ({mag, tan}: Phasor): Phasor => phasor(mag, -tan);
 
 export const add = (p: Phasor, q: Phasor): Phasor => {
   const [a, b] = [real(p), imag(p)];
