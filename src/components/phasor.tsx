@@ -1,7 +1,7 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {Phasor, toPolar, toRect} from 'phasor';
+import {angle, norm, Phasor} from 'phasor';
 import {Prefix} from 'unit';
 
 const toFixed = (x: number, d = 3) => !x
@@ -14,43 +14,41 @@ type Props = {
 };
 
 export default ({value}: Props) => {
-  const {mag, ang} = toPolar(toRect(value));
+  const ang = Math.round(angle(value) * 180 / Math.PI);
 
-  const [m, p] = (
-      (mag < 1E-15)
+  const [mag, prefix] = ((m: number): [string, Prefix] => (
+      (m < 1E-15)
     ? [toFixed(0), Prefix.mono]
-    : (mag < 1E-12)
-    ? [`${toFixed(mag / 1E-15)}`, Prefix.femto]
-    : (mag < 1E-09)
-    ? [`${toFixed(mag / 1E-12)}`, Prefix.pico]
-    : (mag < 1E-06)
-    ? [`${toFixed(mag / 1E-09)}`, Prefix.nano]
-    : (mag < 1E-03)
-    ? [`${toFixed(mag / 1E-06)}`, Prefix.micro]
-    : (mag < 1E+00)
-    ? [`${toFixed(mag / 1E-03)}`, Prefix.milli]
-    : (mag < 1E+03)
-    ? [`${toFixed(mag / 1E+00)}`, Prefix.mono]
-    : (mag < 1E+06)
-    ? [`${toFixed(mag / 1E+03)}`, Prefix.kilo]
-    : (mag < 1E+09)
-    ? [`${toFixed(mag / 1E+06)}`, Prefix.mega]
-    : (mag < 1E+12)
-    ? [`${toFixed(mag / 1E+09)}`, Prefix.giga]
-    : (mag < 1E+15)
-    ? [`${toFixed(mag / 1E+012)}`, Prefix.tera]
-    : (mag < 1E+18)
-    ? [`${toFixed(mag / 1E+015)}`, Prefix.peta]
+    : (m < 1E-12)
+    ? [`${toFixed(m / 1E-15)}`, Prefix.femto]
+    : (m < 1E-09)
+    ? [`${toFixed(m / 1E-12)}`, Prefix.pico]
+    : (m < 1E-06)
+    ? [`${toFixed(m / 1E-09)}`, Prefix.nano]
+    : (m < 1E-03)
+    ? [`${toFixed(m / 1E-06)}`, Prefix.micro]
+    : (m < 1E+00)
+    ? [`${toFixed(m / 1E-03)}`, Prefix.milli]
+    : (m < 1E+03)
+    ? [`${toFixed(m / 1E+00)}`, Prefix.mono]
+    : (m < 1E+06)
+    ? [`${toFixed(m / 1E+03)}`, Prefix.kilo]
+    : (m < 1E+09)
+    ? [`${toFixed(m / 1E+06)}`, Prefix.mega]
+    : (m < 1E+12)
+    ? [`${toFixed(m / 1E+09)}`, Prefix.giga]
+    : (m < 1E+15)
+    ? [`${toFixed(m / 1E+12)}`, Prefix.tera]
+    : (m < 1E+18)
+    ? [`${toFixed(m / 1E+15)}`, Prefix.peta]
     : ['\u00a0∞\u00a0', Prefix.mono]
-  );
-
-  const a = Math.round(ang * 180 / Math.PI);
+  ))(norm(value));
 
   return (
     <span className='phasor'>
-      <span className='mag'>{m}</span>
-      <span className='ang'>{a}</span>
-      <span className={classes('prefix', p)}/>
+      <span className='mag'>{mag}</span>
+      <span className='ang'>{ang}</span>
+      <span className={classes('prefix', prefix)}/>
     </span>
   );
 };
