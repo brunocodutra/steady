@@ -1,0 +1,34 @@
+language: node_js
+node_js: "node"
+
+git:
+    depth: 1
+
+cache:
+  directories:
+    - "node_modules"
+
+matrix:
+    include:
+      - os: linux
+        env: DEPLOY=true
+
+      - os: linux
+        env: SPEC=true
+
+      - os: osx
+        env: DEPLOY=true
+
+      - os: osx
+        env: SPEC=true
+
+script:
+  - |
+    if [[ "${DEPLOY}" == "true" ]]
+    then
+        npm run dist || exit $?
+    elif [[ "${SPEC}" == "true" ]]
+    then
+        npm run spec || exit $?
+    fi
+
