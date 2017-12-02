@@ -3,6 +3,10 @@ export type Phasor = {
   readonly tan: number,
 };
 
+export const isPhasor = (p: any): p is Phasor => (
+  typeof p === 'object' && 'mag' in p && 'tan' in p
+);
+
 const sign = (x: number): number => (+(x > 0) - +(x < 0)) || +x;
 
 const hypot = (x: number, y: number): number => {

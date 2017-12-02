@@ -1,7 +1,7 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {Phasor as TPhasor} from 'phasor';
+import {isPhasor, Phasor as TPhasor} from 'phasor';
 import {Unit} from 'unit';
 
 import Number from 'components/number';
@@ -15,9 +15,9 @@ type Props = {
 export default ({value, unit}: Props) => (
   <span className={'quantity'}>
     {
-      (typeof value === 'number')
-      ? <Number value={value}/>
-      : <Phasor value={value}/>
+      isPhasor(value)
+      ? <Phasor value={value}/>
+      : <Number value={value}/>
     }
     <span className={classes('unit', unit)}/>
   </span>
