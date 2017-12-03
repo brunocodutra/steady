@@ -9,5 +9,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-  }
+    "skipLibCheck": true,
+  },
+  "exclude": ["node_modules", "spec"],
 }
