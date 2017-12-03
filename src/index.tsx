@@ -6,8 +6,8 @@ import {Provider} from 'react-redux';
 import Schematics from 'components/schematics';
 import Toggler from 'components/toggler';
 import Toolbar from 'components/toolbar';
-import {reducer} from 'reducer';
-import {store} from 'store';
+import reducer from 'reducer';
+import store from 'store';
 
 const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.render(
   <AppContainer>

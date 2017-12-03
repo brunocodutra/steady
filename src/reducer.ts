@@ -8,7 +8,7 @@ export type State = {
   readonly schematics: Schematics,
 };
 
-export const reducer = combineReducers({
+export default combineReducers({
   toolbar,
   schematics,
 });
