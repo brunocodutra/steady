@@ -1,6 +1,6 @@
-import {cosh, div, mul, neg, Phasor, rect, sinh} from 'phasor';
-import {cat, eye, Quadripole, quadripole} from 'quadripole';
-import {Unit} from 'unit';
+import {cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
+import {cat, eye, Quadripole, quadripole} from 'lib/quadripole';
+import {Unit} from 'lib/unit';
 
 export enum Elements {
   vsrc,

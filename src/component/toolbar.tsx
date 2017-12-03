@@ -2,7 +2,7 @@ import * as classes from 'classnames';
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import Tool from 'components/tool';
+import Tool from 'component/tool';
 import {Elements} from 'model';
 import {State} from 'reducer';
 

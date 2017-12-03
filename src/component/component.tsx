@@ -3,15 +3,21 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {ActionFactory, Actions} from 'action';
-import {Elements, ElementUnit, ExpandedElement} from 'model';
-import {Phasor, rect} from 'phasor';
-import {apply, inv} from 'quadripole';
-import {State} from 'reducer';
-import {Unit} from 'unit';
+import {Phasor, rect} from 'lib/phasor';
+import {apply, inv} from 'lib/quadripole';
+import {Unit} from 'lib/unit';
 
-import Quantity from 'components/quantity';
-import Tile from 'components/tile';
+import {
+  Elements,
+  ElementUnit,
+  ExpandedElement,
+} from 'model';
+
+import {ActionFactory, Actions} from 'action';
+import {State} from 'reducer';
+
+import Quantity from 'component/quantity';
+import Tile from 'component/tile';
 
 type PropsBase = {
   readonly id: number[],

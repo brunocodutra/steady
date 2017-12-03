@@ -1,4 +1,4 @@
-import {add, div, mul, neg, Phasor, rect, sub} from 'phasor';
+import {add, div, mul, neg, Phasor, rect, sub} from 'lib/phasor';
 
 type ABCD = [
   [Phasor, Phasor],

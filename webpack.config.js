@@ -20,7 +20,6 @@ module.exports = env => ({
   entry: {
     'app': [
       'react-hot-loader/patch',
-      'styles.scss',
       'index.tsx'
     ]
   },
@@ -104,7 +103,7 @@ module.exports = env => ({
 
     new HtmlWebpackPlugin({
       title: 'Steady',
-      template: path.resolve(__dirname, 'index.html'),
+      template: path.resolve(__dirname, 'src', 'index.html'),
       inject: 'body'
     })
   ]

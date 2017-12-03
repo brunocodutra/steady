@@ -1,8 +1,8 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {angle, norm, Phasor} from 'phasor';
-import {Prefix} from 'unit';
+import {angle, norm, Phasor} from 'lib/phasor';
+import {Prefix} from 'lib/unit';
 
 const toFixed = (x: number, d = 3) => !x
   ? x.toFixed(d - 1)

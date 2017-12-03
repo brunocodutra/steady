@@ -3,11 +3,13 @@ import * as ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 
-import Schematics from 'components/schematics';
-import Toggler from 'components/toggler';
-import Toolbar from 'components/toolbar';
+import Schematics from 'component/schematics';
+import Toggler from 'component/toggler';
+import Toolbar from 'component/toolbar';
 import reducer from 'reducer';
 import store from 'store';
+
+import 'style.scss';
 
 const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.render(
   <AppContainer>
