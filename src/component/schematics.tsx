@@ -18,6 +18,8 @@ const mapState = ({schematics: {entry}}: State): Props => ({
 
 export default connect(mapState)(
   ({entry}: Props) => (
-    <Component id={[]} element={entry} vi={[rect(0), solve(entry.model)[1]]}/>
+    <div className='board flex-grow border rounded p-3' tabIndex={-1}>
+      <Component id={[]} element={entry} vi={[rect(0), solve(entry.model)[1]]}/>
+    </div>
   ),
 );

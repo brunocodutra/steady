@@ -3,9 +3,8 @@ import * as ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 
-import Schematics from 'component/schematics';
+import Steady from 'component/steady';
 import Toggler from 'component/toggler';
-import Toolbar from 'component/toolbar';
 import reducer from 'reducer';
 import store from 'store';
 
@@ -21,16 +20,14 @@ const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.re
 );
 
 const toggler = document.getElementById('toggler');
-const toolbar = document.getElementById('toolbar');
-const schematics = document.getElementById('schematics');
+const steady = document.getElementById('steady');
 
-if (!toggler || !toolbar || !schematics) {
+if (!toggler || !steady) {
   throw new Error('placeholder not found');
 }
 
 render(<Toggler/>, toggler);
-render(<Toolbar/>, toolbar);
-render(<Schematics/>, schematics);
+render(<Steady/>, steady);
 
 declare const module: any;
 
@@ -38,7 +35,6 @@ if (module.hot) {
   module.hot.accept(() => {
     store.replaceReducer(reducer);
     render(<Toggler/>, toggler);
-    render(<Toolbar/>, toolbar);
-    render(<Schematics/>, schematics);
+    render(<Steady/>, steady);
   });
 }
