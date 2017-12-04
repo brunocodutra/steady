@@ -20,7 +20,6 @@
   "dependencies": {
     "@types/classnames": "^2.2.3",
     "@types/jest": "^21.1.8",
-    "@types/node": "^8.0.47",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
     "@types/react-hot-loader": "^3.0.5",
@@ -31,11 +30,9 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
-    "file-loader": "^1.1.5",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^21.2.1",
     "node-sass": "^4.6.0",
-    "path": "^0.12.7",
     "postcss": "^6.0.14",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^11.0.0",
@@ -54,7 +51,6 @@
     "tslint": "^5.8.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.6.1",
-    "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   }
