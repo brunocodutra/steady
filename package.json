@@ -15,7 +15,7 @@
   "scripts": {
     "spec": "jest",
     "start": "webpack-dev-server -d --progress --hot --inline",
-    "dist": "webpack -p --env=production --progress"
+    "deploy": "webpack -p --env=production --progress"
   },
   "dependencies": {
     "@types/classnames": "^2.2.3",
