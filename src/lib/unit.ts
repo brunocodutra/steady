@@ -1,6 +1,6 @@
 export enum Unit {
   volt = 'volt',
-  ampere = 'ampre',
+  ampere = 'ampere',
   ohm = 'ohm',
   ratio = 'ratio',
   constant = 'constant',
