@@ -20,7 +20,10 @@ const hypot = (x: number, y: number): number => {
   );
 };
 
-const phasor = (mag: number, tan: number): Phasor => ({mag, tan: mag && tan});
+const phasor = (mag: number, tan: number): Phasor => ({
+  mag: isNaN(tan) ? NaN : mag,
+  tan: isNaN(mag) ? NaN : tan,
+});
 
 export const polar = (mag: number, ang = 0): Phasor => {
   ang %= 2 * Math.PI;
@@ -34,11 +37,7 @@ export const polar = (mag: number, ang = 0): Phasor => {
 
 export const rect = (re: number, im = 0): Phasor => phasor(
   (re < 0) ? -hypot(re, im) : hypot(re, im),
-  im && (
-      (Math.abs(re) === Infinity && Math.abs(im) === Infinity)
-    ? sign(im * re)
-    : im / re
-  ),
+  (Math.abs(re) === Math.abs(im)) ? sign(im * re) : im / re,
 );
 
 export const norm = ({mag}: Phasor): number => Math.abs(mag);
