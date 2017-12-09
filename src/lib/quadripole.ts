@@ -1,4 +1,4 @@
-import {add, div, mul, neg, Phasor, rect, sub} from 'lib/phasor';
+import {add, div, mul, Phasor, rect, sub} from 'lib/phasor';
 
 type ABCD = [
   [Phasor, Phasor],
@@ -14,27 +14,6 @@ export type Quadripole = {
 
 export const eye: ABCD = [[rect(1), rect(0)], [rect(0), rect(1)]];
 export const quadripole = (abcd = eye, vi: VI = [rect(0), rect(0)]): Quadripole => ({abcd, vi});
-
-export const det = ({abcd: [[a, b], [c, d]]}: Quadripole): Phasor => {
-  return sub(mul(a, d), mul(b, c));
-};
-
-export const inv = (q: Quadripole): Quadripole => {
-  const D = det(q);
-  const {abcd: [[a, b], [c, d]], vi: [v, i]} = q;
-
-  return {
-    abcd: [
-      [div(d, D), neg(div(b, D))],
-      [neg(div(c, D)), div(a, D)],
-    ],
-
-    vi: [
-      div(sub(mul(b, i), mul(d, v)), D),
-      div(sub(mul(c, v), mul(a, i)), D),
-    ],
-  };
-};
 
 export const cat = (q: Quadripole, p: Quadripole): Quadripole => {
   const {abcd: [[a, b], [c, d]], vi: [v, i]} = p;

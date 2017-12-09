@@ -3,8 +3,8 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {Phasor, rect} from 'lib/phasor';
-import {apply, inv} from 'lib/quadripole';
+import {Phasor, sub} from 'lib/phasor';
+import {apply} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
 import {
@@ -113,7 +113,7 @@ const Component = connect(mapState, mapDispatch)(
             <Component
               id={id}
               element={element.branch}
-              vi={apply(inv(element.model), [vi[0], rect(0)])}
+              vi={[vi[0], sub(vi[1], apply(element.model, vi)[1])]}
             />
           </Tile>
         );
