@@ -15,7 +15,7 @@ export type Quadripole = {
 export const eye: ABCD = [[rect(1), rect(0)], [rect(0), rect(1)]];
 export const quadripole = (abcd = eye, vi: VI = [rect(0), rect(0)]): Quadripole => ({abcd, vi});
 
-export const cat = (q: Quadripole, p: Quadripole): Quadripole => {
+export const connect = (q: Quadripole, p: Quadripole): Quadripole => {
   const {abcd: [[a, b], [c, d]], vi: [v, i]} = p;
   const {abcd: [[e, f], [g, h]], vi: [u, j]} = q;
 

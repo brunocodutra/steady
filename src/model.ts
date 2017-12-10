@@ -1,5 +1,5 @@
 import {cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
-import {cat, eye, Quadripole, quadripole} from 'lib/quadripole';
+import {connect, eye, Quadripole, quadripole} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
 export enum Elements {
@@ -139,9 +139,9 @@ const ModelFactory: {[kind: number]: (...args: any[]) => Quadripole} = {
   ]),
 
   [Elements.xformer]: (value: number): Quadripole => quadripole([[rect(1 / value), rect(0)], [rect(0), rect(value)]]),
-  [Elements.series]: (models: Quadripole[]): Quadripole => models.reduce(cat, quadripole()),
+  [Elements.series]: (models: Quadripole[]): Quadripole => models.reduce(connect, quadripole()),
 
-  [Elements.shunt]: ({vi, abcd}: Quadripole): Quadripole => cat(
+  [Elements.shunt]: ({vi, abcd}: Quadripole): Quadripole => connect(
     ModelFactory[Elements.isrc](div(vi[1], abcd[1][1])),
     ModelFactory[Elements.admittance](neg(div(abcd[1][0], abcd[1][1]))),
   ),
