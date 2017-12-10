@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {Phasor, sub} from 'lib/phasor';
-import {apply} from 'lib/quadripole';
+import {project} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
 import {
@@ -92,7 +92,7 @@ const Component = connect(mapState, mapDispatch)(
           <Tile>
             {element.elements.map((e: ExpandedElement, k) => {
               const c = <Component id={[...id, k]} element={e} vi={vi} key={k}/>;
-              vi = apply(e.model, vi);
+              vi = project(e.model, vi);
               return c;
             })}
           </Tile>
@@ -113,7 +113,7 @@ const Component = connect(mapState, mapDispatch)(
             <Component
               id={id}
               element={element.branch}
-              vi={[vi[0], sub(vi[1], apply(element.model, vi)[1])]}
+              vi={[vi[0], sub(vi[1], project(element.model, vi)[1])]}
             />
           </Tile>
         );

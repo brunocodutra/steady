@@ -39,7 +39,7 @@ export const solve = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, io]
   return [vo, ii];
 };
 
-export const apply = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, ii]: VI): VI => {
+export const project = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, ii]: VI): VI => {
   return [
     add(add(mul(a, vi), mul(b, ii)), v),
     add(add(mul(c, vi), mul(d, ii)), i),
