@@ -15,6 +15,8 @@ const closeTo = (x, y, e) => {
           closeTo(f(1 / x.tan) * x.mag, f(1 / y.tan) * y.mag, e)
         )
       )
+    : (x.constructor === Array && y.constructor === Array)
+    ? x.reduce((a, b, i) => a && closeTo(b, y[i], e), x.length === y.length)
     : false
   );
 };

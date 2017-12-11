@@ -37,7 +37,7 @@ export const polar = (mag: number, ang = 0): Phasor => {
 
 export const rect = (re: number, im = 0): Phasor => phasor(
   (re < 0) ? -hypot(re, im) : hypot(re, im),
-  (Math.abs(re) === Math.abs(im)) ? sign(im * re) : im / re,
+  (Math.abs(re) === Math.abs(im)) ? sign(im * re) : (re === 0) ? im / 0 : im / re,
 );
 
 export const norm = ({mag}: Phasor): number => Math.abs(mag);

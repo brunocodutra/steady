@@ -12,36 +12,35 @@ export type Quadripole = {
   vi: VI,
 };
 
-export const eye: ABCD = [[rect(1), rect(0)], [rect(0), rect(1)]];
-export const quadripole = (abcd = eye, vi: VI = [rect(0), rect(0)]): Quadripole => ({abcd, vi});
+const _0 = rect(0);
+const _1 = rect(1);
 
-export const connect = (q: Quadripole, p: Quadripole): Quadripole => {
-  const {abcd: [[a, b], [c, d]], vi: [v, i]} = p;
-  const {abcd: [[e, f], [g, h]], vi: [u, j]} = q;
+export const eye: ABCD = [[_1, _0], [_0, _1]];
+export const quadripole = (abcd = eye, vi: VI = [_0, _0]): Quadripole => ({abcd, vi});
 
-  return {
-    abcd: [
-      [add(mul(a, e), mul(b, g)), add(mul(a, f), mul(b, h))],
-      [add(mul(c, e), mul(d, g)), add(mul(c, f), mul(d, h))],
-    ],
-
-    vi: [
-      add(add(mul(a, u), mul(b, j)), v),
-      add(add(mul(c, u), mul(d, j)), i),
-    ],
-  };
+export const project = ({abcd: [[a, b], [c, d]], vi: [u, j]}: Quadripole, [v, i]: VI): VI => {
+  return [
+    add(add(mul(a, v), mul(b, i)), u),
+    add(add(mul(c, v), mul(d, i)), j),
+  ];
 };
 
-export const solve = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, io]: VI = [rect(0), rect(0)]): VI => {
-  const ii = div(sub(io, add(i, mul(c, vi))), d);
-  const vo = add(add(mul(a, vi), mul(b, ii)), v);
+export const solve = ({abcd: [[a, b], [c, d]], vi: [u, j]}: Quadripole, [vi, io]: VI = [_0, _0]): VI => {
+  const ii = div(sub(sub(io, j), mul(c, vi)), d);
+  const vo = add(add(mul(a, vi), mul(b, ii)), u);
 
   return [vo, ii];
 };
 
-export const project = ({abcd: [[a, b], [c, d]], vi: [v, i]}: Quadripole, [vi, ii]: VI): VI => {
-  return [
-    add(add(mul(a, vi), mul(b, ii)), v),
-    add(add(mul(c, vi), mul(d, ii)), i),
-  ];
+export const connect = (p: Quadripole, q: Quadripole): Quadripole => {
+  const {abcd: [[a, b], [c, d]]} = p;
+  const {abcd: [[e, f], [g, h]]} = q;
+
+  return quadripole(
+    [
+      [add(mul(e, a), mul(f, c)), add(mul(e, b), mul(f, d))],
+      [add(mul(g, a), mul(h, c)), add(mul(g, b), mul(h, d))],
+    ],
+    project(q, p.vi),
+  );
 };
