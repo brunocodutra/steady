@@ -3,7 +3,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {ActionFactory, Type} from 'action';
+import {Factory as ActionFactory, Type} from 'action';
 import {Factory as ElementFactory, Kind} from 'lib/element';
 
 type PropsBase = {

@@ -13,7 +13,7 @@ import {
   Kind,
 } from 'lib/element';
 
-import {ActionFactory, Type} from 'action';
+import {Factory, Type} from 'action';
 import {State} from 'reducer';
 
 import Quantity from 'component/quantity';
@@ -36,7 +36,7 @@ const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
 
 const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
   activate: () => {
-    dispatch(ActionFactory[Type.activate](props.id));
+    dispatch(Factory[Type.activate](props.id));
   },
 });
 

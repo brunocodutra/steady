@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {ActionFactory, Type} from 'action';
+import {Factory, Type} from 'action';
 
 type Props = {
   readonly toggle: () => void,
@@ -10,7 +10,7 @@ type Props = {
 
 const mapDispatch = (dispatch: Dispatch<any>): Props => ({
   toggle: () => {
-    dispatch(ActionFactory[Type.toggle]());
+    dispatch(Factory[Type.toggle]());
   },
 });
 
