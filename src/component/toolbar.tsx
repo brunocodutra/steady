@@ -3,7 +3,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 
 import Tool from 'component/tool';
-import {Elements} from 'lib/element';
+import {Kind} from 'lib/element';
 import {State} from 'reducer';
 
 type Props = {
@@ -19,13 +19,13 @@ export default connect(mapState)(
     <div className={classes('d-md-block collapse', {show})}>
       <div className='board d-flex pb-1 mb-2'>
         <div className='d-flex flex-row mx-auto'>
-          <Tool kind={Elements.vsrc}/>
-          <Tool kind={Elements.isrc}/>
-          <Tool kind={Elements.impedance}/>
-          <Tool kind={Elements.admittance}/>
-          <Tool kind={Elements.xformer}/>
-          <Tool kind={Elements.xline}/>
-          <Tool kind={Elements.shunt}/>
+          <Tool kind={Kind.vsrc}/>
+          <Tool kind={Kind.isrc}/>
+          <Tool kind={Kind.impedance}/>
+          <Tool kind={Kind.admittance}/>
+          <Tool kind={Kind.xformer}/>
+          <Tool kind={Kind.xline}/>
+          <Tool kind={Kind.shunt}/>
         </div>
       </div>
     </div>

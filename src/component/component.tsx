@@ -8,9 +8,9 @@ import {project} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
 import {
-  Elements,
   ElementUnit,
   ExpandedElement,
+  Kind,
 } from 'lib/element';
 
 import {ActionFactory, Type} from 'action';
@@ -47,29 +47,29 @@ const Component = connect(mapState, mapDispatch)(
     };
 
     switch (element.kind) {
-      case Elements.knee:
-      case Elements.ground:
-        return <Tile className={Elements[element.kind]}/>;
+      case Kind.knee:
+      case Kind.ground:
+        return <Tile className={Kind[element.kind]}/>;
 
-      case Elements.connector:
-        return <Tile active={active} activate={activate} className={Elements[element.kind]}/>;
+      case Kind.connector:
+        return <Tile active={active} activate={activate} className={Kind[element.kind]}/>;
 
-      case Elements.vsrc:
-      case Elements.isrc:
-      case Elements.impedance:
-      case Elements.admittance:
-      case Elements.xformer:
+      case Kind.vsrc:
+      case Kind.isrc:
+      case Kind.impedance:
+      case Kind.admittance:
+      case Kind.xformer:
         return (
-          <Tile active={active} activate={activate} className={Elements[element.kind]}>
+          <Tile active={active} activate={activate} className={Kind[element.kind]}>
             <div className='value'>
               <Quantity value={element.value} unit={ElementUnit[element.kind]}/>
             </div>
           </Tile>
         );
 
-      case Elements.xline:
+      case Kind.xline:
         return (
-          <Tile active={active} activate={activate} className={Elements[element.kind]}>
+          <Tile active={active} activate={activate} className={Kind[element.kind]}>
             <div className='value'>
               <div className='d-flex flex-column'>
                 <span>Z</span>
@@ -87,7 +87,7 @@ const Component = connect(mapState, mapDispatch)(
           </Tile>
         );
 
-      case Elements.series:
+      case Kind.series:
         return (
           <Tile>
             {element.elements.map((e: ExpandedElement, k) => {
@@ -98,7 +98,7 @@ const Component = connect(mapState, mapDispatch)(
           </Tile>
         );
 
-      case Elements.shunt:
+      case Kind.shunt:
         const fill = Array.apply(null, Array(element.height - element.branch.height))
           .map((_: undefined, k: number) => <Tile key={k}/>);
 
@@ -106,7 +106,7 @@ const Component = connect(mapState, mapDispatch)(
           <Tile activate={activate}>
             <Tile
               active={active}
-              className={classes('d-flex flex-column', Elements[element.kind])}
+              className={classes('d-flex flex-column', Kind[element.kind])}
             >
               {fill}
             </Tile>

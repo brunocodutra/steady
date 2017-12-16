@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 import {Action, Type} from 'action';
-import {Element, ElementFactory, Elements} from 'lib/element';
+import {Element, ElementFactory, Kind} from 'lib/element';
 
 export type State = {
   readonly entry: Element,
@@ -9,7 +9,7 @@ export type State = {
 };
 
 const init: State = {
-  entry: ElementFactory[Elements.series](),
+  entry: ElementFactory[Kind.series](),
   active: [1],
 };
 
@@ -19,7 +19,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
       return {...state, active: action.id};
 
     case Type.insert:
-      if (state.entry.kind === Elements.series) {
+      if (state.entry.kind === Kind.series) {
 
         const before = state.entry.elements.slice(0, state.active[0]);
 
@@ -48,7 +48,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
             active: [state.active[0], ...nested.active],
           });
         }
-      } else if (state.entry.kind === Elements.shunt) {
+      } else if (state.entry.kind === Kind.shunt) {
         const nested = reducer(
           {
             entry: state.entry.branch,
@@ -63,7 +63,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         });
 
       } else {
-        throw new Error(`unexpected ${Elements[state.entry.kind]}`);
+        throw new Error(`unexpected ${Kind[state.entry.kind]}`);
       }
 
     default:

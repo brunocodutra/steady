@@ -4,10 +4,10 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {ActionFactory, Type} from 'action';
-import {ElementFactory, Elements} from 'lib/element';
+import {ElementFactory, Kind} from 'lib/element';
 
 type PropsBase = {
-  readonly kind: Elements,
+  readonly kind: Kind,
 };
 
 type Props = PropsBase & {
@@ -23,7 +23,7 @@ const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
 export default connect(null, mapDispatch)(
   ({kind, insert}: Props) => (
     <span
-      className={classes('tool', Elements[kind])}
+      className={classes('tool', Kind[kind])}
       onClick={insert}
       onKeyDown={({key}) => (key === ' ' || key === 'Enter') && insert()}
       tabIndex={0}

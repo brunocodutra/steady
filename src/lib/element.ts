@@ -2,7 +2,7 @@ import {cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
 import {connect, eye, Quadripole, quadripole} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
-export enum Elements {
+export enum Kind {
   vsrc,
   isrc,
   impedance,
@@ -17,133 +17,133 @@ export enum Elements {
 }
 
 export const ElementUnit: {[kind: number]: Unit} = {
-  [Elements.vsrc]: Unit.volt,
-  [Elements.isrc]: Unit.ampere,
-  [Elements.impedance]: Unit.ohm,
-  [Elements.admittance]: Unit.ohm,
-  [Elements.xline]: Unit.ohm,
-  [Elements.xformer]: Unit.ratio,
+  [Kind.vsrc]: Unit.volt,
+  [Kind.isrc]: Unit.ampere,
+  [Kind.impedance]: Unit.ohm,
+  [Kind.admittance]: Unit.ohm,
+  [Kind.xline]: Unit.ohm,
+  [Kind.xformer]: Unit.ratio,
 };
 
 type Static = {
   readonly kind:
-      Elements.ground
-    | Elements.knee
-    | Elements.connector
+      Kind.ground
+    | Kind.knee
+    | Kind.connector
   ,
   readonly value?: undefined,
 };
 
 type Lumped = {
   readonly kind:
-      Elements.vsrc
-    | Elements.isrc
-    | Elements.impedance
-    | Elements.admittance
+      Kind.vsrc
+    | Kind.isrc
+    | Kind.impedance
+    | Kind.admittance
   ,
   readonly value: Phasor,
 };
 
 type Distributed = {
-  readonly kind: Elements.xline,
+  readonly kind: Kind.xline,
   readonly value: [Phasor, Phasor],
 };
 
 type XFormer = {
-  readonly kind: Elements.xformer,
+  readonly kind: Kind.xformer,
   readonly value: number,
 };
 
 type Series = {
-  readonly kind: Elements.series,
+  readonly kind: Kind.series,
   readonly elements: Element[],
 };
 
 type Shunt = {
-  readonly kind: Elements.shunt,
+  readonly kind: Kind.shunt,
   readonly branch: Element,
 };
 
 export type Element = Static | Lumped | Distributed | XFormer | Series | Shunt;
 
 export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
-  [Elements.ground]: (): Static => ({
-    kind: Elements.ground,
+  [Kind.ground]: (): Static => ({
+    kind: Kind.ground,
   }),
 
-  [Elements.knee]: (): Static => ({
-    kind: Elements.knee,
+  [Kind.knee]: (): Static => ({
+    kind: Kind.knee,
   }),
 
-  [Elements.connector]: (): Static => ({
-    kind: Elements.connector,
+  [Kind.connector]: (): Static => ({
+    kind: Kind.connector,
   }),
 
-  [Elements.vsrc]: (value = rect(0)): Lumped => ({
-    kind: Elements.vsrc,
+  [Kind.vsrc]: (value = rect(0)): Lumped => ({
+    kind: Kind.vsrc,
     value,
   }),
 
-  [Elements.isrc]: (value = rect(0)): Lumped => ({
-    kind: Elements.isrc,
+  [Kind.isrc]: (value = rect(0)): Lumped => ({
+    kind: Kind.isrc,
     value,
   }),
 
-  [Elements.impedance]: (value = rect(0)): Lumped => ({
-    kind: Elements.impedance,
+  [Kind.impedance]: (value = rect(0)): Lumped => ({
+    kind: Kind.impedance,
     value,
   }),
 
-  [Elements.admittance]: (value = rect(Infinity)): Lumped => ({
-    kind: Elements.admittance,
+  [Kind.admittance]: (value = rect(Infinity)): Lumped => ({
+    kind: Kind.admittance,
     value,
   }),
 
-  [Elements.xline]: (z = rect(1), y = rect(0)): Distributed => ({
-    kind: Elements.xline,
+  [Kind.xline]: (z = rect(1), y = rect(0)): Distributed => ({
+    kind: Kind.xline,
     value: [z, y],
   }),
 
-  [Elements.xformer]: (value = 1): XFormer => ({
-    kind: Elements.xformer,
+  [Kind.xformer]: (value = 1): XFormer => ({
+    kind: Kind.xformer,
     value,
   }),
 
-  [Elements.series]: (head = ElementFactory[Elements.ground]()): Series => ({
-    kind: Elements.series,
-    elements: [head, ElementFactory[Elements.connector]()],
+  [Kind.series]: (head = ElementFactory[Kind.ground]()): Series => ({
+    kind: Kind.series,
+    elements: [head, ElementFactory[Kind.connector]()],
   }),
 
-  [Elements.shunt]: (): Shunt => ({
-    kind: Elements.shunt,
-    branch: ElementFactory[Elements.series](ElementFactory[Elements.knee]()),
+  [Kind.shunt]: (): Shunt => ({
+    kind: Kind.shunt,
+    branch: ElementFactory[Kind.series](ElementFactory[Kind.knee]()),
   }),
 };
 
 const ModelFactory: {[kind: number]: (...args: any[]) => Quadripole} = {
-  [Elements.ground]: (): Quadripole => quadripole(),
-  [Elements.knee]: (): Quadripole => quadripole(),
-  [Elements.connector]: (): Quadripole => quadripole(),
-  [Elements.vsrc]: (value: Phasor): Quadripole => quadripole(eye, [value, rect(0)]),
-  [Elements.isrc]: (value: Phasor): Quadripole => quadripole(eye, [rect(0), value]),
-  [Elements.impedance]: (value: Phasor): Quadripole => quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
+  [Kind.ground]: (): Quadripole => quadripole(),
+  [Kind.knee]: (): Quadripole => quadripole(),
+  [Kind.connector]: (): Quadripole => quadripole(),
+  [Kind.vsrc]: (value: Phasor): Quadripole => quadripole(eye, [value, rect(0)]),
+  [Kind.isrc]: (value: Phasor): Quadripole => quadripole(eye, [rect(0), value]),
+  [Kind.impedance]: (value: Phasor): Quadripole => quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
 
-  [Elements.admittance]: (value: Phasor): Quadripole => quadripole([
+  [Kind.admittance]: (value: Phasor): Quadripole => quadripole([
     [rect(1), rect(0)],
     [div(rect(1), neg(value)), rect(1)],
   ]),
 
-  [Elements.xline]: ([z, y]: [Phasor, Phasor]): Quadripole => quadripole([
+  [Kind.xline]: ([z, y]: [Phasor, Phasor]): Quadripole => quadripole([
     [cosh(y), neg(mul(z, sinh(y)))],
     [neg(div(sinh(y), z)), cosh(y)],
   ]),
 
-  [Elements.xformer]: (value: number): Quadripole => quadripole([[rect(1 / value), rect(0)], [rect(0), rect(value)]]),
-  [Elements.series]: (models: Quadripole[]): Quadripole => models.reduce(connect, quadripole()),
+  [Kind.xformer]: (value: number): Quadripole => quadripole([[rect(1 / value), rect(0)], [rect(0), rect(value)]]),
+  [Kind.series]: (models: Quadripole[]): Quadripole => models.reduce(connect, quadripole()),
 
-  [Elements.shunt]: ({vi, abcd}: Quadripole): Quadripole => connect(
-    ModelFactory[Elements.isrc](div(vi[1], abcd[1][1])),
-    ModelFactory[Elements.admittance](neg(div(abcd[1][0], abcd[1][1]))),
+  [Kind.shunt]: ({vi, abcd}: Quadripole): Quadripole => connect(
+    ModelFactory[Kind.isrc](div(vi[1], abcd[1][1])),
+    ModelFactory[Kind.admittance](neg(div(abcd[1][0], abcd[1][1]))),
   ),
 };
 
@@ -162,7 +162,7 @@ export type ExpandedElement = (Static | Lumped | Distributed | XFormer | Expande
 
 export const expand = (element: Element): ExpandedElement => {
   switch (element.kind) {
-    case Elements.series: {
+    case Kind.series: {
       const elements = element.elements.map(expand);
 
       let height = 0;
@@ -183,7 +183,7 @@ export const expand = (element: Element): ExpandedElement => {
       };
     }
 
-    case Elements.shunt: {
+    case Kind.shunt: {
       const branch = expand(element.branch);
 
       return {
