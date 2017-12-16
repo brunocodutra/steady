@@ -66,7 +66,7 @@ type Shunt = {
 
 export type Element = Static | Lumped | Distributed | XFormer | Series | Shunt;
 
-export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
+export const Factory: {[kind: number]: (...args: any[]) => Element} = {
   [Kind.ground]: (): Static => ({
     kind: Kind.ground,
   }),
@@ -109,14 +109,14 @@ export const ElementFactory: {[kind: number]: (...args: any[]) => Element} = {
     value,
   }),
 
-  [Kind.series]: (head = ElementFactory[Kind.ground]()): Series => ({
+  [Kind.series]: (head = Factory[Kind.ground]()): Series => ({
     kind: Kind.series,
-    elements: [head, ElementFactory[Kind.connector]()],
+    elements: [head, Factory[Kind.connector]()],
   }),
 
   [Kind.shunt]: (): Shunt => ({
     kind: Kind.shunt,
-    branch: ElementFactory[Kind.series](ElementFactory[Kind.knee]()),
+    branch: Factory[Kind.series](Factory[Kind.knee]()),
   }),
 };
 

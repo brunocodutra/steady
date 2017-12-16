@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 import {Action, Type} from 'action';
-import {Element, ElementFactory, Kind} from 'lib/element';
+import {Element, Factory, Kind} from 'lib/element';
 
 export type State = {
   readonly entry: Element,
@@ -9,7 +9,7 @@ export type State = {
 };
 
 const init: State = {
-  entry: ElementFactory[Kind.series](),
+  entry: Factory[Kind.series](),
   active: [1],
 };
 
