@@ -1,39 +1,39 @@
 import {Element} from 'lib/element';
 
-export const enum Actions {
+export const enum Type {
   toggle,
   activate,
   insert,
 }
 
 type Toggle = {
-  readonly type: Actions.toggle,
+  readonly type: Type.toggle,
 };
 
 type Activate = {
-  readonly type: Actions.activate,
+  readonly type: Type.activate,
   readonly id: number[],
 };
 
 type Insert = {
-  readonly type: Actions.insert,
+  readonly type: Type.insert,
   readonly element: Element,
 };
 
 export type Action = Toggle | Activate | Insert;
 
 export const ActionFactory: {[type: number]: (...args: any[]) => Action} = {
-  [Actions.toggle]: (): Toggle => ({
-    type: Actions.toggle,
+  [Type.toggle]: (): Toggle => ({
+    type: Type.toggle,
   }),
 
-  [Actions.activate]: (id: number[]): Activate => ({
-    type: Actions.activate,
+  [Type.activate]: (id: number[]): Activate => ({
+    type: Type.activate,
     id,
   }),
 
-  [Actions.insert]: (element: Element): Insert => ({
-    type: Actions.insert,
+  [Type.insert]: (element: Element): Insert => ({
+    type: Type.insert,
     element,
   }),
 };

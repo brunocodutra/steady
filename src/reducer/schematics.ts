@@ -1,6 +1,6 @@
 import {Reducer} from 'redux';
 
-import {Action, Actions} from 'action';
+import {Action, Type} from 'action';
 import {Element, ElementFactory, Elements} from 'lib/element';
 
 export type State = {
@@ -15,10 +15,10 @@ const init: State = {
 
 export const reducer: Reducer<State> = (state = init, action: Action): State => {
   switch (action.type) {
-    case Actions.activate:
+    case Type.activate:
       return {...state, active: action.id};
 
-    case Actions.insert:
+    case Type.insert:
       if (state.entry.kind === Elements.series) {
 
         const before = state.entry.elements.slice(0, state.active[0]);
