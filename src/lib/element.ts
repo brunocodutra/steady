@@ -16,15 +16,6 @@ export enum Kind {
   shunt,
 }
 
-export const ElementUnit: {[kind: number]: Unit} = {
-  [Kind.vsrc]: Unit.volt,
-  [Kind.isrc]: Unit.ampere,
-  [Kind.impedance]: Unit.ohm,
-  [Kind.admittance]: Unit.ohm,
-  [Kind.xline]: Unit.ohm,
-  [Kind.xformer]: Unit.ratio,
-};
-
 type Static = {
   readonly kind:
       Kind.ground
@@ -34,25 +25,44 @@ type Static = {
   readonly model: Quadripole,
 };
 
-type Lumped = {
+type Passive = {
   readonly kind:
-      Kind.vsrc
-    | Kind.isrc
     | Kind.impedance
     | Kind.admittance
   ,
+  readonly unit: Unit.ohm,
   readonly value: Phasor,
   readonly model: Quadripole,
 };
 
+type VSrc = {
+  readonly kind: Kind.vsrc,
+  readonly unit: Unit.volt,
+  readonly value: Phasor,
+  readonly model: Quadripole,
+};
+
+type ISrc = {
+  readonly kind: Kind.isrc,
+  readonly unit: Unit.ampere,
+  readonly value: Phasor,
+  readonly model: Quadripole,
+};
+
+type Active = VSrc | ISrc;
+
+type Lumped = Passive | Active;
+
 type Distributed = {
   readonly kind: Kind.xline,
+  readonly unit: [Unit.ohm, Unit.constant],
   readonly value: [Phasor, Phasor],
   readonly model: Quadripole,
 };
 
 type XFormer = {
   readonly kind: Kind.xformer,
+  readonly unit: Unit.ratio,
   readonly value: number,
   readonly model: Quadripole,
 };
@@ -87,38 +97,44 @@ export const Factory: {[kind: number]: (...args: any[]) => Element} = {
     model: quadripole(),
   }),
 
-  [Kind.vsrc]: (value = rect(0)): Lumped => ({
+  [Kind.vsrc]: (value = rect(0)): VSrc => ({
     kind: Kind.vsrc,
+    unit: Unit.volt,
     value,
     model: quadripole(eye, [value, rect(0)]),
   }),
 
-  [Kind.isrc]: (value = rect(0)): Lumped => ({
+  [Kind.isrc]: (value = rect(0)): ISrc => ({
     kind: Kind.isrc,
+    unit: Unit.ampere,
     value,
     model: quadripole(eye, [rect(0), value]),
   }),
 
-  [Kind.impedance]: (value = rect(0)): Lumped => ({
+  [Kind.impedance]: (value = rect(0)): Passive => ({
     kind: Kind.impedance,
+    unit: Unit.ohm,
     value,
     model: quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
   }),
 
-  [Kind.admittance]: (value = rect(Infinity)): Lumped => ({
+  [Kind.admittance]: (value = rect(Infinity)): Passive => ({
     kind: Kind.admittance,
+    unit: Unit.ohm,
     value,
     model: quadripole([[rect(1), rect(0)], [div(rect(-1), value), rect(1)]]),
   }),
 
   [Kind.xline]: (z = rect(1), y = rect(0)): Distributed => ({
     kind: Kind.xline,
+    unit: [Unit.ohm, Unit.constant],
     value: [z, y],
     model: quadripole([[cosh(y), mul(neg(z), sinh(y))], [div(sinh(y), neg(z)), cosh(y)]]),
   }),
 
   [Kind.xformer]: (value = 1): XFormer => ({
     kind: Kind.xformer,
+    unit: Unit.ratio,
     value,
     model: quadripole([[rect(1 / value), rect(0)], [rect(0), rect(value)]]),
   }),

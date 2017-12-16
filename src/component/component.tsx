@@ -3,15 +3,9 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
+import {ExpandedElement, Kind} from 'lib/element';
 import {Phasor, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
-import {Unit} from 'lib/unit';
-
-import {
-  ElementUnit,
-  ExpandedElement,
-  Kind,
-} from 'lib/element';
 
 import {Factory, Type} from 'action';
 import {State} from 'reducer';
@@ -62,7 +56,7 @@ const Component = connect(mapState, mapDispatch)(
         return (
           <Tile active={active} activate={activate} className={Kind[element.kind]}>
             <div className='value'>
-              <Quantity value={element.value} unit={ElementUnit[element.kind]}/>
+              <Quantity value={element.value} unit={element.unit}/>
             </div>
           </Tile>
         );
@@ -80,8 +74,8 @@ const Component = connect(mapState, mapDispatch)(
                 <span>=</span>
               </div>
               <div className='d-flex flex-column'>
-                <Quantity value={element.value[0]} unit={ElementUnit[element.kind]}/>
-                <Quantity value={element.value[1]} unit={Unit.constant}/>
+                <Quantity value={element.value[0]} unit={element.unit[0]}/>
+                <Quantity value={element.value[1]} unit={element.unit[1]}/>
               </div>
             </div>
           </Tile>
