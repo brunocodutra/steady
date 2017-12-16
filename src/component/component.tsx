@@ -11,7 +11,7 @@ import {
   Elements,
   ElementUnit,
   ExpandedElement,
-} from 'model';
+} from 'lib/element';
 
 import {ActionFactory, Actions} from 'action';
 import {State} from 'reducer';

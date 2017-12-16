@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {ActionFactory, Actions} from 'action';
-import {ElementFactory, Elements} from 'model';
+import {ElementFactory, Elements} from 'lib/element';
 
 type PropsBase = {
   readonly kind: Elements,

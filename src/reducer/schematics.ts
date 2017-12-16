@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 import {Action, Actions} from 'action';
-import {Element, ElementFactory, Elements} from 'model';
+import {Element, ElementFactory, Elements} from 'lib/element';
 
 export type State = {
   readonly entry: Element,

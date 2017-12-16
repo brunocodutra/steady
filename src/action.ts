@@ -1,4 +1,4 @@
-import {Element} from 'model';
+import {Element} from 'lib/element';
 
 export const enum Actions {
   toggle,

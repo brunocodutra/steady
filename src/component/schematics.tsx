@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import {expand, ExpandedElement} from 'lib/element';
 import {rect} from 'lib/phasor';
 import {solve} from 'lib/quadripole';
-import {expand, ExpandedElement} from 'model';
 import {State} from 'reducer';
 
 import Component from 'component/component';
