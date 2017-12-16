@@ -25,7 +25,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
 
         if (state.active.length === 1) {
           const after = state.entry.elements.slice(state.active[0]);
-          const elements = [...before, action.element, ...after];
+          const elements = [...before, Factory[action.kind](), ...after];
 
           return ({
             entry: Factory[Kind.series](elements),

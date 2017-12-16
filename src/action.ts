@@ -1,4 +1,4 @@
-import {Element} from 'lib/element';
+import {Kind} from 'lib/element';
 
 export const enum Type {
   toggle,
@@ -17,7 +17,7 @@ type Activate = {
 
 type Insert = {
   readonly type: Type.insert,
-  readonly element: Element,
+  readonly kind: Kind,
 };
 
 export type Action = Toggle | Activate | Insert;
@@ -32,8 +32,8 @@ export const Factory: {[type: number]: (...args: any[]) => Action} = {
     id,
   }),
 
-  [Type.insert]: (element: Element): Insert => ({
+  [Type.insert]: (kind: Kind): Insert => ({
     type: Type.insert,
-    element,
+    kind,
   }),
 };
