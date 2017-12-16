@@ -109,14 +109,14 @@ export const Factory: {[kind: number]: (...args: any[]) => Element} = {
     value,
   }),
 
-  [Kind.series]: (head = Factory[Kind.ground]()): Series => ({
+  [Kind.series]: (elements = [Factory[Kind.ground](), Factory[Kind.connector]()]): Series => ({
     kind: Kind.series,
-    elements: [head, Factory[Kind.connector]()],
+    elements,
   }),
 
-  [Kind.shunt]: (): Shunt => ({
+  [Kind.shunt]: (branch = Factory[Kind.series]([Factory[Kind.knee](), Factory[Kind.connector]()])): Shunt => ({
     kind: Kind.shunt,
-    branch: Factory[Kind.series](Factory[Kind.knee]()),
+    branch,
   }),
 };
 

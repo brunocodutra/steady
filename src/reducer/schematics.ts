@@ -28,7 +28,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
           const elements = [...before, action.element, ...after];
 
           return ({
-            entry: {...state.entry, elements},
+            entry: Factory[Kind.series](elements),
             active: [state.active[0] + 1],
           });
         } else {
@@ -44,7 +44,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
           const elements = [...before, nested.entry, ...after];
 
           return ({
-            entry: {...state.entry, elements},
+            entry: Factory[Kind.series](elements),
             active: [state.active[0], ...nested.active],
           });
         }
@@ -58,7 +58,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         );
 
         return ({
-          entry: {...state.entry, branch: nested.entry},
+          entry: Factory[Kind.shunt](nested.entry),
           active: nested.active,
         });
 
