@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {expand, ExpandedElement} from 'lib/element';
+import {Element} from 'lib/element';
 import {rect} from 'lib/phasor';
 import {solve} from 'lib/quadripole';
 import {State} from 'reducer';
@@ -9,17 +9,17 @@ import {State} from 'reducer';
 import Component from 'component/component';
 
 type Props = {
-  readonly entry: ExpandedElement,
+  readonly entry: Element,
 };
 
 const mapState = ({schematics: {entry}}: State): Props => ({
-  entry: expand(entry),
+  entry,
 });
 
 export default connect(mapState)(
   ({entry}: Props) => (
     <div className='board flex-grow border rounded p-3' tabIndex={-1}>
-      <Component id={[]} element={entry} vi={[rect(0), solve(entry.model)[1]]}/>
+      <Component id={[0]} element={entry} vi={[rect(0), solve(entry.model)[1]]}/>
     </div>
   ),
 );

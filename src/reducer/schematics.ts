@@ -9,8 +9,8 @@ export type State = {
 };
 
 const init: State = {
-  entry: Factory[Kind.series](),
-  active: [1],
+  entry: Factory[Kind.series]({}),
+  active: [2],
 };
 
 export const reducer: Reducer<State> = (state = init, action: Action): State => {
@@ -19,51 +19,46 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
       return {...state, active: action.id};
 
     case Type.insert:
-      if (state.entry.kind === Kind.series) {
-
-        const before = state.entry.elements.slice(0, state.active[0]);
-
-        if (state.active.length === 1) {
-          const after = state.entry.elements.slice(state.active[0]);
-          const elements = [...before, Factory[action.kind](), ...after];
-
-          return ({
-            entry: Factory[Kind.series](elements),
-            active: [state.active[0] + 1],
-          });
-        } else {
-          const nested = reducer(
-            {
-              entry: state.entry.elements[state.active[0]],
-              active: state.active.slice(1),
-            },
-            action,
-          );
-
-          const after = state.entry.elements.slice(state.active[0] + 1);
-          const elements = [...before, nested.entry, ...after];
-
-          return ({
-            entry: Factory[Kind.series](elements),
-            active: [state.active[0], ...nested.active],
-          });
+      if (state.active.length === 1 && state.active[0] === 0) {
+        return ({
+          entry: Factory[action.kind]({next: state.entry}),
+          active: [1],
+        });
+      } else if (state.active.length > 1 && state.active[0] === 0) {
+        if (state.entry.kind !== Kind.shunt) {
+          throw new Error(`expected '${Kind[Kind.shunt]}', got '${Kind[state.entry.kind]}'`);
         }
-      } else if (state.entry.kind === Kind.shunt) {
+
         const nested = reducer(
           {
-            entry: state.entry.branch,
-            active: state.active,
+            entry: state.entry.value,
+            active: state.active.slice(1),
           },
           action,
         );
 
         return ({
-          entry: Factory[Kind.shunt](nested.entry),
-          active: nested.active,
+          entry: Factory[Kind.shunt]({...state.entry, value: nested.entry}),
+          active: [0, ...nested.active],
         });
 
       } else {
-        throw new Error(`unexpected ${Kind[state.entry.kind]}`);
+        if (state.entry.kind === Kind.connector) {
+          throw new Error(`unexpected '${Kind[Kind.connector]}'`);
+        }
+
+        const nested = reducer(
+          {
+            entry: state.entry.next,
+            active: [state.active[0] - 1, ...state.active.slice(1)],
+          },
+          action,
+        );
+
+        return ({
+          entry: Factory[state.entry.kind]({...state.entry, next: nested.entry}),
+          active: [nested.active[0] + 1, ...nested.active.slice(1)],
+        });
       }
 
     default:
