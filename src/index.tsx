@@ -29,8 +29,6 @@ if (!toggler || !steady) {
 render(<Toggler/>, toggler);
 render(<Steady/>, steady);
 
-declare const module: any;
-
 if (module.hot) {
   module.hot.accept(() => {
     store.replaceReducer(reducer);

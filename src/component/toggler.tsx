@@ -2,15 +2,16 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {Factory, Type} from 'action';
+import * as Action from 'action';
+import {State} from 'reducer';
 
 type Props = {
   readonly toggle: () => void,
 };
 
-const mapDispatch = (dispatch: Dispatch<any>): Props => ({
+const mapDispatch = (dispatch: Dispatch<State>): Props => ({
   toggle: () => {
-    dispatch(Factory[Type.toggle]());
+    dispatch(Action.toggle());
   },
 });
 

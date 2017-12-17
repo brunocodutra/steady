@@ -25,6 +25,7 @@
     "@types/react-hot-loader": "^3.0.5",
     "@types/react-redux": "^5.0.14",
     "@types/redux-logger": "^3.0.5",
+    "@types/webpack-env": "^1.13.3",
     "awesome-typescript-loader": "^3.4.1",
     "bootstrap": "^4.0.0-beta.2",
     "classnames": "^2.2.5",

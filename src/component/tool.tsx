@@ -3,8 +3,10 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import {Factory, Type} from 'action';
 import {Kind} from 'lib/element';
+
+import * as Action from 'action';
+import {State} from 'reducer';
 
 type PropsBase = {
   readonly kind: Kind,
@@ -14,9 +16,9 @@ type Props = PropsBase & {
   readonly insert: () => void,
 };
 
-const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
+const mapDispatch = (dispatch: Dispatch<State>, props: PropsBase) => ({
   insert: () => {
-    dispatch(Factory[Type.insert](props.kind));
+    dispatch(Action.insert(props.kind));
   },
 });
 

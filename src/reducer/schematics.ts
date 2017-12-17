@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 import {Action, Type} from 'action';
-import {Element, Factory, Kind} from 'lib/element';
+import {create, Element, Kind, series, shunt} from 'lib/element';
 
 export type State = {
   readonly entry: Element,
@@ -9,7 +9,7 @@ export type State = {
 };
 
 const init: State = {
-  entry: Factory[Kind.series]({}),
+  entry: series(),
   active: [2],
 };
 
@@ -21,7 +21,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
     case Type.insert:
       if (state.active.length === 1 && state.active[0] === 0) {
         return ({
-          entry: Factory[action.kind]({next: state.entry}),
+          entry: create({kind: action.kind, next: state.entry}),
           active: [1],
         });
       } else if (state.active.length > 1 && state.active[0] === 0) {
@@ -37,8 +37,12 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
           action,
         );
 
+        if (nested.entry.kind !== Kind.series) {
+          throw new Error(`expected '${Kind[Kind.series]}', got '${Kind[nested.entry.kind]}'`);
+        }
+
         return ({
-          entry: Factory[Kind.shunt]({...state.entry, value: nested.entry}),
+          entry: shunt({next: state.entry.next, value: nested.entry}),
           active: [0, ...nested.active],
         });
 
@@ -56,7 +60,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         );
 
         return ({
-          entry: Factory[state.entry.kind]({...state.entry, next: nested.entry}),
+          entry: create({kind: state.entry.kind, next: nested.entry, value: state.entry.value}),
           active: [nested.active[0] + 1, ...nested.active.slice(1)],
         });
       }

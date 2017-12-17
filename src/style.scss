@@ -206,8 +206,8 @@ svg.github {
     background-origin: content-box;
 }
 
-.xline {
-    @include xline-svg(#000);
+.line {
+    @include line-svg(#000);
 
     display: inline-block;
     background-repeat: no-repeat;
@@ -264,7 +264,7 @@ svg.github {
     }
 }
 
-.xline {
+.line {
     .value {
         top: 80%;
     }

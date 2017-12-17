@@ -22,18 +22,16 @@ type Insert = {
 
 export type Action = Toggle | Activate | Insert;
 
-export const Factory: {[type: number]: (...args: any[]) => Action} = {
-  [Type.toggle]: (): Toggle => ({
-    type: Type.toggle,
-  }),
+export const toggle = (): Toggle => ({
+  type: Type.toggle,
+});
 
-  [Type.activate]: (id: number[]): Activate => ({
-    type: Type.activate,
-    id,
-  }),
+export const activate = (id: number[]): Activate => ({
+  type: Type.activate,
+  id,
+});
 
-  [Type.insert]: (kind: Kind): Insert => ({
-    type: Type.insert,
-    kind,
-  }),
-};
+export const insert = (kind: Kind): Insert => ({
+  type: Type.insert,
+  kind,
+});

@@ -24,7 +24,7 @@ export default connect(mapState)(
           <Tool kind={Kind.impedance}/>
           <Tool kind={Kind.admittance}/>
           <Tool kind={Kind.xformer}/>
-          <Tool kind={Kind.xline}/>
+          <Tool kind={Kind.line}/>
           <Tool kind={Kind.shunt}/>
         </div>
       </div>

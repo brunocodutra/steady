@@ -7,7 +7,7 @@ import {Element, Kind} from 'lib/element';
 import {Phasor, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
-import {Factory, Type} from 'action';
+import * as Action from 'action';
 import {State} from 'reducer';
 
 import Quantity from 'component/quantity';
@@ -28,9 +28,9 @@ const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
   active: JSON.stringify(active) === JSON.stringify(id),
 });
 
-const mapDispatch = (dispatch: Dispatch<any>, props: PropsBase) => ({
+const mapDispatch = (dispatch: Dispatch<State>, props: PropsBase) => ({
   activate: () => {
-    dispatch(Factory[Type.activate](props.id));
+    dispatch(Action.activate(props.id));
   },
 });
 
@@ -75,7 +75,7 @@ const Component = connect(mapState, mapDispatch)(
           </Tile>
         );
 
-      case Kind.xline:
+      case Kind.line:
         return (
           <Tile active={active} activate={activate} className={Kind[element.kind]}>
             <div className='value'>
