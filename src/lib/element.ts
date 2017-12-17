@@ -79,8 +79,8 @@ type Lumped = Passive | Active;
 type Line = {
   readonly kind: Kind.line,
   readonly next: Element,
-  readonly unit: [Unit.ohm, Unit.constant],
-  readonly value: [Phasor, Phasor],
+  readonly unit: {y: Unit.constant, z: Unit.ohm},
+  readonly value: {y: Phasor, z: Phasor},
   readonly model: Quadripole,
   readonly height: number,
 };
@@ -178,11 +178,11 @@ export const admittance = ({next = connector(), value = rect(Infinity)}: Params<
   height: next.height,
 });
 
-export const line = ({next = connector(), value: [z, y] = [rect(1), rect(0)]}: Params<Line> = {}): Line => ({
+export const line = ({next = connector(), value: {y, z} = {y: rect(0), z: rect(1)}}: Params<Line> = {}): Line => ({
   kind: Kind.line,
   next,
-  unit: [Unit.ohm, Unit.constant],
-  value: [z, y],
+  unit: {y: Unit.constant, z: Unit.ohm},
+  value: {y, z},
   model: quadripole([[cosh(y), mul(neg(z), sinh(y))], [div(sinh(y), neg(z)), cosh(y)]]),
   height: next.height,
 });

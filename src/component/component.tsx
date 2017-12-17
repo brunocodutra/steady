@@ -80,16 +80,16 @@ const Component = connect(mapState, mapDispatch)(
           <Tile active={active} activate={activate} className={Kind[element.kind]}>
             <div className='value'>
               <div className='d-flex flex-column'>
-                <span>Z</span>
                 <span>γ</span>
+                <span>Z</span>
               </div>
               <div className='d-flex flex-column mx-1'>
                 <span>=</span>
                 <span>=</span>
               </div>
               <div className='d-flex flex-column'>
-                <Quantity value={element.value[0]} unit={element.unit[0]}/>
-                <Quantity value={element.value[1]} unit={element.unit[1]}/>
+                <Quantity value={element.value.y} unit={element.unit.y}/>
+                <Quantity value={element.value.z} unit={element.unit.z}/>
               </div>
             </div>
           </Tile>
