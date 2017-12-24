@@ -1,5 +1,7 @@
 import {matcherHint, printReceived, printExpected} from 'jest-matcher-utils';
+
 import {isPhasor} from 'lib/phasor';
+import {isQuadripole} from 'lib/quadripole';
 
 const closeTo = (x, y, e) => {
   const f = (t, u = 0) => (1 + (t && u && (t * u))) / (Math.hypot(1, t) * Math.hypot(1, u));
@@ -15,7 +17,9 @@ const closeTo = (x, y, e) => {
           closeTo(f(1 / x.tan) * x.mag, f(1 / y.tan) * y.mag, e)
         )
       )
-    : (x.constructor === Array && y.constructor === Array)
+    : (isQuadripole(x) && isQuadripole(y))
+    ? closeTo(x.abcd, y.abcd, e) && closeTo(x.vi, y.vi, e)
+    : (x && x.constructor === Array && y && y.constructor === Array)
     ? x.reduce((a, b, i) => a && closeTo(b, y[i], e), x.length === y.length)
     : false
   );
