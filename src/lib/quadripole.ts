@@ -17,30 +17,33 @@ const isP22 = (p: any): p is P22 => (
 );
 
 export type Quadripole = {
-  abcd: P22,
-  vi: P2,
+  r: P22,
+  t: P2,
 };
 
 export const isQuadripole = (q: any): q is Quadripole => (
   typeof q === 'object' &&
-  'abcd' in q && isP22(q.abcd) &&
-  'vi' in q && isP2(q.vi)
+  'r' in q && isP22(q.r) &&
+  't' in q && isP2(q.t)
 );
 
 const _0 = rect(0);
 const _1 = rect(1);
 
 export const eye: P22 = [[_1, _0], [_0, _1]];
-export const quadripole = (abcd = eye, vi: P2 = [_0, _0]): Quadripole => ({abcd, vi});
+export const quadripole = (r = eye, t: P2 = [_0, _0]): Quadripole => ({r, t});
 
-export const project = ({abcd: [[a, b], [c, d]], vi: [u, j]}: Quadripole, [v, i]: P2): P2 => {
+export const rotation = ({r}: Quadripole) => r;
+export const translation = ({t}: Quadripole) => t;
+
+export const project = ({r: [[a, b], [c, d]], t: [u, j]}: Quadripole, [v, i]: P2): P2 => {
   return [
     add(add(mul(a, v), mul(b, i)), u),
     add(add(mul(c, v), mul(d, i)), j),
   ];
 };
 
-export const solve = ({abcd: [[a, b], [c, d]], vi: [u, j]}: Quadripole, [vi, io]: P2 = [_0, _0]): P2 => {
+export const solve = ({r: [[a, b], [c, d]], t: [u, j]}: Quadripole, [vi, io]: P2 = [_0, _0]): P2 => {
   const ii = div(sub(sub(io, j), mul(c, vi)), d);
   const vo = add(add(mul(a, vi), mul(b, ii)), u);
 
@@ -48,14 +51,14 @@ export const solve = ({abcd: [[a, b], [c, d]], vi: [u, j]}: Quadripole, [vi, io]
 };
 
 export const connect = (p: Quadripole, q: Quadripole): Quadripole => {
-  const {abcd: [[a, b], [c, d]]} = p;
-  const {abcd: [[e, f], [g, h]]} = q;
+  const {r: [[a, b], [c, d]]} = p;
+  const {r: [[e, f], [g, h]]} = q;
 
   return quadripole(
     [
       [add(mul(e, a), mul(f, c)), add(mul(e, b), mul(f, d))],
       [add(mul(g, a), mul(h, c)), add(mul(g, b), mul(h, d))],
     ],
-    project(q, p.vi),
+    project(q, p.t),
   );
 };

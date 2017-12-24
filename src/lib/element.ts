@@ -1,5 +1,5 @@
 import {cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
-import {connect, eye, Quadripole, quadripole} from 'lib/quadripole';
+import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
 export enum Kind {
@@ -209,8 +209,8 @@ export const shunt = ({next = series(), value = series({next: knee()})}: Params<
   value,
   model: collapse(
     isrc({
-      value: div(value.model.vi[1], value.model.abcd[1][1]),
-      next: admittance({value: div(neg(value.model.abcd[1][0]), value.model.abcd[1][1])}),
+      value: div(translation(value.model)[1], rotation(value.model)[1][1]),
+      next: admittance({value: div(neg(rotation(value.model)[1][0]), rotation(value.model)[1][1])}),
     }),
   ),
   height: next.height + value.height + 1,

@@ -18,7 +18,7 @@ const closeTo = (x, y, e) => {
         )
       )
     : (isQuadripole(x) && isQuadripole(y))
-    ? closeTo(x.abcd, y.abcd, e) && closeTo(x.vi, y.vi, e)
+    ? closeTo(x.r, y.r, e) && closeTo(x.t, y.t, e)
     : (x && x.constructor === Array && y && y.constructor === Array)
     ? x.reduce((a, b, i) => a && closeTo(b, y[i], e), x.length === y.length)
     : false

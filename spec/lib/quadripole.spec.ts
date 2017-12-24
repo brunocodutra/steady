@@ -1,6 +1,6 @@
 import closeTo from 'jest/closeTo';
 
-import {quadripole, eye, project, solve, connect} from 'lib/quadripole';
+import {quadripole, eye, rotation, translation, project, solve, connect} from 'lib/quadripole';
 import {polar, rect, norm, neg, add, sub, mul, div} from 'lib/phasor';
 
 expect.extend(closeTo);
@@ -32,6 +32,28 @@ describe('Quadripole', () => {
   it('should be member of the special linear group', () => {
     samples.forEach(({a, b, c, d}) => {
       expect(sub(mul(a, d), mul(b, c))).toBeCloseTo(_1);
+    });
+  });
+
+  it('should have a rotation part', () => {
+    samples.forEach(({a, b, c, d, e, f}) => {
+      expect(rotation(quadripole([[a, b], [c, d]]))).toBeCloseTo([[a, b], [c, d]]);
+      expect(rotation(quadripole([[a, b], [c, d]], [e, f]))).toBeCloseTo([[a, b], [c, d]]);
+    });
+  });
+
+  it('should have a translation part', () => {
+    samples.forEach(({a, b, c, d, e, f}) => {
+      expect(translation(quadripole([[a, b], [c, d]]))).toBeCloseTo([_0, _0]);
+      expect(translation(quadripole([[a, b], [c, d]], [e, f]))).toBeCloseTo([e, f]);
+    });
+  });
+
+  it('should be composed of rotation followed by translation', () => {
+    samples.forEach(({a, b, c, d, e, f}) => {
+      const r = quadripole([[a, b], [c, d]]);
+      const t = quadripole(eye, [e, f]);
+      expect(connect(r, t)).toBeCloseTo(quadripole([[a, b], [c, d]], [e, f]));
     });
   });
 
