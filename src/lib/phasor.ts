@@ -4,7 +4,9 @@ export type Phasor = {
 };
 
 export const isPhasor = (p: any): p is Phasor => (
-  typeof p === 'object' && 'mag' in p && 'tan' in p
+  typeof p === 'object' &&
+  'mag' in p && typeof p.mag === 'number' &&
+  'tan' in p && typeof p.tan === 'number'
 );
 
 const sign = (x: number): number => (+(x > 0) - +(x < 0)) || +x;
