@@ -1,8 +1,8 @@
 import {matcherHint, printReceived} from 'jest-matcher-utils';
-import {isPhasor} from 'lib/phasor';
+import {Phasor, isPhasor} from 'lib/phasor';
 
 export default {
-  toBeNaN(x) {
+  toBeNaN(x: number | Phasor) {
     const pass = (
         (typeof x === 'number')
       ? isNaN(x)
@@ -26,4 +26,3 @@ export default {
     return {message, pass};
   },
 };
-

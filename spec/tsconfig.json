@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "*": ["src/*"],
+      "jest/*": ["spec/jest/*"],
+    },
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+  },
+  "exclude": ["node_modules"],
+}

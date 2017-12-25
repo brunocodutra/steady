@@ -1,21 +1,24 @@
 import closeTo from 'jest/closeTo';
 
 import {quadripole, eye, rotation, translation, project, solve, connect} from 'lib/quadripole';
-import {polar, rect, norm, neg, add, sub, mul, div} from 'lib/phasor';
+import {Phasor, polar, rect, add, sub, mul, div} from 'lib/phasor';
 
 expect.extend(closeTo);
 
 const _0 = rect(0);
 const _1 = rect(1);
 
-const Ps = [].concat.apply(
+const Ps: Phasor[] = [].concat.apply(
   [],
   [1E-3, 1, 1E3].map((mag) =>
     Array(8).fill(Math.PI / 4).map((p, k) => polar(mag, p * k))
   ),
 );
 
-const samples = [].concat(
+type Sample = {a: Phasor, b: Phasor, c: Phasor, d: Phasor, e: Phasor, f: Phasor};
+
+const nil: Sample[] = [];
+const samples: Sample[] = nil.concat(
   Ps.map((p) => ({a: _1, b: p, c: _0, d: _1, e: _0, f: _0})),
   Ps.map((p) => ({a: _1, b: _0, c: p, d: _1, e: _0, f: _0})),
   Ps.map((p) => ({a: _1, b: _0, c: _0, d: _1, e: p, f: _0})),

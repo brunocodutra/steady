@@ -1,14 +1,20 @@
 import {matcherHint, printReceived, printExpected} from 'jest-matcher-utils';
 
-import {isPhasor} from 'lib/phasor';
-import {isQuadripole} from 'lib/quadripole';
+import {Phasor, isPhasor} from 'lib/phasor';
+import {Quadripole, isQuadripole} from 'lib/quadripole';
 
-const closeTo = (x, y, e) => {
-  const f = (t, u = 0) => (1 + (t && u && (t * u))) / (Math.hypot(1, t) * Math.hypot(1, u));
+interface ArrayOfT extends Array<T> {}
+type T = number | Phasor | Quadripole | ArrayOfT;
+
+const closeTo = (x: T, y: T, e: number): boolean => {
+  const f = (t: number, u: number = 0) =>
+    (1 + (t && u && (t * u))) / (Math.hypot(1, t) * Math.hypot(1, u));
 
   return (
       (typeof x === 'number' && typeof y === 'number')
     ? (x === y) || (Math.abs(x - y) < e) || (Math.abs(x - y) / Math.hypot(x, y)) < e
+    : (x instanceof Array && y instanceof Array)
+    ? x.reduce((a, b, i) => a && closeTo(b, y[i], e), x.length === y.length)
     : (isPhasor(x) && isPhasor(y))
     ? closeTo(Math.abs(x.mag), Math.abs(y.mag), e) && (
         closeTo(f(x.tan, y.tan), 1, e) ||
@@ -19,14 +25,12 @@ const closeTo = (x, y, e) => {
       )
     : (isQuadripole(x) && isQuadripole(y))
     ? closeTo(x.r, y.r, e) && closeTo(x.t, y.t, e)
-    : (x && x.constructor === Array && y && y.constructor === Array)
-    ? x.reduce((a, b, i) => a && closeTo(b, y[i], e), x.length === y.length)
     : false
   );
 };
 
 export default {
-  toBeCloseTo(x, y, e = 1E-9) {
+  toBeCloseTo(x: T, y: T, e = 1E-9) {
     const pass = closeTo(x, y, e);
     const message = (
         pass
@@ -50,3 +54,10 @@ export default {
   },
 };
 
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeCloseTo(y: T, e?: number): R;
+    }
+  }
+}
