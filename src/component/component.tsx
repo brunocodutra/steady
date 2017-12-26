@@ -57,10 +57,10 @@ const Component = connect(mapState, mapDispatch)(
     switch (element.kind) {
       case Kind.knee:
       case Kind.ground:
-        return <Tile className={Kind[element.kind]}/>;
+        return <Tile className={element.kind}/>;
 
       case Kind.connector:
-        return <Tile active={active} activate={activate} className={Kind[element.kind]}/>;
+        return <Tile active={active} activate={activate} className={element.kind}/>;
 
       case Kind.vsrc:
       case Kind.isrc:
@@ -68,7 +68,7 @@ const Component = connect(mapState, mapDispatch)(
       case Kind.admittance:
       case Kind.xformer:
         return (
-          <Tile active={active} activate={activate} className={Kind[element.kind]}>
+          <Tile active={active} activate={activate} className={element.kind}>
             <div className='value'>
               <Quantity value={element.value} unit={element.unit}/>
             </div>
@@ -77,7 +77,7 @@ const Component = connect(mapState, mapDispatch)(
 
       case Kind.line:
         return (
-          <Tile active={active} activate={activate} className={Kind[element.kind]}>
+          <Tile active={active} activate={activate} className={element.kind}>
             <div className='value'>
               <div className='d-flex flex-column'>
                 <span>γ</span>
@@ -106,7 +106,7 @@ const Component = connect(mapState, mapDispatch)(
           <Tile activate={activate}>
             <Tile
               active={active}
-              className={classes('d-flex flex-column', Kind[element.kind])}
+              className={classes('d-flex flex-column', element.kind)}
             >
               {fill}
             </Tile>

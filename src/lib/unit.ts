@@ -1,4 +1,4 @@
-export enum Unit {
+export const enum Unit {
   volt = 'volt',
   ampere = 'ampere',
   ohm = 'ohm',

@@ -26,7 +26,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         });
       } else if (state.active.length > 1 && state.active[0] === 0) {
         if (state.entry.kind !== Kind.shunt) {
-          throw new Error(`expected '${Kind[Kind.shunt]}', got '${Kind[state.entry.kind]}'`);
+          throw new Error(`expected '${Kind.shunt}', got '${state.entry.kind}'`);
         }
 
         const nested = reducer(
@@ -38,7 +38,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         );
 
         if (nested.entry.kind !== Kind.series) {
-          throw new Error(`expected '${Kind[Kind.series]}', got '${Kind[nested.entry.kind]}'`);
+          throw new Error(`expected '${Kind.series}', got '${nested.entry.kind}'`);
         }
 
         return ({
@@ -48,7 +48,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
 
       } else {
         if (state.entry.kind === Kind.connector) {
-          throw new Error(`unexpected '${Kind[Kind.connector]}'`);
+          throw new Error(`unexpected '${Kind.connector}'`);
         }
 
         const nested = reducer(

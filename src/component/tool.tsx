@@ -25,7 +25,7 @@ const mapDispatch = (dispatch: Dispatch<State>, props: PropsBase) => ({
 export default connect(null, mapDispatch)(
   ({kind, insert}: Props) => (
     <span
-      className={classes('tool', Kind[kind])}
+      className={classes('tool', kind)}
       onClick={insert}
       onKeyDown={({key}) => (key === ' ' || key === 'Enter') && insert()}
       tabIndex={0}

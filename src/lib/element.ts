@@ -2,18 +2,18 @@ import {cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
 import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
-export enum Kind {
-  connector,
-  ground,
-  knee,
-  vsrc,
-  isrc,
-  impedance,
-  admittance,
-  line,
-  xformer,
-  series,
-  shunt,
+export const enum Kind {
+  connector = 'connector',
+  ground = 'ground',
+  knee = 'knee',
+  vsrc = 'vsrc',
+  isrc = 'isrc',
+  impedance = 'impedance',
+  admittance = 'admittance',
+  line = 'line',
+  xformer = 'xformer',
+  series = 'series',
+  shunt = 'shunt',
 }
 
 type Connector = {
@@ -216,7 +216,7 @@ export const shunt = ({next = series(), value = series({next: knee()})}: Params<
   height: next.height + value.height + 1,
 });
 
-const Factory: {[kind: number]: (e?: Params<Element>) => Element} = {
+const Factory: {[kind: string]: (e?: Params<Element>) => Element} = {
   [Kind.connector]: (e) => connector(e as Params<Connector>),
   [Kind.ground]: (e) => ground(e as Params<Ground>),
   [Kind.knee]: (e) => knee(e as Params<Knee>),
