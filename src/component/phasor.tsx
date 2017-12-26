@@ -17,30 +17,30 @@ export default ({value}: Props) => {
   const ang = Math.round(angle(value) * 180 / Math.PI);
 
   const [mag, prefix] = ((m: number): [string, Prefix] => (
-      (m < 1E-15)
+      (m < Prefix.femto)
     ? [toFixed(0), Prefix.mono]
-    : (m < 1E-12)
-    ? [`${toFixed(m / 1E-15)}`, Prefix.femto]
-    : (m < 1E-09)
-    ? [`${toFixed(m / 1E-12)}`, Prefix.pico]
-    : (m < 1E-06)
-    ? [`${toFixed(m / 1E-09)}`, Prefix.nano]
-    : (m < 1E-03)
-    ? [`${toFixed(m / 1E-06)}`, Prefix.micro]
-    : (m < 1E+00)
-    ? [`${toFixed(m / 1E-03)}`, Prefix.milli]
-    : (m < 1E+03)
-    ? [`${toFixed(m / 1E+00)}`, Prefix.mono]
-    : (m < 1E+06)
-    ? [`${toFixed(m / 1E+03)}`, Prefix.kilo]
-    : (m < 1E+09)
-    ? [`${toFixed(m / 1E+06)}`, Prefix.mega]
-    : (m < 1E+12)
-    ? [`${toFixed(m / 1E+09)}`, Prefix.giga]
-    : (m < 1E+15)
-    ? [`${toFixed(m / 1E+12)}`, Prefix.tera]
-    : (m < 1E+18)
-    ? [`${toFixed(m / 1E+15)}`, Prefix.peta]
+    : (m < Prefix.pico)
+    ? [`${toFixed(m / Prefix.femto)}`, Prefix.femto]
+    : (m < Prefix.nano)
+    ? [`${toFixed(m / Prefix.pico)}`, Prefix.pico]
+    : (m < Prefix.micro)
+    ? [`${toFixed(m / Prefix.nano)}`, Prefix.nano]
+    : (m < Prefix.milli)
+    ? [`${toFixed(m / Prefix.micro)}`, Prefix.micro]
+    : (m < Prefix.mono)
+    ? [`${toFixed(m / Prefix.milli)}`, Prefix.milli]
+    : (m < Prefix.kilo)
+    ? [`${toFixed(m / Prefix.mono)}`, Prefix.mono]
+    : (m < Prefix.mega)
+    ? [`${toFixed(m / Prefix.kilo)}`, Prefix.kilo]
+    : (m < Prefix.giga)
+    ? [`${toFixed(m / Prefix.mega)}`, Prefix.mega]
+    : (m < Prefix.tera)
+    ? [`${toFixed(m / Prefix.giga)}`, Prefix.giga]
+    : (m < Prefix.peta)
+    ? [`${toFixed(m / Prefix.tera)}`, Prefix.tera]
+    : (m < Prefix.exa)
+    ? [`${toFixed(m / Prefix.peta)}`, Prefix.peta]
     : ['\u00a0∞\u00a0', Prefix.mono]
   ))(norm(value));
 
@@ -48,7 +48,7 @@ export default ({value}: Props) => {
     <span className='phasor'>
       <span className='mag'>{mag}</span>
       <span className='ang'>{ang}</span>
-      <span className={classes('prefix', prefix)}/>
+      <span className={classes('prefix', Prefix[prefix])}/>
     </span>
   );
 };

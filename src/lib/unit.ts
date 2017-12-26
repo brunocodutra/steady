@@ -7,15 +7,16 @@ export enum Unit {
 }
 
 export enum Prefix {
-  femto = 'femto',
-  pico = 'pico',
-  nano = 'nano',
-  micro = 'micro',
-  milli = 'milli',
-  mono = 'mono',
-  kilo = 'kilo',
-  mega = 'mega',
-  giga = 'giga',
-  tera = 'tera',
-  peta = 'peta',
+  femto = 1E-15,
+  pico = 1E-12,
+  nano = 1E-9,
+  micro = 1E-6,
+  milli = 1E-3,
+  mono = 1,
+  kilo = 1E3,
+  mega = 1E6,
+  giga = 1E9,
+  tera = 1E12,
+  peta = 1E15,
+  exa = 1E18,
 }
