@@ -1,0 +1,19 @@
+import {quadripole, project, solve} from 'lib/quadripole';
+
+import {_0, phasors, samples} from './util';
+
+describe('Quadripole', () => {
+  it('should have a unique solution', () => {
+    samples.forEach(({a, b, c, d, e, f}) => {
+      const q = quadripole([[a, b], [c, d]], [e, f]);
+      const [v, i] = solve(q);
+      expect(project(q, [_0, i])).toBeCloseTo([v, _0]);
+      phasors.forEach((vi) => {
+        phasors.forEach((io) => {
+          const [vo, ii] = solve(q, [vi, io]);
+          expect(project(q, [vi, ii])).toBeCloseTo([vo, io]);
+        });
+      });
+    });
+  });
+});
