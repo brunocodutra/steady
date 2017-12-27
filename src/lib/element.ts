@@ -18,8 +18,9 @@ export const enum Kind {
 
 type Connector = {
   readonly kind: Kind.connector,
-  readonly next?: undefined,
-  readonly value?: undefined,
+  readonly next: undefined,
+  readonly unit: undefined,
+  readonly value: undefined,
   readonly model: Quadripole,
   readonly height: 0,
 };
@@ -27,7 +28,8 @@ type Connector = {
 type Ground = {
   readonly kind: Kind.ground,
   readonly next: Element,
-  readonly value?: undefined,
+  readonly unit: undefined,
+  readonly value: undefined,
   readonly model: Quadripole,
   readonly height: number,
 };
@@ -35,12 +37,11 @@ type Ground = {
 type Knee = {
   readonly kind: Kind.knee,
   readonly next: Element,
-  readonly value?: undefined,
+  readonly unit: undefined,
+  readonly value: undefined,
   readonly model: Quadripole,
   readonly height: number,
 };
-
-type Static = Connector | Ground | Knee;
 
 type VSrc = {
   readonly kind: Kind.vsrc,
@@ -60,11 +61,8 @@ type ISrc = {
   readonly height: number,
 };
 
-type Passive = {
-  readonly kind:
-    | Kind.impedance
-    | Kind.admittance
-  ,
+type Impedance = {
+  readonly kind: Kind.impedance,
   readonly next: Element,
   readonly unit: Unit.ohm,
   readonly value: Phasor,
@@ -72,9 +70,14 @@ type Passive = {
   readonly height: number,
 };
 
-type Active = VSrc | ISrc;
-
-type Lumped = Passive | Active;
+type Admittance = {
+  readonly kind: Kind.admittance,
+  readonly next: Element,
+  readonly unit: Unit.ohm,
+  readonly value: Phasor,
+  readonly model: Quadripole,
+  readonly height: number,
+};
 
 type Line = {
   readonly kind: Kind.line,
@@ -96,53 +99,71 @@ type XFormer = {
 
 type Series = {
   readonly kind: Kind.series,
-  readonly next: Ground | Knee,
-  readonly value?: undefined,
+  readonly next: Element,
+  readonly unit: undefined,
+  readonly value: undefined,
   readonly model: Quadripole,
   readonly height: number,
 };
 
 type Shunt = {
   readonly kind: Kind.shunt,
-  readonly next: Series,
+  readonly next: Element,
+  readonly unit: undefined,
   readonly value: Series,
   readonly model: Quadripole,
   readonly height: number,
 };
 
-export type Element = Static | Lumped | Line | XFormer | Series | Shunt;
-
-type Params<T extends Element> = {
-  readonly next?: T['next'],
-  readonly value?: T['value'],
+type Elements = {
+  [Kind.connector]: Connector;
+  [Kind.ground]: Ground;
+  [Kind.knee]: Knee;
+  [Kind.vsrc]: VSrc;
+  [Kind.isrc]: ISrc;
+  [Kind.impedance]: Impedance;
+  [Kind.admittance]: Admittance;
+  [Kind.line]: Line;
+  [Kind.xformer]: XFormer;
+  [Kind.series]: Series;
+  [Kind.shunt]: Shunt;
 };
+
+export type Element = Elements[keyof Elements];
 
 const collapse = (element: Element): Quadripole => element.kind !== Kind.connector
   ? connect(element.model, collapse(element.next))
   : element.model
 ;
 
-export const connector = ({}: Params<Connector> = {}): Connector => ({
+export const connector = (next = undefined, value = undefined): Connector => ({
   kind: Kind.connector,
+  next,
+  unit: undefined,
+  value,
   model: quadripole(),
   height: 0,
 });
 
-export const ground = ({next = connector()}: Params<Ground> = {}): Ground => ({
+export const ground = (next: Ground['next'] = connector(), value = undefined): Ground => ({
   kind: Kind.ground,
   next,
+  unit: undefined,
+  value,
   model: quadripole(),
   height: next.height,
 });
 
-export const knee = ({next = connector()}: Params<Knee> = {}): Knee => ({
+export const knee = (next: Knee['next'] = connector(), value = undefined): Knee => ({
   kind: Kind.knee,
   next,
+  unit: undefined,
+  value,
   model: quadripole(),
   height: next.height,
 });
 
-export const vsrc = ({next = connector(), value = rect(0)}: Params<VSrc> = {}): VSrc => ({
+export const vsrc = (next: VSrc['next'] = connector(), value = rect(0)): VSrc => ({
   kind: Kind.vsrc,
   next,
   unit: Unit.volt,
@@ -151,7 +172,7 @@ export const vsrc = ({next = connector(), value = rect(0)}: Params<VSrc> = {}): 
   height: next.height,
 });
 
-export const isrc = ({next = connector(), value = rect(0)}: Params<ISrc> = {}): ISrc => ({
+export const isrc = (next: ISrc['next'] = connector(), value = rect(0)): ISrc => ({
   kind: Kind.isrc,
   next,
   unit: Unit.ampere,
@@ -160,7 +181,7 @@ export const isrc = ({next = connector(), value = rect(0)}: Params<ISrc> = {}): 
   height: next.height,
 });
 
-export const impedance = ({next = connector(), value = rect(0)}: Params<Passive> = {}): Passive => ({
+export const impedance = (next: Impedance['next'] = connector(), value = rect(0)): Impedance => ({
   kind: Kind.impedance,
   next,
   unit: Unit.ohm,
@@ -169,7 +190,7 @@ export const impedance = ({next = connector(), value = rect(0)}: Params<Passive>
   height: next.height,
 });
 
-export const admittance = ({next = connector(), value = rect(Infinity)}: Params<Passive> = {}): Passive => ({
+export const admittance = (next: Admittance['next'] = connector(), value = rect(Infinity)): Admittance => ({
   kind: Kind.admittance,
   next,
   unit: Unit.ohm,
@@ -178,7 +199,7 @@ export const admittance = ({next = connector(), value = rect(Infinity)}: Params<
   height: next.height,
 });
 
-export const line = ({next = connector(), value: {y, z} = {y: rect(0), z: rect(1)}}: Params<Line> = {}): Line => ({
+export const line = (next: Line['next'] = connector(), {y, z} = {y: rect(0), z: rect(1)}): Line => ({
   kind: Kind.line,
   next,
   unit: {y: Unit.constant, z: Unit.ohm},
@@ -187,7 +208,7 @@ export const line = ({next = connector(), value: {y, z} = {y: rect(0), z: rect(1
   height: next.height,
 });
 
-export const xformer = ({next = connector(), value = 1}: Params<XFormer> = {}): XFormer => ({
+export const xformer = (next: XFormer['next'] = connector(), value = 1): XFormer => ({
   kind: Kind.xformer,
   next,
   unit: Unit.ratio,
@@ -196,39 +217,63 @@ export const xformer = ({next = connector(), value = 1}: Params<XFormer> = {}): 
   height: next.height,
 });
 
-export const series = ({next = ground()}: Params<Series> = {}): Series => ({
+export const series = (next: Series['next'] = ground(), value = undefined): Series => ({
   kind: Kind.series,
   next,
+  unit: undefined,
+  value,
   model: collapse(next),
   height: next.height,
 });
 
-export const shunt = ({next = series(), value = series({next: knee()})}: Params<Shunt> = {}): Shunt => ({
+export const shunt = (next: Shunt['next'] = connector(), value = series(knee())): Shunt => ({
   kind: Kind.shunt,
   next,
+  unit: undefined,
   value,
   model: collapse(
-    isrc({
-      value: div(translation(value.model)[1], rotation(value.model)[1][1]),
-      next: admittance({value: div(neg(rotation(value.model)[1][0]), rotation(value.model)[1][1])}),
-    }),
+    isrc(
+      admittance(connector(), div(neg(rotation(value.model)[1][0]), rotation(value.model)[1][1])),
+      div(translation(value.model)[1], rotation(value.model)[1][1]),
+    ),
   ),
   height: next.height + value.height + 1,
 });
 
-const Factory: {[kind: string]: (e?: Params<Element>) => Element} = {
-  [Kind.connector]: (e) => connector(e as Params<Connector>),
-  [Kind.ground]: (e) => ground(e as Params<Ground>),
-  [Kind.knee]: (e) => knee(e as Params<Knee>),
-  [Kind.vsrc]: (e) => vsrc(e as Params<VSrc>),
-  [Kind.isrc]: (e) => isrc(e as Params<ISrc>),
-  [Kind.impedance]: (e) => impedance(e as Params<Passive>),
-  [Kind.admittance]: (e) => admittance(e as Params<Passive>),
-  [Kind.line]: (e) => line(e as Params<Line>),
-  [Kind.xformer]: (e) => xformer(e as Params<XFormer>),
-  [Kind.series]: (e) => series(e as Params<Series>),
-  [Kind.shunt]: (e) => shunt(e as Params<Shunt>),
+type Params = {
+  [K in keyof Elements]: {
+    readonly kind: Elements[K]['kind'],
+    readonly next: Elements[K]['next'],
+    readonly value: Elements[K]['value'],
+  }
 };
 
-export const create = ({kind, ...params}: Params<Element> & {kind: Kind}): Element =>
-  Factory[kind]({...params});
+const create = (params: Params[keyof Params]): Element => {
+  switch (params.kind) {
+    case Kind.connector:
+      return connector();
+    case Kind.ground:
+      return ground(params.next);
+    case Kind.knee:
+      return knee(params.next);
+    case Kind.vsrc:
+      return vsrc(params.next, params.value);
+    case Kind.isrc:
+      return isrc(params.next, params.value);
+    case Kind.impedance:
+      return impedance(params.next, params.value);
+    case Kind.admittance:
+      return admittance(params.next, params.value);
+    case Kind.line:
+      return line(params.next, params.value);
+    case Kind.xformer:
+      return xformer(params.next, params.value);
+    case Kind.series:
+      return series(params.next);
+    case Kind.shunt:
+      return shunt(params.next, params.value);
+  }
+};
+
+export const make = <K extends Kind>(kind: K, next?: Params[K]['next'], value?: Params[K]['value']): Elements[K] =>
+  create({kind, next, value} as Params[K]); // tslint:disable-line:no-object-literal-type-assertion

@@ -1,7 +1,7 @@
 import {Reducer} from 'redux';
 
 import {Action, Type} from 'action';
-import {create, Element, Kind, series, shunt} from 'lib/element';
+import {Element, Kind, make, series, shunt} from 'lib/element';
 
 export type State = {
   readonly entry: Element,
@@ -21,7 +21,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
     case Type.insert:
       if (state.active.length === 1 && state.active[0] === 0) {
         return ({
-          entry: create({kind: action.kind, next: state.entry}),
+          entry: make(action.kind, state.entry),
           active: [1],
         });
       } else if (state.active.length > 1 && state.active[0] === 0) {
@@ -42,7 +42,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         }
 
         return ({
-          entry: shunt({next: state.entry.next, value: nested.entry}),
+          entry: shunt(state.entry.next, nested.entry),
           active: [0, ...nested.active],
         });
 
@@ -60,7 +60,7 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         );
 
         return ({
-          entry: create({kind: state.entry.kind, next: nested.entry, value: state.entry.value}),
+          entry: make(state.entry.kind, nested.entry, state.entry.value),
           active: [nested.active[0] + 1, ...nested.active.slice(1)],
         });
       }
