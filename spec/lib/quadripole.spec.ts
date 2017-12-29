@@ -1,7 +1,7 @@
 import {quadripole, eye, rotation, translation, connect} from 'lib/quadripole';
-import {sub, mul} from 'lib/phasor';
+import {_0, _1, sub, mul} from 'lib/phasor';
 
-import {_0, _1, samples} from './quadripole.spec/util';
+import {samples} from './quadripole.spec/util';
 
 describe('Quadripole', () => {
   it('should be member of the special linear group', () => {

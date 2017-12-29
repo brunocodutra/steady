@@ -1,4 +1,4 @@
-import {add, div, isPhasor, mul, Phasor, rect, sub} from 'lib/phasor';
+import {_0, _1, add, div, isPhasor, mul, Phasor, sub} from 'lib/phasor';
 
 type P2 = [Phasor, Phasor];
 
@@ -26,9 +26,6 @@ export const isQuadripole = (q: any): q is Quadripole => (
   'r' in q && isP22(q.r) &&
   't' in q && isP2(q.t)
 );
-
-const _0 = rect(0);
-const _1 = rect(1);
 
 export const eye: P22 = [[_1, _0], [_0, _1]];
 export const quadripole = (r = eye, t: P2 = [_0, _0]): Quadripole => ({r, t});

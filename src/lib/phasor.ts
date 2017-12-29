@@ -27,6 +27,9 @@ const phasor = (mag: number, tan: number): Phasor => ({
   tan: isNaN(mag) ? NaN : tan,
 });
 
+export const _0 = phasor(0, 0);
+export const _1 = phasor(1, 0);
+
 export const polar = (mag: number, ang = 0): Phasor => {
   ang %= 2 * Math.PI;
   mag *= (

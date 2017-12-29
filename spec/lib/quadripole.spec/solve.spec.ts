@@ -1,6 +1,7 @@
 import {quadripole, project, solve} from 'lib/quadripole';
+import {_0} from 'lib/phasor';
 
-import {_0, phasors, samples} from './util';
+import {phasors, samples} from './util';
 
 describe('Quadripole', () => {
   it('should have a unique solution', () => {

@@ -1,6 +1,7 @@
 import {quadripole, connect, project} from 'lib/quadripole';
+import {_1} from 'lib/phasor';
 
-import {_1, samples} from './util';
+import {samples} from './util';
 
 describe('Quadripole', () => {
   it('should be associative', () => {

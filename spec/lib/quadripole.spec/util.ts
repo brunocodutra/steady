@@ -1,11 +1,8 @@
 import closeTo from 'jest/closeTo';
 
-import {Phasor, polar, rect, add, sub, div} from 'lib/phasor';
+import {_0, _1, Phasor, polar, rect, add, sub, div} from 'lib/phasor';
 
 expect.extend(closeTo);
-
-export const _0 = rect(0);
-export const _1 = rect(1);
 
 export const phasors: Phasor[] = [].concat.apply(
   [],

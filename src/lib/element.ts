@@ -1,4 +1,4 @@
-import {cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
+import {_0, _1, cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
 import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
@@ -145,7 +145,9 @@ export const connector = (next = undefined, value = undefined): Connector => ({
   height: 0,
 });
 
-export const ground = (next: Ground['next'] = connector(), value = undefined): Ground => ({
+const termination = connector();
+
+export const ground = (next: Ground['next'] = termination, value = undefined): Ground => ({
   kind: Kind.ground,
   next,
   unit: undefined,
@@ -154,7 +156,7 @@ export const ground = (next: Ground['next'] = connector(), value = undefined): G
   height: next.height,
 });
 
-export const knee = (next: Knee['next'] = connector(), value = undefined): Knee => ({
+export const knee = (next: Knee['next'] = termination, value = undefined): Knee => ({
   kind: Kind.knee,
   next,
   unit: undefined,
@@ -163,43 +165,43 @@ export const knee = (next: Knee['next'] = connector(), value = undefined): Knee 
   height: next.height,
 });
 
-export const vsrc = (next: VSrc['next'] = connector(), value = rect(0)): VSrc => ({
+export const vsrc = (next: VSrc['next'] = termination, value = _0): VSrc => ({
   kind: Kind.vsrc,
   next,
   unit: Unit.volt,
   value,
-  model: quadripole(eye, [value, rect(0)]),
+  model: quadripole(eye, [value, _0]),
   height: next.height,
 });
 
-export const isrc = (next: ISrc['next'] = connector(), value = rect(0)): ISrc => ({
+export const isrc = (next: ISrc['next'] = termination, value = _0): ISrc => ({
   kind: Kind.isrc,
   next,
   unit: Unit.ampere,
   value,
-  model: quadripole(eye, [rect(0), value]),
+  model: quadripole(eye, [_0, value]),
   height: next.height,
 });
 
-export const impedance = (next: Impedance['next'] = connector(), value = rect(0)): Impedance => ({
+export const impedance = (next: Impedance['next'] = termination, value = _0): Impedance => ({
   kind: Kind.impedance,
   next,
   unit: Unit.ohm,
   value,
-  model: quadripole([[rect(1), neg(value)], [rect(0), rect(1)]]),
+  model: quadripole([[_1, neg(value)], [_0, _1]]),
   height: next.height,
 });
 
-export const admittance = (next: Admittance['next'] = connector(), value = rect(Infinity)): Admittance => ({
+export const admittance = (next: Admittance['next'] = termination, value = rect(Infinity)): Admittance => ({
   kind: Kind.admittance,
   next,
   unit: Unit.ohm,
   value,
-  model: quadripole([[rect(1), rect(0)], [div(rect(-1), value), rect(1)]]),
+  model: quadripole([[_1, _0], [div(rect(-1), value), _1]]),
   height: next.height,
 });
 
-export const line = (next: Line['next'] = connector(), {y, z} = {y: rect(0), z: rect(1)}): Line => ({
+export const line = (next: Line['next'] = termination, {y, z} = {y: _0, z: _1}): Line => ({
   kind: Kind.line,
   next,
   unit: {y: Unit.constant, z: Unit.ohm},
@@ -208,12 +210,12 @@ export const line = (next: Line['next'] = connector(), {y, z} = {y: rect(0), z: 
   height: next.height,
 });
 
-export const xformer = (next: XFormer['next'] = connector(), value = 1): XFormer => ({
+export const xformer = (next: XFormer['next'] = termination, value = 1): XFormer => ({
   kind: Kind.xformer,
   next,
   unit: Unit.ratio,
   value,
-  model: quadripole([[rect(1 / value), rect(0)], [rect(0), rect(value)]]),
+  model: quadripole([[rect(1 / value), _0], [_0, rect(value)]]),
   height: next.height,
 });
 
@@ -226,7 +228,7 @@ export const series = (next: Series['next'] = ground(), value = undefined): Seri
   height: next.height,
 });
 
-export const shunt = (next: Shunt['next'] = connector(), value = series(knee())): Shunt => ({
+export const shunt = (next: Shunt['next'] = termination, value = series(knee())): Shunt => ({
   kind: Kind.shunt,
   next,
   unit: undefined,
