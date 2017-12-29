@@ -136,31 +136,31 @@ const collapse = (element: Element): Quadripole => element.kind !== Kind.connect
   : element.model
 ;
 
-export const connector = (next = undefined, value = undefined): Connector => ({
+export const connector = (): Connector => ({
   kind: Kind.connector,
-  next,
+  next: undefined,
   unit: undefined,
-  value,
+  value: undefined,
   model: quadripole(),
   height: 0,
 });
 
 const termination = connector();
 
-export const ground = (next: Ground['next'] = termination, value = undefined): Ground => ({
+export const ground = (next: Ground['next'] = termination): Ground => ({
   kind: Kind.ground,
   next,
   unit: undefined,
-  value,
+  value: undefined,
   model: quadripole(),
   height: next.height,
 });
 
-export const knee = (next: Knee['next'] = termination, value = undefined): Knee => ({
+export const knee = (next: Knee['next'] = termination): Knee => ({
   kind: Kind.knee,
   next,
   unit: undefined,
-  value,
+  value: undefined,
   model: quadripole(),
   height: next.height,
 });
@@ -219,11 +219,11 @@ export const xformer = (next: XFormer['next'] = termination, value = 1): XFormer
   height: next.height,
 });
 
-export const series = (next: Series['next'] = ground(), value = undefined): Series => ({
+export const series = (next: Series['next'] = ground()): Series => ({
   kind: Kind.series,
   next,
   unit: undefined,
-  value,
+  value: undefined,
   model: collapse(next),
   height: next.height,
 });
@@ -233,11 +233,9 @@ export const shunt = (next: Shunt['next'] = termination, value = series(knee()))
   next,
   unit: undefined,
   value,
-  model: collapse(
-    isrc(
-      admittance(connector(), div(neg(rotation(value.model)[1][0]), rotation(value.model)[1][1])),
-      div(translation(value.model)[1], rotation(value.model)[1][1]),
-    ),
+  model: quadripole(
+    [[_1, _0], [div(rotation(value.model)[1][0], rotation(value.model)[1][1]), _1]],
+    [_0, div(translation(value.model)[1], rotation(value.model)[1][1])],
   ),
   height: next.height + value.height + 1,
 });
