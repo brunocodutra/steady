@@ -6,7 +6,7 @@ module.exports = {
   },
   testMatch: ['**/spec/**/*.spec.(ts|tsx)'],
   collectCoverage: true,
-  collectCoverageFrom: ['**/src/**/*.{ts, tsx}'],
+  collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
   coverageReporters: ['text'],
   mapCoverage: true,
   globals: {
