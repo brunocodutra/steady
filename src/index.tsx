@@ -13,6 +13,7 @@ import 'style.scss';
 
 const middleware: Redux.Middleware[] = [];
 
+/* istanbul ignore next */
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').default);
 }
@@ -31,6 +32,7 @@ const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.re
 const toggler = document.getElementById('toggler');
 const steady = document.getElementById('steady');
 
+/* istanbul ignore next */
 if (!toggler || !steady) {
   throw new Error('placeholder not found');
 }
@@ -38,6 +40,7 @@ if (!toggler || !steady) {
 render(<Toggler/>, toggler);
 render(<Steady/>, steady);
 
+/* istanbul ignore next */
 if (module.hot) {
   module.hot.accept('./reducer.ts', () => {
     store.replaceReducer(require('reducer').default);

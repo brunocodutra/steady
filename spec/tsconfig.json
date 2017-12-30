@@ -6,7 +6,7 @@
       "jest/*": ["spec/jest/*"],
     },
     "module": "CommonJS",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
   },
   "exclude": ["node_modules"],
 }
