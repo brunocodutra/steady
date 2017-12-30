@@ -103,8 +103,9 @@ const Component = connect(mapState, mapDispatch)(
           .map((_: undefined, k: number) => <Tile key={k}/>);
 
         return (
-          <Tile activate={activate}>
+          <Tile>
             <Tile
+              activate={activate}
               active={active}
               className={classes('d-flex flex-column', element.kind)}
             >

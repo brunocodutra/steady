@@ -138,24 +138,6 @@ svg.github {
         @extend .focused;
     }
 
-    &.shunt {
-        height: auto;
-        padding-bottom: $tile;
-        margin-bottom: -$tile;
-
-        &:after {
-            @include wire-svg(#000);
-
-            content: '';
-            top: $tile;
-            bottom: $tile;
-            width: 100%;
-            position: absolute;
-            display: inline-block;
-            background-repeat: repeat-y;
-            background-origin: content-box;
-        }
-    }
 }
 
 .ground {
@@ -220,6 +202,25 @@ svg.github {
     display: inline-block;
     background-repeat: no-repeat;
     background-origin: content-box;
+
+    &.tile {
+        height: auto;
+        padding-bottom: $tile;
+        margin-bottom: -$tile;
+
+        &:after {
+            @include wire-svg(#000);
+
+            content: '';
+            top: $tile;
+            bottom: $tile;
+            width: 100%;
+            position: absolute;
+            display: inline-block;
+            background-repeat: repeat-y;
+            background-origin: content-box;
+        }
+    }
 }
 
 .knee {
@@ -228,6 +229,7 @@ svg.github {
     display: inline-block;
     background-repeat: no-repeat;
     background-origin: content-box;
+    z-index: -1;
 }
 
 .connector {
