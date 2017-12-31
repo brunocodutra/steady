@@ -20,9 +20,8 @@ describe('Connector', () => {
   it('should model an ideal conductor', () => {
     phasors.forEach((v) => {
       phasors.forEach((i) => {
-        const {unit, model} = connector();
+        const {model} = connector();
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
-        expect(unit).toBeUndefined();
       });
     });
   });

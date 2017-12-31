@@ -1,7 +1,6 @@
 import {Kind, isrc, make} from 'lib/element';
 import {add} from 'lib/phasor';
 import {project} from 'lib/quadripole';
-import {Unit} from 'lib/unit';
 
 import {kinds, phasors} from './util';
 
@@ -28,9 +27,8 @@ describe('ISrc', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {unit, model} = isrc(undefined, value);
+          const {model} = isrc(undefined, value);
           expect(project(model, [v, i])).toBeCloseTo([v, add(value, i)]);
-          expect(unit).toBe(Unit.ampere);
         });
       });
     });

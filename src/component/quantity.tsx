@@ -1,14 +1,14 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {isPhasor, Phasor as TPhasor} from 'lib/phasor';
+import {isPhasor, Phasor as PhasorT} from 'lib/phasor';
 import {Unit} from 'lib/unit';
 
 import Number from 'component/number';
 import Phasor from 'component/phasor';
 
 type Props = {
-  readonly value: TPhasor | number,
+  readonly value: PhasorT | number,
   readonly unit: Unit,
 };
 

@@ -35,9 +35,8 @@ describe('Shunt', () => {
           vizy.forEach((kx) => {
             const x = series(make(kx, y, i));
 
-            const {unit, model} = shunt(undefined, x);
+            const {model} = shunt(undefined, x);
             expect(project(model, [v, i])).toBeCloseTo([v, sub(i, solve(x.model, [v, rect(0)])[1])]);
-            expect(unit).toBeUndefined();
           });
         });
       });

@@ -31,9 +31,8 @@ describe('Series', () => {
           vizy.forEach((kx) => {
             const x = make(kx, y, value);
 
-            const {unit, model} = series(x);
+            const {model} = series(x);
             expect(model).toBeCloseTo(connect(connect(x.model, y.model), z.model));
-            expect(unit).toBeUndefined();
           });
         });
       });

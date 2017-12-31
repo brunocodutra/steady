@@ -1,7 +1,6 @@
 import {Kind, admittance, make} from 'lib/element';
 import {sub, div} from 'lib/phasor';
 import {project} from 'lib/quadripole';
-import {Unit} from 'lib/unit';
 
 import {kinds, phasors} from './util';
 
@@ -28,9 +27,8 @@ describe('Admittance', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {unit, model} = admittance(undefined, value);
+          const {model} = admittance(undefined, value);
           expect(project(model, [v, i])).toBeCloseTo([v, sub(i, div(v, value))]);
-          expect(unit).toBe(Unit.ohm);
         });
       });
     });

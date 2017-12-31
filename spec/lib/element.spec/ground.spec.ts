@@ -25,9 +25,8 @@ describe('Ground', () => {
   it('should model an ideal conductor', () => {
     phasors.forEach((v) => {
       phasors.forEach((i) => {
-        const {unit, model} = ground();
+        const {model} = ground();
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
-        expect(unit).toBeUndefined();
       });
     });
   });

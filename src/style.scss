@@ -1,5 +1,12 @@
-@import 'style/icons';
-@import 'style/vendor';
+$grid-breakpoints: (
+  xs: 0,
+  sm: 320px,
+  md: 576px,
+  lg: 768px,
+  xl: 992px
+);
+
+@import '~bootstrap/scss/bootstrap';
 
 $tile: 6rem;
 
@@ -24,9 +31,9 @@ html {
 }
 
 html, body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    @extend .d-flex;
+    @extend .flex-column;
+    @extend .h-100;
 }
 
 a:focus, button:focus {
@@ -50,10 +57,6 @@ a:focus, button:focus {
 
     outline: none !important;
     box-shadow: 0 0 0 $border-width $gray-400;
-
-    &.tile {
-        z-index: -1;
-    }
 }
 
 .active {
@@ -138,106 +141,18 @@ svg.github {
         @extend .focused;
     }
 
-}
+    &.shunt {
+        @extend .d-flex;
+        @extend .flex-column;
 
-.ground {
-    @include ground-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.vsrc {
-    @include vsrc-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.isrc {
-    @include isrc-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.impedance {
-    @include impedance-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.admittance {
-    @include admittance-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.xformer {
-    @include xformer-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.line {
-    @include line-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-}
-
-.shunt {
-    @include shunt-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-
-    &.tile {
         height: auto;
         padding-bottom: $tile;
         margin-bottom: -$tile;
-
-        &:after {
-            @include wire-svg(#000);
-
-            content: '';
-            top: $tile;
-            bottom: $tile;
-            width: 100%;
-            position: absolute;
-            display: inline-block;
-            background-repeat: repeat-y;
-            background-origin: content-box;
-        }
     }
-}
 
-.knee {
-    @include knee-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
-    z-index: -1;
-}
-
-.connector {
-    @include connector-svg(#000);
-
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-origin: content-box;
+    &.ground, &.knee, &.wire {
+        z-index: -1;
+    }
 }
 
 .value {

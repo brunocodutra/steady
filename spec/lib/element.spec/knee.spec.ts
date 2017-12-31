@@ -25,9 +25,8 @@ describe('Knee', () => {
   it('should model an ideal conductor', () => {
     phasors.forEach((v) => {
       phasors.forEach((i) => {
-        const {unit, model} = knee();
+        const {model} = knee();
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
-        expect(unit).toBeUndefined();
       });
     });
   });

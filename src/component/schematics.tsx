@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {Element} from 'lib/element';
+import {Element as ElementT} from 'lib/element';
 import {_0} from 'lib/phasor';
 import {solve} from 'lib/quadripole';
 import {State} from 'reducer';
 
-import Component from 'component/component';
+import Element from 'component/element';
 
 type Props = {
-  readonly entry: Element,
+  readonly entry: ElementT,
 };
 
 const mapState = ({schematics: {entry}}: State): Props => ({
@@ -19,7 +19,7 @@ const mapState = ({schematics: {entry}}: State): Props => ({
 export default connect(mapState)(
   ({entry}: Props) => (
     <div className='board flex-grow border rounded p-3' tabIndex={-1}>
-      <Component id={[0]} element={entry} vi={[_0, solve(entry.model)[1]]}/>
+      <Element id={[]} element={entry} vi={[_0, solve(entry.model)[1]]}/>
     </div>
   ),
 );

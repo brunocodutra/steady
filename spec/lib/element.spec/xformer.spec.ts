@@ -1,7 +1,6 @@
 import {Kind, xformer, make} from 'lib/element';
 import {rect, mul, div} from 'lib/phasor';
 import {project} from 'lib/quadripole';
-import {Unit} from 'lib/unit';
 
 import {kinds, numbers, phasors} from './util';
 
@@ -28,9 +27,8 @@ describe('XFormer', () => {
     numbers.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {unit, model} = xformer(undefined, value);
+          const {model} = xformer(undefined, value);
           expect(project(model, [v, i])).toBeCloseTo([div(v, rect(value)), mul(i, rect(value))]);
-          expect(unit).toBe(Unit.ratio);
         });
       });
     });
