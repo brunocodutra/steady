@@ -9,6 +9,8 @@ $grid-breakpoints: (
 @import '~bootstrap/scss/bootstrap';
 
 $tile: 6rem;
+$highlight: #ffa500;
+$timing: 150ms;
 
 * {
     flex-shrink: 0;
@@ -36,40 +38,12 @@ html, body {
     @extend .h-100;
 }
 
-a:focus, button:focus {
-    @extend .focused;
-}
-
 .flex-grow {
     flex-grow: 1;
 }
 
-.line-height-0 {
-    line-height: 0 !important;
-}
-
 .interactive {
     cursor: pointer;
-}
-
-.focused {
-    @extend .rounded;
-
-    outline: none !important;
-    box-shadow: 0 0 0 $border-width $gray-400;
-}
-
-.active {
-    @extend .focused;
-
-    background-color: rgba($gray-200, .5);
-    animation: blinker 1s ease infinite;
-}
-
-@keyframes blinker {
-    50% {
-        background-color: unset;
-    }
 }
 
 svg.github {
@@ -115,10 +89,14 @@ svg.github {
     width: 0.75*$tile;
     height: 0.75*$tile;
     position: relative;
+    transition-property: color, border-color;
+    transition-timing-function: ease-in-out;
+    transition-duration: $timing;
 
     &:hover, &:focus {
         outline: none !important;
-        background-color: rgba($gray-200, .5);
+        color: $highlight;
+        border-color: rgba($highlight, .8) !important;
     }
 
     +.tool {
@@ -136,9 +114,32 @@ svg.github {
     position: relative;
     display: inline-block;
     vertical-align: top;
+    outline: none !important;
+    transition: color ease-in-out $timing;
 
-    &.interactive:focus {
-        @extend .focused;
+    &.connector:after {
+        @extend .rounded;
+
+        content: '';
+        position: absolute;
+        top: 10%;
+        right: 10%;
+        bottom: 10%;
+        left: 10%;
+        border: .15rem dashed transparent;
+        transition: border-color ease-in-out $timing;
+    }
+
+    &.active, &.interactive:focus, &.interactive:hover {
+        color: $highlight;
+    }
+
+    &.active.connector:after, &.interactive.connector:focus:after, &.interactive.connector:hover:after {
+        border-color: rgba($highlight, .7);
+    }
+
+    &.active, &.active.connector:after {
+        animation: blinking 1s ease-in-out infinite;
     }
 
     &.shunt {
@@ -155,6 +156,13 @@ svg.github {
     }
 }
 
+@keyframes blinking {
+    50% {
+        color: unset;
+        border-color: transparent;
+    }
+}
+
 .value {
     @extend .d-flex;
     @extend .text-muted;
@@ -166,7 +174,7 @@ svg.github {
 
     font-size: .7rem;
     font-weight: bold;
-    line-height: 1em;
+    line-height: 1.2em;
 }
 
 .vsrc, .impedance {
