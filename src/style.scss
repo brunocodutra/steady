@@ -132,10 +132,12 @@ svg.github {
 
     &.active, &.interactive:focus, &.interactive:hover {
         color: $highlight;
+        filter: url(#glow);
     }
 
     &.active.connector:after, &.interactive.connector:focus:after, &.interactive.connector:hover:after {
         border-color: rgba($highlight, .7);
+        filter: drop-shadow(0 0 .2rem rgba($highlight, .2));
     }
 
     &.active, &.active.connector:after {

@@ -60,6 +60,21 @@
       </div>
     </footer>
 
+    <svg style='display: none'>
+      <def>
+        <filter id='glow'>
+          <feGaussianBlur in='SourceGraphic' stdDeviation='5'/>
+          <feComponentTransfer>
+            <feFuncA type='linear' slope='0.2'/>
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode/>
+            <feMergeNode in='SourceGraphic'/>
+          </feMerge>
+        </filter>
+      </def>
+    </svg>
+
     <script>
       // Copyright 2014-2017 The Bootstrap Authors
       // Copyright 2014-2017 Twitter, Inc.
