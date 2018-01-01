@@ -8,7 +8,6 @@ import Connector from 'component/element/connector';
 import Ground from 'component/element/ground';
 import Impedance from 'component/element/impedance';
 import ISrc from 'component/element/isrc';
-import Knee from 'component/element/knee';
 import Line from 'component/element/line';
 import Series from 'component/element/series';
 import Shunt from 'component/element/shunt';
@@ -23,9 +22,6 @@ type Props = {
 
 export default ({id, element, vi}: Props): JSX.Element => {
   switch (element.kind) {
-    case Kind.knee:
-      return <Knee id={id} element={element} vi={vi}/>;
-
     case Kind.ground:
       return <Ground id={id} element={element} vi={vi}/>;
 

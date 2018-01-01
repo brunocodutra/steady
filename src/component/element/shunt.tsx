@@ -31,6 +31,14 @@ const wire = (
 
 const Wire = () => wire;
 
+const knee = (
+  <svg viewBox={'0 0 3000 3000'}>
+    <Frame d={'M1704 0l297 665 999 1M965 0l1035 2333h1000'}/>
+  </svg>
+);
+
+export const Knee = () => knee;
+
 type PropsBase = {
   readonly id: number[],
   readonly element: Shunt,
@@ -62,6 +70,7 @@ export default connect(mapState, mapDispatch)(
         <Tile activate={activate} active={active} className={element.kind}>
           <Icon/>
           {fill}
+          <Knee/>
         </Tile>
         <Element id={id} element={element.value} vi={[vi[0], sub(vi[1], project(element.model, vi)[1])]}/>
       </Tile>

@@ -16,7 +16,6 @@ export const phasors: Phasor[] = [].concat.apply(
 
 export const kinds: Kind[] = [
   Kind.ground,
-  Kind.knee,
   Kind.vsrc,
   Kind.isrc,
   Kind.impedance,

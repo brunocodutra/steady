@@ -4,7 +4,6 @@ import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/q
 export const enum Kind {
   connector = 'connector',
   ground = 'ground',
-  knee = 'knee',
   vsrc = 'vsrc',
   isrc = 'isrc',
   impedance = 'impedance',
@@ -25,14 +24,6 @@ export type Connector = {
 
 export type Ground = {
   readonly kind: Kind.ground,
-  readonly next: Element,
-  readonly value: undefined,
-  readonly model: Quadripole,
-  readonly height: number,
-};
-
-export type Knee = {
-  readonly kind: Kind.knee,
   readonly next: Element,
   readonly value: undefined,
   readonly model: Quadripole,
@@ -106,7 +97,6 @@ export type Shunt = {
 type Elements = {
   [Kind.connector]: Connector;
   [Kind.ground]: Ground;
-  [Kind.knee]: Knee;
   [Kind.vsrc]: VSrc;
   [Kind.isrc]: ISrc;
   [Kind.impedance]: Impedance;
@@ -136,14 +126,6 @@ const termination = connector();
 
 export const ground = (next: Ground['next'] = termination): Ground => ({
   kind: Kind.ground,
-  next,
-  value: undefined,
-  model: quadripole(),
-  height: next.height,
-});
-
-export const knee = (next: Knee['next'] = termination): Knee => ({
-  kind: Kind.knee,
   next,
   value: undefined,
   model: quadripole(),
@@ -206,7 +188,7 @@ export const series = (next: Series['next'] = ground()): Series => ({
   height: next.height,
 });
 
-export const shunt = (next: Shunt['next'] = termination, value = series(knee())): Shunt => ({
+export const shunt = (next: Shunt['next'] = termination, value = series(connector())): Shunt => ({
   kind: Kind.shunt,
   next,
   value,
@@ -231,8 +213,6 @@ const create = (params: Params[keyof Params]): Element => {
       return connector();
     case Kind.ground:
       return ground(params.next);
-    case Kind.knee:
-      return knee(params.next);
     case Kind.vsrc:
       return vsrc(params.next, params.value);
     case Kind.isrc:

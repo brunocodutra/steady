@@ -144,17 +144,20 @@ svg.github {
         animation: blinking 1s ease-in-out infinite;
     }
 
+    &.ground {
+        margin-left: -$tile;
+    }
+
+    &.series {
+        margin-left: $tile;
+    }
+
     &.shunt {
         @extend .d-flex;
         @extend .flex-column;
 
         height: auto;
-        padding-bottom: $tile;
         margin-bottom: -$tile;
-    }
-
-    &.ground, &.knee, &.wire {
-        z-index: -1;
     }
 }
 
