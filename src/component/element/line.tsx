@@ -53,20 +53,20 @@ export default connect(mapState, mapDispatch)(
   ({element, active, activate}: Props) => (
     <Tile active={active} activate={activate} className={element.kind}>
       <Icon/>
-      <div className='value'>
-        <div className='d-flex flex-column'>
+      <span className='value'>
+        <span>
           <span>γ</span>
           <span>Z</span>
-        </div>
-        <div className='d-flex flex-column mx-1'>
+        </span>
+        <span>
           <span>=</span>
           <span>=</span>
-        </div>
-        <div className='d-flex flex-column'>
+        </span>
+        <span>
           <Quantity value={element.value.y} unit={Unit.constant}/>
           <Quantity value={element.value.z} unit={Unit.ohm}/>
-        </div>
-      </div>
+        </span>
+      </span>
     </Tile>
   ),
 );

@@ -18,12 +18,10 @@ const mapDispatch = (dispatch: Dispatch<State>): Props => ({
 export default connect(null, mapDispatch)(
   ({toggle}: Props) => (
     <button
-      className='navbar-toggler p-1 ml-3'
       type='button'
+      className='toggler'
       onMouseDown={() => toggle()}
       onKeyDown={(e) => (e.key === ' ' || e.key === 'Enter') && toggle()}
-    >
-      <span className='navbar-toggler-icon'></span>
-    </button>
+    />
   ),
 );

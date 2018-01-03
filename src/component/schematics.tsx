@@ -18,7 +18,7 @@ const mapState = ({schematics: {entry}}: State): Props => ({
 
 export default connect(mapState)(
   ({entry}: Props) => (
-    <div className='schematics border rounded p-3' tabIndex={-1}>
+    <div className='schematics' tabIndex={-1}>
       <Element id={[]} element={entry} vi={[_0, solve(entry.model)[1]]}/>
     </div>
   ),

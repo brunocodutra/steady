@@ -14,7 +14,7 @@ const kinds: Kind[] = [
 const rand = (N = 10) => Math.floor(Math.random() * N);
 
 describe('Actions', () => {
-  it('should make it possible to toggle the toolbar', () => {
+  it('should make it possible to toggle the toolbox', () => {
     expect(toggle()).toEqual({type: Type.toggle});
   });
 

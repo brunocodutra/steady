@@ -46,9 +46,9 @@ export default connect(mapState, mapDispatch)(
   ({element, active, activate}: Props) => (
     <Tile active={active} activate={activate} className={element.kind}>
       <Icon/>
-      <div className='value'>
+      <span className='value'>
         <Quantity value={element.value} unit={Unit.ohm}/>
-      </div>
+      </span>
     </Tile>
   ),
 );

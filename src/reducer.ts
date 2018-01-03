@@ -1,14 +1,14 @@
 import {combineReducers} from 'redux';
 
 import {reducer as schematics, State as Schematics} from 'reducer/schematics';
-import {reducer as toolbar, State as Toolbar} from 'reducer/toolbar';
+import {reducer as toolbox, State as Toolbar} from 'reducer/toolbox';
 
 export type State = {
-  readonly toolbar: Toolbar,
+  readonly toolbox: Toolbar,
   readonly schematics: Schematics,
 };
 
 export default combineReducers({
-  toolbar,
+  toolbox,
   schematics,
 });

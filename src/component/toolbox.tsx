@@ -18,23 +18,21 @@ type Props = {
   readonly visible: boolean,
 };
 
-const mapState = ({toolbar: {visible}}: State): Props => ({
+const mapState = ({toolbox: {visible}}: State): Props => ({
   visible,
 });
 
 export default connect(mapState)(
   ({visible: show}: Props) => (
-    <div className={classes('d-md-block collapse', {show})}>
-      <div className='toolbar pb-1 mb-2'>
-        <div className='d-flex flex-row mx-auto'>
-          <Tool kind={Kind.vsrc}><VSrc/></Tool>
-          <Tool kind={Kind.isrc}><ISrc/></Tool>
-          <Tool kind={Kind.impedance}><Impedance/></Tool>
-          <Tool kind={Kind.admittance}><Admittance/></Tool>
-          <Tool kind={Kind.xformer}><XFormer/></Tool>
-          <Tool kind={Kind.line}><Line/></Tool>
-          <Tool kind={Kind.shunt}><Shunt/></Tool>
-        </div>
+    <div className={classes('toolbox', {show})}>
+      <div className='toolbar'>
+        <Tool kind={Kind.vsrc}><VSrc/></Tool>
+        <Tool kind={Kind.isrc}><ISrc/></Tool>
+        <Tool kind={Kind.impedance}><Impedance/></Tool>
+        <Tool kind={Kind.admittance}><Admittance/></Tool>
+        <Tool kind={Kind.xformer}><XFormer/></Tool>
+        <Tool kind={Kind.line}><Line/></Tool>
+        <Tool kind={Kind.shunt}><Shunt/></Tool>
       </div>
     </div>
   ),

@@ -17,12 +17,10 @@ $highlight-color-200: rgba($highlight-color, .2);
 
 html,
 body {
-  @extend .d-flex;
-  @extend .flex-column;
-  @extend .h-100;
+  @extend .d-flex, .flex-column, .h-100;
 
   @include media-breakpoint-down(sm) {
-    line-height: 1;
+    line-height: 0;
   }
 
   @include media-breakpoint-up(md) {
@@ -40,78 +38,161 @@ body {
   font-size: 12px;
 }
 
-.flex-grow {
-  flex-grow: 1;
-}
+header {
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark;
 
-svg {
-  &.github {
-    @include media-breakpoint-up(md) {
-      width: 1.25rem;
-      height: 1.25rem;
-      vertical-align: text-bottom;
+  > .brand {
+    @extend .navbar-brand;
+  }
+
+  > nav {
+    @extend .navbar-nav, .d-flex, .flex-row, .my-auto, .ml-auto;
+
+    .github {
+      @extend .nav-link, .p-0;
+
+      .label {
+        @extend .d-none, .d-md-inline-block;
+
+        margin-right: .5ch;
+      }
+
+      svg {
+        @include media-breakpoint-up(md) {
+          width: 1.25rem;
+          height: 1.25rem;
+          vertical-align: text-bottom;
+        }
+
+        width: 2.5rem;
+        height: 2.5rem;
+        fill: currentcolor;
+      }
     }
 
-    width: 2.5rem;
-    height: 2.5rem;
-    fill: currentcolor;
+    .toggler {
+      @extend .navbar-toggler, .p-1, .ml-3;
+
+      &::after {
+        @extend .navbar-toggler-icon;
+      }
+    }
   }
 }
 
-.github-btn {
-  width: 90px;
-  height: 20px;
+main {
+  @extend .container-fluid, .d-flex, .flex-column;
+
+  flex-grow: 1;
+
+  > .row {
+    @extend .d-flex;
+
+    flex-grow: 1;
+
+    > .col {
+      @extend .d-flex, .flex-column, .py-3;
+
+      flex-grow: 1;
+    }
+  }
 }
 
-.copyright {
-  @include media-breakpoint-up(md) {
-    font-size: .9rem;
-  }
+footer {
+  @extend .container-fluid, .d-flex, .flex-row, .align-items-center, .justify-content-center, .mb-3;
 
-  @include media-breakpoint-up(xl) {
-    font-size: .8rem;
+  > .row {
+    flex-grow: 1;
+
+    &::before {
+      @extend .col-4, .d-none, .d-md-flex;
+
+      content: '';
+    }
+
+    > nav {
+      @extend .col-12, .col-sm-8, .col-md-4, .d-flex, .justify-content-md-center, .align-items-center;
+
+      .github-btn {
+        width: 90px;
+        height: 20px;
+      }
+    }
+
+    > .copyright {
+      @extend .col-4, .d-none, .d-sm-inline-block, .text-right, .text-muted, .text-nowrap;
+
+      @include media-breakpoint-up(md) {
+        font-size: .9rem;
+      }
+
+      @include media-breakpoint-up(xl) {
+        font-size: .8rem;
+      }
+
+      &::before {
+        content: '©';
+      }
+
+      .year {
+        @extend .d-none, .d-md-inline-block;
+      }
+    }
   }
 }
 
-.toolbar,
+.toolbox,
 .schematics {
-  @extend .d-flex;
-  @extend .flex-grow;
-
-  flex-basis: 0;
   font-size: 0;
   white-space: nowrap;
   overflow: auto;
 }
 
-.toolbar {
-  .tool {
-    @extend .p-1;
-    @extend .rounded;
+.toolbox {
+  @extend .d-none, .d-md-flex, .pb-1, .mb-2;
 
-    position: relative;
-    width: .75 * $tile-size;
-    height: .75 * $tile-size;
-    transition-duration: $transition-duration;
-    transition-property: color, border-color;
-    transition-timing-function: ease-in-out;
-    border: 1px solid $border-color;
-    cursor: pointer;
+  &.show {
+    @extend .d-flex;
+  }
 
-    &:hover,
-    &:focus {
-      border-color: $highlight-color-800;
-      outline: none;
-      color: $highlight-color;
-    }
+  > .toolbar {
+    @extend .d-flex;
+    @extend .flex-row;
+    @extend .mx-auto;
 
-    +.tool {
-      @extend .ml-1;
+    > .tool {
+      @extend .p-1;
+      @extend .rounded;
+
+      position: relative;
+      width: .75 * $tile-size;
+      height: .75 * $tile-size;
+      transition-duration: $transition-duration;
+      transition-property: color, border-color;
+      transition-timing-function: ease-in-out;
+      border: 1px solid $border-color;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        border-color: $highlight-color-800;
+        outline: none;
+        color: $highlight-color;
+      }
+
+      +.tool {
+        @extend .ml-1;
+      }
     }
   }
 }
 
 .schematics {
+  @extend .d-flex, .border, .rounded, .p-3;
+
+  flex-basis: 0;
+  flex-grow: 1;
+
   .tile {
     display: inline-block;
     position: relative;
@@ -183,9 +264,7 @@ svg {
 }
 
 .value {
-  @extend .d-flex;
-  @extend .text-muted;
-  @extend .justify-content-center;
+  @extend .d-flex, .text-muted, .justify-content-center;
 
   position: absolute;
   right: 0;
@@ -208,11 +287,19 @@ svg {
 
   .line & {
     top: 80%;
+
+    & > * {
+      @extend .d-flex, .flex-column;
+
+      + * {
+        @extend .ml-1;
+      }
+    }
   }
 }
 
 .phasor {
-  .ang {
+  > .ang {
     &::before {
       content: '∠';
     }
