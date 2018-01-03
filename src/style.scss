@@ -8,270 +8,281 @@ $grid-breakpoints: (
 
 @import '~bootstrap/scss/bootstrap';
 
-$tile: 6rem;
-$highlight: #ffa500;
-$timing: 150ms;
+$tile-size: 6rem;
+$transition-duration: 150ms;
 
-* {
-    flex-shrink: 0;
-}
+$highlight-color: #ffa500;
+$highlight-color-800: rgba($highlight-color, .8);
+$highlight-color-200: rgba($highlight-color, .2);
 
-html {
-    font-size: 12px;
+html,
+body {
+  @extend .d-flex;
+  @extend .flex-column;
+  @extend .h-100;
 
-    @include media-breakpoint-up(md) {
-        font-size: 14px;
-    }
+  @include media-breakpoint-down(sm) {
+    line-height: 1;
+  }
 
-    @include media-breakpoint-up(lg) {
-        font-size: 16px;
-    }
+  @include media-breakpoint-up(md) {
+    font-size: 14px;
+  }
 
-    @include media-breakpoint-up(xl) {
-        font-size: 18px;
-    }
-}
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+  }
 
-html, body {
-    @extend .d-flex;
-    @extend .flex-column;
-    @extend .h-100;
+  @include media-breakpoint-up(xl) {
+    font-size: 18px;
+  }
+
+  font-size: 12px;
 }
 
 .flex-grow {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
-.interactive {
-    cursor: pointer;
-}
+svg {
+  &.github {
+    @include media-breakpoint-up(md) {
+      width: 1.25rem;
+      height: 1.25rem;
+      vertical-align: text-bottom;
+    }
 
-svg.github {
     width: 2.5rem;
     height: 2.5rem;
     fill: currentcolor;
-
-    @include media-breakpoint-up(md) {
-        width: 1.25rem;
-        height: 1.25rem;
-        vertical-align: text-bottom;
-    }
+  }
 }
 
 .github-btn {
-    height: 20px;
-    width: 90px;
+  width: 90px;
+  height: 20px;
 }
 
 .copyright {
-    @include media-breakpoint-up(md) {
-        font-size: .9rem;
-    }
+  @include media-breakpoint-up(md) {
+    font-size: .9rem;
+  }
 
-    @include media-breakpoint-up(xl) {
-        font-size: .8rem;
-    }
+  @include media-breakpoint-up(xl) {
+    font-size: .8rem;
+  }
 }
 
-.board {
-    font-size: 0;
-    overflow: auto;
-    flex-basis: 0;
-    white-space: nowrap;
+.toolbar,
+.schematics {
+  @extend .d-flex;
+  @extend .flex-grow;
+
+  flex-basis: 0;
+  font-size: 0;
+  white-space: nowrap;
+  overflow: auto;
 }
 
-.tool {
+.toolbar {
+  .tool {
     @extend .p-1;
-    @extend .border;
     @extend .rounded;
-    @extend .interactive;
 
-    width: 0.75*$tile;
-    height: 0.75*$tile;
     position: relative;
+    width: .75 * $tile-size;
+    height: .75 * $tile-size;
+    transition-duration: $transition-duration;
     transition-property: color, border-color;
     transition-timing-function: ease-in-out;
-    transition-duration: $timing;
+    border: 1px solid $border-color;
+    cursor: pointer;
 
-    &:hover, &:focus {
-        outline: none !important;
-        color: $highlight;
-        border-color: rgba($highlight, .8) !important;
+    &:hover,
+    &:focus {
+      border-color: $highlight-color-800;
+      outline: none;
+      color: $highlight-color;
     }
 
     +.tool {
-        @extend .ml-1;
+      @extend .ml-1;
     }
+  }
 }
 
 .schematics {
-    background-color: white;
-}
-
-.tile {
-    width: $tile;
-    height: $tile;
-    position: relative;
+  .tile {
     display: inline-block;
+    position: relative;
+    width: $tile-size;
+    height: $tile-size;
+    transition: color ease-in-out $transition-duration;
+    outline: none;
     vertical-align: top;
-    outline: none !important;
-    transition: color ease-in-out $timing;
 
-    &.connector:after {
-        @extend .rounded;
+    &.connector::after {
+      @extend .rounded;
 
-        content: '';
-        position: absolute;
-        top: 10%;
-        right: 10%;
-        bottom: 10%;
-        left: 10%;
-        border: .15rem dashed transparent;
-        transition: border-color ease-in-out $timing;
-    }
-
-    &.active, &.interactive:focus, &.interactive:hover {
-        color: $highlight;
-        filter: url(#glow);
-    }
-
-    &.active.connector:after, &.interactive.connector:focus:after, &.interactive.connector:hover:after {
-        border-color: rgba($highlight, .7);
-        filter: drop-shadow(0 0 .2rem rgba($highlight, .2));
-    }
-
-    &.active, &.active.connector:after {
-        animation: blinking 1s ease-in-out infinite;
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      bottom: 10%;
+      left: 10%;
+      transition: border-color ease-in-out $transition-duration;
+      border: .15rem dashed transparent;
+      content: '';
     }
 
     &.ground {
-        margin-left: -$tile;
+      margin-left: -$tile-size;
     }
 
     &.series {
-        margin-left: $tile;
+      margin-left: $tile-size;
     }
 
     &.shunt {
-        @extend .d-flex;
-        @extend .flex-column;
+      @extend .d-flex;
+      @extend .flex-column;
 
-        height: auto;
-        margin-bottom: -$tile;
+      height: auto;
+      margin-bottom: -$tile-size;
     }
+
+    &.interactive {
+      cursor: pointer;
+    }
+
+    &.active,
+    &.interactive:focus,
+    &.interactive:hover {
+      color: $highlight-color;
+      filter: url('#glow');
+    }
+
+    &.active.connector::after,
+    &.interactive.connector:focus::after,
+    &.interactive.connector:hover::after {
+      border-color: $highlight-color-800;
+      filter: drop-shadow(0 0 .2rem $highlight-color-200);
+    }
+
+    &.active,
+    &.active.connector::after {
+      animation: blinking 1s ease-in-out infinite;
+    }
+  }
 }
 
 @keyframes blinking {
-    50% {
-        color: unset;
-        border-color: transparent;
-    }
+  50% {
+    border-color: transparent;
+    color: unset;
+  }
 }
 
 .value {
-    @extend .d-flex;
-    @extend .text-muted;
-    @extend .justify-content-center;
+  @extend .d-flex;
+  @extend .text-muted;
+  @extend .justify-content-center;
 
-    position: absolute;
-    left: 0;
-    right: 0;
+  position: absolute;
+  right: 0;
+  left: 0;
 
-    font-size: .7rem;
-    font-weight: bold;
-    line-height: 1.2em;
-}
+  font-size: .7rem;
+  font-weight: bold;
+  line-height: 1.2;
 
-.vsrc, .impedance {
-    .value {
-        top: 40%;
-    }
-}
+  .vsrc &,
+  .impedance & {
+    top: 40%;
+  }
 
-.isrc, .admittance, .xformer {
-    .value {
-        top: 85%;
-    }
-}
+  .isrc &,
+  .admittance &,
+  .xformer & {
+    top: 85%;
+  }
 
-.line {
-    .value {
-        top: 80%;
-    }
+  .line & {
+    top: 80%;
+  }
 }
 
 .phasor {
-    .ang {
-        &:before {
-            content: '∠';
-        }
-
-        &:after {
-            content: '°';
-        }
+  .ang {
+    &::before {
+      content: '∠';
     }
+
+    &::after {
+      content: '°';
+    }
+  }
 }
 
 .unit {
-    margin-left: 0.35em;
+  margin-left: .35em;
 
-    &.volt:after {
-        content: 'V';
-    }
+  &.volt::after {
+    content: 'V';
+  }
 
-    &.ampere:after {
-        content: 'A';
-    }
+  &.ampere::after {
+    content: 'A';
+  }
 
-    &.ohm:after {
-        content: 'Ω';
-    }
+  &.ohm::after {
+    content: 'Ω';
+  }
 
-    &.ratio:after {
-        content: ': 1';
-    }
+  &.ratio::after {
+    content: ': 1';
+  }
 }
 
 .prefix {
-    margin: 0 -0.35em 0 0.35em;
+  margin: 0 -.35em 0 .35em;
 
-    &.femto:after {
-        content: 'f';
-    }
+  &.femto::after {
+    content: 'f';
+  }
 
-    &.pico:after {
-        content: 'p';
-    }
+  &.pico::after {
+    content: 'p';
+  }
 
-    &.nano:after {
-        content: 'n';
-    }
+  &.nano::after {
+    content: 'n';
+  }
 
-    &.micro:after {
-        content: 'μ';
-    }
+  &.micro::after {
+    content: 'μ';
+  }
 
-    &.milli:after {
-        content: 'm';
-    }
+  &.milli::after {
+    content: 'm';
+  }
 
-    &.kilo:after {
-        content: 'k';
-    }
+  &.kilo::after {
+    content: 'k';
+  }
 
-    &.mega:after {
-        content: 'M';
-    }
+  &.mega::after {
+    content: 'M';
+  }
 
-    &.giga:after {
-        content: 'G';
-    }
+  &.giga::after {
+    content: 'G';
+  }
 
-    &.tera:after {
-        content: 'T';
-    }
+  &.tera::after {
+    content: 'T';
+  }
 
-    &.peta:after {
-        content: 'P';
-    }
+  &.peta::after {
+    content: 'P';
+  }
 }

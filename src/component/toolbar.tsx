@@ -25,7 +25,7 @@ const mapState = ({toolbar: {visible}}: State): Props => ({
 export default connect(mapState)(
   ({visible: show}: Props) => (
     <div className={classes('d-md-block collapse', {show})}>
-      <div className='board d-flex pb-1 mb-2'>
+      <div className='toolbar pb-1 mb-2'>
         <div className='d-flex flex-row mx-auto'>
           <Tool kind={Kind.vsrc}><VSrc/></Tool>
           <Tool kind={Kind.isrc}><ISrc/></Tool>

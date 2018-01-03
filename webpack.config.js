@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SassLintPlugin = require('sasslint-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const stats = {
@@ -20,8 +21,8 @@ module.exports = env => ({
   entry: {
     'app': [
       'react-hot-loader/patch',
-      'index.tsx'
-    ]
+      'index.tsx',
+    ],
   },
 
   output: {
@@ -33,7 +34,7 @@ module.exports = env => ({
 
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
   },
 
   module: {
@@ -44,14 +45,14 @@ module.exports = env => ({
         exclude: /node_modules/,
         enforce: 'pre',
         options: {
-          typeCheck: true
-        }
+          typeCheck: true,
+        },
       },
 
       {
         test: /\.(ts|tsx)$/,
         loader: 'awesome-typescript-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
 
       {
@@ -68,12 +69,12 @@ module.exports = env => ({
             },
 
             {
-              loader: 'postcss-loader'
+              loader: 'postcss-loader',
             },
 
             {
-              loader: 'sass-loader'
-            }
+              loader: 'sass-loader',
+            },
           ]
         })
       },
@@ -96,15 +97,19 @@ module.exports = env => ({
       : new webpack.NamedModulesPlugin()
     ,
 
+    new SassLintPlugin({
+      glob: 'src/**/*.scss',
+    }),
+
     new ExtractTextPlugin({
       filename: '[name].[chunkhash].css',
-      disable: env !== 'production'
+      disable: env !== 'production',
     }),
 
     new HtmlWebpackPlugin({
       title: 'Steady',
       template: path.resolve(__dirname, 'src', 'index.html'),
-      inject: 'body'
-    })
+      inject: 'body',
+    }),
   ]
 });
