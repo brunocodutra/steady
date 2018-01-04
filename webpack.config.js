@@ -43,6 +43,13 @@ module.exports = env => ({
   module: {
     rules: [
       {
+        test: /\.html$/,
+        loader: 'htmlhint-loader',
+        exclude: /node_modules/,
+        enforce: 'pre',
+      },
+
+      {
         test: /\.tsx?$/,
         loader: 'tslint-loader',
         exclude: /node_modules/,
