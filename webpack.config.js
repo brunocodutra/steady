@@ -1,8 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SassLintPlugin = require('sasslint-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
+
+const src = path.resolve(__dirname, 'src');
+const dist = path.resolve(__dirname, 'dist');
 
 const stats = {
   colors: true,
@@ -19,28 +24,26 @@ module.exports = env => ({
   bail: true,
 
   entry: {
-    'app': [
+    app: [
       'react-hot-loader/patch',
       'index.tsx',
     ],
   },
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: env === 'production'
-      ? '[name].[chunkhash].js'
-      : '[name].js'
+    path: dist,
+    filename: '[name].js',
   },
 
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    modules: [src, 'node_modules'],
   },
 
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.tsx?$/,
         loader: 'tslint-loader',
         exclude: /node_modules/,
         enforce: 'pre',
@@ -50,13 +53,13 @@ module.exports = env => ({
       },
 
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
         exclude: /node_modules/,
       },
 
       {
-        test: /\.(css$|scss)$/,
+        test: /\.s?css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
 
@@ -78,6 +81,12 @@ module.exports = env => ({
           ]
         })
       },
+
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
+
     ]
   },
 
@@ -102,14 +111,20 @@ module.exports = env => ({
     }),
 
     new ExtractTextPlugin({
-      filename: '[name].[chunkhash].css',
+      filename: '[name].css',
       disable: env !== 'production',
     }),
 
     new HtmlWebpackPlugin({
-      title: 'Steady',
-      template: path.resolve(__dirname, 'src', 'index.html'),
       inject: 'body',
+      template: path.resolve(src, 'index.html'),
+      inlineSource: '.*',
+    }),
+
+    new HtmlWebpackInlineSourcePlugin(),
+
+    new IgnoreAssetsWebpackPlugin({
+        ignore: ['app.js', 'app.css'],
     }),
   ]
 });
