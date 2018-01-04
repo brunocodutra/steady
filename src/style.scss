@@ -12,12 +12,14 @@ $tile-size: 6rem;
 $transition-duration: 150ms;
 
 $highlight-color: #ffa500;
-$highlight-color-800: rgba($highlight-color, .8);
-$highlight-color-200: rgba($highlight-color, .2);
+$highlight-color-800: rgba($highlight-color, 0.8);
+$highlight-color-200: rgba($highlight-color, 0.2);
 
 html,
 body {
   @extend .d-flex, .flex-column, .h-100;
+
+  font-size: 12px;
 
   @include media-breakpoint-down(sm) {
     line-height: 0;
@@ -34,8 +36,6 @@ body {
   @include media-breakpoint-up(xl) {
     font-size: 18px;
   }
-
-  font-size: 12px;
 }
 
 header {
@@ -54,19 +54,19 @@ header {
       .label {
         @extend .d-none, .d-md-inline-block;
 
-        margin-right: .5ch;
+        margin-right: 0.5ch;
       }
 
       svg {
+        width: 2.5rem;
+        height: 2.5rem;
+        fill: currentcolor;
+
         @include media-breakpoint-up(md) {
           width: 1.25rem;
           height: 1.25rem;
           vertical-align: text-bottom;
         }
-
-        width: 2.5rem;
-        height: 2.5rem;
-        fill: currentcolor;
       }
     }
 
@@ -123,11 +123,11 @@ footer {
       @extend .col-4, .d-none, .d-sm-inline-block, .text-right, .text-muted, .text-nowrap;
 
       @include media-breakpoint-up(md) {
-        font-size: .9rem;
+        font-size: 0.9rem;
       }
 
       @include media-breakpoint-up(xl) {
-        font-size: .8rem;
+        font-size: 0.8rem;
       }
 
       &::before {
@@ -143,9 +143,9 @@ footer {
 
 .toolbox,
 .schematics {
+  overflow: auto;
   font-size: 0;
   white-space: nowrap;
-  overflow: auto;
 }
 
 .toolbox {
@@ -165,10 +165,10 @@ footer {
       @extend .rounded;
 
       position: relative;
-      width: .75 * $tile-size;
-      height: .75 * $tile-size;
-      transition-duration: $transition-duration;
+      width: 0.75 * $tile-size;
+      height: 0.75 * $tile-size;
       transition-property: color, border-color;
+      transition-duration: $transition-duration;
       transition-timing-function: ease-in-out;
       border: 1px solid $border-color;
       cursor: pointer;
@@ -205,14 +205,14 @@ footer {
     &.connector::after {
       @extend .rounded;
 
+      content: '';
       position: absolute;
       top: 10%;
       right: 10%;
       bottom: 10%;
       left: 10%;
       transition: border-color ease-in-out $transition-duration;
-      border: .15rem dashed transparent;
-      content: '';
+      border: 0.15rem dashed transparent;
     }
 
     &.ground {
@@ -246,7 +246,7 @@ footer {
     &.interactive.connector:focus::after,
     &.interactive.connector:hover::after {
       border-color: $highlight-color-800;
-      filter: drop-shadow(0 0 .2rem $highlight-color-200);
+      filter: drop-shadow(0 0 0.2rem $highlight-color-200);
     }
 
     &.active,
@@ -270,7 +270,7 @@ footer {
   right: 0;
   left: 0;
 
-  font-size: .7rem;
+  font-size: 0.7rem;
   font-weight: bold;
   line-height: 1.2;
 
@@ -288,7 +288,7 @@ footer {
   .line & {
     top: 80%;
 
-    & > * {
+    > * {
       @extend .d-flex, .flex-column;
 
       + * {
@@ -311,7 +311,7 @@ footer {
 }
 
 .unit {
-  margin-left: .35em;
+  margin-left: 0.35em;
 
   &.volt::after {
     content: 'V';
@@ -331,7 +331,7 @@ footer {
 }
 
 .prefix {
-  margin: 0 -.35em 0 .35em;
+  margin: 0 -0.35em 0 0.35em;
 
   &.femto::after {
     content: 'f';

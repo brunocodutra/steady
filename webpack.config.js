@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const SassLintPlugin = require('sasslint-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
@@ -106,8 +106,9 @@ module.exports = env => ({
       : new webpack.NamedModulesPlugin()
     ,
 
-    new SassLintPlugin({
-      glob: 'src/**/*.scss',
+    new StyleLintPlugin({
+      glob: `${src}/**/*.scss`,
+      emitErrors: false,
     }),
 
     new ExtractTextPlugin({
