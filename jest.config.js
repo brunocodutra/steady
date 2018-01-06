@@ -14,8 +14,8 @@ module.exports = {
   mapCoverage: true,
   setupTestFrameworkScriptFile: 'raf/polyfill',
   globals: {
-    "ts-jest": {
-      tsConfigFile: "./spec/tsconfig.json",
+    'ts-jest': {
+      tsConfigFile: './spec/tsconfig.json',
     },
   },
 }

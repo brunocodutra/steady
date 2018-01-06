@@ -62,8 +62,7 @@ const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
 
 export default connect(mapState, mapDispatch)(
   ({id, element, vi, active, activate}: Props): JSX.Element => {
-    const fill = Array.apply(null, Array(element.height - element.value.height - 1))
-      .map((_: undefined, k: number) => <Wire key={k}/>);
+    const fill = Array(element.height - element.value.height - 1).fill(0).map((_: 0, k: number) => <Wire key={k}/>);
 
     return (
       <Tile>

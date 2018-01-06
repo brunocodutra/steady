@@ -4,7 +4,7 @@
     "paths": {
       "*": ["src/*"],
     },
-    "module": "ES6",
+    "target": "ES2017",
     "moduleResolution": "node",
     "jsx": "React",
     "strict": true,

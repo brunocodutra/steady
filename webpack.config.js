@@ -25,6 +25,7 @@ module.exports = env => ({
 
   entry: {
     app: [
+      '@babel/polyfill',
       'react-hot-loader/patch',
       'index.tsx',
     ],
@@ -61,7 +62,7 @@ module.exports = env => ({
 
       {
         test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
+        loader: ['babel-loader', 'awesome-typescript-loader'],
         exclude: /node_modules/,
       },
 

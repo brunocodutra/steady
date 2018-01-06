@@ -9,19 +9,6 @@ export const isPhasor = (p: any): p is Phasor => (
   'tan' in p && typeof p.tan === 'number'
 );
 
-const sign = (x: number): number => (+(x > 0) - +(x < 0)) || +x;
-
-const hypot = (x: number, y: number): number => {
-  const a = Math.abs(x);
-  const b = Math.abs(y);
-  const [min, max] = (a > b) ? [b, a] : [a, b];
-  return max && (
-      (min === Infinity)
-    ? Infinity
-    : max * (1 + (min / max) ** 2) ** 0.5
-  );
-};
-
 const phasor = (mag: number, tan: number): Phasor => ({
   mag: isNaN(tan) ? NaN : mag,
   tan: isNaN(mag) ? NaN : tan,
@@ -41,8 +28,8 @@ export const polar = (mag: number, ang = 0): Phasor => {
 };
 
 export const rect = (re: number, im = 0): Phasor => phasor(
-  (re < 0) ? -hypot(re, im) : hypot(re, im),
-  (Math.abs(re) === Math.abs(im)) ? sign(im * re) : (re === 0) ? im / 0 : im / re,
+  (re < 0) ? -Math.hypot(re, im) : Math.hypot(re, im),
+  (Math.abs(re) === Math.abs(im)) ? Math.sign(im * re) : (re === 0) ? im / 0 : im / re,
 );
 
 export const norm = ({mag}: Phasor): number => Math.abs(mag);
@@ -50,8 +37,8 @@ export const angle = ({mag, tan}: Phasor): number => Math.atan(tan) + (
   (mag < 0) ? (tan > 0) ? -Math.PI : Math.PI : 0
 );
 
-export const real = ({mag, tan}: Phasor): number => (1 / tan) && (mag / hypot(1, tan));
-export const imag = ({mag, tan}: Phasor): number => sign(tan) * real({mag, tan: 1 / tan});
+export const real = ({mag, tan}: Phasor): number => (1 / tan) && (mag / Math.hypot(1, tan));
+export const imag = ({mag, tan}: Phasor): number => Math.sign(tan) * real({mag, tan: 1 / tan});
 
 export const neg = ({mag, tan}: Phasor): Phasor => phasor(-mag, tan);
 export const conj = ({mag, tan}: Phasor): Phasor => phasor(mag, -tan);
@@ -123,7 +110,8 @@ export const div = ({mag: a, tan: b}: Phasor, {mag: c, tan: d}: Phasor): Phasor 
 };
 
 export const sinh = (p: Phasor): Phasor => {
-  const [a, b] = [real(p), imag(p)];
+  const a = real(p);
+  const b = imag(p);
 
   const expa = Math.exp(a);
   const sinha = (expa - 1 / expa) / 2;
@@ -135,7 +123,8 @@ export const sinh = (p: Phasor): Phasor => {
 };
 
 export const cosh = (p: Phasor): Phasor => {
-  const [a, b] = [real(p), imag(p)];
+  const a = real(p);
+  const b = imag(p);
 
   const expa = Math.exp(a);
   const sinha = (expa - 1 / expa) / 2;

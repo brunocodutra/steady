@@ -18,6 +18,9 @@
     "deploy": "webpack -p --env=production --progress"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0-beta",
+    "@babel/polyfill": "^7.0.0-beta",
+    "@babel/preset-env": "^7.0.0-beta",
     "@types/classnames": "^2.2.3",
     "@types/jest": "^21.1.8",
     "@types/jest-matcher-utils": "^21.0.1",
@@ -28,6 +31,7 @@
     "@types/redux-logger": "^3.0.5",
     "@types/webpack-env": "^1.13.3",
     "awesome-typescript-loader": "^3.4.1",
+    "babel-loader": "^8.0.0-beta",
     "bootstrap": "^4.0.0-beta.2",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.7",
