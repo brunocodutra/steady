@@ -1,4 +1,4 @@
-import {Type, toggle, insert, activate} from 'action';
+import {Type, toggle, insert, remove, activate} from 'action';
 import {Kind} from 'lib/element';
 
 const kinds: Kind[] = [
@@ -18,14 +18,20 @@ describe('Actions', () => {
     expect(toggle()).toEqual({type: Type.toggle});
   });
 
-  it('should make it possible to activate existing elements', () => {
-    const id = Array.from({length: rand()}, rand);
-    expect(activate(id)).toEqual({type: Type.activate, id});
-  });
-
   it('should make it possible to insert new elements', () => {
     kinds.forEach((kind) => {
       expect(insert(kind)).toEqual({type: Type.insert, kind});
     });
   });
+
+  it('should make it possible to remove existing elements', () => {
+    const id = Array.from({length: rand()}, rand);
+    expect(remove(id)).toEqual({type: Type.remove, id});
+  });
+
+  it('should make it possible to activate existing elements', () => {
+    const id = Array.from({length: rand()}, rand);
+    expect(activate(id)).toEqual({type: Type.activate, id});
+  });
+
 });

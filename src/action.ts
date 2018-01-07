@@ -3,6 +3,7 @@ import {Kind} from 'lib/element';
 export const enum Type {
   toggle = 'toggle',
   activate = 'activate',
+  remove = 'remove',
   insert = 'insert',
 }
 
@@ -15,12 +16,17 @@ type Activate = {
   readonly id: number[],
 };
 
+type Remove = {
+  readonly type: Type.remove,
+  readonly id: number[],
+};
+
 type Insert = {
   readonly type: Type.insert,
   readonly kind: Kind,
 };
 
-export type Action = Toggle | Activate | Insert;
+export type Action = Toggle | Activate | Remove | Insert;
 
 export const toggle = (): Toggle => ({
   type: Type.toggle,
@@ -28,6 +34,11 @@ export const toggle = (): Toggle => ({
 
 export const activate = (id: number[]): Activate => ({
   type: Type.activate,
+  id,
+});
+
+export const remove = (id: number[]): Remove => ({
+  type: Type.remove,
   id,
 });
 
