@@ -16,9 +16,9 @@ describe('Ground', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(ground(make(k)).height).toBe(make(k).height);
+      expect(ground(make(k)).level).toBe(make(k).level);
     });
   });
 

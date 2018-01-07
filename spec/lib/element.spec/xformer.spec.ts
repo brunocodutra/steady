@@ -17,9 +17,9 @@ describe('XFormer', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(xformer(make(k)).height).toBe(make(k).height);
+      expect(xformer(make(k)).level).toBe(make(k).level);
     });
   });
 

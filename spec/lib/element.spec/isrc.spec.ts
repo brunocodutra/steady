@@ -17,9 +17,9 @@ describe('ISrc', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(isrc(make(k)).height).toBe(make(k).height);
+      expect(isrc(make(k)).level).toBe(make(k).level);
     });
   });
 

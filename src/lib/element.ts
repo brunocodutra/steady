@@ -19,7 +19,7 @@ export type Connector = {
   readonly next: undefined,
   readonly value: undefined,
   readonly model: Quadripole,
-  readonly height: 0,
+  readonly level: 0,
 };
 
 export type Ground = {
@@ -27,7 +27,7 @@ export type Ground = {
   readonly next: Element,
   readonly value: undefined,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type VSrc = {
@@ -35,7 +35,7 @@ export type VSrc = {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type ISrc = {
@@ -43,7 +43,7 @@ export type ISrc = {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type Impedance = {
@@ -51,7 +51,7 @@ export type Impedance = {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type Admittance = {
@@ -59,7 +59,7 @@ export type Admittance = {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type Line = {
@@ -67,7 +67,7 @@ export type Line = {
   readonly next: Element,
   readonly value: {y: Phasor, z: Phasor},
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type XFormer = {
@@ -75,7 +75,7 @@ export type XFormer = {
   readonly next: Element,
   readonly value: number,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type Series = {
@@ -83,7 +83,7 @@ export type Series = {
   readonly next: Element,
   readonly value: undefined,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 export type Shunt = {
@@ -91,7 +91,7 @@ export type Shunt = {
   readonly next: Element,
   readonly value: Series,
   readonly model: Quadripole,
-  readonly height: number,
+  readonly level: number,
 };
 
 type Elements = {
@@ -119,7 +119,7 @@ export const connector = (): Connector => ({
   next: undefined,
   value: undefined,
   model: quadripole(),
-  height: 0,
+  level: 0,
 });
 
 const termination = connector();
@@ -129,7 +129,7 @@ export const ground = (next: Ground['next'] = termination): Ground => ({
   next,
   value: undefined,
   model: quadripole(),
-  height: next.height,
+  level: next.level,
 });
 
 export const vsrc = (next: VSrc['next'] = termination, value = _0): VSrc => ({
@@ -137,7 +137,7 @@ export const vsrc = (next: VSrc['next'] = termination, value = _0): VSrc => ({
   next,
   value,
   model: quadripole(eye, [value, _0]),
-  height: next.height,
+  level: next.level,
 });
 
 export const isrc = (next: ISrc['next'] = termination, value = _0): ISrc => ({
@@ -145,7 +145,7 @@ export const isrc = (next: ISrc['next'] = termination, value = _0): ISrc => ({
   next,
   value,
   model: quadripole(eye, [_0, value]),
-  height: next.height,
+  level: next.level,
 });
 
 export const impedance = (next: Impedance['next'] = termination, value = _0): Impedance => ({
@@ -153,7 +153,7 @@ export const impedance = (next: Impedance['next'] = termination, value = _0): Im
   next,
   value,
   model: quadripole([[_1, neg(value)], [_0, _1]]),
-  height: next.height,
+  level: next.level,
 });
 
 export const admittance = (next: Admittance['next'] = termination, value = rect(Infinity)): Admittance => ({
@@ -161,7 +161,7 @@ export const admittance = (next: Admittance['next'] = termination, value = rect(
   next,
   value,
   model: quadripole([[_1, _0], [div(rect(-1), value), _1]]),
-  height: next.height,
+  level: next.level,
 });
 
 export const line = (next: Line['next'] = termination, {y, z} = {y: _0, z: _1}): Line => ({
@@ -169,7 +169,7 @@ export const line = (next: Line['next'] = termination, {y, z} = {y: _0, z: _1}):
   next,
   value: {y, z},
   model: quadripole([[cosh(y), mul(neg(z), sinh(y))], [div(sinh(y), neg(z)), cosh(y)]]),
-  height: next.height,
+  level: next.level,
 });
 
 export const xformer = (next: XFormer['next'] = termination, value = 1): XFormer => ({
@@ -177,7 +177,7 @@ export const xformer = (next: XFormer['next'] = termination, value = 1): XFormer
   next,
   value,
   model: quadripole([[rect(1 / value), _0], [_0, rect(value)]]),
-  height: next.height,
+  level: next.level,
 });
 
 export const series = (next: Series['next'] = ground()): Series => ({
@@ -185,7 +185,7 @@ export const series = (next: Series['next'] = ground()): Series => ({
   next,
   value: undefined,
   model: collapse(next),
-  height: next.height,
+  level: next.level,
 });
 
 export const shunt = (next: Shunt['next'] = termination, value = series(connector())): Shunt => ({
@@ -196,7 +196,7 @@ export const shunt = (next: Shunt['next'] = termination, value = series(connecto
     [[_1, _0], [div(rotation(value.model)[1][0], rotation(value.model)[1][1]), _1]],
     [_0, div(translation(value.model)[1], rotation(value.model)[1][1])],
   ),
-  height: next.height + value.height + 1,
+  level: next.level + value.level + 1,
 });
 
 type Params = {

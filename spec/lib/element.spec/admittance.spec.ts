@@ -17,9 +17,9 @@ describe('Admittance', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(admittance(make(k)).height).toBe(make(k).height);
+      expect(admittance(make(k)).level).toBe(make(k).level);
     });
   });
 

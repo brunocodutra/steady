@@ -17,9 +17,9 @@ describe('VSrc', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(vsrc(make(k)).height).toBe(make(k).height);
+      expect(vsrc(make(k)).level).toBe(make(k).level);
     });
   });
 

@@ -13,8 +13,8 @@ describe('Connector', () => {
     expect(connector().next).toBeUndefined();
   });
 
-  it('should have no height', () => {
-    expect(connector().height).toBe(0);
+  it('should have no level', () => {
+    expect(connector().level).toBe(0);
   });
 
   it('should model an ideal conductor', () => {

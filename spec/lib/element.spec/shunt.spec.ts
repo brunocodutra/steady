@@ -17,12 +17,12 @@ describe('Shunt', () => {
     });
   });
 
-  it('should accommodate both branches within its height', () => {
+  it('should accommodate both branches within its level', () => {
     kinds.forEach((k) => {
       const next = make(k);
       kinds.forEach((k) => {
         const branch = series(make(k));
-        expect(shunt(next, branch).height).toBe(next.height + branch.height + 1);
+        expect(shunt(next, branch).level).toBe(next.level + branch.level + 1);
       });
     });
   });

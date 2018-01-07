@@ -17,9 +17,9 @@ describe('Impedance', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(impedance(make(k)).height).toBe(make(k).height);
+      expect(impedance(make(k)).level).toBe(make(k).level);
     });
   });
 

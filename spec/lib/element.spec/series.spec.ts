@@ -16,9 +16,9 @@ describe('Series', () => {
     });
   });
 
-  it('should inherit its successor\'s height', () => {
+  it('should inherit its successor\'s level', () => {
     kinds.forEach((k) => {
-      expect(series(make(k)).height).toBe(make(k).height);
+      expect(series(make(k)).level).toBe(make(k).level);
     });
   });
 
