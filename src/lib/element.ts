@@ -122,9 +122,9 @@ export const connector = (): Connector => ({
   level: 0,
 });
 
-const termination = connector();
+const terminal = connector();
 
-export const ground = (next: Ground['next'] = termination): Ground => ({
+export const ground = (next: Ground['next'] = terminal): Ground => ({
   kind: Kind.ground,
   next,
   value: undefined,
@@ -132,7 +132,7 @@ export const ground = (next: Ground['next'] = termination): Ground => ({
   level: next.level,
 });
 
-export const vsrc = (next: VSrc['next'] = termination, value = _0): VSrc => ({
+export const vsrc = (next: VSrc['next'] = terminal, value = _0): VSrc => ({
   kind: Kind.vsrc,
   next,
   value,
@@ -140,7 +140,7 @@ export const vsrc = (next: VSrc['next'] = termination, value = _0): VSrc => ({
   level: next.level,
 });
 
-export const isrc = (next: ISrc['next'] = termination, value = _0): ISrc => ({
+export const isrc = (next: ISrc['next'] = terminal, value = _0): ISrc => ({
   kind: Kind.isrc,
   next,
   value,
@@ -148,7 +148,7 @@ export const isrc = (next: ISrc['next'] = termination, value = _0): ISrc => ({
   level: next.level,
 });
 
-export const impedance = (next: Impedance['next'] = termination, value = _0): Impedance => ({
+export const impedance = (next: Impedance['next'] = terminal, value = _0): Impedance => ({
   kind: Kind.impedance,
   next,
   value,
@@ -156,7 +156,7 @@ export const impedance = (next: Impedance['next'] = termination, value = _0): Im
   level: next.level,
 });
 
-export const admittance = (next: Admittance['next'] = termination, value = rect(Infinity)): Admittance => ({
+export const admittance = (next: Admittance['next'] = terminal, value = rect(Infinity)): Admittance => ({
   kind: Kind.admittance,
   next,
   value,
@@ -164,7 +164,7 @@ export const admittance = (next: Admittance['next'] = termination, value = rect(
   level: next.level,
 });
 
-export const line = (next: Line['next'] = termination, {y, z} = {y: _0, z: _1}): Line => ({
+export const line = (next: Line['next'] = terminal, {y, z} = {y: _0, z: _1}): Line => ({
   kind: Kind.line,
   next,
   value: {y, z},
@@ -172,7 +172,7 @@ export const line = (next: Line['next'] = termination, {y, z} = {y: _0, z: _1}):
   level: next.level,
 });
 
-export const xformer = (next: XFormer['next'] = termination, value = 1): XFormer => ({
+export const xformer = (next: XFormer['next'] = terminal, value = 1): XFormer => ({
   kind: Kind.xformer,
   next,
   value,
@@ -188,7 +188,7 @@ export const series = (next: Series['next'] = ground()): Series => ({
   level: next.level,
 });
 
-export const shunt = (next: Shunt['next'] = termination, value = series(connector())): Shunt => ({
+export const shunt = (next: Shunt['next'] = terminal, value = series(connector())): Shunt => ({
   kind: Kind.shunt,
   next,
   value,
