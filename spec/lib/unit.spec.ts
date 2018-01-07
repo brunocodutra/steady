@@ -5,7 +5,7 @@ describe('Prefix', () => {
 
   it('should contain only powers of 1000', () => {
     for (let i = 0; i < values.length; ++i) {
-      expect(Math.log10(values[i]) % 3).toBe(0);
+      expect(Math.log10(values[i]) % 3).toBeCloseTo(0);
     }
   });
 
