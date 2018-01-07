@@ -48,7 +48,7 @@ type Props = PropsBase & {
 };
 
 const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
-  active: JSON.stringify(active) === JSON.stringify(id),
+  active: active.length === id.length && active.every((x, i) => x === id[i]),
 });
 
 const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
