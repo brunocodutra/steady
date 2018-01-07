@@ -1,9 +1,9 @@
 import {Kind} from 'lib/element';
 
 export const enum Type {
-  toggle,
-  activate,
-  insert,
+  toggle = 'toggle',
+  activate = 'activate',
+  insert = 'insert',
 }
 
 type Toggle = {
