@@ -253,6 +253,70 @@ footer {
     &.active.connector::after {
       animation: blinking 1s ease-in-out infinite;
     }
+
+    > .control {
+      transition: opacity ease-in-out $transition-duration;
+      color: $gray-600;
+      cursor: pointer;
+
+      &:focus,
+      &:hover {
+        outline: none;
+        color: $highlight-color;
+      }
+    }
+
+    &.active > .control {
+      @extend .d-none;
+    }
+
+    &.interactive:not(:hover, :focus) > .control:not(:focus) {
+      opacity: 0;
+    }
+
+    > .remove {
+      position: absolute;
+      top: 0.1rem;
+      right: 0;
+      width: 0.9rem;
+      height: 0.9rem;
+      padding: 0.2rem;
+    }
+
+    > .value {
+      @extend .d-flex, .text-muted, .justify-content-center;
+
+      position: absolute;
+      right: 0;
+      left: 0;
+
+      font-size: 0.7rem;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    &.vsrc > .value,
+    &.impedance > .value {
+      top: 40%;
+    }
+
+    &.isrc > .value,
+    &.admittance > .value,
+    &.xformer > .value {
+      top: 85%;
+    }
+
+    &.line > .value {
+      top: 80%;
+
+      > * {
+        @extend .d-flex, .flex-column;
+
+        + * {
+          @extend .ml-1;
+        }
+      }
+    }
   }
 }
 
@@ -260,41 +324,6 @@ footer {
   50% {
     border-color: transparent;
     color: unset;
-  }
-}
-
-.value {
-  @extend .d-flex, .text-muted, .justify-content-center;
-
-  position: absolute;
-  right: 0;
-  left: 0;
-
-  font-size: 0.7rem;
-  font-weight: bold;
-  line-height: 1.2;
-
-  .vsrc &,
-  .impedance & {
-    top: 40%;
-  }
-
-  .isrc &,
-  .admittance &,
-  .xformer & {
-    top: 85%;
-  }
-
-  .line & {
-    top: 80%;
-
-    > * {
-      @extend .d-flex, .flex-column;
-
-      + * {
-        @extend .ml-1;
-      }
-    }
   }
 }
 

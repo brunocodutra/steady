@@ -32,21 +32,26 @@ type PropsBase = {
 type Props = PropsBase & {
   readonly active: boolean,
   readonly activate: () => void,
+  readonly remove: () => void,
 };
 
 const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
-  active: active.length === id.length && active.every((x, i) => x === id[i]),
+  active: active.length === id.length && id.every((x, i) => x === active[i]),
 });
 
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
+const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase) => ({
   activate: () => {
-    dispatch(Actions.activate(props.id));
+    dispatch(Actions.activate(id));
+  },
+
+  remove: () => {
+    dispatch(Actions.remove(id));
   },
 });
 
 export default connect(mapState, mapDispatch)(
-  ({element, active, activate}: Props) => (
-    <Tile active={active} activate={activate} className={element.kind}>
+  ({element, active, activate, remove}: Props) => (
+    <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
       <span className='value'>
         <Quantity value={element.value} unit={Unit.volt}/>

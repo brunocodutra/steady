@@ -45,28 +45,55 @@ type PropsBase = {
   readonly vi: [Phasor, Phasor],
 };
 
-type Props = PropsBase & {
+type StateProps = {
   readonly active: boolean,
-  readonly activate: () => void,
+  readonly essential: boolean,
 };
 
-const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
-  active: active.length === id.length && active.every((x, i) => x === id[i]),
-});
+type DispatchProps = {
+  readonly activate: () => void,
+  readonly remove: () => void,
+};
 
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
+type Props =
+  & PropsBase
+  & Pick<StateProps, 'active'>
+  & Pick<DispatchProps, 'activate'>
+  & Partial<Pick<DispatchProps, 'remove'>>
+;
+
+const mapState = ({schematics: {active}}: State, {id}: PropsBase): StateProps => {
+  const essential = active.length >= id.length && id.every((x, i) => x === active[i]);
+  return {
+    active: active.length === id.length && essential,
+    essential,
+  };
+};
+
+const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase): DispatchProps => ({
   activate: () => {
-    dispatch(Actions.activate(props.id));
+    dispatch(Actions.activate(id));
+  },
+
+  remove: () => {
+    dispatch(Actions.remove(id));
   },
 });
 
-export default connect(mapState, mapDispatch)(
-  ({id, element, vi, active, activate}: Props): JSX.Element => {
+const mergeProps = ({active, essential}: StateProps, {activate, remove}: DispatchProps, base: PropsBase): Props => ({
+  ...base,
+  active,
+  activate,
+  remove: essential ? undefined : remove,
+});
+
+export default connect(mapState, mapDispatch, mergeProps)(
+  ({id, element, vi, active, activate, remove}: Props): JSX.Element => {
     const fill = Array(element.level - element.value.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k}/>);
 
     return (
       <Tile>
-        <Tile activate={activate} active={active} className={element.kind}>
+        <Tile activate={activate} active={active} remove={remove} className={element.kind}>
           <Icon/>
           {fill}
           <Knee/>

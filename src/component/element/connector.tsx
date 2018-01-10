@@ -33,12 +33,12 @@ type Props = PropsBase & {
 };
 
 const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
-  active: active.length === id.length && active.every((x, i) => x === id[i]),
+  active: active.length === id.length && id.every((x, i) => x === active[i]),
 });
 
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
+const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase) => ({
   activate: () => {
-    dispatch(Actions.activate(props.id));
+    dispatch(Actions.activate(id));
   },
 });
 
