@@ -9,6 +9,7 @@ import Element from 'component/element';
 import {Disk, Frame} from 'component/svg';
 import Tile from 'component/tile';
 
+import {equal, prefix} from 'lib/array';
 import {Shunt} from 'lib/element';
 import {Phasor, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
@@ -62,13 +63,10 @@ type Props =
   & Partial<Pick<DispatchProps, 'remove'>>
 ;
 
-const mapState = ({schematics: {active}}: State, {id}: PropsBase): StateProps => {
-  const essential = active.length >= id.length && id.every((x, i) => x === active[i]);
-  return {
-    active: active.length === id.length && essential,
-    essential,
-  };
-};
+const mapState = ({schematics: {active}}: State, {id}: PropsBase): StateProps => ({
+  active: equal(id, active),
+  essential: prefix(id, active),
+});
 
 const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase): DispatchProps => ({
   activate: () => {

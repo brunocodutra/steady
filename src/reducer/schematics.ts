@@ -1,6 +1,8 @@
 import {Reducer} from 'redux';
 
 import {Action, Type} from 'action';
+
+import {prefix} from 'lib/array';
 import {Element, Kind, make, series, shunt} from 'lib/element';
 
 export type State = {
@@ -41,32 +43,34 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
 };
 
 export const reducer: Reducer<State> = (state = init, action: Action): State => {
+  const {entry, active} = state;
+
   switch (action.type) {
     case Type.activate:
-      return {...state, active: action.id};
+      return {entry, active: action.id};
 
     case Type.insert:
       return {
-        entry: patch(state.entry, state.active, (entry) => make(action.kind, entry)),
-        active: advance(state.active, state.active.length - 1, 1),
+        entry: patch(entry, active, (e) => make(action.kind, e)),
+        active: advance(active, active.length - 1, 1),
       };
 
     case Type.remove:
       const lead = action.id.slice(0, -1);
 
       return {
-        entry: patch(state.entry, action.id, (entry) => {
-          if (entry.kind === Kind.connector) {
+        entry: patch(entry, action.id, (e) => {
+          if (e.kind === Kind.connector) {
             throw new Error(`unexpected '${Kind.connector}'`);
           }
 
-          return entry.next;
+          return e.next;
         }),
-        active: !(
-          lead.length < state.active.length
-          && lead.every((x, i) => x === state.active[i])
-          && action.id[lead.length] < state.active[lead.length]
-        ) ? state.active : advance(state.active, lead.length, -1),
+
+        active: (prefix(lead, active) && action.id[lead.length] < active[lead.length])
+          ? advance(active, lead.length, -1)
+          : active
+        ,
       };
 
     default:

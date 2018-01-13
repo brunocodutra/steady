@@ -9,6 +9,7 @@ import Quantity from 'component/quantity';
 import {Frame, Ring} from 'component/svg';
 import Tile from 'component/tile';
 
+import {equal} from 'lib/array';
 import {VSrc} from 'lib/element';
 import {Phasor} from 'lib/phasor';
 import {Unit} from 'lib/unit';
@@ -36,7 +37,7 @@ type Props = PropsBase & {
 };
 
 const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
-  active: active.length === id.length && id.every((x, i) => x === active[i]),
+  active: equal(id, active),
 });
 
 const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase) => ({
