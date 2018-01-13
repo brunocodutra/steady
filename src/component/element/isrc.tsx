@@ -1,17 +1,12 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
 
-import * as Actions from 'action';
-import {State} from 'reducer';
+import removable, {Props as PropsBase} from 'container/removable';
 
 import Quantity from 'component/quantity';
 import {Frame, Ring, Shape} from 'component/svg';
 import Tile from 'component/tile';
 
-import {equal} from 'lib/array';
 import {ISrc} from 'lib/element';
-import {Phasor} from 'lib/phasor';
 import {Unit} from 'lib/unit';
 
 const icon = (
@@ -24,33 +19,11 @@ const icon = (
 
 export const Icon = () => icon;
 
-type PropsBase = {
-  readonly id: number[],
-  readonly element: ISrc,
-  readonly vi: [Phasor, Phasor],
-};
-
 type Props = PropsBase & {
-  readonly active: boolean,
-  readonly activate: () => void,
-  readonly remove: () => void,
+  readonly element: ISrc,
 };
 
-const mapState = ({schematics: {active}}: State, {id}: PropsBase) => ({
-  active: equal(id, active),
-});
-
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase) => ({
-  activate: () => {
-    dispatch(Actions.activate(id));
-  },
-
-  remove: () => {
-    dispatch(Actions.remove(id));
-  },
-});
-
-export default connect(mapState, mapDispatch)(
+export default removable(
   ({element, active, activate, remove}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>

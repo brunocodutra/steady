@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
 
-import * as Actions from 'action';
 import {State} from 'reducer';
+
+import removable, {Props as PropsBase} from 'container/removable';
 
 import Element from 'component/element';
 import {Disk, Frame} from 'component/svg';
 import Tile from 'component/tile';
 
-import {equal, prefix} from 'lib/array';
+import {prefix} from 'lib/array';
 import {Shunt} from 'lib/element';
-import {Phasor, sub} from 'lib/phasor';
+import {sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
 const icon = (
@@ -40,58 +40,22 @@ const knee = (
 
 export const Knee = () => knee;
 
-type PropsBase = {
-  readonly id: number[],
+type Props = PropsBase & {
   readonly element: Shunt,
-  readonly vi: [Phasor, Phasor],
-};
-
-type StateProps = {
-  readonly active: boolean,
   readonly essential: boolean,
 };
 
-type DispatchProps = {
-  readonly activate: () => void,
-  readonly remove: () => void,
-};
-
-type Props =
-  & PropsBase
-  & Pick<StateProps, 'active'>
-  & Pick<DispatchProps, 'activate'>
-  & Partial<Pick<DispatchProps, 'remove'>>
-;
-
-const mapState = ({schematics: {active}}: State, {id}: PropsBase): StateProps => ({
-  active: equal(id, active),
-  essential: prefix(id, active),
+const mapState = ({schematics: {active}}: State, props: PropsBase) => ({
+  essential: prefix(props.id, active),
 });
 
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, {id}: PropsBase): DispatchProps => ({
-  activate: () => {
-    dispatch(Actions.activate(id));
-  },
-
-  remove: () => {
-    dispatch(Actions.remove(id));
-  },
-});
-
-const mergeProps = ({active, essential}: StateProps, {activate, remove}: DispatchProps, base: PropsBase): Props => ({
-  ...base,
-  active,
-  activate,
-  remove: essential ? undefined : remove,
-});
-
-export default connect(mapState, mapDispatch, mergeProps)(
-  ({id, element, vi, active, activate, remove}: Props): JSX.Element => {
+export default removable(connect(mapState)(
+  ({id, element, vi, active, activate, essential, remove}: Props): JSX.Element => {
     const fill = Array(element.level - element.value.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k}/>);
 
     return (
       <Tile>
-        <Tile activate={activate} active={active} remove={remove} className={element.kind}>
+        <Tile activate={activate} active={active} remove={essential ? undefined : remove} className={element.kind}>
           <Icon/>
           {fill}
           <Knee/>
@@ -100,4 +64,4 @@ export default connect(mapState, mapDispatch, mergeProps)(
       </Tile>
     );
   },
-);
+));
