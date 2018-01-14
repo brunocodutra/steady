@@ -264,11 +264,7 @@ footer {
       }
     }
 
-    &.active > .control {
-      @extend .d-none;
-    }
-
-    &.interactive:not(:hover, :focus) > .control:not(:focus) {
+    &:not(:hover, :focus) > .control:not(:focus) {
       opacity: 0;
     }
 

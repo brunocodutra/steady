@@ -9,8 +9,8 @@ describe('Array prefix', () => {
       for(let i = x.length; i >= 0; --i) {
         const y = x.slice(0, i);
 
-        expect(prefix(y, x)).toBe(true);
-        expect(prefix(x, y)).toBe(i === length);
+        expect(prefix(y, x)).toBe(i !== length);
+        expect(prefix(x, y)).toBe(false);
       }
     }
   });
