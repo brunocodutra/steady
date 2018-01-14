@@ -34,14 +34,6 @@ export default removable(
       <Icon/>
       <span className='value'>
         <span>
-          <span>γ</span>
-          <span>Z</span>
-        </span>
-        <span>
-          <span>=</span>
-          <span>=</span>
-        </span>
-        <span>
           <Quantity value={element.value.y} unit={Unit.constant}/>
           <Quantity value={element.value.z} unit={Unit.ohm}/>
         </span>

@@ -285,8 +285,7 @@ footer {
       @extend .d-flex, .text-muted, .justify-content-center;
 
       position: absolute;
-      right: 0;
-      left: 0;
+
 
       font-size: 0.7rem;
       font-weight: bold;
@@ -295,24 +294,25 @@ footer {
 
     &.vsrc > .value,
     &.impedance > .value {
-      top: 40%;
+      top: 35%;
+      right: 0;
+      left: 0;
     }
 
     &.isrc > .value,
     &.admittance > .value,
     &.xformer > .value {
-      top: 85%;
+      top: 82%;
+      right: 0;
+      left: 0;
     }
 
     &.line > .value {
-      top: 80%;
+      top: 69%;
+      left: 20%;
 
       > * {
         @extend .d-flex, .flex-column;
-
-        + * {
-          @extend .ml-1;
-        }
       }
     }
   }
@@ -329,6 +329,7 @@ footer {
   > .ang {
     &::before {
       content: '∠';
+      font-size: 0.8em;
     }
 
     &::after {
@@ -338,7 +339,7 @@ footer {
 }
 
 .unit {
-  margin-left: 0.35em;
+  margin-left: 0.3ch;
 
   &.volt::after {
     content: 'V';
