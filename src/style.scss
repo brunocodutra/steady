@@ -21,10 +21,6 @@ body {
 
   font-size: 12px;
 
-  @include media-breakpoint-down(sm) {
-    line-height: 0;
-  }
-
   @include media-breakpoint-up(md) {
     font-size: 14px;
   }
@@ -50,6 +46,8 @@ header {
 
     .github {
       @extend .nav-link, .p-0;
+
+      line-height: 0;
 
       .label {
         @extend .d-none, .d-md-inline-block;
