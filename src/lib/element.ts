@@ -94,18 +94,41 @@ export type Shunt = {
   readonly level: number,
 };
 
-type Elements = {
-  [Kind.connector]: Connector;
+type StaticElements = {
   [Kind.ground]: Ground;
-  [Kind.vsrc]: VSrc;
-  [Kind.isrc]: ISrc;
+  [Kind.series]: Series;
+};
+
+export type StaticKind = keyof StaticElements;
+export type Static = StaticElements[StaticKind];
+
+type ParametricElements = {
   [Kind.impedance]: Impedance;
   [Kind.admittance]: Admittance;
   [Kind.line]: Line;
   [Kind.xformer]: XFormer;
-  [Kind.series]: Series;
+  [Kind.vsrc]: VSrc;
+  [Kind.isrc]: ISrc;
+};
+
+export type ParametricKind = keyof ParametricElements;
+export type Parametric = ParametricElements[ParametricKind];
+
+type RemovableElements = ParametricElements & {
   [Kind.shunt]: Shunt;
 };
+
+export type RemovableKind = keyof RemovableElements;
+export type Removable = RemovableElements[RemovableKind];
+
+type ActivableElements = RemovableElements & {
+  [Kind.connector]: Connector;
+};
+
+export type ActivableKind = keyof ActivableElements;
+export type Activable = ActivableElements[ActivableKind];
+
+type Elements = StaticElements & ParametricElements & RemovableElements & ActivableElements;
 
 export type Element = Elements[keyof Elements];
 

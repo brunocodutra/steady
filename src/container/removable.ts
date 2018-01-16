@@ -6,7 +6,10 @@ import * as Actions from 'action';
 
 import activable, {Props as PropsBase} from 'container/activable';
 
+import {Removable} from 'lib/element';
+
 export type Props = PropsBase & {
+  readonly element: Removable,
   readonly remove: () => void,
 };
 
