@@ -1,10 +1,11 @@
-import {Kind} from 'lib/element';
+import {Kind, Parametric} from 'lib/element';
 
 export const enum Type {
   toggle = 'toggle',
   activate = 'activate',
   remove = 'remove',
   insert = 'insert',
+  update = 'update',
 }
 
 type Toggle = {
@@ -26,7 +27,13 @@ type Insert = {
   readonly kind: Kind,
 };
 
-export type Action = Toggle | Activate | Remove | Insert;
+type Update = {
+  readonly type: Type.update,
+  readonly id: number[],
+  readonly value: Parametric['value'],
+};
+
+export type Action = Toggle | Activate | Remove | Insert | Update;
 
 export const toggle = (): Toggle => ({
   type: Type.toggle,
@@ -45,4 +52,10 @@ export const remove = (id: number[]): Remove => ({
 export const insert = (kind: Kind): Insert => ({
   type: Type.insert,
   kind,
+});
+
+export const update = (id: number[], value: Parametric['value']): Update => ({
+  type: Type.update,
+  id,
+  value,
 });

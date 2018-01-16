@@ -1,4 +1,4 @@
-import {Type, toggle, insert, remove, activate} from 'action';
+import {Type, toggle, insert, remove, activate, update} from 'action';
 import {Kind} from 'lib/element';
 
 const kinds: Kind[] = [
@@ -24,14 +24,19 @@ describe('Actions', () => {
     });
   });
 
-  it('should make it possible to remove existing elements', () => {
+  it('should make it possible to remove removable elements', () => {
     const id = Array.from({length: rand()}, rand);
     expect(remove(id)).toEqual({type: Type.remove, id});
   });
 
-  it('should make it possible to activate existing elements', () => {
+  it('should make it possible to activate activable elements', () => {
     const id = Array.from({length: rand()}, rand);
     expect(activate(id)).toEqual({type: Type.activate, id});
   });
 
+  it('should make it possible to update parametric elements', () => {
+    const id = Array.from({length: rand()}, rand);
+    const value = rand();
+    expect(update(id, value)).toEqual({type: Type.update, id, value});
+  });
 });
