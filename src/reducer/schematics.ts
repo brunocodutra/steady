@@ -73,6 +73,12 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
         ,
       };
 
+    case Type.update:
+      return {
+        entry: patch(entry, action.id, (e) => make(e.kind, e.next, action.value)),
+        active,
+      };
+
     default:
       return state;
   }
