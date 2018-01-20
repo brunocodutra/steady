@@ -1,8 +1,8 @@
 import {Kind, xformer, update, split, join, branch, merge} from 'lib/element';
-import {rect, mul, div} from 'lib/phasor';
+import {mul, div} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
-import {elements, numbers, phasors} from './util';
+import {elements, phasors} from './util';
 
 describe('XFormer', () => {
   it('should be default constructible', () => {
@@ -46,23 +46,23 @@ describe('XFormer', () => {
   });
 
   it('should have a value', () => {
-    numbers.forEach((value) => {
+    phasors.forEach((value) => {
       expect(xformer(undefined, value).value).toBe(value);
     });
   });
 
   it('should allow updating its value', () => {
-    numbers.forEach((value) => {
+    phasors.forEach((value) => {
       expect(update(xformer(), value).value).toBe(value);
     });
   });
 
   it('should model an ideal transformer', () => {
-    numbers.forEach((value) => {
+    phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
           const {model} = xformer(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([div(v, rect(value)), mul(i, rect(value))]);
+          expect(project(model, [v, i])).toBeCloseTo([div(v, value), mul(i, value)]);
         });
       });
     });

@@ -8,8 +8,8 @@ export const enum Kind {
   isrc = 'isrc',
   impedance = 'impedance',
   admittance = 'admittance',
-  line = 'line',
   xformer = 'xformer',
+  line = 'line',
   series = 'series',
   shunt = 'shunt',
 }
@@ -62,18 +62,18 @@ export type Admittance = {
   readonly level: number,
 };
 
-export type Line = {
-  readonly kind: Kind.line,
+export type XFormer = {
+  readonly kind: Kind.xformer,
   readonly next: Element,
-  readonly value: {y: Phasor, z: Phasor},
+  readonly value: Phasor,
   readonly model: Quadripole,
   readonly level: number,
 };
 
-export type XFormer = {
-  readonly kind: Kind.xformer,
+export type Line = {
+  readonly kind: Kind.line,
   readonly next: Element,
-  readonly value: number,
+  readonly value: {y: Phasor, z: Phasor},
   readonly model: Quadripole,
   readonly level: number,
 };
@@ -105,8 +105,8 @@ export type Static = StaticElements[StaticKind];
 type ParametricElements = {
   [Kind.impedance]: Impedance;
   [Kind.admittance]: Admittance;
-  [Kind.line]: Line;
   [Kind.xformer]: XFormer;
+  [Kind.line]: Line;
   [Kind.vsrc]: VSrc;
   [Kind.isrc]: ISrc;
 };
@@ -187,19 +187,19 @@ export const admittance = (next: Admittance['next'] = terminal, value = rect(Inf
   level: next.level,
 });
 
+export const xformer = (next: XFormer['next'] = terminal, value = _1): XFormer => ({
+  kind: Kind.xformer,
+  next,
+  value,
+  model: quadripole([[div(_1, value), _0], [_0, value]]),
+  level: next.level,
+});
+
 export const line = (next: Line['next'] = terminal, {y, z} = {y: _0, z: _1}): Line => ({
   kind: Kind.line,
   next,
   value: {y, z},
   model: quadripole([[cosh(y), mul(neg(z), sinh(y))], [div(sinh(y), neg(z)), cosh(y)]]),
-  level: next.level,
-});
-
-export const xformer = (next: XFormer['next'] = terminal, value = 1): XFormer => ({
-  kind: Kind.xformer,
-  next,
-  value,
-  model: quadripole([[rect(1 / value), _0], [_0, rect(value)]]),
   level: next.level,
 });
 
@@ -248,10 +248,10 @@ const promote = <K extends Kind>(partial: PartialElement): Elements[K] => {
       return impedance(partial.next, partial.value);
     case Kind.admittance:
       return admittance(partial.next, partial.value);
-    case Kind.line:
-      return line(partial.next, partial.value);
     case Kind.xformer:
       return xformer(partial.next, partial.value);
+    case Kind.line:
+      return line(partial.next, partial.value);
     case Kind.series:
       return series(partial.next);
     case Kind.shunt:
@@ -300,16 +300,15 @@ export const merge = (element: Element, value: Element): Shunt => {
 };
 
 export const update = (element: Element, value: Parametric['value']): Parametric => {
-  if (typeof value === 'number' && element.kind === Kind.xformer) {
-    return promote<typeof element.kind>({...element, value});
-  } else if (isPhasor(value) && (
+  if (isPhasor(value) && (
     element.kind === Kind.vsrc ||
     element.kind === Kind.isrc ||
     element.kind === Kind.impedance ||
-    element.kind === Kind.admittance
+    element.kind === Kind.admittance ||
+    element.kind === Kind.xformer
   )) {
     return promote<typeof element.kind>({...element, value});
-  } else if (typeof value !== 'number' && !isPhasor(value) && element.kind === Kind.line) {
+  } else if (!isPhasor(value) && element.kind === Kind.line) {
     return promote<typeof element.kind>({...element, value});
   } else {
     throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
