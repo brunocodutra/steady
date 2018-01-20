@@ -40,16 +40,15 @@ const knee = (
 
 export const Knee = () => knee;
 
-type Props = PropsBase & {
-  readonly element: Shunt,
+type Props = PropsBase<Shunt> & {
   readonly essential: boolean,
 };
 
-const mapState = ({schematics: {active}}: State, props: PropsBase) => ({
+const mapState = ({schematics: {active}}: State, props: PropsBase<Shunt>) => ({
   essential: prefix(props.id, active),
 });
 
-export default removable(connect(mapState)(
+export default removable<Shunt>(connect(mapState)(
   ({id, element, vi, active, activate, essential, remove}: Props): JSX.Element => {
     const fill = Array(element.level - element.value.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k}/>);
 

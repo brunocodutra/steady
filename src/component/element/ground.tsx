@@ -14,9 +14,7 @@ const icon = (
 
 export const Icon = () => icon;
 
-type Props = PropsBase & {
-  readonly element: Ground,
-};
+type Props = PropsBase<Ground>;
 
 export default ({element}: Props) => (
   <Tile className={element.kind}>

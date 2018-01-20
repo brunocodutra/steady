@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import removable, {Props as PropsBase} from 'container/removable';
+import parametric, {Props as PropsBase} from 'container/parametric';
 
 import Quantity from 'component/quantity';
 import {Frame} from 'component/svg';
@@ -17,11 +17,9 @@ const icon = (
 
 export const Icon = () => icon;
 
-type Props = PropsBase & {
-  readonly element: Admittance,
-};
+type Props = PropsBase<Admittance>;
 
-export default removable(
+export default parametric<Admittance>(
   ({element, active, activate, remove}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>

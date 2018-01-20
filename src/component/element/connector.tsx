@@ -17,11 +17,9 @@ const icon = (
 
 export const Icon = () => icon;
 
-type Props = PropsBase & {
-  readonly element: Connector,
-};
+type Props = PropsBase<Connector>;
 
-export default activable(
+export default activable<Connector>(
   ({element, active, activate}: Props) => (
     <Tile active={active} activate={activate} className={element.kind}>
       <Icon/>

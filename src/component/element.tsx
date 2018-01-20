@@ -14,9 +14,9 @@ import Shunt from 'component/element/shunt';
 import VSrc from 'component/element/vsrc';
 import XFormer from 'component/element/xformer';
 
-export type Props = {
+export type Props<E extends Element = Element> = {
   readonly id: number[],
-  readonly element: Element,
+  readonly element: E,
   readonly vi: [Phasor, Phasor],
 };
 

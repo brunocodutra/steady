@@ -9,8 +9,7 @@ import {Props as PropsBase} from 'component/element';
 import {equal} from 'lib/array';
 import {Activable} from 'lib/element';
 
-export type Props = PropsBase & {
-  readonly element: Activable,
+export type Props<E extends Activable> = PropsBase<E> & {
   readonly active: boolean,
   readonly activate: () => void,
 };
@@ -25,4 +24,6 @@ const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
   },
 });
 
-export default connect(mapState, mapDispatch);
+export default <E extends Activable>(component: React.ComponentType<Props<E>>) => (
+  connect(mapState, mapDispatch)(component)
+);
