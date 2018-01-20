@@ -1,4 +1,4 @@
-import {_0, _1, cosh, div, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
+import {_0, _1, cosh, div, isPhasor, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
 import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/quadripole';
 
 export const enum Kind {
@@ -222,38 +222,96 @@ export const shunt = (next: Shunt['next'] = terminal, value = series(connector()
   level: next.level + value.level + 1,
 });
 
-type Params = {
+type PartialElements = {
   [K in keyof Elements]: {
     readonly kind: Elements[K]['kind'],
-    readonly next: Elements[K]['next'],
-    readonly value: Elements[K]['value'],
+    readonly next?: Elements[K]['next'],
+    readonly value?: Elements[K]['value'],
+
+    [k: string]: any,
   }
 };
 
-const create = (params: Params[keyof Params]): Element => {
-  switch (params.kind) {
+type PartialElement = PartialElements[keyof PartialElements];
+
+const promote = <K extends Kind>(partial: PartialElement): Elements[K] => {
+  switch (partial.kind) {
     case Kind.connector:
       return connector();
     case Kind.ground:
-      return ground(params.next);
+      return ground(partial.next);
     case Kind.vsrc:
-      return vsrc(params.next, params.value);
+      return vsrc(partial.next, partial.value);
     case Kind.isrc:
-      return isrc(params.next, params.value);
+      return isrc(partial.next, partial.value);
     case Kind.impedance:
-      return impedance(params.next, params.value);
+      return impedance(partial.next, partial.value);
     case Kind.admittance:
-      return admittance(params.next, params.value);
+      return admittance(partial.next, partial.value);
     case Kind.line:
-      return line(params.next, params.value);
+      return line(partial.next, partial.value);
     case Kind.xformer:
-      return xformer(params.next, params.value);
+      return xformer(partial.next, partial.value);
     case Kind.series:
-      return series(params.next);
+      return series(partial.next);
     case Kind.shunt:
-      return shunt(params.next, params.value);
+      return shunt(partial.next, partial.value);
   }
 };
 
-export const make = <K extends Kind>(kind: K, next?: Params[K]['next'], value?: Params[K]['value']): Elements[K] =>
-  create({kind, next, value} as Params[K]); // tslint:disable-line:no-object-literal-type-assertion
+export const make = <K extends Kind>(kind: K): Elements[K] =>
+  promote<K>({kind} as PartialElement[K]) // tslint:disable-line:no-object-literal-type-assertion
+;
+
+export const split = (element: Element) => {
+  if (element.kind === Kind.connector) {
+    throw new Error(`unexpected '${Kind.connector}'`);
+  }
+
+  return element.next;
+};
+
+export const join = (element: Element, next: Element) => {
+  if (element.kind === Kind.connector) {
+    throw new Error(`unexpected '${Kind.connector}'`);
+  }
+
+  return promote<typeof element.kind>({...element, next});
+};
+
+export const branch = (element: Element): Series => {
+  if (element.kind !== Kind.shunt) {
+    throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
+  }
+
+  return element.value;
+};
+
+export const merge = (element: Element, value: Element): Shunt => {
+  if (element.kind !== Kind.shunt) {
+    throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
+  }
+
+  if (value.kind !== Kind.series) {
+    throw new Error(`expected '${Kind.series}', got '${value.kind}'`);
+  }
+
+  return promote<typeof element.kind>({...element, value});
+};
+
+export const update = (element: Element, value: Parametric['value']): Parametric => {
+  if (typeof value === 'number' && element.kind === Kind.xformer) {
+    return promote<typeof element.kind>({...element, value});
+  } else if (isPhasor(value) && (
+    element.kind === Kind.vsrc ||
+    element.kind === Kind.isrc ||
+    element.kind === Kind.impedance ||
+    element.kind === Kind.admittance
+  )) {
+    return promote<typeof element.kind>({...element, value});
+  } else if (typeof value !== 'number' && !isPhasor(value) && element.kind === Kind.line) {
+    return promote<typeof element.kind>({...element, value});
+  } else {
+    throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
+  }
+};

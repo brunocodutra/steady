@@ -1,25 +1,59 @@
-import {Kind, vsrc, make} from 'lib/element';
+import {Kind, vsrc, update, split, join, branch, merge} from 'lib/element';
 import {add} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
-import {kinds, phasors} from './util';
+import {elements, phasors} from './util';
 
 describe('VSrc', () => {
   it('should be default constructible', () => {
     expect(vsrc().kind).toBe(Kind.vsrc);
-    expect(make(Kind.vsrc).kind).toBe(Kind.vsrc);;
   });
 
   it('should have a successor', () => {
-    kinds.forEach((k) => {
-      const next = make(k);
+    elements.forEach((next) => {
       expect(vsrc(next).next).toBe(next);
     });
   });
 
+  it('should allow splitting off', () => {
+    elements.forEach((next) => {
+      expect(split(vsrc(next))).toBe(next);
+    });
+  });
+
+  it('should allow joining in', () => {
+    elements.forEach((next) => {
+      expect(join(vsrc(), next).next).toBe(next);
+    });
+  });
+
+  it('should not allow branching off', () => {
+    elements.forEach((next) => {
+      expect(() => branch(vsrc(next))).toThrow();
+    });
+  });
+
+  it('should not allow merging in', () => {
+    elements.forEach((next) => {
+      expect(() => merge(vsrc(), next)).toThrow();
+    });
+  });
+
   it('should inherit its successor\'s level', () => {
-    kinds.forEach((k) => {
-      expect(vsrc(make(k)).level).toBe(make(k).level);
+    elements.forEach((next) => {
+      expect(vsrc(next).level).toBe(next.level);
+    });
+  });
+
+  it('should have a value', () => {
+    phasors.forEach((value) => {
+      expect(vsrc(undefined, value).value).toBe(value);
+    });
+  });
+
+  it('should allow updating its value', () => {
+    phasors.forEach((value) => {
+      expect(update(vsrc(), value).value).toBe(value);
     });
   });
 

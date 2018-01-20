@@ -1,25 +1,59 @@
-import {Kind, isrc, make} from 'lib/element';
+import {Kind, isrc, update, split, join, branch, merge} from 'lib/element';
 import {add} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
-import {kinds, phasors} from './util';
+import {elements, phasors} from './util';
 
 describe('ISrc', () => {
   it('should be default constructible', () => {
     expect(isrc().kind).toBe(Kind.isrc);
-    expect(make(Kind.isrc).kind).toBe(Kind.isrc);;
   });
 
   it('should have a successor', () => {
-    kinds.forEach((k) => {
-      const next = make(k);
+    elements.forEach((next) => {
       expect(isrc(next).next).toBe(next);
     });
   });
 
+  it('should allow splitting off', () => {
+    elements.forEach((next) => {
+      expect(split(isrc(next))).toBe(next);
+    });
+  });
+
+  it('should allow joining in', () => {
+    elements.forEach((next) => {
+      expect(join(isrc(), next).next).toBe(next);
+    });
+  });
+
+  it('should not allow branching off', () => {
+    elements.forEach((next) => {
+      expect(() => branch(isrc(next))).toThrow();
+    });
+  });
+
+  it('should not allow merging in', () => {
+    elements.forEach((next) => {
+      expect(() => merge(isrc(), next)).toThrow();
+    });
+  });
+
   it('should inherit its successor\'s level', () => {
-    kinds.forEach((k) => {
-      expect(isrc(make(k)).level).toBe(make(k).level);
+    elements.forEach((next) => {
+      expect(isrc(next).level).toBe(next.level);
+    });
+  });
+
+  it('should have a value', () => {
+    phasors.forEach((value) => {
+      expect(isrc(undefined, value).value).toBe(value);
+    });
+  });
+
+  it('should allow updating its value', () => {
+    phasors.forEach((value) => {
+      expect(update(isrc(), value).value).toBe(value);
     });
   });
 

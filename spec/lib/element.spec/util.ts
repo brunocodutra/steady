@@ -1,7 +1,7 @@
 import closeTo from 'jest/closeTo';
 
 import {Phasor, polar} from 'lib/phasor';
-import {Kind} from 'lib/element';
+import {Kind, make} from 'lib/element';
 
 expect.extend(closeTo);
 
@@ -14,16 +14,18 @@ export const phasors: Phasor[] = [].concat.apply(
   ),
 );
 
-export const kinds: Kind[] = [
-  Kind.ground,
+export const parametric = [
   Kind.vsrc,
   Kind.isrc,
   Kind.impedance,
   Kind.admittance,
-  Kind.line,
+].map(make);
+
+export const elements = parametric.concat([
+  Kind.connector,
+  Kind.ground,
   Kind.xformer,
+  Kind.line,
   Kind.series,
   Kind.shunt,
-];
-
-export const vizy = [Kind.vsrc, Kind.isrc, Kind.impedance, Kind.admittance];
+].map(make));

@@ -1,25 +1,59 @@
-import {Kind, admittance, make} from 'lib/element';
+import {Kind, admittance, update, split, join, branch, merge} from 'lib/element';
 import {sub, div} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
-import {kinds, phasors} from './util';
+import {elements, phasors} from './util';
 
 describe('Admittance', () => {
   it('should be default constructible', () => {
     expect(admittance().kind).toBe(Kind.admittance);
-    expect(make(Kind.admittance).kind).toBe(Kind.admittance);;
   });
 
   it('should have a successor', () => {
-    kinds.forEach((k) => {
-      const next = make(k);
+    elements.forEach((next) => {
       expect(admittance(next).next).toBe(next);
     });
   });
 
+  it('should allow splitting off', () => {
+    elements.forEach((next) => {
+      expect(split(admittance(next))).toBe(next);
+    });
+  });
+
+  it('should allow joining in', () => {
+    elements.forEach((next) => {
+      expect(join(admittance(), next).next).toBe(next);
+    });
+  });
+
+  it('should not allow branching off', () => {
+    elements.forEach((next) => {
+      expect(() => branch(admittance(next))).toThrow();
+    });
+  });
+
+  it('should not allow merging in', () => {
+    elements.forEach((next) => {
+      expect(() => merge(admittance(), next)).toThrow();
+    });
+  });
+
   it('should inherit its successor\'s level', () => {
-    kinds.forEach((k) => {
-      expect(admittance(make(k)).level).toBe(make(k).level);
+    elements.forEach((next) => {
+      expect(admittance(next).level).toBe(next.level);
+    });
+  });
+
+  it('should have a value', () => {
+    phasors.forEach((value) => {
+      expect(admittance(undefined, value).value).toBe(value);
+    });
+  });
+
+  it('should allow updating its value', () => {
+    phasors.forEach((value) => {
+      expect(update(admittance(), value).value).toBe(value);
     });
   });
 

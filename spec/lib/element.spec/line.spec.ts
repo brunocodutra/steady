@@ -1,29 +1,67 @@
-import {Kind, line, make} from 'lib/element';
+import {Kind, line, update, split, join, branch, merge} from 'lib/element';
 import {rect, norm, angle, add, sub, mul, div} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
-import {kinds, phasors} from './util';
+import {elements, phasors} from './util';
 
 describe('Line', () => {
   it('should be default constructible', () => {
     expect(line().kind).toBe(Kind.line);
-    expect(make(Kind.line).kind).toBe(Kind.line);;
   });
 
   it('should have a successor', () => {
-    kinds.forEach((k) => {
-      const next = make(k);
+    elements.forEach((next) => {
       expect(line(next).next).toBe(next);
     });
   });
 
-  it('should inherit its successor\'s level', () => {
-    kinds.forEach((k) => {
-      expect(line(make(k)).level).toBe(make(k).level);
+  it('should allow splitting off', () => {
+    elements.forEach((next) => {
+      expect(split(line(next))).toBe(next);
     });
   });
 
-  it('should model a voltage source', () => {
+  it('should allow joining in', () => {
+    elements.forEach((next) => {
+      expect(join(line(), next).next).toBe(next);
+    });
+  });
+
+  it('should not allow branching off', () => {
+    elements.forEach((next) => {
+      expect(() => branch(line(next))).toThrow();
+    });
+  });
+
+  it('should not allow merging in', () => {
+    elements.forEach((next) => {
+      expect(() => merge(line(), next)).toThrow();
+    });
+  });
+
+  it('should inherit its successor\'s level', () => {
+    elements.forEach((next) => {
+      expect(line(next).level).toBe(next.level);
+    });
+  });
+
+  it('should have two values', () => {
+    phasors.forEach((y) => {
+      phasors.forEach((z) => {
+        expect(line(undefined, {y, z}).value).toEqual({y, z});
+      });
+    });
+  });
+
+  it('should allow updating its values', () => {
+    phasors.forEach((y) => {
+      phasors.forEach((z) => {
+        expect(update(line(), {y, z}).value).toEqual({y, z});
+      });
+    });
+  });
+
+  it('should model a transmission line', () => {
     phasors.forEach((exp) => {
       const y = rect(Math.log(norm(exp)), angle(exp));
       const z = exp;
