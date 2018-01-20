@@ -321,7 +321,7 @@ footer {
   }
 }
 
-.phasor {
+.quantity {
   > .ang {
     &::before {
       content: '∠';
@@ -332,68 +332,77 @@ footer {
       content: '°';
     }
   }
-}
 
-.unit {
-  margin-left: 0.3ch;
+  > .prefix {
+    margin: 0 -0.3ch 0 0.3ch;
 
-  &.volt::after {
-    content: 'V';
+    &.femto::after {
+      content: 'f';
+    }
+
+    &.pico::after {
+      content: 'p';
+    }
+
+    &.nano::after {
+      content: 'n';
+    }
+
+    &.micro::after {
+      content: 'μ';
+    }
+
+    &.milli::after {
+      content: 'm';
+    }
+
+    &.kilo::after {
+      content: 'k';
+    }
+
+    &.mega::after {
+      content: 'M';
+    }
+
+    &.giga::after {
+      content: 'G';
+    }
+
+    &.tera::after {
+      content: 'T';
+    }
+
+    &.peta::after {
+      content: 'P';
+    }
   }
 
-  &.ampere::after {
-    content: 'A';
+  > .unit {
+    margin-left: 0.3ch;
+
+    &.volt::after {
+      content: 'V';
+    }
+
+    &.ampere::after {
+      content: 'A';
+    }
+
+    &.ohm::after {
+      content: 'Ω';
+    }
+
+    &.ratio::before {
+      content: ':';
+      margin-right: 0.3ch;
+    }
+
+    &.ratio::after {
+      content: '1';
+    }
   }
 
-  &.ohm::after {
-    content: 'Ω';
-  }
-
-  &.ratio::after {
-    content: ': 1';
-  }
-}
-
-.prefix {
-  margin: 0 -0.35em 0 0.35em;
-
-  &.femto::after {
-    content: 'f';
-  }
-
-  &.pico::after {
-    content: 'p';
-  }
-
-  &.nano::after {
-    content: 'n';
-  }
-
-  &.micro::after {
-    content: 'μ';
-  }
-
-  &.milli::after {
-    content: 'm';
-  }
-
-  &.kilo::after {
-    content: 'k';
-  }
-
-  &.mega::after {
-    content: 'M';
-  }
-
-  &.giga::after {
-    content: 'G';
-  }
-
-  &.tera::after {
-    content: 'T';
-  }
-
-  &.peta::after {
-    content: 'P';
+  > .prefix:not(.mono) + .unit.ratio {
+    padding-left: 0.4ch;
   }
 }
