@@ -281,8 +281,8 @@ footer {
       @extend .d-flex, .text-muted, .justify-content-center;
 
       position: absolute;
-
-
+      right: 0;
+      left: 0;
       font-size: 0.7rem;
       font-weight: bold;
       line-height: 1.2;
@@ -290,26 +290,18 @@ footer {
 
     &.vsrc > .value,
     &.impedance > .value {
-      top: 35%;
-      right: 0;
-      left: 0;
+      top: 36%;
+    }
+
+    &.line > .value.y {
+      top: 67%;
     }
 
     &.isrc > .value,
     &.admittance > .value,
-    &.xformer > .value {
+    &.xformer > .value,
+    &.line > .value.z {
       top: 82%;
-      right: 0;
-      left: 0;
-    }
-
-    &.line > .value {
-      top: 69%;
-      left: 20%;
-
-      > * {
-        @extend .d-flex, .flex-column;
-      }
     }
   }
 }

@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import parametric, {Props as PropsBase} from 'container/parametric';
 
-import Quantity from 'component/quantity';
 import {Frame} from 'component/svg';
 import Tile from 'component/tile';
+import Value from 'component/value';
 
 import {Line} from 'lib/element';
 import {Unit} from 'lib/unit';
@@ -30,12 +30,8 @@ export default parametric<Line>(
   ({element, active, activate, remove}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <span className='value'>
-        <span>
-          <Quantity value={element.value.y} unit={Unit.constant}/>
-          <Quantity value={element.value.z} unit={Unit.ohm}/>
-        </span>
-      </span>
+      <Value name={'y'} value={element.value.y} unit={Unit.constant}/>
+      <Value name={'z'} value={element.value.z} unit={Unit.ohm}/>
     </Tile>
   ),
 );

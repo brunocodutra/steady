@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import parametric, {Props as PropsBase} from 'container/parametric';
 
-import Quantity from 'component/quantity';
 import {Frame} from 'component/svg';
 import Tile from 'component/tile';
+import Value from 'component/value';
 
 import {XFormer} from 'lib/element';
 import {Unit} from 'lib/unit';
@@ -38,9 +38,7 @@ export default parametric<XFormer>(
   ({element, active, activate, remove}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <span className='value'>
-        <Quantity value={element.value} unit={Unit.ratio}/>
-      </span>
+      <Value value={element.value} unit={Unit.ratio}/>
     </Tile>
   ),
 );
