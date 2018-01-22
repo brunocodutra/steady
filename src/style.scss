@@ -270,11 +270,21 @@ footer {
 
     > .remove {
       position: absolute;
-      top: 0.1rem;
+      top: 0;
       right: 0;
-      width: 0.9rem;
-      height: 0.9rem;
-      padding: 0.2rem;
+
+      &::after {
+        @extend .d-block;
+
+        content: '\d7';
+
+        width: 1em;
+        height: 1em;
+        font-size: 1rem;
+        font-weight: bold;
+        line-height: 1em;
+        text-align: center;
+      }
     }
 
     > .value {

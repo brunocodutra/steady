@@ -1,8 +1,6 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {Frame} from 'component/svg';
-
 const lift = (f?: () => void) => f && (
   (_: React.SyntheticEvent<HTMLElement>) => f()
 );
@@ -22,23 +20,13 @@ const adapt = (f?: (_: React.SyntheticEvent<HTMLElement>) => void) => f && (
   }
 );
 
-const cross = (
-  <svg viewBox={'0 0 150 150'}>
-    <Frame d='M127.27312 22.727L22.727276 127.27271m-.00002-104.54576L127.27315 127.27274'/>
-  </svg>
-);
-
-const Cross = () => cross;
-
 const Remove = ({event}: {event?: () => void}) => !event ? null : (
   <span
     className='control remove'
     onMouseDown={isolate(lift(event))}
     onKeyDown={adapt(isolate(lift(event)))}
     tabIndex={0}
-  >
-    <Cross/>
-  </span>
+  />
 );
 
 type Props = {
