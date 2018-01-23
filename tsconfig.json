@@ -6,7 +6,7 @@
     },
     "target": "ES2017",
     "moduleResolution": "node",
-    "jsx": "React",
+    "jsx": "react",
     "strict": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -14,5 +14,5 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
   },
-  "exclude": ["node_modules", "spec"],
+  "include": ["src"],
 }

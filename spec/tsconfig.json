@@ -6,5 +6,5 @@
       "jest/*": ["spec/jest/*"],
     },
   },
-  "exclude": ["node_modules"],
+  "include": ["."]
 }
