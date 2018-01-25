@@ -18,6 +18,10 @@ $theme-colors: (
 
 $tile-size: 6rem;
 
+.flex-grow {
+  flex-grow: 1 !important;
+}
+
 html,
 body {
   @extend .d-flex, .flex-column, .h-100;
@@ -82,19 +86,13 @@ header {
 }
 
 main {
-  @extend .container-fluid, .d-flex, .flex-column;
-
-  flex-grow: 1;
+  @extend .container-fluid, .d-flex, .flex-column, .flex-grow;
 
   > .row {
-    @extend .d-flex;
-
-    flex-grow: 1;
+    @extend .d-flex, .flex-grow;
 
     > .col {
-      @extend .d-flex, .flex-column, .py-3;
-
-      flex-grow: 1;
+      @extend .d-flex, .flex-column, .flex-grow, .py-3;
     }
   }
 }
@@ -103,7 +101,7 @@ footer {
   @extend .container-fluid, .d-flex, .flex-row, .align-items-center, .justify-content-center, .mb-3;
 
   > .row {
-    flex-grow: 1;
+    @extend .flex-grow;
 
     &::before {
       @extend .col-4, .d-none, .d-md-flex;
@@ -185,10 +183,9 @@ footer {
 }
 
 .schematics {
-  @extend .d-flex, .border, .rounded, .p-3;
+  @extend .d-flex, .flex-grow, .border, .rounded, .p-3;
 
   flex-basis: 0;
-  flex-grow: 1;
 
   .tile {
     @include transition();
