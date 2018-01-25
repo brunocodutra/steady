@@ -14,7 +14,17 @@ $theme-colors: (
   'primary': lighten(map-get($colors, 'highlight'), 15%),
 );
 
+$transition-base: all 0.15s ease-in-out;
+
+
 @import '~bootstrap/scss/bootstrap';
+
+@mixin transition($properties...) {
+  transition: $transition-base;
+  @if length($properties) != 0 {
+    transition-property: $properties;
+  }
+}
 
 $tile-size: 6rem;
 
@@ -169,11 +179,10 @@ footer {
 
     > .tool {
       @extend .p-1, .rounded;
-      @include transition();
+      @include transition(color, border-color);
       @include size(0.75 * $tile-size);
 
       position: relative;
-      transition-property: color, border-color;
       border: 1px solid $border-color;
       cursor: pointer;
 
@@ -197,18 +206,17 @@ footer {
   flex-basis: 0;
 
   .tile {
-    @include transition();
+    @include transition(color);
     @include size($tile-size);
 
     display: inline-block;
     position: relative;
-    transition-property: color;
     outline: none;
     vertical-align: top;
 
     &.connector::after {
       @extend .rounded;
-      @include transition();
+      @include transition(border-color);
 
       content: '';
       position: absolute;
@@ -216,7 +224,6 @@ footer {
       right: 10%;
       bottom: 10%;
       left: 10%;
-      transition-property: border-color;
       border: 0.15rem dashed transparent;
     }
 
@@ -275,7 +282,7 @@ footer {
     }
 
     > .remove {
-      @include transition($transition-fade);
+      @include transition(opacity);
 
       position: absolute;
       top: 0;
