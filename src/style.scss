@@ -20,11 +20,10 @@ $tile-size: 6rem;
 
 %cross {
   @extend .d-block;
+  @include size(1em);
 
   content: '\d7';
 
-  width: 1em;
-  height: 1em;
   font-weight: bold;
   line-height: 1em;
   text-align: center;
@@ -75,13 +74,12 @@ header {
       }
 
       svg {
-        width: 2.5rem;
-        height: 2.5rem;
+        @include size(2.5rem);
+
         fill: currentcolor;
 
         @include media-breakpoint-up(md) {
-          width: 1.25rem;
-          height: 1.25rem;
+          @include size(1.25rem);
           vertical-align: text-bottom;
         }
       }
@@ -172,10 +170,9 @@ footer {
     > .tool {
       @extend .p-1, .rounded;
       @include transition();
+      @include size(0.75 * $tile-size);
 
       position: relative;
-      width: 0.75 * $tile-size;
-      height: 0.75 * $tile-size;
       transition-property: color, border-color;
       border: 1px solid $border-color;
       cursor: pointer;
@@ -201,11 +198,10 @@ footer {
 
   .tile {
     @include transition();
+    @include size($tile-size);
 
     display: inline-block;
     position: relative;
-    width: $tile-size;
-    height: $tile-size;
     transition-property: color;
     outline: none;
     vertical-align: top;
