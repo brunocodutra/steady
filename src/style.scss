@@ -6,14 +6,18 @@ $grid-breakpoints: (
   xl: 992px
 );
 
+$colors: (
+  'highlight': hsl(40, 100%, 55%),
+);
+
+$theme-colors: (
+  'primary': lighten(map-get($colors, 'highlight'), 15%),
+);
+
 @import '~bootstrap/scss/bootstrap';
 
 $tile-size: 6rem;
 $transition-duration: 150ms;
-
-$highlight-color: #ffa500;
-$highlight-color-800: rgba($highlight-color, 0.8);
-$highlight-color-200: rgba($highlight-color, 0.2);
 
 html,
 body {
@@ -173,9 +177,9 @@ footer {
 
       &:hover,
       &:focus {
-        border-color: $highlight-color-800;
+        border-color: color('highlight');
         outline: none;
-        color: $highlight-color;
+        color: color('highlight');
       }
 
       +.tool {
@@ -236,15 +240,15 @@ footer {
     &.active,
     &.interactive:focus,
     &.interactive:hover {
-      color: $highlight-color;
+      color: color('highlight');
       filter: url('#glow');
     }
 
     &.active.connector::after,
     &.interactive.connector:focus::after,
     &.interactive.connector:hover::after {
-      border-color: $highlight-color-800;
-      filter: drop-shadow(0 0 0.2rem $highlight-color-200);
+      border-color: color('highlight');
+      filter: drop-shadow(0 0 0.2rem rgba(color('highlight'), 0.2));
     }
 
     &.active,
@@ -253,14 +257,13 @@ footer {
     }
 
     > .control {
-      transition: opacity ease-in-out $transition-duration;
-      color: $gray-600;
+      color: theme-color('secondary');
       cursor: pointer;
 
       &:focus,
       &:hover {
         outline: none;
-        color: $highlight-color;
+        color: color('highlight');
       }
     }
 
