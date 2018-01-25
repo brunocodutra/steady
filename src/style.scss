@@ -17,7 +17,6 @@ $theme-colors: (
 @import '~bootstrap/scss/bootstrap';
 
 $tile-size: 6rem;
-$transition-duration: 150ms;
 
 html,
 body {
@@ -158,20 +157,16 @@ footer {
   }
 
   > .toolbar {
-    @extend .d-flex;
-    @extend .flex-row;
-    @extend .mx-auto;
+    @extend .d-flex, .flex-row, .mx-auto;
 
     > .tool {
-      @extend .p-1;
-      @extend .rounded;
+      @extend .p-1, .rounded;
+      @include transition();
 
       position: relative;
       width: 0.75 * $tile-size;
       height: 0.75 * $tile-size;
       transition-property: color, border-color;
-      transition-duration: $transition-duration;
-      transition-timing-function: ease-in-out;
       border: 1px solid $border-color;
       cursor: pointer;
 
@@ -196,16 +191,19 @@ footer {
   flex-grow: 1;
 
   .tile {
+    @include transition();
+
     display: inline-block;
     position: relative;
     width: $tile-size;
     height: $tile-size;
-    transition: color ease-in-out $transition-duration;
+    transition-property: color;
     outline: none;
     vertical-align: top;
 
     &.connector::after {
       @extend .rounded;
+      @include transition();
 
       content: '';
       position: absolute;
@@ -213,7 +211,7 @@ footer {
       right: 10%;
       bottom: 10%;
       left: 10%;
-      transition: border-color ease-in-out $transition-duration;
+      transition-property: border-color;
       border: 0.15rem dashed transparent;
     }
 
@@ -272,6 +270,8 @@ footer {
     }
 
     > .remove {
+      @include transition($transition-fade);
+
       position: absolute;
       top: 0;
       right: 0;
