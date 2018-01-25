@@ -18,6 +18,18 @@ $theme-colors: (
 
 $tile-size: 6rem;
 
+%cross {
+  @extend .d-block;
+
+  content: '\d7';
+
+  width: 1em;
+  height: 1em;
+  font-weight: bold;
+  line-height: 1em;
+  text-align: center;
+}
+
 .flex-grow {
   flex-grow: 1 !important;
 }
@@ -274,16 +286,9 @@ footer {
       right: 0;
 
       &::after {
-        @extend .d-block;
+        @extend %cross;
 
-        content: '\d7';
-
-        width: 1em;
-        height: 1em;
         font-size: 1rem;
-        font-weight: bold;
-        line-height: 1em;
-        text-align: center;
       }
     }
 
