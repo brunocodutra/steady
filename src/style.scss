@@ -260,14 +260,12 @@ footer {
     &.interactive:focus,
     &.interactive:hover {
       color: color('highlight');
-      filter: url('#glow');
     }
 
     &.active.connector::after,
     &.interactive.connector:focus::after,
     &.interactive.connector:hover::after {
       border-color: color('highlight');
-      filter: drop-shadow(0 0 0.2rem rgba(color('highlight'), 0.2));
     }
 
     &.active,
