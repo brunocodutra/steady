@@ -1,4 +1,4 @@
-import {polar, div} from 'lib/phasor';
+import {div, polar} from 'lib/phasor';
 
 import {samples} from './util';
 
@@ -6,7 +6,7 @@ describe('Phasor', () => {
   it('should divide', () => {
     samples.forEach(({mag: a, ang: b}) => {
       samples.forEach(({mag: c, ang: d}) => {
-        if((isFinite(a) || isFinite(c)) && (a !== 0 || c !== 0)) {
+        if ((isFinite(a) || isFinite(c)) && (a !== 0 || c !== 0)) {
           const u = polar(a, b);
           const v = polar(c, d);
           const r = polar(a / c, b - d);

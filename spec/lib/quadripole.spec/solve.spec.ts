@@ -1,5 +1,5 @@
-import {quadripole, project, solve} from 'lib/quadripole';
 import {_0} from 'lib/phasor';
+import {project, quadripole, solve} from 'lib/quadripole';
 
 import {phasors, samples} from './util';
 

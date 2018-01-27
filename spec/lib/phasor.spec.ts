@@ -1,4 +1,4 @@
-import {rect, polar, real, imag, norm, angle, neg, conj} from 'lib/phasor';
+import {angle, conj, imag, neg, norm, polar, real, rect} from 'lib/phasor';
 
 import {samples} from './phasor.spec/util';
 
@@ -50,7 +50,7 @@ describe('Phasor', () => {
   });
 
   it('should have a complement', () => {
-    samples.forEach(({real:re, imag: im, mag, ang}) => {
+    samples.forEach(({real: re, imag: im, mag, ang}) => {
       expect(neg(rect(re, im))).toBeCloseTo(rect(-re, -im));
       expect(neg(polar(mag, ang))).toBeCloseTo(polar(-mag, ang));
     });
@@ -61,7 +61,7 @@ describe('Phasor', () => {
   });
 
   it('should have a conjugate', () => {
-    samples.forEach(({real:re, imag: im, mag, ang}) => {
+    samples.forEach(({real: re, imag: im, mag, ang}) => {
       expect(conj(rect(re, im))).toBeCloseTo(rect(re, -im));
       expect(conj(polar(mag, ang))).toBeCloseTo(polar(mag, -ang));
     });

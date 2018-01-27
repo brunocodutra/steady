@@ -6,7 +6,7 @@ describe('Phasor', () => {
   it('should subtract', () => {
     samples.forEach(({real: a, imag: b}) => {
       samples.forEach(({real: c, imag: d}) => {
-        if((isFinite(a) || isFinite(c) || a !== c) && (isFinite(b) || isFinite(d) || b !== d)) {
+        if ((isFinite(a) || isFinite(c) || a !== c) && (isFinite(b) || isFinite(d) || b !== d)) {
           const u = rect(a, b);
           const v = rect(c, d);
           const r = rect(a - c, b - d);

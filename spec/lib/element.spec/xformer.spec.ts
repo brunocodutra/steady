@@ -1,5 +1,5 @@
-import {Kind, xformer, update, split, join, branch, merge} from 'lib/element';
-import {mul, div} from 'lib/phasor';
+import {branch, join, Kind, merge, split, update, xformer} from 'lib/element';
+import {div, mul} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
 import {elements, phasors} from './util';

@@ -1,5 +1,5 @@
-import {quadripole, eye, rotation, translation, connect} from 'lib/quadripole';
-import {_0, _1, sub, mul} from 'lib/phasor';
+import {_0, _1, mul, sub} from 'lib/phasor';
+import {connect, eye, quadripole, rotation, translation} from 'lib/quadripole';
 
 import {samples} from './quadripole.spec/util';
 

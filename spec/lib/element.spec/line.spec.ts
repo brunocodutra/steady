@@ -1,5 +1,5 @@
-import {Kind, line, update, split, join, branch, merge} from 'lib/element';
-import {rect, norm, angle, add, sub, mul, div} from 'lib/phasor';
+import {branch, join, Kind, line, merge, split, update} from 'lib/element';
+import {add, angle, div, mul, norm, rect, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
 import {elements, phasors} from './util';

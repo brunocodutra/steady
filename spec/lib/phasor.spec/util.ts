@@ -1,5 +1,5 @@
-import nan from 'jest/nan';
 import closeTo from 'jest/closeTo';
+import nan from 'jest/nan';
 
 expect.extend(nan);
 expect.extend(closeTo);
@@ -18,6 +18,6 @@ export const samples: Sample[] = [].concat.apply(
       const imag = sin && (sin * mag);
 
       return {mag, ang, real, imag};
-    })
+    }),
   ),
 );

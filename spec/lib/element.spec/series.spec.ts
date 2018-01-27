@@ -1,7 +1,7 @@
-import {Kind, series, update, split, join, branch, merge} from 'lib/element';
+import {branch, join, Kind, merge, series, split, update} from 'lib/element';
 import {connect} from 'lib/quadripole';
 
-import {elements, phasors, parametric} from './util';
+import {elements, parametric, phasors} from './util';
 
 describe('Series', () => {
   it('should be default constructible', () => {
@@ -56,11 +56,11 @@ describe('Series', () => {
 
   it('should model a series sub-circuit', () => {
     phasors.forEach((value) => {
-      const elements = parametric.map((e) => update(e, value));
+      const elms = parametric.map((e) => update(e, value));
 
-      elements.forEach((x) => {
-        elements.forEach((y) => {
-          elements.forEach((z) => {
+      elms.forEach((x) => {
+        elms.forEach((y) => {
+          elms.forEach((z) => {
             const {model} = series(join(x, join(y, z)));
             expect(model).toBeCloseTo(connect(connect(x.model, y.model), z.model));
           });

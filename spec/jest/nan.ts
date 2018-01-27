@@ -1,5 +1,5 @@
 import {matcherHint, printReceived} from 'jest-matcher-utils';
-import {Phasor, isPhasor} from 'lib/phasor';
+import {isPhasor, Phasor} from 'lib/phasor';
 
 export default {
   toBeNaN(x: number | Phasor) {

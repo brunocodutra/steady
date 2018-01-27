@@ -1,11 +1,11 @@
-import {rect, norm, angle, add, sub, div, sinh, cosh} from 'lib/phasor';
+import {add, angle, cosh, div, norm, rect, sinh, sub} from 'lib/phasor';
 
 import {samples} from './util';
 
 describe('Phasor', () => {
   it('should have a hyperbolic sine', () => {
     samples.forEach(({real, imag, mag}) => {
-      if(isFinite(mag)) {
+      if (isFinite(mag)) {
         const s = rect(real, imag);
         const u = rect(Math.log(norm(s)), angle(s));
         const r = sub(div(s, rect(2)), div(rect(0.5), s));
@@ -20,7 +20,7 @@ describe('Phasor', () => {
 
   it('should have a hyperbolic cosine', () => {
     samples.forEach(({real, imag, mag}) => {
-      if(isFinite(mag)) {
+      if (isFinite(mag)) {
         const s = rect(real, imag);
         const u = rect(Math.log(norm(s)), angle(s));
         const r = add(div(s, rect(2)), div(rect(0.5), s));

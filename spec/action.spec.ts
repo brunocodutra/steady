@@ -1,4 +1,4 @@
-import {Type, toggle, insert, remove, activate, update} from 'action';
+import {activate, insert, remove, toggle, Type, update} from 'action';
 import {Kind} from 'lib/element';
 import {rect} from 'lib/phasor';
 

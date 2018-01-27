@@ -1,5 +1,5 @@
-import {Kind, admittance, update, split, join, branch, merge} from 'lib/element';
-import {sub, div} from 'lib/phasor';
+import {admittance, branch, join, Kind, merge, split, update} from 'lib/element';
+import {div, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
 import {elements, phasors} from './util';

@@ -1,14 +1,14 @@
 import closeTo from 'jest/closeTo';
 
-import {Phasor, polar} from 'lib/phasor';
 import {Kind, make} from 'lib/element';
+import {Phasor, polar} from 'lib/phasor';
 
 expect.extend(closeTo);
 
 export const phasors: Phasor[] = [].concat.apply(
   [],
   [1E-3, 1, 1E3].map((mag) =>
-    Array(8).fill(Math.PI / 4).map((p, k) => polar(mag, p * k))
+    Array(8).fill(Math.PI / 4).map((p, k) => polar(mag, p * k)),
   ),
 );
 

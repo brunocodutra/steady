@@ -1,4 +1,4 @@
-import {Kind, connector, update, split, join, branch, merge} from 'lib/element';
+import {branch, connector, join, Kind, merge, split, update} from 'lib/element';
 import {project} from 'lib/quadripole';
 
 import {elements, phasors} from './util';

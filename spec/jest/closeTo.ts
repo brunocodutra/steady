@@ -1,7 +1,7 @@
-import {matcherHint, printReceived, printExpected} from 'jest-matcher-utils';
+import {matcherHint, printExpected, printReceived} from 'jest-matcher-utils';
 
-import {Phasor, isPhasor} from 'lib/phasor';
-import {Quadripole, isQuadripole} from 'lib/quadripole';
+import {isPhasor, Phasor} from 'lib/phasor';
+import {isQuadripole, Quadripole} from 'lib/quadripole';
 
 interface ArrayOfT extends Array<T> {}
 type T = number | Phasor | Quadripole | ArrayOfT;

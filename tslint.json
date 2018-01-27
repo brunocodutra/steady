@@ -4,6 +4,7 @@
     "tslint:latest"
   ],
   "rules": {
+    "interface-name": false,
     "interface-over-type-literal": false,
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,

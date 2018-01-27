@@ -1,8 +1,8 @@
-import {Kind, shunt, series, update, split, join, branch, merge} from 'lib/element';
+import {branch, join, Kind, merge, series, shunt, split, update} from 'lib/element';
 import {rect, sub} from 'lib/phasor';
 import {project, solve} from 'lib/quadripole';
 
-import {elements, phasors, parametric} from './util';
+import {elements, parametric, phasors} from './util';
 
 describe('Shunt', () => {
   it('should be default constructible', () => {
