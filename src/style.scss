@@ -16,6 +16,15 @@ $theme-colors: (
 
 $transition-base: all 0.15s ease-in-out;
 
+$navbar-padding-y: 0.75rem;
+
+$nav-link-padding-x: 0;
+$nav-link-padding-y: 0;
+
+$navbar-nav-link-padding-x: 0;
+
+$navbar-toggler-padding-x: 0;
+$navbar-toggler-padding-y: 0;
 
 @import '~bootstrap/scss/bootstrap';
 
@@ -73,7 +82,7 @@ header {
     @extend .navbar-nav, .d-flex, .flex-row, .my-auto, .ml-auto;
 
     .github {
-      @extend .nav-link, .p-0;
+      @extend .nav-link;
 
       line-height: 0;
 
@@ -84,7 +93,7 @@ header {
       }
 
       svg {
-        @include size(2.5rem);
+        @include size(2rem);
 
         fill: currentcolor;
 
@@ -96,7 +105,7 @@ header {
     }
 
     .toggler {
-      @extend .navbar-toggler, .p-1, .ml-3;
+      @extend .navbar-toggler, .ml-3;
 
       &::after {
         @extend .navbar-toggler-icon;
