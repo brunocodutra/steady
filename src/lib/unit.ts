@@ -20,3 +20,11 @@ export enum Prefix {
   peta = 1E15,
   exa = 1E18,
 }
+
+const r2d = 180 / Math.PI;
+
+/* istanbul ignore next */
+export const radians = (x: number) => x / r2d;
+
+/* istanbul ignore next */
+export const degrees = (x: number) => x * r2d;
