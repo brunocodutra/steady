@@ -12,7 +12,7 @@ import { parse } from 'lib/number';
 type Props = {
   readonly name?: string,
   readonly value: Phasor,
-  readonly unit: Unit,
+  readonly unit?: Unit,
   readonly onChange: (value: Phasor) => void,
 };
 
@@ -41,7 +41,7 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const unit = (this.props.unit !== Unit.constant) && (
+    const unit = this.props.unit && (
       <div className='input-group-append'>
         <span className='input-group-text'>
           <span className={classes('unit', this.props.unit)}/>

@@ -3,7 +3,6 @@ export const enum Unit {
   ampere = 'ampere',
   ohm = 'ohm',
   ratio = 'ratio',
-  constant = 'constant',
 }
 
 export enum Prefix {

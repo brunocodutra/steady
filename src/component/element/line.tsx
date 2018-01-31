@@ -29,7 +29,7 @@ export default parametric<Line>(
   ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value name={'y'} value={element.value.y} unit={Unit.constant} onChange={(y) => update({...element.value, y})}/>
+      <Value name={'y'} value={element.value.y} onChange={(y) => update({...element.value, y})}/>
       <Value name={'z'} value={element.value.z} unit={Unit.ohm} onChange={(z) => update({...element.value, z})}/>
     </Tile>
   ),

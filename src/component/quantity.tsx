@@ -73,7 +73,7 @@ const prefix = (p: Phasor): Prefix => {
 
 type Props = {
   readonly value: Phasor,
-  readonly unit: Unit,
+  readonly unit?: Unit,
 };
 
 export default ({value, unit}: Props) => (
