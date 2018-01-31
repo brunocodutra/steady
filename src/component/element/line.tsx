@@ -10,8 +10,7 @@ import {Unit} from 'lib/unit';
 
 const frame = '\
 M0 2334h333v-667.0001h260M0 667h333v667h260m2407 1000h-334v-667h-180.7802M3000 \
-667h-334v667h-171.9096 \
-';
+667h-334v667h-171.9096';
 
 const icon = (
   <svg viewBox={'0 0 3000 3000'}>

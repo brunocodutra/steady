@@ -83,7 +83,7 @@ export default class extends React.PureComponent<Props, State> {
               </div>
             </div>
           </div>
-          </Dialog>
+        </Dialog>
       </span>
     );
   }

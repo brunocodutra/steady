@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {Kind} from 'lib/element';
+import { adapt } from 'lib/event';
 
 import * as Action from 'action';
 import {State} from 'reducer';
@@ -28,7 +29,7 @@ export default connect(null, mapDispatch)(
     <span
       className={classes('tool', kind)}
       onClick={insert}
-      onKeyDown={({key}) => (key === ' ' || key === 'Enter') && insert()}
+      onKeyDown={adapt([' ', 'Enter'], insert)}
       tabIndex={0}
     >
     {children}

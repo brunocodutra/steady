@@ -2,6 +2,8 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
+import { adapt } from 'lib/event';
+
 import * as Action from 'action';
 import {State} from 'reducer';
 
@@ -20,8 +22,8 @@ export default connect(null, mapDispatch)(
     <button
       type='button'
       className='toggler'
-      onMouseDown={() => toggle()}
-      onKeyDown={(e) => (e.key === ' ' || e.key === 'Enter') && toggle()}
+      onMouseDown={toggle}
+      onKeyDown={adapt([' ', 'Enter'], toggle)}
     />
   ),
 );
