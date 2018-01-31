@@ -37,7 +37,7 @@ export default parametric<XFormer>(
   ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value value={element.value} unit={Unit.ratio} onChange={update}/>
+      <Value value={element.value} description={'transformer ratio'} unit={Unit.ratio} onChange={update}/>
     </Tile>
   ),
 );

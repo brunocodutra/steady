@@ -6,6 +6,7 @@ import {adapt, isolate} from 'lib/event';
 
 type Props = {
   show: boolean,
+  title: string,
   onCancel: () => void,
   onConfirm: () => void,
 };
@@ -34,7 +35,7 @@ export default class extends React.PureComponent<Props> {
   }
 
   public render() {
-    const {show, onCancel, onConfirm} = this.props;
+    const {show, title, onCancel, onConfirm} = this.props;
     return ReactDOM.createPortal(
       <>
         <div
@@ -48,7 +49,7 @@ export default class extends React.PureComponent<Props> {
           <div onMouseDown={isolate(() => null)} className='modal-dialog' role='document'>
             <div className='modal-content'>
               <div className='modal-header'>
-                <h5 className='modal-title' id='title'>Title</h5>
+                <h5 className='modal-title' id='title'>{title}</h5>
                 <button onMouseDown={onCancel} type='button' className='close' aria-label='Close'/>
               </div>
               <div className='modal-body'>

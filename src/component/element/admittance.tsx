@@ -22,7 +22,7 @@ export default parametric<Admittance>(
   ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value value={element.value} unit={Unit.ohm} onChange={update}/>
+      <Value value={element.value} description={'shunt impedance'} unit={Unit.ohm} onChange={update}/>
     </Tile>
   ),
 );

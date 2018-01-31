@@ -24,7 +24,7 @@ export default parametric<ISrc>(
   ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value value={element.value} unit={Unit.ampere} onChange={update}/>
+      <Value value={element.value} description={'current'} unit={Unit.ampere} onChange={update}/>
     </Tile>
   ),
 );

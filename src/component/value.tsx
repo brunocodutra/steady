@@ -13,6 +13,7 @@ type Props = {
   readonly name?: string,
   readonly value: Phasor,
   readonly unit?: Unit,
+  readonly description: string,
   readonly onChange: (value: Phasor) => void,
 };
 
@@ -57,7 +58,12 @@ export default class extends React.PureComponent<Props, State> {
         tabIndex={0}
       >
         <Quantity value={this.props.value} unit={this.props.unit}/>
-        <Dialog show={this.state.prompt} onCancel={this.onCancel} onConfirm={this.onConfirm}>
+        <Dialog
+          show={this.state.prompt}
+          title={this.props.description}
+          onCancel={this.onCancel}
+          onConfirm={this.onConfirm}
+        >
           <div className='form-row'>
             <div className='col input-group'>
               <input value={this.state.mag} onChange={this.onMag} className='form-control'/>

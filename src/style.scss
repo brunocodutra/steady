@@ -462,6 +462,10 @@ footer {
   .modal-header {
     padding-bottom: 0.5rem;
 
+    .modal-title {
+      text-transform: capitalize;
+    }
+
     .close {
       &::after {
         @extend %cross;
