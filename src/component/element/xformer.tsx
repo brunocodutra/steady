@@ -35,10 +35,10 @@ export const Icon = () => icon;
 type Props = PropsBase<XFormer>;
 
 export default parametric<XFormer>(
-  ({element, active, activate, remove}: Props) => (
+  ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value value={element.value} unit={Unit.ratio}/>
+      <Value value={element.value} unit={Unit.ratio} onChange={update}/>
     </Tile>
   ),
 );

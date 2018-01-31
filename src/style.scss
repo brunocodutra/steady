@@ -26,6 +26,9 @@ $navbar-nav-link-padding-x: 0;
 $navbar-toggler-padding-x: 0;
 $navbar-toggler-padding-y: 0;
 
+$modal-header-padding: 0;
+$modal-footer-border-width: 0;
+
 @import '~bootstrap/scss/bootstrap';
 
 @mixin transition($properties...) {
@@ -36,6 +39,14 @@ $navbar-toggler-padding-y: 0;
 }
 
 $tile-size: 6rem;
+
+%angle {
+  content: '∠';
+}
+
+%degree {
+  content: '°';
+}
 
 %cross {
   @extend .d-block;
@@ -284,10 +295,6 @@ footer {
       }
     }
 
-    &:not(:hover, :focus) > .control:not(:focus) {
-      opacity: 0;
-    }
-
     > .remove {
       @include transition(opacity);
 
@@ -302,8 +309,12 @@ footer {
       }
     }
 
+    &:not(:hover, :focus) > .control.remove:not(:focus) {
+      opacity: 0;
+    }
+
     > .value {
-      @extend .d-flex, .text-muted, .justify-content-center;
+      @extend .d-flex, .justify-content-center;
 
       position: absolute;
       right: 0;
@@ -341,85 +352,145 @@ footer {
 .quantity {
   > .ang {
     &::before {
-      content: '∠';
-      font-size: 0.8em;
+      @extend %angle;
     }
 
     &::after {
-      content: '°';
+      @extend %degree;
     }
   }
 
   > .prefix {
     margin: 0 -0.3ch 0 0.3ch;
-
-    &.femto::after {
-      content: 'f';
-    }
-
-    &.pico::after {
-      content: 'p';
-    }
-
-    &.nano::after {
-      content: 'n';
-    }
-
-    &.micro::after {
-      content: 'μ';
-    }
-
-    &.milli::after {
-      content: 'm';
-    }
-
-    &.kilo::after {
-      content: 'k';
-    }
-
-    &.mega::after {
-      content: 'M';
-    }
-
-    &.giga::after {
-      content: 'G';
-    }
-
-    &.tera::after {
-      content: 'T';
-    }
-
-    &.peta::after {
-      content: 'P';
-    }
   }
 
   > .unit {
     margin-left: 0.3ch;
-
-    &.volt::after {
-      content: 'V';
-    }
-
-    &.ampere::after {
-      content: 'A';
-    }
-
-    &.ohm::after {
-      content: 'Ω';
-    }
-
-    &.ratio::before {
-      content: ':';
-      margin-right: 0.3ch;
-    }
-
-    &.ratio::after {
-      content: '1';
-    }
   }
 
   > .prefix:not(.mono) + .unit.ratio {
     padding-left: 0.4ch;
+  }
+}
+
+.prefix {
+  &.femto::after {
+    content: 'f';
+  }
+
+  &.pico::after {
+    content: 'p';
+  }
+
+  &.nano::after {
+    content: 'n';
+  }
+
+  &.micro::after {
+    content: 'μ';
+  }
+
+  &.milli::after {
+    content: 'm';
+  }
+
+  &.kilo::after {
+    content: 'k';
+  }
+
+  &.mega::after {
+    content: 'M';
+  }
+
+  &.giga::after {
+    content: 'G';
+  }
+
+  &.tera::after {
+    content: 'T';
+  }
+
+  &.peta::after {
+    content: 'P';
+  }
+}
+
+.unit {
+  &.volt::after {
+    content: 'V';
+  }
+
+  &.ampere::after {
+    content: 'A';
+  }
+
+  &.ohm::after {
+    content: 'Ω';
+  }
+
+  &.ratio::before {
+    content: ':';
+    margin-right: 0.3ch;
+  }
+
+  &.ratio::after {
+    content: '1';
+  }
+
+  &.degree::after {
+    @extend %degree;
+  }
+}
+
+.symbol {
+  &.angle::after {
+    @extend %angle;
+  }
+}
+
+.modal {
+  .modal-header {
+    padding-bottom: 0.5rem;
+
+    .close {
+      &::after {
+        @extend %cross;
+      }
+
+      &:focus,
+      &:hover {
+        outline: none;
+        color: color('highlight');
+      }
+    }
+  }
+
+  .modal-content {
+    padding: $modal-inner-padding;
+
+    .modal-body {
+      @extend .d-flex, .align-items-center, .px-0;
+
+      min-height: 6rem;
+    }
+  }
+
+  .modal-footer {
+    @extend .p-0;
+
+    .btn {
+      min-width: 15%;
+    }
+  }
+}
+
+.modal,
+.modal-backdrop {
+  @extend .fade, .d-block, .invisible;
+
+  transition-property: visibility, opacity;
+
+  &.show {
+    @extend .visible;
   }
 }

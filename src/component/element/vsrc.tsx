@@ -22,10 +22,10 @@ export const Icon = () => icon;
 type Props = PropsBase<VSrc>;
 
 export default parametric<VSrc>(
-  ({element, active, activate, remove}: Props) => (
+  ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value value={element.value} unit={Unit.volt}/>
+      <Value value={element.value} unit={Unit.volt} onChange={update}/>
     </Tile>
   ),
 );

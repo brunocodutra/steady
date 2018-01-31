@@ -20,10 +20,10 @@ export const Icon = () => icon;
 type Props = PropsBase<Impedance>;
 
 export default parametric<Impedance>(
-  ({element, active, activate, remove}: Props) => (
+  ({element, active, activate, remove, update}: Props) => (
     <Tile active={active} activate={activate} remove={remove} className={element.kind}>
       <Icon/>
-      <Value value={element.value} unit={Unit.ohm}/>
+      <Value value={element.value} unit={Unit.ohm} onChange={update}/>
     </Tile>
   ),
 );
