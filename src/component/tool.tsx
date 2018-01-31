@@ -1,3 +1,4 @@
+import * as classes from 'classnames';
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
@@ -23,9 +24,9 @@ const mapDispatch = (dispatch: Dispatch<State>, props: PropsBase) => ({
 });
 
 export default connect(null, mapDispatch)(
-  ({insert, children}: Props) => (
+  ({kind, insert, children}: Props) => (
     <span
-      className={'tool'}
+      className={classes('tool', kind)}
       onClick={insert}
       onKeyDown={({key}) => (key === ' ' || key === 'Enter') && insert()}
       tabIndex={0}
