@@ -6,7 +6,6 @@ import {State} from 'reducer';
 import removable, {Props as PropsBase} from 'container/removable';
 
 import Element from 'component/element';
-import {Disk, Frame} from 'component/svg';
 import Tile from 'component/tile';
 
 import {prefix} from 'lib/array';
@@ -16,9 +15,9 @@ import {project} from 'lib/quadripole';
 
 const icon = (
   <svg viewBox={'0 0 3000 3000'}>
-    <Frame d={'M0 667h3000M0 2333h3000M666.4443 667.00005L1703 3000M666 2333l296 667'}/>
-    <Disk r={60} cx={666} cy={666}/>
-    <Disk r={60} cx={666} cy={2333}/>
+    <path d={'M0 667h3000M0 2333h3000M666.4443 667.00005L1703 3000M666 2333l296 667'}/>
+    <circle fill={'currentColor'} r={60} cx={666} cy={666}/>
+    <circle fill={'currentColor'} r={60} cx={666} cy={2333}/>
   </svg>
 );
 
@@ -26,7 +25,7 @@ export const Icon = () => icon;
 
 const wire = (
   <svg viewBox={'0 0 3000 3000'}>
-    <Frame d={'M962 2v3000M1703 2v3000'}/>
+    <path d={'M962 2v3000M1703 2v3000'}/>
   </svg>
 );
 
@@ -34,7 +33,7 @@ const Wire = () => wire;
 
 const knee = (
   <svg viewBox={'0 0 3000 3000'}>
-    <Frame d={'M1704 0l297 665 999 1M965 0l1035 2333h1000'}/>
+    <path d={'M1704 0l297 665 999 1M965 0l1035 2333h1000'}/>
   </svg>
 );
 

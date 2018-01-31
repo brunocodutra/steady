@@ -59,6 +59,14 @@ $tile-size: 6rem;
   text-align: center;
 }
 
+%element {
+  stroke-width: 45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: currentColor;
+  fill: none;
+}
+
 .flex-grow {
   flex-grow: 1 !important;
 }
@@ -198,7 +206,7 @@ footer {
     @extend .d-flex, .flex-row, .mx-auto;
 
     > .tool {
-      @extend .p-1, .rounded;
+      @extend %element, .p-1, .rounded;
       @include transition(color, border-color);
       @include size(0.75 * $tile-size);
 
@@ -226,6 +234,8 @@ footer {
   flex-basis: 0;
 
   .tile {
+    @extend %element;
+
     @include transition(color);
     @include size($tile-size);
 

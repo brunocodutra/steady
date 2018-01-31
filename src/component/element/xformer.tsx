@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import parametric, {Props as PropsBase} from 'container/parametric';
 
-import {Frame} from 'component/svg';
 import Tile from 'component/tile';
 import Value from 'component/value';
 
@@ -26,7 +25,7 @@ M3002.4851 2334.0115H1835.4843v-333c-212.995-48.1035-212.995-279.0731.01-222 \
 
 const icon = (
   <svg viewBox={'0 0 3000 3000'}>
-    <Frame d={frame}/>
+    <path d={frame}/>
   </svg>
 );
 
