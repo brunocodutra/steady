@@ -9,8 +9,6 @@ import Steady from 'component/steady';
 import Toggler from 'component/toggler';
 import reducer from 'reducer';
 
-import 'style.scss';
-
 const middleware: Redux.Middleware[] = [];
 
 /* istanbul ignore next */
