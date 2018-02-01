@@ -6,17 +6,30 @@ $grid-breakpoints: (
   xl: 992px
 );
 
+$spacers: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.25rem,
+);
+
 $colors: (
-  'highlight': hsl(40, 100%, 55%),
+  'orange': hsl(40, 100%, 55%),
 );
 
 $theme-colors: (
-  'primary': lighten(map-get($colors, 'highlight'), 15%),
+  'info': map-get($colors, 'orange'),
+  'primary': lighten(map-get($colors, 'orange'), 15%),
 );
 
-$transition-base: all 0.15s ease-in-out;
+$font-size-sm: 0.7rem;
 
-$navbar-padding-y: 0.75rem;
+$transition-base: all 0.15s ease-in-out;
+$transition-fade: opacity 0.15s ease-in-out;
+
+$navbar-padding-y: map-get($spacers, 3);
 
 $nav-link-padding-x: 0;
 $nav-link-padding-y: 0;
@@ -49,14 +62,10 @@ $tile-size: 6rem;
 }
 
 %cross {
-  @extend .d-block;
-  @include size(1em);
+  @extend .d-inline-block, .align-middle, .font-weight-bold;
 
   content: '\d7';
-
-  font-weight: bold;
-  line-height: 1em;
-  text-align: center;
+  line-height: 1;
 }
 
 %element {
@@ -69,6 +78,17 @@ $tile-size: 6rem;
 
 .flex-grow {
   flex-grow: 1 !important;
+}
+
+.interactive {
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+    @extend .text-info;
+
+    outline: none;
+  }
 }
 
 html,
@@ -105,26 +125,16 @@ header {
 
       line-height: 0;
 
-      .label {
-        @extend .d-none, .d-md-inline-block;
-
-        margin-right: 0.5ch;
-      }
-
       svg {
+        @extend .align-bottom;
         @include size(2rem);
 
         fill: currentcolor;
-
-        @include media-breakpoint-up(md) {
-          @include size(1.25rem);
-          vertical-align: text-bottom;
-        }
       }
     }
 
     .toggler {
-      @extend .navbar-toggler, .ml-3;
+      @extend .navbar-toggler, .ml-4;
 
       &::after {
         @extend .navbar-toggler-icon;
@@ -140,13 +150,13 @@ main {
     @extend .d-flex, .flex-grow;
 
     > .col {
-      @extend .d-flex, .flex-column, .flex-grow, .py-3;
+      @extend .d-flex, .flex-column, .flex-grow, .my-3;
     }
   }
 }
 
 footer {
-  @extend .container-fluid, .d-flex, .flex-row, .align-items-center, .justify-content-center, .mb-3;
+  @extend .container-fluid, .mb-3;
 
   > .row {
     @extend .flex-grow;
@@ -167,7 +177,7 @@ footer {
     }
 
     > .copyright {
-      @extend .col-4, .d-none, .d-sm-inline-block, .text-right, .text-muted, .text-nowrap;
+      @extend .col-4, .d-none, .d-sm-inline-block, .text-muted, .text-right;
 
       @include media-breakpoint-up(md) {
         font-size: 0.9rem;
@@ -206,19 +216,13 @@ footer {
     @extend .d-flex, .flex-row, .mx-auto;
 
     > .tool {
-      @extend %element, .p-1, .rounded;
+      @extend %element, .p-1, .border, .rounded, .interactive;
       @include transition(color, border-color);
       @include size(0.75 * $tile-size);
 
-      position: relative;
-      border: 1px solid $border-color;
-      cursor: pointer;
-
       &:hover,
       &:focus {
-        border-color: color('highlight');
-        outline: none;
-        color: color('highlight');
+        @extend .border-highlight;
       }
 
       +.tool {
@@ -234,22 +238,18 @@ footer {
   flex-basis: 0;
 
   .tile {
-    @extend %element;
+    @extend %element, .position-relative, .d-inline-block, .align-top;
 
     @include transition(color);
     @include size($tile-size);
 
-    display: inline-block;
-    position: relative;
     outline: none;
-    vertical-align: top;
 
     &.connector::after {
-      @extend .rounded;
+      @extend .rounded, .position-absolute;
       @include transition(border-color);
 
       content: '';
-      position: absolute;
       top: 10%;
       right: 10%;
       bottom: 10%;
@@ -266,71 +266,55 @@ footer {
     }
 
     &.shunt {
-      @extend .d-flex;
-      @extend .flex-column;
+      @extend .d-flex, .flex-column;
 
       height: auto;
       margin-bottom: -$tile-size;
     }
 
-    &.interactive {
-      cursor: pointer;
-    }
-
-    &.active,
-    &.interactive:focus,
-    &.interactive:hover {
-      color: color('highlight');
+    &.active {
+      color: theme-color('info');
     }
 
     &.active.connector::after,
-    &.interactive.connector:focus::after,
-    &.interactive.connector:hover::after {
-      border-color: color('highlight');
+    &.connector:focus::after,
+    &.connector:hover::after {
+      border-color: theme-color('info');
     }
 
     &.active,
     &.active.connector::after {
-      animation: blinking 1s ease-in-out infinite;
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    &:hover > .fade,
+    &:focus > .fade,
+    > .fade:focus {
+      @extend .show;
     }
 
     > .control {
-      color: theme-color('secondary');
-      cursor: pointer;
-
-      &:focus,
-      &:hover {
-        outline: none;
-        color: color('highlight');
-      }
+      @extend .position-absolute, .interactive, .text-secondary;
     }
 
     > .remove {
-      @include transition(opacity);
-
-      position: absolute;
       top: 0;
       right: 0;
 
       &::after {
-        @extend %cross;
+        @extend %cross, .text-right;
+        @include size(1.2rem);
 
         font-size: 1rem;
       }
     }
 
-    &:not(:hover, :focus) > .control.remove:not(:focus) {
-      opacity: 0;
-    }
-
     > .value {
-      @extend .d-flex, .justify-content-center;
+      @extend .d-inline-block, .text-center, .font-weight-bold;
 
-      position: absolute;
       right: 0;
       left: 0;
-      font-size: 0.7rem;
-      font-weight: bold;
+      font-size: $font-size-sm;
       line-height: 1.2;
     }
 
@@ -352,7 +336,7 @@ footer {
   }
 }
 
-@keyframes blinking {
+@keyframes blink {
   50% {
     border-color: transparent;
     color: unset;
@@ -460,27 +444,23 @@ footer {
 
 .modal {
   .modal-header {
-    padding-bottom: 0.5rem;
+    @extend .pb-2;
 
     .modal-title {
-      text-transform: capitalize;
+      @extend .text-capitalize;
     }
 
     .close {
+      @extend .interactive;
+
       &::after {
         @extend %cross;
-      }
-
-      &:focus,
-      &:hover {
-        outline: none;
-        color: color('highlight');
       }
     }
   }
 
   .modal-content {
-    padding: $modal-inner-padding;
+    @extend .p-4;
 
     .modal-body {
       @extend .d-flex, .align-items-center, .px-0;

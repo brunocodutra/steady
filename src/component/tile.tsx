@@ -5,7 +5,7 @@ import {adapt, isolate} from 'lib/event';
 
 const Remove = ({event}: {event?: () => void}) => !event ? null : (
   <span
-    className='control remove'
+    className='control remove fade'
     onMouseDown={isolate(event)}
     onKeyDown={event && adapt([' ', 'Enter'], isolate(event))}
     tabIndex={0}
