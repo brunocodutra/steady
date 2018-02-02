@@ -29,6 +29,9 @@ $font-size-sm: 0.7rem;
 $transition-base: all 0.15s ease-in-out;
 $transition-fade: opacity 0.15s ease-in-out;
 
+$navbar-dark-color: map-get($colors, 'orange');
+$navbar-dark-active-color: $navbar-dark-color;
+
 $navbar-padding-y: map-get($spacers, 3);
 
 $nav-link-padding-x: 0;
@@ -38,6 +41,7 @@ $navbar-nav-link-padding-x: 0;
 
 $navbar-toggler-padding-x: 0;
 $navbar-toggler-padding-y: 0;
+$navbar-dark-toggler-border-color: transparent;
 
 $modal-header-padding: 0;
 $modal-footer-border-width: 0;
@@ -111,10 +115,19 @@ body {
 }
 
 header {
-  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark;
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .font-weight-bold;
 
   > .brand {
-    @extend .navbar-brand;
+    @extend .navbar-brand, .text-uppercase;
+    @include transition(text-shadow);
+
+    transition-duration: 1s;
+    letter-spacing: 0.1ch;
+
+    &:focus,
+    &:hover {
+      text-shadow: 0 0 0.1rem currentColor, 0 0 0.5rem currentColor;
+    }
   }
 
   > nav {
