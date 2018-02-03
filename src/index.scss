@@ -180,13 +180,8 @@ footer {
       content: '';
     }
 
-    > nav {
-      @extend .col-12, .col-sm-8, .col-md-4, .d-flex, .justify-content-md-center, .align-items-center;
-
-      .github-btn {
-        width: 90px;
-        height: 20px;
-      }
+    > .social {
+      @extend .col-12, .col-sm-8, .col-md-4;
     }
 
     > .copyright {
