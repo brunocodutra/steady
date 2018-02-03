@@ -179,10 +179,19 @@ footer {
           transform: rotate(360deg) scale(1.3);
         }
 
+        +.button {
+          @extend .ml-1;
+        }
+
         > .github {
           @extend .rounded-circle;
           background-color: currentColor;
           fill: $body-bg;
+        }
+
+        > .star {
+          margin: 2px;
+          fill: currentcolor;
         }
       }
     }
