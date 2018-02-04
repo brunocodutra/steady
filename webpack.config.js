@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
@@ -65,7 +66,22 @@ module.exports = env => ({
 
       {
         test: /\.tsx?$/,
-        loader: ['babel-loader', 'awesome-typescript-loader'],
+        use: [
+          {
+            loader: 'thread-loader',
+          },
+
+          {
+            loader: 'babel-loader',
+          },
+
+          {
+            loader: 'ts-loader',
+            options: {
+              happyPackMode: true,
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
 
@@ -125,6 +141,11 @@ module.exports = env => ({
     new ExtractTextPlugin({
       filename: '[name].css',
       disable: env !== 'production',
+    }),
+
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      checkSyntacticErrors: true,
     }),
 
     new HtmlWebpackPlugin({
