@@ -14,7 +14,7 @@ export default ({element, id, vi}: Props): JSX.Element => (
   <Tile className={element.kind}>
     {traverse(element).map((e, i) => {
       const c = <Element id={[...id, i + 1]} element={e} vi={vi} key={i}/>;
-      vi = project(element.model, vi);
+      vi = project(e.model, vi);
       return c;
     })}
   </Tile>
