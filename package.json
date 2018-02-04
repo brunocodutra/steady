@@ -34,6 +34,7 @@
     "@types/webpack-env": "^1.13.5",
     "babel-loader": "^8.0.0-beta",
     "bootstrap": "^4.0.0",
+    "cache-loader": "^1.2.0",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.9",
     "enzyme": "^3.3.0",

@@ -1,3 +1,4 @@
+const os = require('os');
 const path = require('path');
 const webpack = require('webpack');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
@@ -9,6 +10,7 @@ const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
+const cache = path.resolve(os.tmpdir(), 'steady', 'cache');
 
 const stats = {
   colors: true,
@@ -68,6 +70,13 @@ module.exports = env => ({
         test: /\.tsx?$/,
         use: [
           {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: cache,
+            },
+          },
+
+          {
             loader: 'thread-loader',
           },
 
@@ -91,6 +100,13 @@ module.exports = env => ({
           fallback: 'style-loader',
 
           use: [
+            {
+              loader: 'cache-loader',
+              options: {
+                cacheDirectory: cache,
+              },
+            },
+
             {
               loader: 'css-loader',
               options: {
