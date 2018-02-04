@@ -6,25 +6,9 @@ git:
 
 matrix:
     include:
-      - os: linux
-        env: DEPLOY=true
-
-      - os: linux
-        env: SPEC=true
-
       - os: osx
-        env: DEPLOY=true
-
-      - os: osx
-        env: SPEC=true
+      - os: linux
 
 script:
-  - |
-    if [[ "${DEPLOY}" == "true" ]]
-    then
-        npm run deploy || exit $?
-    elif [[ "${SPEC}" == "true" ]]
-    then
-        npm run spec || exit $?
-    fi
-
+  - npm run spec
+  - npm run deploy
