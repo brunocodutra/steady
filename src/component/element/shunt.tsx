@@ -6,12 +6,14 @@ import {State} from 'reducer';
 import removable, {Props as PropsBase} from 'container/removable';
 
 import Element from 'component/element';
+import Status from 'component/status';
 import Tile from 'component/tile';
 
 import {prefix} from 'lib/array';
 import {Shunt} from 'lib/element';
 import {sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
+import {Unit} from 'lib/unit';
 
 const icon = (
   <svg viewBox={'0 0 3000 3000'}>
@@ -58,6 +60,8 @@ export default removable<Shunt>(connect(mapState)(
           {fill}
           <Knee/>
         </Tile>
+        <Status value={vi[0]} unit={Unit.volt}/>
+        <Status value={vi[1]} unit={Unit.ampere}/>
         <Element id={id} element={element.value} vi={[vi[0], sub(vi[1], project(element.model, vi)[1])]}/>
       </Tile>
     );

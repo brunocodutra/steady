@@ -38,6 +38,18 @@ $navbar-dark-toggler-border-color: transparent;
 $modal-header-padding: 0;
 $modal-footer-border-width: 0;
 
+$tooltip-opacity: 1;
+$tooltip-padding-x: 0.2rem;
+$tooltip-padding-y: 0.1rem;
+$tooltip-max-width: 100%;
+$tooltip-font-size: $font-size-sm;
+$tooltip-border-radius: 0.1rem;
+
+$tooltip-arrow-height: 0.4rem;
+$tooltip-arrow-width: 2 * $tooltip-arrow-height;
+
+$zindex-tooltip: 0;
+
 @import '~bootstrap/scss/bootstrap';
 
 @mixin transition($properties...) {
@@ -313,9 +325,10 @@ footer {
       animation: blink 1s ease-in-out infinite;
     }
 
-    &:hover > .fade,
-    &:focus > .fade,
-    > .fade:focus {
+    &:hover > .control.fade,
+    &:focus > .control.fade,
+    > .control.fade:focus,
+    > .fade:hover {
       @extend .show;
     }
 
@@ -332,6 +345,53 @@ footer {
         @include size(1.2rem);
 
         font-size: 1rem;
+      }
+    }
+
+    > .status {
+      @extend .font-weight-bold;
+
+      stroke: currentColor;
+      font-size: 0;
+
+      &.volt {
+        @include size(1rem, auto);
+
+        top: 33%;
+        left: 0;
+        padding: 0 0.6rem 0 0;
+      }
+
+      &.ampere {
+        @include size(1rem, auto);
+
+        top: 20%;
+        left: 0;
+        padding: 0.3rem 0;
+      }
+
+      &.tooltip {
+        @extend .invisible;
+
+        top: 0;
+        left: -50%;
+        transition-property: visibility, opacity;
+
+        &.show {
+          @extend .visible;
+        }
+
+        > .arrow {
+          bottom: -$tooltip-arrow-height;
+          left: 50%;
+          margin-left: -$tooltip-arrow-width;
+
+          &::before {
+            top: 0;
+            border-width: $tooltip-arrow-height ($tooltip-arrow-width / 2) 0;
+            border-top-color: $tooltip-arrow-color;
+          }
+        }
       }
     }
 
@@ -512,5 +572,20 @@ footer {
 
   &.show {
     @extend .visible;
+  }
+}
+
+.tooltip {
+  @extend .text-nowrap, .text-center;
+  @include size(100%, auto);
+
+  font-weight: inherit;
+
+  > .tooltip-inner {
+    @extend .d-inline-block;
+
+    font-size: $font-size-sm;
+    line-height: 1;
+    cursor: text;
   }
 }
