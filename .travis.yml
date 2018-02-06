@@ -14,6 +14,9 @@ matrix:
   - os: linux
     env: PUBLISH=true
 
+before_install:
+- npm install -g greenkeeper-lockfile@1
+
 before_script:
 - git config --global user.name "Travis Bot"
 - git config --global user.email "\<\>"
@@ -27,6 +30,8 @@ before_script:
       git -C $1 push origin $2                                                                              &> /dev/null || return 5
   }
 
+- greenkeeper-lockfile-update
+
 script:
 - npm run spec
 - npm run deploy
@@ -36,3 +41,6 @@ script:
   then
       publish dist/ gh-pages || exit $?
   fi
+
+after_script:
+- greenkeeper-lockfile-upload
