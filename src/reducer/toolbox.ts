@@ -7,7 +7,7 @@ export type State = {
 };
 
 const init: State = {
-  visible: false,
+  visible: true,
 };
 
 export const reducer: Reducer<State> = (state = init, action: Action): State => {
