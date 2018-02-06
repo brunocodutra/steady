@@ -1,0 +1,19 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:latest",
+    "tslint-react"
+  ],
+  "rules": {
+    "interface-name": false,
+    "interface-over-type-literal": false,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "member-ordering": false,
+    "no-implicit-dependencies": false,
+    "no-submodule-imports": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "quotemark": [true, "single"]
+  }
+}
