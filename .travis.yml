@@ -6,7 +6,7 @@ git:
 
 env:
   global:
-    secure: FDodq10mG2IysOlwPUK7ZZ/I7nlHCRJXvssrO39Um13KhVAH/uywgbcAiMk2gFHqKiuF4G+em1PTe+fLW8RmdkoiomM5CjIHtB9qSObdG5YRNvunI73Jbm7KQPhRd8Bsalg7oey7PVQsnYph8631wEta/stA0bufyCJTlL2Yd0hdQFumu6EEDH7hB7gB2rjZW0xqROq8LFEDtbv+imjAgPiBRmka9hnhzVp1Bnw/pmYF/g2W2hb7lx9YoowVCAQszF02LoXjzDDNG7X/O0ZIUXPCpfkaDXY+TrfBwn2bTwwk48xfuqmJPOlBaCtoI+6xB+ow2023vveu3K3Mcl9jP/9qL+BEpSLAKbnyZv+7gLSUT9HOXRWV5ULKk/nHtGyLHRNxmdLfq+mFMVYCbsTnbTHmJU2T4IbxKTJ43mJR3SJIRE5Dkfmxk6P2Ys4fOaDikI4n5AM38IHbCUj18UpUzkce4+WThSmnjjZZLwiU1pcRs/Yore2ODo9Y4RW+/ZSDyks/rBEq04xEIWE3hbCxPCxtyMow4bSgagEbL+VYAOwle8UhuF6YfgK/Jq5wWdXegq2yYOMJbuRvGzYDUahe5iqd1uzVZnvqfxSwbInc/xdq2O4XJXuuwJc8nCmtfWpUBb4amnKPnQb0l1uVxeFyRxM2kgeH0wEozC/4J7UIRmg=
+    secure: Er28KNV4AFAmgPttbKZ5DivO60Ascrd22BuiVofyhb+/FTTOI5LHM46FCQED+01pq92yjxYs2hYjO6fPp2RZlqsb3DmknBrrxzbefN4zKfiXVXewAGSyy3p+T4A8nD0HXyGKw09L2Ro+O2RaKvxwfzofS4bzo3OTKTIro0wRDIgoq9IqYo0Fz5af+eZCOCFYBV8UI+R9fzmVqMXA4Mmg1FXRoxrw/PH/fc1QepyD/gdJY+3OfKlALtSi5Yyw9M97Kr/CmPRRgfd5IrpvYwgvTkzT1i8/WEzsmc9q9UTBiSKOl5aRckgFPfdsYFJFZ8WZEdd4n7kvzPCAoAUgggQs7ydfJX4BGiZMLQW9+4hMdr4ko5YthMiWVm4IkGaHxtXzIWkdq9DLQJKfIeMQoC5xjtfcHS1BP77mNV4/6vKEg9RC8Vpn3784tNM0XLCM2/xqMyyR9FNNQgwBn8AQBaZqjOQ5d5VW3L6aRMBBTCOz7QOHR8H1nukRnYt9H+hN+3/idDo1aZAT9kfKs+g4q7PBYsdwhFUEPMRfjRfnfCrmDGpitC5vcEtAOv3dPw7Wcqn8jijZAEVoldf/MqK86ps/dm4Up6ZLpjXLN/Rq4fSSbaLo9bVwJEfs7XAy8WiY+PUFjVzkCVaR9AUz2VOawU4t2ldFwdNd2C2zKIHmwfy+/dg=
 
 matrix:
   include:
@@ -14,18 +14,23 @@ matrix:
   - os: linux
     env: PUBLISH=true
 
+before_install:
+- npm install -g greenkeeper-lockfile@1
+
 before_script:
 - git config --global user.name "Travis Bot"
 - git config --global user.email "\<\>"
 
 - |
   function publish {
-      git clone https://brunocodutra:${GITHUB_TOKEN}@github.com/brunocodutra/steady -q --depth 1 --branch=$2 $2 &> /dev/null || return 1
-      cp -r $2/.git/ $1                                                                                         &> /dev/null || return 2
-      git -C $1 add --all .                                                                                     &> /dev/null || return 3
-      git -C $1 commit --allow-empty -m "update to $(git -C ${TRAVIS_BUILD_DIR} rev-parse --short HEAD)"        &> /dev/null || return 4
-      git -C $1 push origin $2                                                                                  &> /dev/null || return 5
+      git clone https://brunocodutra:${GH_TOKEN}@github.com/brunocodutra/steady -q --depth 1 --branch=$2 $2 &> /dev/null || return 1
+      cp -r $2/.git/ $1                                                                                     &> /dev/null || return 2
+      git -C $1 add --all .                                                                                 &> /dev/null || return 3
+      git -C $1 commit --allow-empty -m "update to $(git -C ${TRAVIS_BUILD_DIR} rev-parse --short HEAD)"    &> /dev/null || return 4
+      git -C $1 push origin $2                                                                              &> /dev/null || return 5
   }
+
+- greenkeeper-lockfile-update
 
 script:
 - npm run spec
@@ -36,3 +41,6 @@ script:
   then
       publish dist/ gh-pages || exit $?
   fi
+
+after_script:
+- greenkeeper-lockfile-upload
