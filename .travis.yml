@@ -1,14 +1,38 @@
 language: node_js
-node_js: "node"
+node_js: node
 
 git:
-    depth: 1
+  depth: 1
+
+env:
+  global:
+    secure: FDodq10mG2IysOlwPUK7ZZ/I7nlHCRJXvssrO39Um13KhVAH/uywgbcAiMk2gFHqKiuF4G+em1PTe+fLW8RmdkoiomM5CjIHtB9qSObdG5YRNvunI73Jbm7KQPhRd8Bsalg7oey7PVQsnYph8631wEta/stA0bufyCJTlL2Yd0hdQFumu6EEDH7hB7gB2rjZW0xqROq8LFEDtbv+imjAgPiBRmka9hnhzVp1Bnw/pmYF/g2W2hb7lx9YoowVCAQszF02LoXjzDDNG7X/O0ZIUXPCpfkaDXY+TrfBwn2bTwwk48xfuqmJPOlBaCtoI+6xB+ow2023vveu3K3Mcl9jP/9qL+BEpSLAKbnyZv+7gLSUT9HOXRWV5ULKk/nHtGyLHRNxmdLfq+mFMVYCbsTnbTHmJU2T4IbxKTJ43mJR3SJIRE5Dkfmxk6P2Ys4fOaDikI4n5AM38IHbCUj18UpUzkce4+WThSmnjjZZLwiU1pcRs/Yore2ODo9Y4RW+/ZSDyks/rBEq04xEIWE3hbCxPCxtyMow4bSgagEbL+VYAOwle8UhuF6YfgK/Jq5wWdXegq2yYOMJbuRvGzYDUahe5iqd1uzVZnvqfxSwbInc/xdq2O4XJXuuwJc8nCmtfWpUBb4amnKPnQb0l1uVxeFyRxM2kgeH0wEozC/4J7UIRmg=
 
 matrix:
-    include:
-      - os: osx
-      - os: linux
+  include:
+  - os: osx
+  - os: linux
+    env: PUBLISH=true
+
+before_script:
+- git config --global user.name "Travis Bot"
+- git config --global user.email "\<\>"
+
+- |
+  function publish {
+      git clone https://brunocodutra:${GITHUB_TOKEN}@github.com/brunocodutra/steady -q --depth 1 --branch=$2 $2 &> /dev/null || return 1
+      cp -r $2/.git/ $1                                                                                         &> /dev/null || return 2
+      git -C $1 add --all .                                                                                     &> /dev/null || return 3
+      git -C $1 commit --allow-empty -m "update to $(git -C ${TRAVIS_BUILD_DIR} rev-parse --short HEAD)"        &> /dev/null || return 4
+      git -C $1 push origin $2                                                                                  &> /dev/null || return 5
+  }
 
 script:
-  - npm run spec
-  - npm run deploy
+- npm run spec
+- npm run deploy
+
+- |
+  if [[ "${PUBLISH}" == "true" && "${TRAVIS_BRANCH}" == "master" && "${TRAVIS_PULL_REQUEST}" == "false" ]]
+  then
+      publish dist/ gh-pages || exit $?
+  fi
