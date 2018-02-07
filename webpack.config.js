@@ -128,8 +128,18 @@ module.exports = env => ({
       {
         test: /\.html$/,
         loader: 'html-loader',
+        options: {
+          attrs: ['link:href'],
+        },
       },
 
+      {
+        issuer: /\.html$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      },
     ]
   },
 
@@ -167,7 +177,7 @@ module.exports = env => ({
     new HtmlWebpackPlugin({
       inject: 'body',
       template: path.resolve(src, 'index.html'),
-      inlineSource: '.*',
+      inlineSource: '\.(css|js)',
     }),
 
     new HtmlWebpackInlineSourcePlugin(),
