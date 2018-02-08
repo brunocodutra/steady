@@ -2,7 +2,7 @@
   "short_name": "Steady",
   "name": "Steady",
   "icons": [],
-  "start_url": "/index.html",
+  "start_url": "/steady",
   "display": "standalone",
   "theme_color": "#343a40",
   "background_color": "#343a40"
