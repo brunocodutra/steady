@@ -130,6 +130,11 @@ module.exports = env => ({
         test: /\.html$/,
         loader: 'html-loader',
       },
+
+      {
+        test: /\.svg$/,
+        loader: 'url-loader',
+      },
     ]
   },
 
