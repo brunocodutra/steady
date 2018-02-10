@@ -133,9 +133,9 @@ header {
     transition-duration: 1s;
     letter-spacing: 0.1ch;
 
-    &:focus,
-    &:hover {
-      text-shadow: 0 0 0.1rem currentColor, 0 0 0.5rem currentColor;
+    img {
+      @extend .mr-1;
+      @include size(2rem);
     }
   }
 
