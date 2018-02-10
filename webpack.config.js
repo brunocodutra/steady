@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
@@ -128,17 +129,6 @@ module.exports = env => ({
       {
         test: /\.html$/,
         loader: 'html-loader',
-        options: {
-          attrs: ['link:href'],
-        },
-      },
-
-      {
-        issuer: /\.html$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-        },
       },
     ]
   },
@@ -178,6 +168,21 @@ module.exports = env => ({
       inject: 'body',
       template: path.resolve(src, 'index.html'),
       inlineSource: '\.(css|js)',
+    }),
+
+    new WebappWebpackPlugin({
+      logo: 'brand.svg',
+      prefix: 'assets/',
+      favicons: {
+        start_url: '/steady',
+        theme_color: '#343a40',
+        background: '#343a40',
+        icons: {
+          coast: false,
+          firefox: false,
+          yandex: false,
+        },
+      },
     }),
 
     new HtmlWebpackInlineSourcePlugin(),
