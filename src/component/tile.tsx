@@ -1,16 +1,7 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {adapt, isolate} from 'lib/event';
-
-const Remove = ({event}: {event?: () => void}) => !event ? null : (
-  <span
-    className='control remove fade'
-    onMouseDown={isolate(event)}
-    onKeyDown={event && adapt([' ', 'Enter'], isolate(event))}
-    tabIndex={0}
-  />
-);
+import Interactive from 'component/interactive';
 
 type Props = {
   readonly active?: boolean,
@@ -20,22 +11,9 @@ type Props = {
   readonly children?: React.ReactNode,
 };
 
-export default ({active = false, activate, remove, className = '', children}: Props) => {
-  if (active) {
-    activate = undefined;
-  }
-
-  const interactive = !!activate;
-
-  return (
-    <span
-      className={classes('tile', className, {active, interactive})}
-      onMouseDown={activate && isolate(activate)}
-      onKeyDown={activate && adapt([' ', 'Enter'], isolate(activate))}
-      tabIndex={interactive ? 0 : -1}
-    >
-      <Remove event={remove}/>
-      {children}
-    </span>
-  );
-};
+export default ({active = false, activate, remove, className = '', children}: Props) => (
+  <Interactive action={!active ? activate : undefined} className={classes('tile', className, {active})}>
+    <Interactive action={remove} className='control remove fade'/>
+    {children}
+  </Interactive>
+);

@@ -4,6 +4,8 @@ import * as ReactDOM from 'react-dom';
 
 import {adapt, isolate} from 'lib/event';
 
+import Interactive from 'component/interactive';
+
 type Props = {
   show: boolean,
   title: string,
@@ -50,7 +52,7 @@ export default class extends React.PureComponent<Props> {
             <div className='modal-content'>
               <div className='modal-header'>
                 <h5 className='modal-title' id='title'>{title}</h5>
-                <button onMouseDown={onCancel} type='button' className='close' aria-label='Close'/>
+                <Interactive action={onCancel} className='close'/>
               </div>
               <div className='modal-body'>
                 {this.props.children}

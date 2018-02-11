@@ -59,9 +59,9 @@ export default removable<Shunt>(connect(mapState)(
           <Icon/>
           {fill}
           <Knee/>
+          <Status value={vi[0]} unit={Unit.volt}/>
+          <Status value={vi[1]} unit={Unit.ampere}/>
         </Tile>
-        <Status value={vi[0]} unit={Unit.volt}/>
-        <Status value={vi[1]} unit={Unit.ampere}/>
         <Element id={id} element={element.value} vi={[vi[0], sub(vi[1], project(element.model, vi)[1])]}/>
       </Tile>
     );

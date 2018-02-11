@@ -30,7 +30,6 @@ module.exports = env => ({
   entry: {
     app: [
       '@babel/polyfill',
-      'whatwg-fetch',
       'react-hot-loader/patch',
       'index.tsx',
       'index.html',

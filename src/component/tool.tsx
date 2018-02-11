@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import {Kind} from 'lib/element';
-import { adapt } from 'lib/event';
+
+import Interactive from 'component/interactive';
 
 import * as Action from 'action';
 import {State} from 'reducer';
@@ -26,14 +27,8 @@ const mapDispatch = (dispatch: Dispatch<State>, props: PropsBase) => ({
 
 export default connect(null, mapDispatch)(
   ({kind, insert, children}: Props) => (
-    <span
-      className={classes('tool', kind)}
-      onClick={insert}
-      onKeyDown={adapt([' ', 'Enter'], insert)}
-      tabIndex={0}
-    >
-    {children}
-    </span>
+    <Interactive action={insert} className={classes('tool', kind)}>
+      {children}
+    </Interactive>
   ),
-
 );

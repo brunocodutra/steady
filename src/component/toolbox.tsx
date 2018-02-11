@@ -23,17 +23,15 @@ const mapState = ({toolbox: {visible}}: State): Props => ({
 });
 
 export default connect(mapState)(
-  ({visible: show}: Props) => (
-    <div className={classes('toolbox', {show})}>
-      <div className='toolbar'>
-        <Tool kind={Kind.vsrc}><VSrc/></Tool>
-        <Tool kind={Kind.isrc}><ISrc/></Tool>
-        <Tool kind={Kind.impedance}><Impedance/></Tool>
-        <Tool kind={Kind.admittance}><Admittance/></Tool>
-        <Tool kind={Kind.xformer}><XFormer/></Tool>
-        <Tool kind={Kind.line}><Line/></Tool>
-        <Tool kind={Kind.shunt}><Shunt/></Tool>
-      </div>
+  ({visible: open}: Props) => (
+    <div className={classes('toolbox', {open})}>
+      <Tool kind={Kind.vsrc}><VSrc/></Tool>
+      <Tool kind={Kind.isrc}><ISrc/></Tool>
+      <Tool kind={Kind.impedance}><Impedance/></Tool>
+      <Tool kind={Kind.admittance}><Admittance/></Tool>
+      <Tool kind={Kind.xformer}><XFormer/></Tool>
+      <Tool kind={Kind.line}><Line/></Tool>
+      <Tool kind={Kind.shunt}><Shunt/></Tool>
     </div>
   ),
 );

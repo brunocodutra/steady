@@ -1,11 +1,11 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {adapt, isolate} from 'lib/event';
 import {angle, norm, Phasor, polar} from 'lib/phasor';
 import {degrees, radians, Unit} from 'lib/unit';
 
 import Dialog from 'component/dialog';
+import Interactive from 'component/interactive';
 import Quantity from 'component/quantity';
 import { parse } from 'lib/number';
 
@@ -51,12 +51,7 @@ export default class extends React.PureComponent<Props, State> {
     );
 
     return (
-      <span
-        onMouseDown={this.onClick}
-        onKeyDown={adapt([' ', 'Enter'], this.onClick)}
-        className={classes('value control', this.props.name)}
-        tabIndex={0}
-      >
+      <Interactive action={this.onClick} className={classes('value control', this.props.name)}>
         <Quantity value={this.props.value} unit={this.props.unit}/>
         <Dialog
           show={this.state.prompt}
@@ -84,7 +79,7 @@ export default class extends React.PureComponent<Props, State> {
             </div>
           </div>
         </Dialog>
-      </span>
+      </Interactive>
     );
   }
 
@@ -100,9 +95,9 @@ export default class extends React.PureComponent<Props, State> {
     }
   }
 
-  private onClick = isolate(() => {
+  private onClick = () => {
     this.setState({prompt: true});
-  });
+  }
 
   private onCancel = () => {
     this.setState((_, {value}) => ({
