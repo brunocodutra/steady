@@ -1,10 +1,10 @@
 import * as classes from 'classnames';
 import * as React from 'react';
 
-import {adapt, isolate} from 'lib/event';
 import {Phasor} from 'lib/phasor';
 import {Unit} from 'lib/unit';
 
+import Interactive from 'component/interactive';
 import Quantity from 'component/quantity';
 
 const v = (
@@ -56,19 +56,15 @@ export default class extends React.PureComponent<Props, State> {
 
     return (
       <>
-        <span
-          onMouseDown={() => null}
-          onKeyDown={adapt([' ', 'Enter'], () => null)}
+        <Interactive
+          action={() => null}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          onMouseEnter={this.onFocus}
-          onMouseLeave={this.onBlur}
-          className={classes('control status fade', this.props.unit)}
-          tabIndex={0}
+          className={classes('status control fade', this.props.unit)}
         >
           <Icon unit={this.props.unit}/>
-        </span>
-        <span onMouseDown={isolate(() => null)} className={classes('status tooltip fade', {show})}>
+        </Interactive>
+        <span className={classes('status tooltip fade', {show})}>
           <span className='arrow'/>
           <span className='tooltip-inner'>
             <Quantity value={this.props.value} unit={this.props.unit}/>

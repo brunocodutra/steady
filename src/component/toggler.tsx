@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
-import { adapt } from 'lib/event';
+import Interactive from 'component/interactive';
 
 import * as Action from 'action';
 import {State} from 'reducer';
@@ -18,12 +18,5 @@ const mapDispatch = (dispatch: Dispatch<State>): Props => ({
 });
 
 export default connect(null, mapDispatch)(
-  ({toggle}: Props) => (
-    <button
-      type='button'
-      className='toggler'
-      onMouseDown={toggle}
-      onKeyDown={adapt([' ', 'Enter'], toggle)}
-    />
-  ),
+  ({toggle}: Props) => <Interactive action={toggle} className='toggler'/>,
 );
