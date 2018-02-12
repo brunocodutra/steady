@@ -27,7 +27,7 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
   }
 };
 
-export const reducer: Reducer<State> = (state = init, action: Action): State => {
+const reducer: Reducer<State> = (state = init, action: Action): State => {
   const {entry, active} = state;
 
   switch (action.type) {
@@ -62,3 +62,5 @@ export const reducer: Reducer<State> = (state = init, action: Action): State => 
       return state;
   }
 };
+
+export default reducer;

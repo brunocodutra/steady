@@ -1,22 +1,24 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import * as ReactDOM from 'react-dom';
 
 import Interactive from 'component/interactive';
-
-import * as Action from 'action';
-import {State} from 'reducer';
 
 type Props = {
   readonly toggle: () => void,
 };
 
-const mapDispatch = (dispatch: Dispatch<State>): Props => ({
-  toggle: () => {
-    dispatch(Action.toggle());
-  },
-});
+export default class extends React.PureComponent<Props> {
+  private toggler = document.getElementById('toggler');
 
-export default connect(null, mapDispatch)(
-  ({toggle}: Props) => <Interactive action={toggle} className='toggler'/>,
-);
+  public render() {
+    /* istanbul ignore next */
+    if (!this.toggler) {
+      throw new Error('placeholder not found');
+    }
+
+    return ReactDOM.createPortal(
+      <Interactive action={this.props.toggle} className='toggler'/>,
+      this.toggler,
+    );
+  }
+}

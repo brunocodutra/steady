@@ -12,7 +12,7 @@ type Props = {
   readonly entry: ElementT,
 };
 
-const mapState = ({schematics: {entry}}: State): Props => ({
+const mapState = ({entry}: State): Props => ({
   entry,
 });
 
