@@ -6,6 +6,8 @@ import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 
 import Steady from 'component/steady';
+
+import {unwrap} from 'lib/util';
 import reducer from 'reducer';
 
 const middleware: Redux.Middleware[] = [];
@@ -26,12 +28,7 @@ const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.re
   placeholder,
 );
 
-const steady = document.getElementById('steady');
-
-/* istanbul ignore next */
-if (!steady) {
-  throw new Error('placeholder not found');
-}
+const steady = unwrap(document.getElementById('steady'), '#steady not found');
 
 render(<Steady/>, steady);
 
