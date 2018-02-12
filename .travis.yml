@@ -14,9 +14,6 @@ matrix:
   - os: linux
     env: PUBLISH=true
 
-before_install:
-- travis_retry npm install -g greenkeeper-lockfile@1
-
 install:
 - travis_retry npm install
 
@@ -33,8 +30,6 @@ before_script:
       git -C $1 push origin $2                                                                              &> /dev/null || return 5
   }
 
-- greenkeeper-lockfile-update
-
 script:
 - npm run spec
 - npm run deploy
@@ -44,6 +39,3 @@ script:
   then
       publish dist/ gh-pages || exit $?
   fi
-
-after_script:
-- greenkeeper-lockfile-upload
