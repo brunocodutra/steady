@@ -17,25 +17,36 @@ matrix:
 install:
 - travis_retry npm install
 
-before_script:
+script:
+- npm run spec
+- npm run deploy
+
+after_script:
 - git config --global user.name "Travis Bot"
 - git config --global user.email "\<\>"
 
 - |
   function publish {
-      git clone https://brunocodutra:${GH_TOKEN}@github.com/brunocodutra/steady -q --depth 1 --branch=$2 $2 &> /dev/null || return 1
-      cp -r $2/.git/ $1                                                                                     &> /dev/null || return 2
-      git -C $1 add --all .                                                                                 &> /dev/null || return 3
-      git -C $1 commit --allow-empty -m "update to $(git -C ${TRAVIS_BUILD_DIR} rev-parse --short HEAD)"    &> /dev/null || return 4
-      git -C $1 push origin $2                                                                              &> /dev/null || return 5
+      git clone https://brunocodutra:${GH_TOKEN}@github.com/brunocodutra/steady -q --depth 1 --branch=$2 $2 &> /dev/null
+      cp -r $2/.git/ $1
+      git -C $1 add --all .
+      git -C $1 commit --allow-empty -m "update to $(git -C ${TRAVIS_BUILD_DIR} rev-parse --short HEAD)"
+      git -C $1 push origin $2 &> /dev/null
   }
-
-script:
-- npm run spec
-- npm run deploy
 
 - |
   if [[ "${PUBLISH}" == "true" && "${TRAVIS_BRANCH}" == "master" && "${TRAVIS_PULL_REQUEST}" == "false" ]]
   then
       publish dist/ gh-pages || exit $?
+  fi
+
+- |
+  if [[ "${PUBLISH}" == "true" && "$TRAVIS_PULL_REQUEST_BRANCH" == greenkeeper* && "$(git ls-files -m)" == "package-lock.json" ]]
+  then
+    git config credential.helper "store --file=.git/credentials" || exit $?
+    echo "https://${GH_TOKEN}:@github.com" 2> /dev/null > .git/credentials || exit $?
+    git remote set-url origin https://github.com/$TRAVIS_REPO_SLUG.git || exit $?
+    git add package-lock.json || exit $?
+    git commit -m "update package-lock.json" || exit $?
+    git push origin HEAD:$TRAVIS_PULL_REQUEST_BRANCH &> /dev/null || exit $?
   fi
