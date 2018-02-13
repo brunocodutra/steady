@@ -56,7 +56,7 @@ export default class extends React.PureComponent<Props, State> {
         <Dialog
           show={this.state.prompt}
           title={this.props.description}
-          onCancel={this.onCancel}
+          onDismiss={this.onDismiss}
           onConfirm={this.onConfirm}
         >
           <div className='form-row'>
@@ -99,7 +99,7 @@ export default class extends React.PureComponent<Props, State> {
     this.setState({prompt: true});
   }
 
-  private onCancel = () => {
+  private onDismiss = () => {
     this.setState((_, {value}) => ({
       prompt: false,
       mag: norm(value) + '',
