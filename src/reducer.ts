@@ -1,1 +1,1 @@
-export {default, State} from 'reducer/schematics';
+export {default} from 'reducer/schematics';

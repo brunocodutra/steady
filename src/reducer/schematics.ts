@@ -1,19 +1,10 @@
 import {Reducer} from 'redux';
 
 import {Action, Type} from 'action';
+import {init, State} from 'state';
 
 import {prefix} from 'lib/array';
-import {branch, Element, join, make, merge, series, split, update} from 'lib/element';
-
-export type State = {
-  readonly entry: Element,
-  readonly active: number[],
-};
-
-const init: State = {
-  entry: series(),
-  active: [2],
-};
+import {branch, Element, join, make, merge, split, update} from 'lib/element';
 
 const spin = (id: number[], i: number, k: number) => [...id.slice(0, i), id[i] + k, ...id.slice(i + 1)];
 
