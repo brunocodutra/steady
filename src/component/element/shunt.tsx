@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {State} from 'reducer';
+import {State} from 'state';
 
 import removable, {Props as PropsBase} from 'container/removable';
 

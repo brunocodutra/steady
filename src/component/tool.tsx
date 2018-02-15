@@ -8,7 +8,7 @@ import {Kind} from 'lib/element';
 import Interactive from 'component/interactive';
 
 import * as Action from 'action';
-import {State} from 'reducer';
+import {State} from 'state';
 
 type PropsBase = {
   readonly kind: Kind,

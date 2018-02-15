@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import * as Actions from 'action';
-import {State} from 'reducer';
+import {State} from 'state';
 
 import {Props as PropsBase} from 'component/element';
 
