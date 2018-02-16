@@ -4,6 +4,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  testURL: 'http://localhost',
   testMatch: ['**/spec/**/*.spec.(ts|tsx)'],
   collectCoverage: true,
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
