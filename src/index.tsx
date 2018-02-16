@@ -9,6 +9,7 @@ import Steady from 'component/steady';
 
 import {unwrap} from 'lib/util';
 import reducer from 'reducer';
+import {init, unserialize} from 'state';
 
 const middleware: Redux.Middleware[] = [];
 
@@ -17,7 +18,10 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').default);
 }
 
-const store = Redux.createStore(reducer, Redux.applyMiddleware(...middleware));
+const state = unserialize(location.search.slice(1)) || init;
+const store = Redux.createStore(reducer, state, Redux.applyMiddleware(...middleware));
+
+history.replaceState(state, '', `${location.protocol}//${location.host}${location.pathname}`);
 
 const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.render(
   <AppContainer>
