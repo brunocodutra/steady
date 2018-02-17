@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {State} from 'reducer';
+import {State} from 'state';
 
 import removable, {Props as PropsBase} from 'container/removable';
 
@@ -45,7 +45,7 @@ type Props = PropsBase<Shunt> & {
   readonly essential: boolean,
 };
 
-const mapState = ({schematics: {active}}: State, props: PropsBase<Shunt>) => ({
+const mapState = ({active}: State, props: PropsBase<Shunt>) => ({
   essential: prefix(props.id, active),
 });
 

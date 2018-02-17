@@ -9,8 +9,8 @@ import Interactive from 'component/interactive';
 type Props = {
   show: boolean,
   title: string,
-  onCancel: () => void,
-  onConfirm: () => void,
+  onDismiss: () => void,
+  onConfirm?: () => void,
 };
 
 export default class extends React.PureComponent<Props> {
@@ -37,11 +37,11 @@ export default class extends React.PureComponent<Props> {
   }
 
   public render() {
-    const {show, title, onCancel, onConfirm} = this.props;
+    const {show, title, onDismiss} = this.props;
     return ReactDOM.createPortal(
       <>
         <div
-          onMouseDown={isolate(onCancel)}
+          onMouseDown={isolate(onDismiss)}
           className={classes('modal', {show})}
           tabIndex={-1}
           role='dialog'
@@ -52,15 +52,12 @@ export default class extends React.PureComponent<Props> {
             <div className='modal-content'>
               <div className='modal-header'>
                 <h5 className='modal-title' id='title'>{title}</h5>
-                <Interactive action={onCancel} className='close'/>
+                <Interactive action={onDismiss} className='close'/>
               </div>
               <div className='modal-body'>
                 {this.props.children}
               </div>
-              <div className='modal-footer'>
-                <button onMouseDown={onCancel} type='button' className='btn btn-sm btn-secondary'>Cancel</button>
-                <button onMouseDown={onConfirm} type='button' className='btn btn-sm btn-primary'>OK</button>
-              </div>
+              {this.footer()}
             </div>
           </div>
         </div>
@@ -70,6 +67,13 @@ export default class extends React.PureComponent<Props> {
     );
   }
 
-  private onEnter = adapt(['Enter'], () => this.props.onConfirm());
-  private onEsc = adapt(['Escape'], () => this.props.onCancel());
+  private footer = () => !this.props.onConfirm ? null : (
+    <div className='modal-footer'>
+      <button onMouseDown={this.props.onDismiss} type='button' className='btn btn-sm btn-secondary'>Cancel</button>
+      <button onMouseDown={this.props.onConfirm} type='button' className='btn btn-sm btn-primary'>OK</button>
+    </div>
+  )
+
+  private onEnter = adapt(['Enter'], () => this.props.onConfirm && this.props.onConfirm());
+  private onEsc = adapt(['Escape'], () => this.props.onDismiss());
 }

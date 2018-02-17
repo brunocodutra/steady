@@ -6,8 +6,10 @@ import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 
 import Steady from 'component/steady';
-import Toggler from 'component/toggler';
+
+import {unwrap} from 'lib/util';
 import reducer from 'reducer';
+import {init, unserialize} from 'state';
 
 const middleware: Redux.Middleware[] = [];
 
@@ -16,7 +18,10 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').default);
 }
 
-const store = Redux.createStore(reducer, Redux.applyMiddleware(...middleware));
+const state = unserialize(location.search.slice(1)) || init;
+const store = Redux.createStore(reducer, state, Redux.applyMiddleware(...middleware));
+
+history.replaceState(state, '', `${location.protocol}//${location.host}${location.pathname}`);
 
 const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.render(
   <AppContainer>
@@ -27,25 +32,14 @@ const render = (component: JSX.Element, placeholder: HTMLElement) => ReactDOM.re
   placeholder,
 );
 
-const toggler = document.getElementById('toggler');
-const steady = document.getElementById('steady');
+const steady = unwrap(document.getElementById('steady'), '#steady not found');
 
-/* istanbul ignore next */
-if (!toggler || !steady) {
-  throw new Error('placeholder not found');
-}
-
-render(<Toggler/>, toggler);
 render(<Steady/>, steady);
 
 /* istanbul ignore next */
 if (module.hot) {
   module.hot.accept('./reducer.ts', () => {
     store.replaceReducer(require('reducer').default);
-  });
-
-  module.hot.accept('./component/toggler.tsx', () => {
-    render(React.createElement(require('component/toggler').default), toggler);
   });
 
   module.hot.accept('./component/steady.tsx', () => {

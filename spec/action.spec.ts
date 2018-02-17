@@ -1,4 +1,4 @@
-import {activate, insert, remove, toggle, Type, update} from 'action';
+import {activate, insert, remove, Type, update} from 'action';
 import {Kind} from 'lib/element';
 import {rect} from 'lib/phasor';
 
@@ -15,10 +15,6 @@ const kinds: Kind[] = [
 const rand = (N = 10) => Math.floor(Math.random() * N);
 
 describe('Actions', () => {
-  it('should make it possible to toggle the toolbox', () => {
-    expect(toggle()).toEqual({type: Type.toggle});
-  });
-
   it('should make it possible to insert new elements', () => {
     kinds.forEach((kind) => {
       expect(insert(kind)).toEqual({type: Type.insert, kind});

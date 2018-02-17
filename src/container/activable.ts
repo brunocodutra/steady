@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import * as Actions from 'action';
-import {State} from 'reducer';
+import {State} from 'state';
 
 import {Props as PropsBase} from 'component/element';
 
@@ -14,7 +14,7 @@ export type Props<E extends Activable> = PropsBase<E> & {
   readonly activate: () => void,
 };
 
-const mapState = ({schematics: {active}}: State, props: PropsBase) => ({
+const mapState = ({active}: State, props: PropsBase) => ({
   active: equal(props.id, active),
 });
 

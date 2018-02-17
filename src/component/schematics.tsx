@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Element as ElementT} from 'lib/element';
 import {_0} from 'lib/phasor';
 import {solve} from 'lib/quadripole';
-import {State} from 'reducer';
+import {State} from 'state';
 
 import Element from 'component/element';
 
@@ -12,7 +12,7 @@ type Props = {
   readonly entry: ElementT,
 };
 
-const mapState = ({schematics: {entry}}: State): Props => ({
+const mapState = ({entry}: State): Props => ({
   entry,
 });
 
