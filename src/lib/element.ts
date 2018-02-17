@@ -227,8 +227,6 @@ type PartialElements = {
     readonly kind: Elements[K]['kind'],
     readonly next?: Elements[K]['next'],
     readonly value?: Elements[K]['value'],
-
-    [k: string]: any,
   }
 };
 
@@ -259,9 +257,11 @@ const promote = <K extends Kind>(partial: PartialElement): Elements[K] => {
   }
 };
 
-export const make = <K extends Kind>(kind: K): Elements[K] =>
-  promote<K>({kind} as PartialElement[K]) // tslint:disable-line:no-object-literal-type-assertion
-;
+const demote = <K extends Kind>(element: Elements[K]): PartialElements[K] => element;
+
+export const make = <K extends Kind>(kind: K): Elements[K] => (
+  promote<K>({kind} as PartialElements[K]) // tslint:disable-line:no-object-literal-type-assertion
+);
 
 export const split = (element: Element) => {
   if (element.kind === Kind.connector) {
@@ -276,7 +276,7 @@ export const join = (element: Element, next: Element) => {
     throw new Error(`unexpected '${Kind.connector}'`);
   }
 
-  return promote<typeof element.kind>({...element, next});
+  return promote<typeof element.kind>(demote({...element, next}));
 };
 
 export const branch = (element: Element): Series => {
@@ -296,7 +296,7 @@ export const merge = (element: Element, value: Element): Shunt => {
     throw new Error(`expected '${Kind.series}', got '${value.kind}'`);
   }
 
-  return promote<typeof element.kind>({...element, value});
+  return promote<typeof element.kind>(demote({...element, value}));
 };
 
 export const update = (element: Element, value: Parametric['value']): Parametric => {
@@ -307,9 +307,9 @@ export const update = (element: Element, value: Parametric['value']): Parametric
     element.kind === Kind.admittance ||
     element.kind === Kind.xformer
   )) {
-    return promote<typeof element.kind>({...element, value});
+    return promote<typeof element.kind>(demote({...element, value}));
   } else if (!isPhasor(value) && element.kind === Kind.line) {
-    return promote<typeof element.kind>({...element, value});
+    return promote<typeof element.kind>(demote({...element, value}));
   } else {
     throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
   }
