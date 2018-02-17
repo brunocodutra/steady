@@ -137,17 +137,17 @@ const collapse = (element: Element): Quadripole => element.kind !== Kind.connect
   : element.model
 ;
 
-export const connector = (): Connector => ({
+const terminal: Connector = {
   kind: Kind.connector,
   next: undefined,
   value: undefined,
   model: quadripole(),
   level: 0,
-});
+};
 
-const terminal = connector();
+export const connector = (): Connector => terminal;
 
-export const ground = (next: Ground['next'] = terminal): Ground => ({
+export const ground = (next: Ground['next'] = connector()): Ground => ({
   kind: Kind.ground,
   next,
   value: undefined,
@@ -155,7 +155,7 @@ export const ground = (next: Ground['next'] = terminal): Ground => ({
   level: next.level,
 });
 
-export const vsrc = (next: VSrc['next'] = terminal, value = _0): VSrc => ({
+export const vsrc = (next: VSrc['next'] = connector(), value = _0): VSrc => ({
   kind: Kind.vsrc,
   next,
   value,
@@ -163,7 +163,7 @@ export const vsrc = (next: VSrc['next'] = terminal, value = _0): VSrc => ({
   level: next.level,
 });
 
-export const isrc = (next: ISrc['next'] = terminal, value = _0): ISrc => ({
+export const isrc = (next: ISrc['next'] = connector(), value = _0): ISrc => ({
   kind: Kind.isrc,
   next,
   value,
@@ -171,7 +171,7 @@ export const isrc = (next: ISrc['next'] = terminal, value = _0): ISrc => ({
   level: next.level,
 });
 
-export const impedance = (next: Impedance['next'] = terminal, value = _0): Impedance => ({
+export const impedance = (next: Impedance['next'] = connector(), value = _0): Impedance => ({
   kind: Kind.impedance,
   next,
   value,
@@ -179,7 +179,7 @@ export const impedance = (next: Impedance['next'] = terminal, value = _0): Imped
   level: next.level,
 });
 
-export const admittance = (next: Admittance['next'] = terminal, value = rect(Infinity)): Admittance => ({
+export const admittance = (next: Admittance['next'] = connector(), value = rect(Infinity)): Admittance => ({
   kind: Kind.admittance,
   next,
   value,
@@ -187,7 +187,7 @@ export const admittance = (next: Admittance['next'] = terminal, value = rect(Inf
   level: next.level,
 });
 
-export const xformer = (next: XFormer['next'] = terminal, value = _1): XFormer => ({
+export const xformer = (next: XFormer['next'] = connector(), value = _1): XFormer => ({
   kind: Kind.xformer,
   next,
   value,
@@ -195,7 +195,7 @@ export const xformer = (next: XFormer['next'] = terminal, value = _1): XFormer =
   level: next.level,
 });
 
-export const line = (next: Line['next'] = terminal, {y, z} = {y: _0, z: _1}): Line => ({
+export const line = (next: Line['next'] = connector(), {y, z} = {y: _0, z: _1}): Line => ({
   kind: Kind.line,
   next,
   value: {y, z},
@@ -203,7 +203,7 @@ export const line = (next: Line['next'] = terminal, {y, z} = {y: _0, z: _1}): Li
   level: next.level,
 });
 
-export const series = (next: Series['next'] = ground()): Series => ({
+export const series = (next: Series['next'] = connector()): Series => ({
   kind: Kind.series,
   next,
   value: undefined,
@@ -211,7 +211,7 @@ export const series = (next: Series['next'] = ground()): Series => ({
   level: next.level,
 });
 
-export const shunt = (next: Shunt['next'] = terminal, value = series(connector())): Shunt => ({
+export const shunt = (next: Shunt['next'] = connector(), value = series()): Shunt => ({
   kind: Kind.shunt,
   next,
   value,
