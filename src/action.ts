@@ -1,16 +1,12 @@
 import {Kind, Parametric} from 'lib/element';
 
 export const enum Type {
-  toggle = 'toggle',
   activate = 'activate',
   remove = 'remove',
   insert = 'insert',
   update = 'update',
+  _ = '_', // FIXME with Redux 4.0.0
 }
-
-type Toggle = {
-  readonly type: Type.toggle,
-};
 
 type Activate = {
   readonly type: Type.activate,
@@ -33,11 +29,7 @@ type Update = {
   readonly value: Parametric['value'],
 };
 
-export type Action = Toggle | Activate | Remove | Insert | Update;
-
-export const toggle = (): Toggle => ({
-  type: Type.toggle,
-});
+export type Action = Activate | Remove | Insert | Update | {readonly type: Type._};
 
 export const activate = (id: number[]): Activate => ({
   type: Type.activate,

@@ -32,6 +32,7 @@ $transition-fade: opacity 0.15s ease-in-out;
 $navbar-dark-color: map-get($colors, 'orange');
 $navbar-dark-active-color: $navbar-dark-color;
 
+$nav-link-padding-y: 0;
 $navbar-toggler-padding-x: 0;
 $navbar-dark-toggler-border-color: transparent;
 
@@ -135,6 +136,14 @@ body {
 
 header {
   @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .font-weight-bold;
+
+  #navbar {
+    @extend .navbar-nav, .flex-row, .ml-auto;
+  }
+
+  #toggler {
+    @extend .navbar-toggler, .ml-3;
+  }
 }
 
 .brand {
@@ -150,12 +159,30 @@ header {
   }
 }
 
-.toggler {
-  @extend .navbar-toggler;
+.share {
+  @extend .nav-link, .ml-auto;
 
-  &::after {
-    @extend .navbar-toggler-icon;
+  line-height: 0;
+
+  svg {
+    @include size(1.5rem);
+    @include transition(fill);
+
+    stroke: currentColor;
+    fill: transparent;
+
+    &:hover {
+      fill: currentColor;
+    }
   }
+}
+
+.copy {
+  @extend .btn, .btn-outline-primary;
+}
+
+.toggler {
+  @extend .navbar-toggler-icon;
 }
 
 main {
@@ -219,7 +246,12 @@ footer {
 }
 
 .star {
-  margin: 2px;
+  margin: 15%;
+  fill: currentcolor;
+}
+
+.gitter {
+  margin: 15%;
   fill: currentcolor;
 }
 
