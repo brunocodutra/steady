@@ -1,4 +1,4 @@
-import {branch, impedance, join, Kind, merge, split, update} from 'lib/element';
+import {branch, impedance, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
 import {mul, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
@@ -64,6 +64,16 @@ describe('Impedance', () => {
           const {model} = impedance(undefined, value);
           expect(project(model, [v, i])).toBeCloseTo([sub(v, mul(i, value)), i]);
         });
+      });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(impedance(next)))).toEqual(impedance(next));
+
+      phasors.forEach((value) => {
+        expect(unpack(pack(impedance(next, value)))).toEqual(impedance(next, value));
       });
     });
   });

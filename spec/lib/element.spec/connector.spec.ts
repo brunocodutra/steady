@@ -1,4 +1,4 @@
-import {branch, connector, join, Kind, merge, split, update} from 'lib/element';
+import {branch, connector, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
 import {project} from 'lib/quadripole';
 
 import {elements, phasors} from './util';
@@ -53,5 +53,9 @@ describe('Connector', () => {
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
       });
     });
+  });
+
+  it('should be packable', () => {
+    expect(unpack(pack(connector()))).toEqual(connector());
   });
 });

@@ -1,4 +1,4 @@
-import {branch, isrc, join, Kind, merge, split, update} from 'lib/element';
+import {branch, isrc, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
 import {add} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
@@ -64,6 +64,16 @@ describe('ISrc', () => {
           const {model} = isrc(undefined, value);
           expect(project(model, [v, i])).toBeCloseTo([v, add(value, i)]);
         });
+      });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(isrc(next)))).toEqual(isrc(next));
+
+      phasors.forEach((value) => {
+        expect(unpack(pack(isrc(next, value)))).toEqual(isrc(next, value));
       });
     });
   });

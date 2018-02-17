@@ -1,4 +1,4 @@
-import {branch, ground, join, Kind, merge, split, update} from 'lib/element';
+import {branch, ground, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
 import {project} from 'lib/quadripole';
 
 import {elements, phasors} from './util';
@@ -60,6 +60,12 @@ describe('Ground', () => {
         const {model} = ground();
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
       });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(ground(next)))).toEqual(ground(next));
     });
   });
 });

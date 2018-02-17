@@ -1,4 +1,4 @@
-import {branch, join, Kind, line, merge, split, update} from 'lib/element';
+import {branch, join, Kind, line, merge, pack, split, unpack, update} from 'lib/element';
 import {add, angle, div, mul, norm, rect, sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
@@ -78,6 +78,18 @@ describe('Line', () => {
             add(mul(sub(a, b), exp), div(add(a, b), exp)),
             add(mul(sub(c, d), exp), div(add(c, d), exp)),
           ]);
+        });
+      });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(line(next)))).toEqual(line(next));
+
+      phasors.forEach((y) => {
+        phasors.forEach((z) => {
+          expect(unpack(pack(line(next, {y, z})))).toEqual(line(next, {y, z}));
         });
       });
     });

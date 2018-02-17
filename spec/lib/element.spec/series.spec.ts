@@ -1,4 +1,4 @@
-import {branch, join, Kind, merge, series, split, update} from 'lib/element';
+import {branch, join, Kind, merge, pack, series, split, unpack, update} from 'lib/element';
 import {connect} from 'lib/quadripole';
 
 import {elements, parametric, phasors} from './util';
@@ -66,6 +66,12 @@ describe('Series', () => {
           });
         });
       });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(series(next)))).toEqual(series(next));
     });
   });
 });

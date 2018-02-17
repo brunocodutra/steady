@@ -1,4 +1,4 @@
-import {branch, join, Kind, merge, series, shunt, split, update} from 'lib/element';
+import {branch, join, Kind, merge, pack, series, shunt, split, unpack, update} from 'lib/element';
 import {rect, sub} from 'lib/phasor';
 import {project, solve} from 'lib/quadripole';
 
@@ -67,6 +67,16 @@ describe('Shunt', () => {
             expect(project(model, [v, i])).toBeCloseTo([v, sub(i, solve(value.model, [v, rect(0)])[1])]);
           });
         });
+      });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(shunt(next)))).toEqual(shunt(next));
+
+      elements.forEach((value) => {
+        expect(unpack(pack(shunt(next, series(value))))).toEqual(shunt(next, series(value)));
       });
     });
   });

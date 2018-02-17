@@ -1,7 +1,7 @@
-import {_0, _1, cosh, div, isPhasor, mul, neg, Phasor, rect, sinh} from 'lib/phasor';
+import {_0, _1, cosh, div, isPhasor, mul, neg, pack as packP, Phasor, rect, sinh, unpack as unpackP} from 'lib/phasor';
 import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/quadripole';
 
-export const enum Kind {
+export enum Kind {
   connector = 'connector',
   ground = 'ground',
   vsrc = 'vsrc',
@@ -13,6 +13,8 @@ export const enum Kind {
   series = 'series',
   shunt = 'shunt',
 }
+
+const isKind = (k: any): k is Kind => k in Kind;
 
 export type Connector = {
   readonly kind: Kind.connector,
@@ -299,7 +301,13 @@ export const merge = (element: Element, value: Element): Shunt => {
   return promote<typeof element.kind>(demote({...element, value}));
 };
 
-export const update = (element: Element, value: Parametric['value']): Parametric => {
+const isLineValue = (v: any): v is Line['value'] => (
+  typeof v === 'object' &&
+  'y' in v && isPhasor(v.y) &&
+  'z' in v && isPhasor(v.z)
+);
+
+export const update = (element: Element, value: any): Parametric => {
   if (isPhasor(value) && (
     element.kind === Kind.vsrc ||
     element.kind === Kind.isrc ||
@@ -308,9 +316,87 @@ export const update = (element: Element, value: Parametric['value']): Parametric
     element.kind === Kind.xformer
   )) {
     return promote<typeof element.kind>(demote({...element, value}));
-  } else if (!isPhasor(value) && element.kind === Kind.line) {
+  } else if (isLineValue(value) && element.kind === Kind.line) {
     return promote<typeof element.kind>(demote({...element, value}));
   } else {
     throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
+  }
+};
+
+type Dictionary = {
+  [_: string]: number | string,
+};
+
+const dictionary = Object.keys(Kind).reduce((dict, entry, i) => {
+  dict[dict[entry] = i] = entry;
+  return dict;
+}, {} as Dictionary); // tslint:disable-line:no-object-literal-type-assertion
+
+export const pack = (element: Element): any[] => {
+  switch (element.kind) {
+    case Kind.connector:
+      return [dictionary[element.kind]];
+    case Kind.ground:
+    case Kind.series:
+      return [dictionary[element.kind], pack(element.next)];
+    case Kind.vsrc:
+    case Kind.isrc:
+    case Kind.impedance:
+    case Kind.admittance:
+    case Kind.xformer:
+      return [dictionary[element.kind], pack(element.next), packP(element.value)];
+
+    case Kind.line: {
+      const {y, z} = element.value;
+      return [dictionary[element.kind], pack(element.next), [packP(y), packP(z)]];
+    }
+
+    case Kind.shunt:
+      return [dictionary[element.kind], pack(element.next), pack(element.value)];
+  }
+};
+
+export const unpack = (packed: any): Element => {
+  if (!Array.isArray(packed) || !packed.length || packed.length > 3) {
+    throw new Error(`expected '[kind, next?, value?]', got ${packed}`);
+  }
+
+  const kind = dictionary[packed[0]];
+
+  if (!isKind(kind)) {
+    throw new Error(`unknown element kind '${kind}'`);
+  }
+
+  switch (kind) {
+    case Kind.connector:
+      return connector();
+
+    case Kind.ground:
+    case Kind.series:
+      return join(make<typeof kind>(kind), unpack(packed[1]));
+
+    case Kind.vsrc:
+    case Kind.isrc:
+    case Kind.impedance:
+    case Kind.admittance:
+    case Kind.xformer:
+      return update(join(make<typeof kind>(kind), unpack(packed[1])), unpackP(packed[2]));
+
+    case Kind.line: {
+      /* istanbul ignore next */
+      if (!Array.isArray(packed[2]) || packed[2].length !== 2) {
+        throw new Error(`expected '[y, z]', got ${packed}`);
+      }
+
+      const value = {
+        y: unpackP(packed[2][0]),
+        z: unpackP(packed[2][1]),
+      };
+
+      return update(join(make<typeof kind>(kind), unpack(packed[1])), value);
+    }
+
+    case Kind.shunt:
+      return merge(join(make<typeof kind>(kind), unpack(packed[1])), unpack(packed[2]));
   }
 };
