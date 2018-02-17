@@ -1,4 +1,4 @@
-import {branch, join, Kind, merge, split, update, xformer} from 'lib/element';
+import {branch, join, Kind, merge, pack, split, unpack, update, xformer} from 'lib/element';
 import {div, mul} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 
@@ -64,6 +64,16 @@ describe('XFormer', () => {
           const {model} = xformer(undefined, value);
           expect(project(model, [v, i])).toBeCloseTo([div(v, value), mul(i, value)]);
         });
+      });
+    });
+  });
+
+  it('should be packable', () => {
+    elements.forEach((next) => {
+      expect(unpack(pack(xformer(next)))).toEqual(xformer(next));
+
+      phasors.forEach((value) => {
+        expect(unpack(pack(xformer(next, value)))).toEqual(xformer(next, value));
       });
     });
   });
