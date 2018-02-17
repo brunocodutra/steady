@@ -14,6 +14,16 @@ const phasor = (mag: number, tan: number): Phasor => ({
   tan: isNaN(mag) ? NaN : tan,
 });
 
+export const pack = ({mag, tan}: Phasor) => [mag, tan];
+
+export const unpack = (packed: any): Phasor => {
+  if (!Array.isArray(packed) || packed.length !== 2) {
+    throw new Error(`expected '[mag, tan]', got ${packed}`);
+  }
+
+  return phasor(+packed[0], +packed[1]);
+};
+
 export const _0 = phasor(0, 0);
 export const _1 = phasor(1, 0);
 

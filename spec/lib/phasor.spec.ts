@@ -1,4 +1,4 @@
-import {angle, conj, imag, neg, norm, polar, real, rect} from 'lib/phasor';
+import {angle, conj, imag, neg, norm, pack, polar, real, rect, unpack} from 'lib/phasor';
 
 import {samples} from './phasor.spec/util';
 
@@ -69,5 +69,17 @@ describe('Phasor', () => {
     expect(conj(rect(NaN))).toBeNaN();
     expect(conj(rect(0, NaN))).toBeNaN();
     expect(conj(rect(NaN, NaN))).toBeNaN();
+  });
+
+  it('should be packable', () => {
+    samples.forEach(({mag, ang}) => {
+      expect(unpack(pack(polar(mag, ang)))).toEqual(polar(mag, ang));
+    });
+
+    expect(unpack(pack(polar(NaN)))).toBeNaN();
+    expect(unpack(pack(polar(0, NaN)))).toBeNaN();
+    expect(unpack(pack(polar(NaN, NaN)))).toBeNaN();
+
+    expect(() => unpack([])).toThrowError();
   });
 });
