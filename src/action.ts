@@ -1,3 +1,5 @@
+import * as Redux from 'redux';
+
 import {Kind, Parametric} from 'lib/element';
 
 export const enum Type {
@@ -5,31 +7,26 @@ export const enum Type {
   remove = 'remove',
   insert = 'insert',
   update = 'update',
-  _ = '_', // FIXME with Redux 4.0.0
 }
 
-type Activate = {
-  readonly type: Type.activate,
+type Activate = Redux.Action<Type.activate> & {
   readonly id: number[],
 };
 
-type Remove = {
-  readonly type: Type.remove,
+type Remove = Redux.Action<Type.remove> & {
   readonly id: number[],
 };
 
-type Insert = {
-  readonly type: Type.insert,
+type Insert = Redux.Action<Type.insert> & {
   readonly kind: Kind,
 };
 
-type Update = {
-  readonly type: Type.update,
+type Update = Redux.Action<Type.update> & {
   readonly id: number[],
   readonly value: Parametric['value'],
 };
 
-export type Action = Activate | Remove | Insert | Update | {readonly type: Type._};
+export type Action = Activate | Remove | Insert | Update;
 
 export const activate = (id: number[]): Activate => ({
   type: Type.activate,
