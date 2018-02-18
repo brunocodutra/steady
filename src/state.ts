@@ -8,8 +8,10 @@ export type State = {
   readonly active: number[],
 };
 
+const schematics = (next?: Element) => series(ground(next));
+
 export const init = (next?: Element): State => {
-  const entry = series(ground(next));
+  const entry = schematics(next);
 
   return {
     entry,
@@ -17,8 +19,23 @@ export const init = (next?: Element): State => {
   };
 };
 
-export const pack = ({entry}: State): any[] => packE((entry.next && entry.next.next) as Element);
-export const unpack = (packed: any): State => init(unpackE(packed));
+export const pack = ({entry, active}: State): any[] => (
+  [packE((entry.next && entry.next.next) as Element), active]
+);
+
+export const unpack = (packed: any): State => {
+  if (
+    !Array.isArray(packed) || packed.length !== 2 ||
+    !Array.isArray(packed[1]) || !packed[1].every(Number.isInteger)
+  ) {
+    throw new Error(`expected '[entry, active]', got ${packed}`);
+  }
+
+  return {
+    entry: schematics(unpackE(packed[0])),
+    active: packed[1],
+  };
+};
 
 export const serialize = (s: State): string => base64.encode(msgpack.encode(pack(s)));
 
