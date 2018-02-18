@@ -1,13 +1,20 @@
 import * as Redux from 'redux';
 
+import {State} from 'state';
+
 import {Kind, Parametric} from 'lib/element';
 
 export const enum Type {
+  hydrate = 'hydrate',
   activate = 'activate',
   remove = 'remove',
   insert = 'insert',
   update = 'update',
 }
+
+type Hydrate = Redux.Action<Type.hydrate> & {
+  readonly state: State,
+};
 
 type Activate = Redux.Action<Type.activate> & {
   readonly id: number[],
@@ -26,7 +33,12 @@ type Update = Redux.Action<Type.update> & {
   readonly value: Parametric['value'],
 };
 
-export type Action = Activate | Remove | Insert | Update;
+export type Action = Hydrate | Activate | Remove | Insert | Update;
+
+export const hydrate = (state: State): Hydrate => ({
+  type: Type.hydrate,
+  state,
+});
 
 export const activate = (id: number[]): Activate => ({
   type: Type.activate,
