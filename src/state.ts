@@ -1,4 +1,5 @@
-import {compressToEncodedURIComponent as encode, decompressFromEncodedURIComponent as decode} from 'lz-string';
+import base64 from 'base64url';
+import * as msgpack from 'msgpack-lite';
 
 import {depth, Element, ground, pack as packE, series, unpack as unpackE} from 'lib/element';
 
@@ -19,11 +20,11 @@ export const init = (next?: Element): State => {
 export const pack = ({entry}: State): any[] => packE((entry.next && entry.next.next) as Element);
 export const unpack = (packed: any): State => init(unpackE(packed));
 
-export const serialize = (s: State): string => encode(JSON.stringify(pack(s)));
+export const serialize = (s: State): string => base64.encode(msgpack.encode(pack(s)));
 
 export const unserialize = (encoded: string): State | undefined => {
   try {
-    return unpack(JSON.parse(decode(encoded)));
+    return unpack(msgpack.decode(base64.toBuffer(encoded)));
   } catch (_) {
     return undefined;
   }
