@@ -11,6 +11,10 @@ describe('State', () => {
       const state = init(element);
       expect(unpack(pack(state))).toEqual(state);
     });
+
+    expect(() => unpack([])).toThrowError();
+    expect(() => unpack([null, null])).toThrowError();
+    expect(() => unpack([null, [null]])).toThrowError();
   });
 
   it('should be serializable', () => {
