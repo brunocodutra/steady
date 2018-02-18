@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
   middleware.push(require('redux-logger').default);
 }
 
-const state = unserialize(location.search.slice(1)) || init;
+const state = unserialize(location.search.slice(1)) || init();
 const store = Redux.createStore(reducer, state, Redux.applyMiddleware(...middleware));
 
 history.replaceState(state, '', `${location.protocol}//${location.host}${location.pathname}`);

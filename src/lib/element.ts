@@ -14,7 +14,7 @@ export enum Kind {
   shunt = 'shunt',
 }
 
-const isKind = (k: any): k is Kind => k in Kind;
+export const isKind = (k: any): k is Kind => k in Kind;
 
 export type Connector = {
   readonly kind: Kind.connector,
@@ -231,6 +231,8 @@ type PartialElements = {
     readonly value?: Elements[K]['value'],
   }
 };
+
+export const depth = (element: Element): number => element.kind === Kind.connector ? 0 : 1 + depth(element.next);
 
 type PartialElement = PartialElements[keyof PartialElements];
 
