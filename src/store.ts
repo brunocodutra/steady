@@ -24,8 +24,27 @@ if (process.env.NODE_ENV !== 'production') {
 const state = unserialize(location.search.slice(1)) || init();
 const store = Redux.createStore(reducer, state, Redux.applyMiddleware(...middleware));
 
-history.replaceState(pack(state), document.title, `${location.origin}${location.pathname}`);
+const undo = (e: KeyboardEvent) => {
+  if (history.state !== null && (e.key === 'z' || e.key === 'Z') && e.ctrlKey && !e.shiftKey) {
+    history.back();
+  }
+};
 
-window.onpopstate = ({state: packed}) => store.dispatch(hydrate(unpack(packed)));
+const redo = (e: KeyboardEvent) => {
+  if (e.ctrlKey && (
+    ((e.key === 'z' || e.key === 'Z') && e.shiftKey) ||
+    ((e.key === 'y' || e.key === 'Y') && !e.shiftKey)
+  )) {
+    history.forward();
+  }
+};
+
+document.addEventListener('keypress', undo);
+document.addEventListener('keypress', redo);
+
+// bottom
+history.replaceState(null, document.title, `${location.origin}${location.pathname}`);
+
+window.onpopstate = ({state: packed}) => store.dispatch(hydrate(packed !== null ? unpack(packed) : state));
 
 export default store;
