@@ -7,8 +7,7 @@ import {Kind} from 'lib/element';
 
 import Interactive from 'component/interactive';
 
-import * as Action from 'action';
-import {State} from 'state';
+import * as Actions from 'action';
 
 type PropsBase = {
   readonly kind: Kind,
@@ -19,9 +18,9 @@ type Props = PropsBase & {
   readonly insert: () => void,
 };
 
-const mapDispatch = (dispatch: Dispatch<State>, props: PropsBase) => ({
+const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
   insert: () => {
-    dispatch(Action.insert(props.kind));
+    dispatch(Actions.insert(props.kind));
   },
 });
 
