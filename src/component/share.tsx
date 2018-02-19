@@ -26,7 +26,7 @@ type Props = {
 };
 
 type LocalState = {
-  url?: string,
+  show: boolean,
 };
 
 const mapState = (state: State): Props => ({
@@ -41,21 +41,19 @@ export default connect(mapState)(
       super(props);
 
       this.state = {
-        url: undefined,
+        show: false,
       };
     }
 
     public render() {
+      const url = this.state.show ? `${location.origin}${location.pathname}?${serialize(this.props.state)}` : '';
+
       return ReactDOM.createPortal(
         <Interactive action={this.onClick} className='share'>
           <Icon/>
-          <Dialog
-            show={!!this.state.url}
-            title={'Share Link'}
-            onDismiss={this.onDismiss}
-          >
+          <Dialog show={this.state.show} title={'Share Link'} onDismiss={this.onDismiss}>
             <div className='input-group'>
-              <input value={this.state.url || ''} className='form-control'/>
+              <input value={url} className='form-control'/>
             </div>
           </Dialog>
         </Interactive>,
@@ -64,12 +62,11 @@ export default connect(mapState)(
     }
 
     private onClick = () => {
-      const url = `${location.protocol}//${location.host}${location.pathname}?${serialize(this.props.state)}`;
-      this.setState({url});
+      this.setState({show: true});
     }
 
     private onDismiss = () => {
-      this.setState({url: undefined});
+      this.setState({show: false});
     }
   },
 );
