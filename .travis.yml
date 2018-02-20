@@ -8,45 +8,47 @@ env:
   global:
     secure: Er28KNV4AFAmgPttbKZ5DivO60Ascrd22BuiVofyhb+/FTTOI5LHM46FCQED+01pq92yjxYs2hYjO6fPp2RZlqsb3DmknBrrxzbefN4zKfiXVXewAGSyy3p+T4A8nD0HXyGKw09L2Ro+O2RaKvxwfzofS4bzo3OTKTIro0wRDIgoq9IqYo0Fz5af+eZCOCFYBV8UI+R9fzmVqMXA4Mmg1FXRoxrw/PH/fc1QepyD/gdJY+3OfKlALtSi5Yyw9M97Kr/CmPRRgfd5IrpvYwgvTkzT1i8/WEzsmc9q9UTBiSKOl5aRckgFPfdsYFJFZ8WZEdd4n7kvzPCAoAUgggQs7ydfJX4BGiZMLQW9+4hMdr4ko5YthMiWVm4IkGaHxtXzIWkdq9DLQJKfIeMQoC5xjtfcHS1BP77mNV4/6vKEg9RC8Vpn3784tNM0XLCM2/xqMyyR9FNNQgwBn8AQBaZqjOQ5d5VW3L6aRMBBTCOz7QOHR8H1nukRnYt9H+hN+3/idDo1aZAT9kfKs+g4q7PBYsdwhFUEPMRfjRfnfCrmDGpitC5vcEtAOv3dPw7Wcqn8jijZAEVoldf/MqK86ps/dm4Up6ZLpjXLN/Rq4fSSbaLo9bVwJEfs7XAy8WiY+PUFjVzkCVaR9AUz2VOawU4t2ldFwdNd2C2zKIHmwfy+/dg=
 
-matrix:
+jobs:
   include:
   - os: osx
+    stage: test
+
   - os: linux
-    env: PUBLISH=true
+    stage: test
+
+  - stage: deploy
+    script: npm run deploy
+    deploy:
+      provider: pages
+      target-branch: gh-pages
+      github-token: $GH_TOKEN
+      skip-cleanup: true
+      keep-history: true
+      allow-empty-commit: true
+      local-dir: dist
+      on:
+        branch: master
+
+  - stage: deploy
+    if: type = pull_request
+    script:
+    - |
+      if [[ -n $(git diff --name-only package-lock.json) ]]
+      then
+        git config credential.helper "store --file=.git/credentials" || exit $?
+        echo "https://${GH_TOKEN}:@github.com" 2> /dev/null > .git/credentials || exit $?
+        git remote set-url origin https://github.com/$TRAVIS_REPO_SLUG.git || exit $?
+        git add package-lock.json || exit $?
+        git commit -m "update package-lock.json" || exit $?
+        git push origin HEAD:$TRAVIS_PULL_REQUEST_BRANCH &> /dev/null || exit $?
+      fi
 
 install:
 - travis_retry npm install
 
-script:
-- npm run spec
-- npm run deploy
-
-after_script:
+before_script:
 - git config --global user.name "Travis Bot"
 - git config --global user.email "\<\>"
 
-- |
-  function publish {
-      git clone https://brunocodutra:${GH_TOKEN}@github.com/brunocodutra/steady -q --depth 1 --branch=$2 $2 &> /dev/null
-      cp -r $2/.git/ $1
-      git -C $1 add --all .
-      git -C $1 commit --allow-empty -m "update to $(git -C ${TRAVIS_BUILD_DIR} rev-parse --short HEAD)"
-      git -C $1 push origin $2 &> /dev/null
-  }
-
-- |
-  if [[ "${PUBLISH}" == "true" && "${TRAVIS_BRANCH}" == "master" && "${TRAVIS_PULL_REQUEST}" == "false" ]]
-  then
-      publish dist/ gh-pages || exit $?
-  fi
-
-- |
-  if [[ "${PUBLISH}" == "true" && "$TRAVIS_PULL_REQUEST_BRANCH" == greenkeeper* && "$(git ls-files -m)" == "package-lock.json" ]]
-  then
-    git config credential.helper "store --file=.git/credentials" || exit $?
-    echo "https://${GH_TOKEN}:@github.com" 2> /dev/null > .git/credentials || exit $?
-    git remote set-url origin https://github.com/$TRAVIS_REPO_SLUG.git || exit $?
-    git add package-lock.json || exit $?
-    git commit -m "update package-lock.json" || exit $?
-    git push origin HEAD:$TRAVIS_PULL_REQUEST_BRANCH &> /dev/null || exit $?
-  fi
+script:
+- npm run spec
