@@ -123,24 +123,18 @@ export const sinh = (p: Phasor): Phasor => {
   const a = real(p);
   const b = imag(p);
 
-  const expa = Math.exp(a);
-  const sinha = (expa - 1 / expa) / 2;
-  const cosha = (expa + 1 / expa) / 2;
   const sinb = Math.sin(b);
   const cosb = Math.cos(b);
 
-  return rect(cosb && (cosb * sinha), sinb && (sinb * cosha));
+  return rect(cosb && (cosb * Math.sinh(a)), sinb && (sinb * Math.cosh(a)));
 };
 
 export const cosh = (p: Phasor): Phasor => {
   const a = real(p);
   const b = imag(p);
 
-  const expa = Math.exp(a);
-  const sinha = (expa - 1 / expa) / 2;
-  const cosha = (expa + 1 / expa) / 2;
   const sinb = Math.sin(b);
   const cosb = Math.cos(b);
 
-  return rect(cosb && (cosb * cosha), sinb && (sinb * sinha));
+  return rect(cosb && (cosb * Math.cosh(a)), sinb && (sinb * Math.sinh(a)));
 };
