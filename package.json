@@ -13,9 +13,9 @@
   },
   "author": "Bruno Dutra <brunocodutra@gmail.com>",
   "scripts": {
-    "spec": "tsc --noEmit -p spec/ && jest",
     "start": "webpack-dev-server -d --host 0.0.0.0 --progress --hot --inline",
-    "deploy": "webpack -p --env=production --progress"
+    "build": "webpack -p --env=production --progress",
+    "test": "tsc --noEmit -p spec/ && jest"
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.40",
