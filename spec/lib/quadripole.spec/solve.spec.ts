@@ -12,7 +12,7 @@ describe('Quadripole', () => {
       phasors.forEach((vi) => {
         phasors.forEach((io) => {
           const [vo, ii] = solve(q, [vi, io]);
-          expect(project(q, [vi, ii])).toBeCloseTo([vo, io]);
+          expect(project(q, [vi, ii])).toBeCloseTo([vo, io], 1E-4);
         });
       });
     });
