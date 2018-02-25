@@ -1,7 +1,3 @@
-import nan from 'jest/nan';
-
-expect.extend(nan);
-
 import {parse, pretty} from 'lib/number';
 
 describe('Number parse', () => {
