@@ -9,7 +9,7 @@ module.exports = {
   testMatch: ['**/spec/**/*.spec.(ts|tsx)'],
   collectCoverage: true,
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
-  coverageReporters: ['text'],
+  coverageReporters: ['lcov', 'text'],
   globals: {
     'ts-jest': {
       tsConfigFile: './spec/tsconfig.json',
