@@ -15,7 +15,7 @@
   "scripts": {
     "spec": "tsc --noEmit -p spec/ && jest",
     "start": "webpack-dev-server -d --host 0.0.0.0 --progress --hot --inline",
-    "deploy": "webpack -p --env=production --progress"
+    "deploy": "webpack --env=production --progress"
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.40",
@@ -81,7 +81,8 @@
     "typescript": "2.7.1",
     "url-loader": "0.6.2",
     "webapp-webpack-plugin": "1.0.1",
-    "webpack": "3.11.0",
+    "webpack": "4.0.0",
+    "webpack-cli": "2.0.9",
     "webpack-dev-server": "3.0.0"
   }
 }
