@@ -1,9 +1,3 @@
-import closeTo from 'jest/closeTo';
-import nan from 'jest/nan';
-
-expect.extend(nan);
-expect.extend(closeTo);
-
 type Sample = {mag: number, ang: number, real: number, imag: number};
 
 export const samples: Sample[] = [].concat.apply(

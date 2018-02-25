@@ -1,8 +1,4 @@
-import closeTo from 'jest/closeTo';
-
 import {_0, _1, add, div, Phasor, polar, rect, sub} from 'lib/phasor';
-
-expect.extend(closeTo);
 
 export const phasors: Phasor[] = [].concat.apply(
   [],
