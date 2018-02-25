@@ -13,19 +13,8 @@ const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
 const cache = path.resolve(os.tmpdir(), 'steady', 'cache');
 
-const stats = {
-  colors: true,
-  timings: true,
-  performance: true,
-  errors: true,
-  warnings: true,
-  hash: false,
-  modules: false,
-  version: false,
-};
-
-module.exports = env => ({
-  bail: true,
+module.exports = mode => ({
+  mode,
 
   entry: {
     app: [
@@ -137,22 +126,7 @@ module.exports = env => ({
     ]
   },
 
-  stats,
-
-  devServer: {
-    stats,
-    overlay: true,
-  },
-
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-
-    env === 'production'
-      ? new webpack.HashedModuleIdsPlugin()
-      : new webpack.NamedModulesPlugin()
-    ,
-
     new StyleLintPlugin({
       glob: `${src}/**/*.scss`,
       emitErrors: false,
@@ -160,7 +134,7 @@ module.exports = env => ({
 
     new ExtractTextPlugin({
       filename: '[name].css',
-      disable: env !== 'production',
+      disable: mode !== 'production',
     }),
 
     new ForkTsCheckerWebpackPlugin({
