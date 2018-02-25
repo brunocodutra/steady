@@ -10,7 +10,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
   coverageReporters: ['text'],
-  mapCoverage: true,
   globals: {
     'ts-jest': {
       tsConfigFile: './spec/tsconfig.json',
