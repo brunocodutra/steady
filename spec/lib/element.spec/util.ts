@@ -1,9 +1,5 @@
-import closeTo from 'jest/closeTo';
-
 import {Kind, make} from 'lib/element';
 import {Phasor, polar} from 'lib/phasor';
-
-expect.extend(closeTo);
 
 export const phasors: Phasor[] = [].concat.apply(
   [],
