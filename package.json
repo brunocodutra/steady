@@ -54,6 +54,7 @@
     "jest": "22.4.2",
     "msgpack-lite": "0.1.26",
     "node-sass": "4.7.2",
+    "phasor.js": "1.1.1",
     "postcss": "6.0.19",
     "postcss-loader": "2.1.0",
     "postcss-preset-env": "3.2.1",
