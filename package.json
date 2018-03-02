@@ -73,7 +73,7 @@
     "stylelint-scss": "2.4.0",
     "stylelint-webpack-plugin": "0.10.3",
     "thread-loader": "1.1.5",
-    "ts-jest": "22.4.0",
+    "ts-jest": "22.4.1",
     "ts-loader": "3.5.0",
     "tslint": "5.9.1",
     "tslint-loader": "3.6.0",
