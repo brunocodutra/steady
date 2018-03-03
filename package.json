@@ -72,6 +72,7 @@
     "stylelint-order": "0.8.1",
     "stylelint-scss": "2.4.0",
     "stylelint-webpack-plugin": "0.10.3",
+    "svg-react-loader": "0.4.5",
     "thread-loader": "1.1.5",
     "ts-jest": "22.4.1",
     "ts-loader": "3.5.0",

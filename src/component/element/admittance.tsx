@@ -9,13 +9,7 @@ import Value from 'component/value';
 import {Admittance} from 'lib/element';
 import {Unit} from 'lib/unit';
 
-const icon = (
-  <svg viewBox={'0 0 3000 3000'}>
-    <path d={'M0 667h3000m-1500 333V667M0 2333h3000m-1500-333h-167V1000h333v1000h-166zm0 333v-333'}/>
-  </svg>
-);
-
-export const Icon = () => icon;
+export const Icon = require('icon/admittance.svg');
 
 type Props = PropsBase<Admittance>;
 

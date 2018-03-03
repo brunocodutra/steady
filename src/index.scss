@@ -77,14 +77,6 @@ $tile-size: 6rem;
   line-height: 1;
 }
 
-%element {
-  stroke-width: 45;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: currentColor;
-  fill: none;
-}
-
 %flex-grow {
   flex-grow: 1 !important;
 }
@@ -168,7 +160,6 @@ header {
     @include size(1.5rem);
     @include transition(fill);
 
-    stroke: currentColor;
     fill: transparent;
 
     &:hover {
@@ -300,7 +291,7 @@ footer {
 }
 
 .tool {
-  @extend %element, .d-inline-block, .p-1, .border, .rounded;
+  @extend .d-inline-block, .p-1, .border, .rounded;
   @include transition(color, border-color);
   @include size(0.75 * $tile-size);
 
@@ -321,7 +312,7 @@ footer {
 }
 
 .tile {
-  @extend %element, .position-relative, .d-inline-block, .align-top;
+  @extend .position-relative, .d-inline-block, .align-top;
 
   @include transition(color);
   @include size($tile-size);

@@ -9,18 +9,7 @@ import {serialize, State} from 'state';
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
 
-const icon = (
-  <svg viewBox='0 0 300 300'>
-    <g transform='translate(-164 75)'>
-      <circle cx={399} cy={145} r={40} strokeWidth={20}/>
-      <circle cx={399} cy={5} r={40} strokeWidth={20}/>
-      <circle cx={229} cy={75} r={40} strokeWidth={20}/>
-      <path d='M359.19948 130.34494l-90.55997-39.689881m94.72612-72.825896l-94.72612 41.515778' strokeWidth={40}/>
-    </g>
-  </svg>
-);
-
-const Icon = () => icon;
+const Icon = require('icon/share.svg');
 
 type Props = {
   state: State,

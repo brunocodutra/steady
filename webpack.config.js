@@ -11,7 +11,27 @@ const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
-const cache = path.resolve(os.tmpdir(), 'steady', 'cache');
+
+const cacheLoader = {
+  loader: 'cache-loader',
+  options: {
+    cacheDirectory: path.resolve(os.tmpdir(), 'steady', 'cache'),
+  },
+};
+
+const tsLoader = {
+  loader: 'ts-loader',
+  options: {
+    happyPackMode: true,
+  },
+};
+
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    importLoaders: 2,
+  }
+};
 
 const stats = {
   colors: true,
@@ -68,60 +88,21 @@ module.exports = env => ({
 
       {
         test: /\.tsx?$/,
-        use: [
-          {
-            loader: 'cache-loader',
-            options: {
-              cacheDirectory: cache,
-            },
-          },
-
-          {
-            loader: 'thread-loader',
-          },
-
-          {
-            loader: 'babel-loader',
-          },
-
-          {
-            loader: 'ts-loader',
-            options: {
-              happyPackMode: true,
-            },
-          },
-        ],
+        use: [cacheLoader, 'thread-loader', 'babel-loader', tsLoader],
         exclude: /node_modules/,
+      },
+
+      {
+        test: /\.svg$/,
+        issuer: /\.tsx$/,
+        use: [cacheLoader, 'thread-loader', 'babel-loader', 'svg-react-loader'],
       },
 
       {
         test: /\.s?css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-
-          use: [
-            {
-              loader: 'cache-loader',
-              options: {
-                cacheDirectory: cache,
-              },
-            },
-
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 2,
-              }
-            },
-
-            {
-              loader: 'postcss-loader',
-            },
-
-            {
-              loader: 'sass-loader',
-            },
-          ]
+          use: [cacheLoader, cssLoader, 'postcss-loader', 'sass-loader'],
         })
       },
 
@@ -132,6 +113,7 @@ module.exports = env => ({
 
       {
         test: /\.svg$/,
+        issuer: /\.html$/,
         loader: 'url-loader',
       },
     ]
@@ -175,7 +157,7 @@ module.exports = env => ({
     }),
 
     new WebappWebpackPlugin({
-      logo: 'brand.svg',
+      logo: 'icon/brand.svg',
       prefix: 'assets/',
       favicons: {
         start_url: '/steady',

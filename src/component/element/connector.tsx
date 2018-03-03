@@ -6,15 +6,7 @@ import Tile from 'component/tile';
 
 import {Connector} from 'lib/element';
 
-const icon = (
-  <svg viewBox={'0 0 3000 3000'}>
-    <path d={'M0 667l608-1M0 2333h608'}/>
-    <circle r={60} cx={666} cy={666}/>
-    <circle r={60} cx={666} cy={2333}/>
-  </svg>
-);
-
-export const Icon = () => icon;
+export const Icon = require('icon/connector.svg');
 
 type Props = PropsBase<Connector>;
 

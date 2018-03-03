@@ -9,15 +9,7 @@ import Value from 'component/value';
 import {ISrc} from 'lib/element';
 import {Unit} from 'lib/unit';
 
-const icon = (
-  <svg viewBox={'0 0 3000 3000'}>
-    <path d={'M0 667h3000m-1500 499V667M0 2333h3000m-1500 0v-500m0-104l-.5618-319'}/>
-    <path fill={'currentColor'} d={'M1570 1410l-70-140-70 140z'}/>
-    <circle r={333} cx={1500} cy={1500}/>
-  </svg>
-);
-
-export const Icon = () => icon;
+export const Icon = require('icon/isrc.svg');
 
 type Props = PropsBase<ISrc>;
 
