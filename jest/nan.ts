@@ -1,4 +1,5 @@
 import {matcherHint, printReceived} from 'jest-matcher-utils';
+
 import {isPhasor, Phasor} from 'lib/phasor';
 
 export default {

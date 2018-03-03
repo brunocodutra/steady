@@ -15,31 +15,9 @@ import {sub} from 'lib/phasor';
 import {project} from 'lib/quadripole';
 import {Unit} from 'lib/unit';
 
-const icon = (
-  <svg viewBox={'0 0 3000 3000'}>
-    <path d={'M0 667h3000M0 2333h3000M666.4443 667.00005L1703 3000M666 2333l296 667'}/>
-    <circle fill={'currentColor'} r={60} cx={666} cy={666}/>
-    <circle fill={'currentColor'} r={60} cx={666} cy={2333}/>
-  </svg>
-);
-
-export const Icon = () => icon;
-
-const wire = (
-  <svg viewBox={'0 0 3000 3000'}>
-    <path d={'M962 2v3000M1703 2v3000'}/>
-  </svg>
-);
-
-const Wire = () => wire;
-
-const knee = (
-  <svg viewBox={'0 0 3000 3000'}>
-    <path d={'M1704 0l297 665 999 1M965 0l1035 2333h1000'}/>
-  </svg>
-);
-
-export const Knee = () => knee;
+export const Icon = require('icon/shunt.svg');
+const Wire = require('icon/wire.svg');
+const Knee = require('icon/knee.svg');
 
 type Props = PropsBase<Shunt> & {
   readonly essential: boolean,
