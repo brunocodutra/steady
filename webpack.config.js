@@ -111,6 +111,13 @@ module.exports = mode => ({
     overlay: true,
   },
 
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      name: 'vendors',
+    },
+  },
+
   plugins: [
     mode === 'production'
       ? new webpack.HashedModuleIdsPlugin()
