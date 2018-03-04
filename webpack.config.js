@@ -2,15 +2,12 @@ const os = require('os');
 const path = require('path');
 const webpack = require('webpack');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const IgnoreAssetsWebpackPlugin = require('ignore-assets-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin')
 
 const src = path.resolve(__dirname, 'src');
-const dist = path.resolve(__dirname, 'dist');
 
 const cacheLoader = {
   loader: 'cache-loader',
@@ -34,18 +31,14 @@ const cssLoader = {
 };
 
 const stats = {
-  colors: true,
-  timings: true,
-  performance: true,
-  errors: true,
-  warnings: true,
+  children: false,
   hash: false,
   modules: false,
   version: false,
 };
 
-module.exports = env => ({
-  bail: true,
+module.exports = mode => ({
+  mode,
 
   entry: {
     app: [
@@ -58,8 +51,7 @@ module.exports = env => ({
   },
 
   output: {
-    path: dist,
-    filename: '[name].js',
+    filename: '[name].[hash].js',
   },
 
   resolve: {
@@ -69,13 +61,6 @@ module.exports = env => ({
 
   module: {
     rules: [
-      {
-        test: /\.html$/,
-        loader: 'htmlhint-loader',
-        exclude: /node_modules/,
-        enforce: 'pre',
-      },
-
       {
         test: /\.tsx?$/,
         loader: 'tslint-loader',
@@ -127,10 +112,7 @@ module.exports = env => ({
   },
 
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-
-    env === 'production'
+    mode === 'production'
       ? new webpack.HashedModuleIdsPlugin()
       : new webpack.NamedModulesPlugin()
     ,
@@ -138,11 +120,6 @@ module.exports = env => ({
     new StyleLintPlugin({
       glob: `${src}/**/*.scss`,
       emitErrors: false,
-    }),
-
-    new ExtractTextPlugin({
-      filename: '[name].css',
-      disable: env !== 'production',
     }),
 
     new ForkTsCheckerWebpackPlugin({
@@ -153,12 +130,16 @@ module.exports = env => ({
     new HtmlWebpackPlugin({
       inject: 'body',
       template: path.resolve(src, 'index.html'),
-      inlineSource: '\.(css|js)',
+    }),
+
+    new ExtractTextPlugin({
+      filename: '[name].[hash].css',
+      disable: mode !== 'production',
     }),
 
     new WebappWebpackPlugin({
       logo: 'icon/brand.svg',
-      prefix: 'assets/',
+      prefix: 'assets.[hash]/',
       favicons: {
         start_url: '/steady',
         theme_color: '#343a40',
@@ -169,12 +150,6 @@ module.exports = env => ({
           yandex: false,
         },
       },
-    }),
-
-    new HtmlWebpackInlineSourcePlugin(),
-
-    new IgnoreAssetsWebpackPlugin({
-        ignore: ['app.js', 'app.css'],
     }),
   ]
 });
