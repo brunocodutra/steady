@@ -3,7 +3,7 @@
     ["@babel/preset-env", {
       "loose": true,
       "modules": false,
-      "useBuiltIns": "entry"
+      "useBuiltIns": "usage"
     }]
   ],
   "plugins": ["react-hot-loader/babel"]

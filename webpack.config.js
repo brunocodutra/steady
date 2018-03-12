@@ -41,11 +41,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
   mode,
 
   entry: {
-    app: [
-      '@babel/polyfill',
-      'index.tsx',
-      'index.scss',
-    ],
+    app: ['index.tsx', 'index.scss'],
   },
 
   output: {
