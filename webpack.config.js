@@ -42,7 +42,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
   mode,
 
   entry: {
-    app: ['index.tsx', 'index.scss'],
+    index: ['index.tsx', 'index.scss'],
   },
 
   output: {
