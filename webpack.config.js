@@ -6,6 +6,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
 
@@ -152,6 +153,12 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
           yandex: false,
         },
       },
+    }),
+
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'steady',
+      filename: 'sw.js',
+      minify: mode === 'production',
     }),
   ]
 });

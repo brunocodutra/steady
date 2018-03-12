@@ -70,6 +70,7 @@
     "stylelint-scss": "2.5.0",
     "stylelint-webpack-plugin": "0.10.3",
     "svg-react-loader": "0.4.5",
+    "sw-precache-webpack-plugin": "0.11.5",
     "thread-loader": "1.1.5",
     "ts-jest": "22.4.1",
     "ts-loader": "4.0.1",
