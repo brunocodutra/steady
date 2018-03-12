@@ -46,7 +46,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
   },
 
   output: {
-    filename: '[name].[hash].js',
+    filename: '[name].js',
   },
 
   resolve: {
@@ -135,13 +135,13 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
     }),
 
     new ExtractTextPlugin({
-      filename: '[name].[hash].css',
+      filename: '[name].css',
       disable: mode !== 'production',
     }),
 
     new WebappWebpackPlugin({
       logo: 'icon/brand.svg',
-      prefix: 'assets.[hash]/',
+      prefix: 'assets/',
       favicons: {
         start_url: '/steady',
         theme_color: '#343a40',
