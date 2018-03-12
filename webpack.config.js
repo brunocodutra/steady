@@ -37,7 +37,7 @@ const stats = {
   version: false,
 };
 
-module.exports = mode => ({
+module.exports = mode => ((process.env.NODE_ENV = mode), {
   mode,
 
   entry: {
