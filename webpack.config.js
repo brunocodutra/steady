@@ -148,6 +148,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
         icons: {
           coast: false,
           firefox: false,
+          windows: false,
           yandex: false,
         },
       },
