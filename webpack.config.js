@@ -45,7 +45,6 @@ module.exports = mode => ({
       '@babel/polyfill',
       'react-hot-loader/patch',
       'index.tsx',
-      'index.html',
       'index.scss',
     ],
   },
