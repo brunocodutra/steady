@@ -43,7 +43,6 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
   entry: {
     app: [
       '@babel/polyfill',
-      'react-hot-loader/patch',
       'index.tsx',
       'index.scss',
     ],
