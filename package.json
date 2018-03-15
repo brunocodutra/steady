@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.41",
-    "@babel/polyfill": "7.0.0-beta.41",
+    "@babel/polyfill": "7.0.0-beta.42",
     "@babel/preset-env": "7.0.0-beta.41",
     "@types/classnames": "2.2.3",
     "@types/clipboard": "2.0.0",
