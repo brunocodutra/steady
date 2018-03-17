@@ -52,7 +52,7 @@
     "msgpack-lite": "0.1.26",
     "node-sass": "4.8.1",
     "phasor.js": "1.1.2",
-    "postcss": "6.0.19",
+    "postcss": "6.0.20",
     "postcss-loader": "2.1.1",
     "postcss-preset-env": "3.2.2",
     "react": "16.2.0",
