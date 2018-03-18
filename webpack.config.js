@@ -10,10 +10,12 @@ const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
 
+const cacheDirectory = path.resolve(os.tmpdir(), 'steady', 'cache');
+
 const cacheLoader = {
   loader: 'cache-loader',
   options: {
-    cacheDirectory: path.resolve(os.tmpdir(), 'steady', 'cache'),
+    cacheDirectory,
   },
 };
 
@@ -141,6 +143,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
 
     new WebappWebpackPlugin({
       logo: 'icon/brand.svg',
+      cache: cacheDirectory,
       prefix: 'assets/',
       favicons: {
         start_url: '/steady',
