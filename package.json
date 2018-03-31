@@ -25,7 +25,7 @@
     "@types/clipboard": "2.0.0",
     "@types/enzyme": "3.1.9",
     "@types/enzyme-adapter-react-16": "1.0.2",
-    "@types/jest": "22.2.1",
+    "@types/jest": "22.2.2",
     "@types/jest-matcher-utils": "21.0.1",
     "@types/msgpack-lite": "0.1.6",
     "@types/react": "16.1.0",
