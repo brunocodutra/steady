@@ -43,12 +43,14 @@ const stats = {
 module.exports = mode => ((process.env.NODE_ENV = mode), {
   mode,
 
+  context: __dirname,
+
   entry: {
     index: ['index.tsx', 'index.scss'],
   },
 
   output: {
-    filename: '[name].js',
+    publicPath: '/steady/',
   },
 
   resolve: {
@@ -144,9 +146,8 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
     new WebappWebpackPlugin({
       logo: 'icon/brand.svg',
       cache: cacheDirectory,
-      prefix: 'assets/',
       favicons: {
-        start_url: '/steady',
+        start_url: '/steady/',
         theme_color: '#343a40',
         background: '#343a40',
         icons: {
