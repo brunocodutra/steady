@@ -28,7 +28,7 @@
     "@types/jest": "22.2.2",
     "@types/jest-matcher-utils": "21.0.1",
     "@types/msgpack-lite": "0.1.6",
-    "@types/react": "16.3.1",
+    "@types/react": "16.3.2",
     "@types/react-dom": "16.0.4",
     "@types/react-hot-loader": "3.0.6",
     "@types/react-redux": "5.0.15",
