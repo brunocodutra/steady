@@ -12,7 +12,7 @@ export type Props<E extends Removable> = PropsBase<E> & {
   readonly remove: () => void,
 };
 
-const mapDispatch = <E extends Removable>(dispatch: Dispatch<Actions.Action>, props: PropsBase<E>) => ({
+const mapDispatch = <E extends Removable>(dispatch: Dispatch<Actions.Action>, props: Pick<PropsBase<E>, 'id'>) => ({
   remove: () => {
     dispatch(Actions.remove(props.id));
   },
