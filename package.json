@@ -64,7 +64,7 @@
     "sass-loader": "7.0.1",
     "style-loader": "0.20.3",
     "stylelint": "9.2.0",
-    "stylelint-config-property-sort-order-smacss": "3.0.1",
+    "stylelint-config-property-sort-order-smacss": "4.0.0",
     "stylelint-config-sass-guidelines": "5.0.0",
     "stylelint-order": "0.8.1",
     "stylelint-scss": "3.0.0",
