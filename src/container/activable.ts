@@ -14,7 +14,7 @@ export type Props<E extends Activable> = PropsBase<E> & {
   readonly activate: () => void,
 };
 
-const mapState = ({active}: State, props: PropsBase) => ({
+const mapState = ({active}: State, props: Pick<PropsBase, 'id'>) => ({
   active: equal(props.id, active),
 });
 

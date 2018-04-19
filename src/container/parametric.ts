@@ -12,7 +12,7 @@ export type Props<E extends Parametric> = PropsBase<E> & {
   readonly update: (value: E['value']) => void,
 };
 
-const mapDispatch = <E extends Parametric>(dispatch: Dispatch<Actions.Action>, props: PropsBase<E>) => ({
+const mapDispatch = <E extends Parametric>(dispatch: Dispatch<Actions.Action>, props: Pick<PropsBase<E>, 'id'>) => ({
   update: (value: E['value']) => {
     dispatch(Actions.update(props.id, value));
   },
