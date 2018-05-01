@@ -46,6 +46,10 @@ jobs:
         git push origin HEAD:$TRAVIS_PULL_REQUEST_BRANCH &> /dev/null || exit $?
       fi
 
+before_install:
+# package-lock.json was introduced in npm@5
+- travis_retry npm install -g npm@latest
+
 install:
 - travis_retry npm install
 
