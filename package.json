@@ -34,7 +34,7 @@
     "@types/react-redux": "~6.0.0",
     "@types/redux-logger": "~3.0.6",
     "@types/webpack-env": "~1.13.6",
-    "autoprefixer": "~8.5.1",
+    "autoprefixer": "~8.6.0",
     "babel-loader": "~8.0.0-beta.3",
     "base64url": "~2.0.0",
     "bootstrap": "~4.1.1",
