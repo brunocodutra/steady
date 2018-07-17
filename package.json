@@ -72,7 +72,7 @@
     "svg-react-loader": "~0.4.5",
     "sw-precache-webpack-plugin": "~0.11.5",
     "thread-loader": "~1.1.5",
-    "ts-jest": "~22.4.6",
+    "ts-jest": "~23.0.0",
     "ts-loader": "~4.3.0",
     "tslint": "~5.10.0",
     "tslint-loader": "~3.6.0",
