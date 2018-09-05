@@ -43,7 +43,7 @@
     "clipboard": "^2.0.1",
     "css-loader": "^1.0.0",
     "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-adapter-react-16": "^1.5.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "fork-ts-checker-webpack-plugin": "^0.4.3",
     "html-loader": "^0.5.5",
