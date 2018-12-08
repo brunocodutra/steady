@@ -1,6 +1,6 @@
-import * as Clipboard from 'clipboard';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import Clipboard from 'clipboard';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 
 import {unwrap} from 'lib/util';
@@ -43,7 +43,7 @@ export default connect(mapState)(
           <Icon/>
           <Dialog show={this.state.show} title={'Share Link'} onDismiss={this.onDismiss}>
             <div className='input-group'>
-              <input id='url' value={url} className='form-control'/>
+              <input id='url' defaultValue={url} className='form-control'/>
               <div className='input-group-append'>
                 <button ref={(e) => e && new Clipboard(e)} data-clipboard-target='#url' className='copy' type='button'>
                   copy

@@ -4,8 +4,9 @@
     "paths": {
       "*": ["src/*"],
     },
-    "target": "ES2017",
+    "target": "ESNext",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "jsx": "react",
     "strict": true,
     "noImplicitReturns": true,
