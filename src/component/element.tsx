@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import {Element, Kind} from 'lib/element';
 import {Phasor} from 'lib/phasor';

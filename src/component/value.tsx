@@ -1,5 +1,5 @@
-import * as classes from 'classnames';
-import * as React from 'react';
+import classes from 'classnames';
+import React from 'react';
 
 import {angle, norm, Phasor, polar} from 'lib/phasor';
 import {degrees, radians, Unit} from 'lib/unit';

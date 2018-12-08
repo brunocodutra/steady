@@ -1,5 +1,5 @@
-import * as classes from 'classnames';
-import * as React from 'react';
+import classes from 'classnames';
+import React from 'react';
 
 import Toggler from 'component/toggler';
 import Tool from 'component/tool';
