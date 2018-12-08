@@ -1,5 +1,5 @@
 import base64 from 'base64url';
-import * as msgpack from 'msgpack-lite';
+import msgpack from 'msgpack-lite';
 
 import {depth, Element, ground, pack as packE, series, unpack as unpackE} from 'lib/element';
 

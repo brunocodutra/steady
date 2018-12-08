@@ -1,5 +1,5 @@
-import * as classes from 'classnames';
-import * as React from 'react';
+import classes from 'classnames';
+import React from 'react';
 
 import { adapt, isolate } from 'lib/event';
 

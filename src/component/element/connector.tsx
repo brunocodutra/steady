@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import activable, {Props as PropsBase} from 'container/activable';
 

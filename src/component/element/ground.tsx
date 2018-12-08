@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import {Props as PropsBase} from 'component/element';
 import Tile from 'component/tile';

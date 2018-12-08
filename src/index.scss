@@ -126,6 +126,10 @@ body {
   }
 }
 
+svg {
+  vertical-align: unset;
+}
+
 header {
   @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .font-weight-bold;
 

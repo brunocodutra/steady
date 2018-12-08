@@ -1,11 +1,8 @@
 import {_0, _1, add, div, Phasor, polar, rect, sub} from 'lib/phasor';
 
-export const phasors: Phasor[] = [].concat.apply(
-  [],
-  [1E-3, 1, 1E3].map((mag) =>
-    Array(8).fill(Math.PI / 4).map((p, k) => polar(mag, p * k)),
-  ),
-);
+export const phasors: Phasor[] = [1E-3, 1, 1E3].map((mag) =>
+  Array(8).fill(Math.PI / 4).map((p, k) => polar(mag, p * k)),
+).flat();
 
 type Sample = {a: Phasor, b: Phasor, c: Phasor, d: Phasor, e: Phasor, f: Phasor};
 
