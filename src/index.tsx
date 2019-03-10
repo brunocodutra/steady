@@ -8,7 +8,7 @@ import {unwrap} from 'lib/util';
 import store from 'store';
 
 ReactDOM.render(
-  <Provider store={store as any}>
+  <Provider store={store}>
     <Steady/>
   </Provider>,
   unwrap(document.getElementById('steady'), '#steady not found'),
