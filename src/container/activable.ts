@@ -18,7 +18,7 @@ const mapState = ({active}: State, props: Pick<PropsBase, 'id'>) => ({
   active: equal(props.id, active),
 });
 
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
+const mapDispatch = <E extends Activable>(dispatch: Dispatch<Actions.Action>, props: PropsBase<E>) => ({
   activate: () => {
     dispatch(Actions.activate(props.id));
   },

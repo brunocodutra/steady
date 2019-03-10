@@ -9,11 +9,11 @@ import removable, {Props as PropsBase} from 'container/removable';
 import {Parametric} from 'lib/element';
 
 export type Props<E extends Parametric> = PropsBase<E> & {
-  readonly update: (value: E['value']) => void,
+  readonly update: (value: Parametric['value']) => void,
 };
 
-const mapDispatch = <E extends Parametric>(dispatch: Dispatch<Actions.Action>, props: Pick<PropsBase<E>, 'id'>) => ({
-  update: (value: E['value']) => {
+const mapDispatch = <E extends Parametric>(dispatch: Dispatch<Actions.Action>, props: PropsBase<E>) => ({
+  update: (value: Parametric['value']) => {
     dispatch(Actions.update(props.id, value));
   },
 });

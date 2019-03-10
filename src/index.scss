@@ -60,6 +60,11 @@ $zindex-tooltip: 0;
   }
 }
 
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
 $tile-size: 6rem;
 
 %angle {
