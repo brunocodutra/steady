@@ -1,6 +1,6 @@
 {
-  "name": "Steady",
-  "short_name": "Steady",
+  "name": "steady",
+  "short_name": "steady",
   "description": "A pocket electric circuit simulator",
   "dir": "auto",
   "lang": "en-US",
