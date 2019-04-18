@@ -65,7 +65,7 @@
     "stylelint": "^9.10.1",
     "stylelint-config-property-sort-order-smacss": "^4.0.2",
     "stylelint-config-sass-guidelines": "^5.3.0",
-    "stylelint-order": "^2.1.0",
+    "stylelint-order": "^3.0.0",
     "stylelint-scss": "^3.5.4",
     "stylelint-webpack-plugin": "^0.10.5",
     "svg-react-loader": "^0.4.6",
