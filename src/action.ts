@@ -1,8 +1,8 @@
 import * as Redux from 'redux';
 
-import {State} from 'state';
+import { State } from 'state';
 
-import {Kind, Parametric} from 'lib/element';
+import { Kind, Parametric } from 'lib/element';
 
 export const enum Type {
   hydrate = 'hydrate',

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Interactive from 'component/interactive';
 
-import {unwrap} from 'lib/util';
+import { unwrap } from 'lib/util';
 
 type Props = {
   readonly toggle: () => void,
@@ -14,7 +14,7 @@ export default class extends React.PureComponent<Props> {
 
   public render() {
     return ReactDOM.createPortal(
-      <Interactive action={this.props.toggle} className='toggler'/>,
+      <Interactive action={this.props.toggle} className='toggler' />,
       this.toggler,
     );
   }

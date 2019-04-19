@@ -1,7 +1,7 @@
-import {Reducer} from 'redux';
+import { Reducer } from 'redux';
 
-import {Action, Type} from 'action';
-import {init, State} from 'state';
+import { Action, Type } from 'action';
+import { init, State } from 'state';
 
 import schematics from 'reducer/schematics';
 

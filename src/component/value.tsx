@@ -1,8 +1,8 @@
 import classes from 'classnames';
 import React from 'react';
 
-import {angle, norm, Phasor, polar} from 'lib/phasor';
-import {degrees, radians, Unit} from 'lib/unit';
+import { angle, norm, Phasor, polar } from 'lib/phasor';
+import { degrees, radians, Unit } from 'lib/unit';
 
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
@@ -34,7 +34,7 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public componentWillReceiveProps({value}: Props) {
+  public componentWillReceiveProps({ value }: Props) {
     this.setState({
       mag: norm(value) + '',
       ang: degrees(angle(value)) + '',
@@ -45,14 +45,14 @@ export default class extends React.PureComponent<Props, State> {
     const unit = this.props.unit && (
       <div className='input-group-append'>
         <span className='input-group-text'>
-          <span className={classes('unit', this.props.unit)}/>
+          <span className={classes('unit', this.props.unit)} />
         </span>
       </div>
     );
 
     return (
       <Interactive action={this.onClick} className={classes('value control', this.props.name)}>
-        <Quantity value={this.props.value} unit={this.props.unit}/>
+        <Quantity value={this.props.value} unit={this.props.unit} />
         <Dialog
           show={this.state.prompt}
           title={this.props.description}
@@ -61,19 +61,19 @@ export default class extends React.PureComponent<Props, State> {
         >
           <div className='form-row'>
             <div className='col input-group'>
-              <input value={this.state.mag} onChange={this.onMag} className='form-control'/>
+              <input value={this.state.mag} onChange={this.onMag} className='form-control' />
               {unit}
             </div>
             <div className='col input-group'>
               <div className='input-group-prepend'>
                 <span className='input-group-text'>
-                  <span className={'symbol angle'}/>
+                  <span className={'symbol angle'} />
                 </span>
               </div>
-              <input value={this.state.ang} onChange={this.onAng} className='form-control'/>
+              <input value={this.state.ang} onChange={this.onAng} className='form-control' />
               <div className='input-group-append'>
                 <span className='input-group-text'>
-                  <span className={'unit degree'}/>
+                  <span className={'unit degree'} />
                 </span>
               </div>
             </div>
@@ -83,24 +83,24 @@ export default class extends React.PureComponent<Props, State> {
     );
   }
 
-  private onMag = ({target: {value}}: React.ChangeEvent<HTMLInputElement>) => {
+  private onMag = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     if (!isNaN(parse(value))) {
-      this.setState({mag: value.trim()});
+      this.setState({ mag: value.trim() });
     }
   }
 
-  private onAng = ({target: {value}}: React.ChangeEvent<HTMLInputElement>) => {
+  private onAng = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     if (!isNaN(parse(value))) {
-      this.setState({ang: value.trim()});
+      this.setState({ ang: value.trim() });
     }
   }
 
   private onClick = () => {
-    this.setState({prompt: true});
+    this.setState({ prompt: true });
   }
 
   private onDismiss = () => {
-    this.setState((_, {value}) => ({
+    this.setState((_, { value }) => ({
       prompt: false,
       mag: norm(value) + '',
       ang: degrees(angle(value)) + '',
@@ -108,7 +108,7 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   private onConfirm = () => {
-    this.setState({prompt: false}, () => this.props.onChange(
+    this.setState({ prompt: false }, () => this.props.onChange(
       polar(parse(this.state.mag), radians(parse(this.state.ang))),
     ));
   }

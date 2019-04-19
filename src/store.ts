@@ -1,11 +1,11 @@
 import * as Redux from 'redux';
 
-import {Action, hydrate, Type} from 'action';
+import { Action, hydrate, Type } from 'action';
 import reducer from 'reducer';
-import {init, pack, State, unpack, unserialize} from 'state';
+import { init, pack, State, unpack, unserialize } from 'state';
 
 const middleware: Array<Redux.Middleware<{}, State>> = [
-  ({getState}) => (next) => (action: Action) => {
+  ({ getState }) => (next) => (action: Action) => {
     const result = next(action);
 
     if ([Type.insert, Type.remove, Type.update].includes(action.type)) {
@@ -45,6 +45,6 @@ document.addEventListener('keypress', redo);
 // bottom
 history.replaceState(null, document.title, `${location.origin}${location.pathname}`);
 
-window.onpopstate = ({state: packed}) => store.dispatch(hydrate(packed !== null ? unpack(packed) : state));
+window.onpopstate = ({ state: packed }) => store.dispatch(hydrate(packed !== null ? unpack(packed) : state));
 
 export default store;

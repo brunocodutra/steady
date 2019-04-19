@@ -1,9 +1,9 @@
 import classes from 'classnames';
 import React from 'react';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import {Kind} from 'lib/element';
+import { Kind } from 'lib/element';
 
 import Interactive from 'component/interactive';
 
@@ -25,7 +25,7 @@ const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
 });
 
 export default connect(null, mapDispatch)(
-  ({kind, insert, children}: Props) => (
+  ({ kind, insert, children }: Props) => (
     <Interactive action={insert} className={classes('tool', kind)}>
       {children}
     </Interactive>

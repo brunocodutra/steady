@@ -11,9 +11,9 @@ type Props = {
   readonly children?: React.ReactNode,
 };
 
-export default ({active = false, activate, remove, className = '', children}: Props) => (
-  <Interactive action={!active ? activate : undefined} className={classes('tile', className, {active})}>
-    <Interactive action={remove} className='control remove fade'/>
+export default ({ active = false, activate, remove, className = '', children }: Props) => (
+  <Interactive action={!active ? activate : undefined} className={classes('tile', className, { active })}>
+    <Interactive action={remove} className='control remove fade' />
     {children}
   </Interactive>
 );

@@ -1,12 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import * as Actions from 'action';
 
-import removable, {Props as PropsBase} from 'container/removable';
+import removable, { Props as PropsBase } from 'container/removable';
 
-import {Parametric} from 'lib/element';
+import { Parametric } from 'lib/element';
 
 export type Props<E extends Parametric> = PropsBase<E> & {
   readonly update: (value: Parametric['value']) => void,

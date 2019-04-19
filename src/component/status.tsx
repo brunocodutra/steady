@@ -1,8 +1,8 @@
 import classes from 'classnames';
 import React from 'react';
 
-import {Phasor} from 'lib/phasor';
-import {Unit} from 'lib/unit';
+import { Phasor } from 'lib/phasor';
+import { Unit } from 'lib/unit';
 
 import Interactive from 'component/interactive';
 import Quantity from 'component/quantity';
@@ -19,13 +19,13 @@ type State = {
   show: boolean,
 };
 
-const Icon = ({unit}: Pick<Props, 'unit'>) => {
+const Icon = ({ unit }: Pick<Props, 'unit'>) => {
   switch (unit) {
     case Unit.volt:
-      return <V/>;
+      return <V />;
 
     case Unit.ampere:
-      return <I/>;
+      return <I />;
   }
 };
 
@@ -39,7 +39,7 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const {show} = this.state;
+    const { show } = this.state;
 
     return (
       <>
@@ -49,12 +49,12 @@ export default class extends React.PureComponent<Props, State> {
           onBlur={this.onBlur}
           className={classes('status control fade', this.props.unit)}
         >
-          <Icon unit={this.props.unit}/>
+          <Icon unit={this.props.unit} />
         </Interactive>
-        <span className={classes('status tooltip fade', {show})}>
-          <span className='arrow'/>
+        <span className={classes('status tooltip fade', { show })}>
+          <span className='arrow' />
           <span className='tooltip-inner'>
-            <Quantity value={this.props.value} unit={this.props.unit}/>
+            <Quantity value={this.props.value} unit={this.props.unit} />
           </span>
         </span>
       </>
@@ -62,10 +62,10 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   private onFocus = () => {
-    this.setState({show: true});
+    this.setState({ show: true });
   }
 
   private onBlur = () => {
-    this.setState({show: false});
+    this.setState({ show: false });
   }
 }

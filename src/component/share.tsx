@@ -1,10 +1,10 @@
 import Clipboard from 'clipboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {unwrap} from 'lib/util';
-import {serialize, State} from 'state';
+import { unwrap } from 'lib/util';
+import { serialize, State } from 'state';
 
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
@@ -39,29 +39,36 @@ export default connect(mapState)(
       const url = this.state.show ? `${location.origin}${location.pathname}?${serialize(this.props.state)}` : '';
 
       return ReactDOM.createPortal(
-        <Interactive action={this.onClick} className='share'>
-          <Icon/>
-          <Dialog show={this.state.show} title={'Share Link'} onDismiss={this.onDismiss}>
-            <div className='input-group'>
-              <input id='url' defaultValue={url} className='form-control'/>
-              <div className='input-group-append'>
-                <button ref={(e) => e && new Clipboard(e)} data-clipboard-target='#url' className='copy' type='button'>
-                  copy
-                </button>
+        (
+          <Interactive action={this.onClick} className='share'>
+            <Icon />
+            <Dialog show={this.state.show} title={'Share Link'} onDismiss={this.onDismiss}>
+              <div className='input-group'>
+                <input id='url' defaultValue={url} className='form-control' />
+                <div className='input-group-append'>
+                  <button
+                    ref={(e) => e && new Clipboard(e)}
+                    data-clipboard-target='#url'
+                    className='copy'
+                    type='button'
+                  >
+                    copy
+                  </button>
+                </div>
               </div>
-            </div>
-          </Dialog>
-        </Interactive>,
+            </Dialog>
+          </Interactive>
+        ),
         this.share,
       );
     }
 
     private onClick = () => {
-      this.setState({show: true});
+      this.setState({ show: true });
     }
 
     private onDismiss = () => {
-      this.setState({show: false});
+      this.setState({ show: false });
     }
   },
 );
