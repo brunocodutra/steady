@@ -1,6 +1,6 @@
 export * from 'phasor.js';
 
-import {Phasor, polar} from 'phasor.js';
+import { Phasor, polar } from 'phasor.js';
 
 export const _0 = polar(0);
 export const _1 = polar(1);
@@ -12,5 +12,5 @@ export const unpack = (packed: any): Phasor => {
     throw new Error(`expected '[mag, tan]', got ${packed}`);
   }
 
-  return {mag: +packed[0], tan: +packed[1]};
+  return { mag: +packed[0], tan: +packed[1] };
 };

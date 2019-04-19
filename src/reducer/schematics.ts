@@ -1,10 +1,10 @@
-import {Reducer} from 'redux';
+import { Reducer } from 'redux';
 
-import {Action, Type} from 'action';
-import {init, State} from 'state';
+import { Action, Type } from 'action';
+import { init, State } from 'state';
 
-import {prefix} from 'lib/array';
-import {branch, Element, join, make, merge, split, update} from 'lib/element';
+import { prefix } from 'lib/array';
+import { branch, Element, join, make, merge, split, update } from 'lib/element';
 
 const spin = (id: number[], i: number, k: number) => [...id.slice(0, i), id[i] + k, ...id.slice(i + 1)];
 
@@ -19,11 +19,11 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
 };
 
 const reducer: Reducer<State, Action> = (state = init(), action: Action): State => {
-  const {entry, active} = state;
+  const { entry, active } = state;
 
   switch (action.type) {
     case Type.activate:
-      return {entry, active: action.id};
+      return { entry, active: action.id };
 
     case Type.insert:
       return {

@@ -1,20 +1,20 @@
-import {connect} from 'react-redux';
-import {Dispatch} from 'redux';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import * as Actions from 'action';
-import {State} from 'state';
+import { State } from 'state';
 
-import {Props as PropsBase} from 'component/element';
+import { Props as PropsBase } from 'component/element';
 
-import {equal} from 'lib/array';
-import {Activable} from 'lib/element';
+import { equal } from 'lib/array';
+import { Activable } from 'lib/element';
 
 export type Props<E extends Activable> = PropsBase<E> & {
   readonly active: boolean,
   readonly activate: () => void,
 };
 
-const mapState = ({active}: State, props: Pick<PropsBase, 'id'>) => ({
+const mapState = ({ active }: State, props: Pick<PropsBase, 'id'>) => ({
   active: equal(props.id, active),
 });
 

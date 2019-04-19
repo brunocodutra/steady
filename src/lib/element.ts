@@ -1,5 +1,5 @@
-import {_0, _1, cosh, div, isPhasor, mul, neg, pack as packP, Phasor, rect, sinh, unpack as unpackP} from 'lib/phasor';
-import {connect, eye, Quadripole, quadripole, rotation, translation} from 'lib/quadripole';
+import { _0, _1, cosh, div, isPhasor, mul, neg, pack as pk, Phasor, rect, sinh, unpack as unpk } from 'lib/phasor';
+import { connect, eye, Quadripole, quadripole, rotation, translation } from 'lib/quadripole';
 
 export enum Kind {
   connector = 'connector',
@@ -75,7 +75,7 @@ export type XFormer = {
 export type Line = {
   readonly kind: Kind.line,
   readonly next: Element,
-  readonly value: {y: Phasor, z: Phasor},
+  readonly value: { y: Phasor, z: Phasor },
   readonly model: Quadripole,
   readonly level: number,
 };
@@ -137,7 +137,7 @@ export type Element = Elements[keyof Elements];
 const collapse = (element: Element): Quadripole => element.kind !== Kind.connector
   ? connect(element.model, collapse(element.next))
   : element.model
-;
+  ;
 
 const terminal: Connector = {
   kind: Kind.connector,
@@ -197,10 +197,10 @@ export const xformer = (next: XFormer['next'] = connector(), value = _1): XForme
   level: next.level,
 });
 
-export const line = (next: Line['next'] = connector(), {y, z} = {y: _0, z: _1}): Line => ({
+export const line = (next: Line['next'] = connector(), { y, z } = { y: _0, z: _1 }): Line => ({
   kind: Kind.line,
   next,
-  value: {y, z},
+  value: { y, z },
   model: quadripole([[cosh(y), mul(neg(z), sinh(y))], [div(sinh(y), neg(z)), cosh(y)]]),
   level: next.level,
 });
@@ -232,7 +232,8 @@ type PartialElements = {
   }
 };
 
-export const depth = (element: Element): number => element.kind === Kind.connector ? 0 : 1 + depth(element.next);
+export const depth = (element: Element): number =>
+  element.kind === Kind.connector ? 0 : 1 + depth(element.next);
 
 type PartialElement = PartialElements[keyof PartialElements];
 
@@ -264,7 +265,7 @@ const promote = <K extends Kind>(partial: PartialElement): Elements[K] => {
 const demote = <K extends Kind>(element: Elements[K]): PartialElements[K] => element;
 
 export const make = <K extends Kind>(kind: K): Elements[K] => (
-  promote<K>({kind} as PartialElements[K]) // tslint:disable-line:no-object-literal-type-assertion
+  promote<K>({ kind } as PartialElements[K]) // tslint:disable-line:no-object-literal-type-assertion
 );
 
 export const split = (element: Element) => {
@@ -280,7 +281,7 @@ export const join = (element: Element, next: Element) => {
     throw new Error(`unexpected '${Kind.connector}'`);
   }
 
-  return promote<typeof element.kind>(demote({...element, next}));
+  return promote<typeof element.kind>(demote({ ...element, next }));
 };
 
 export const branch = (element: Element): Series => {
@@ -300,7 +301,7 @@ export const merge = (element: Element, value: Element): Shunt => {
     throw new Error(`expected '${Kind.series}', got '${value.kind}'`);
   }
 
-  return promote<typeof element.kind>(demote({...element, value}));
+  return promote<typeof element.kind>(demote({ ...element, value }));
 };
 
 const isLineValue = (v: any): v is Line['value'] => (
@@ -317,9 +318,9 @@ export const update = (element: Element, value: any): Parametric => {
     element.kind === Kind.admittance ||
     element.kind === Kind.xformer
   )) {
-    return promote<typeof element.kind>(demote({...element, value}));
+    return promote<typeof element.kind>(demote({ ...element, value }));
   } else if (isLineValue(value) && element.kind === Kind.line) {
-    return promote<typeof element.kind>(demote({...element, value}));
+    return promote<typeof element.kind>(demote({ ...element, value }));
   } else {
     throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
   }
@@ -346,11 +347,11 @@ export const pack = (element: Element): any[] => {
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return [dictionary[element.kind], pack(element.next), packP(element.value)];
+      return [dictionary[element.kind], pack(element.next), pk(element.value)];
 
     case Kind.line: {
-      const {y, z} = element.value;
-      return [dictionary[element.kind], pack(element.next), [packP(y), packP(z)]];
+      const { y, z } = element.value;
+      return [dictionary[element.kind], pack(element.next), [pk(y), pk(z)]];
     }
 
     case Kind.shunt:
@@ -382,7 +383,7 @@ export const unpack = (packed: any): Element => {
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return update(join(make<typeof kind>(kind), unpack(packed[1])), unpackP(packed[2]));
+      return update(join(make<typeof kind>(kind), unpack(packed[1])), unpk(packed[2]));
 
     case Kind.line: {
       /* istanbul ignore next */
@@ -391,8 +392,8 @@ export const unpack = (packed: any): Element => {
       }
 
       const value = {
-        y: unpackP(packed[2][0]),
-        z: unpackP(packed[2][1]),
+        y: unpk(packed[2][0]),
+        z: unpk(packed[2][1]),
       };
 
       return update(join(make<typeof kind>(kind), unpack(packed[1])), value);

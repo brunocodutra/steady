@@ -2,7 +2,7 @@ import classes from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {adapt, isolate} from 'lib/event';
+import { adapt, isolate } from 'lib/event';
 
 import Interactive from 'component/interactive';
 
@@ -22,11 +22,11 @@ export default class extends React.PureComponent<Props> {
   }
 
   public componentWillUnmount() {
-    this.componentWillReceiveProps({show: false});
+    this.componentWillReceiveProps({ show: false });
     document.body.removeChild(this.portal);
   }
 
-  public componentWillReceiveProps({show}: Pick<Props, 'show'>) {
+  public componentWillReceiveProps({ show }: Pick<Props, 'show'>) {
     if (show) {
       document.addEventListener('keydown', this.onEnter);
       document.addEventListener('keydown', this.onEsc);
@@ -37,32 +37,34 @@ export default class extends React.PureComponent<Props> {
   }
 
   public render() {
-    const {show, title, onDismiss} = this.props;
+    const { show, title, onDismiss } = this.props;
     return ReactDOM.createPortal(
-      <>
-        <div
-          onMouseDown={isolate(onDismiss)}
-          className={classes('modal', {show})}
-          tabIndex={-1}
-          role='dialog'
-          aria-labelledby='title'
-          aria-hidden={!show}
-        >
-          <div onMouseDown={isolate(() => null)} className='modal-dialog' role='document'>
-            <div className='modal-content'>
-              <div className='modal-header'>
-                <h5 className='modal-title' id='title'>{title}</h5>
-                <Interactive action={onDismiss} className='close'/>
+      (
+        <>
+          <div
+            onMouseDown={isolate(onDismiss)}
+            className={classes('modal', { show })}
+            tabIndex={-1}
+            role='dialog'
+            aria-labelledby='title'
+            aria-hidden={!show}
+          >
+            <div onMouseDown={isolate(() => null)} className='modal-dialog' role='document'>
+              <div className='modal-content'>
+                <div className='modal-header'>
+                  <h5 className='modal-title' id='title'>{title}</h5>
+                  <Interactive action={onDismiss} className='close' />
+                </div>
+                <div className='modal-body'>
+                  {this.props.children}
+                </div>
+                {this.footer()}
               </div>
-              <div className='modal-body'>
-                {this.props.children}
-              </div>
-              {this.footer()}
             </div>
           </div>
-        </div>
-        <div className={classes('modal-backdrop', {show})}/>
-      </>,
+          <div className={classes('modal-backdrop', { show })} />
+        </>
+      ),
       this.portal,
     );
   }

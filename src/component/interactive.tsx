@@ -11,9 +11,9 @@ type Props = {
   readonly children?: React.ReactNode,
 };
 
-export default ({action, onFocus, onBlur, className = '', children}: Props) => (
+export default ({ action, onFocus, onBlur, className = '', children }: Props) => (
   <span
-    className={classes(className, {interactive: !!action})}
+    className={classes(className, { interactive: !!action })}
     onMouseDown={action && isolate(action)}
     onKeyDown={action && adapt([' ', 'Enter'], isolate(action))}
     onFocus={action && onFocus}
