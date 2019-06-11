@@ -40,7 +40,7 @@
     "classnames": "^2.2.6",
     "clipboard": "^2.0.4",
     "core-js": "^3.0.1",
-    "css-loader": "2.1.1",
+    "css-loader": "3.0.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
