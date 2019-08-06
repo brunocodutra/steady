@@ -61,7 +61,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
+    "style-loader": "^1.0.0",
     "stylelint": "^10.0.1",
     "stylelint-config-property-sort-order-smacss": "^4.0.2",
     "stylelint-config-sass-guidelines": "^6.0.0",
