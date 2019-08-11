@@ -224,49 +224,33 @@ export const shunt = (next: Shunt['next'] = connector(), value = series()): Shun
   level: next.level + value.level + 1,
 });
 
-type PartialElements = {
-  [K in keyof Elements]: {
-    readonly kind: Elements[K]['kind'],
-    readonly next?: Elements[K]['next'],
-    readonly value?: Elements[K]['value'],
-  }
-};
-
 export const depth = (element: Element): number =>
   element.kind === Kind.connector ? 0 : 1 + depth(element.next);
 
-type PartialElement = PartialElements[keyof PartialElements];
-
-const promote = <K extends Kind>(partial: PartialElement): Elements[K] => {
-  switch (partial.kind) {
+export const make = (kind: Kind): Element => {
+  switch (kind) {
     case Kind.connector:
       return connector();
     case Kind.ground:
-      return ground(partial.next);
+      return ground();
     case Kind.vsrc:
-      return vsrc(partial.next, partial.value);
+      return vsrc();
     case Kind.isrc:
-      return isrc(partial.next, partial.value);
+      return isrc();
     case Kind.impedance:
-      return impedance(partial.next, partial.value);
+      return impedance();
     case Kind.admittance:
-      return admittance(partial.next, partial.value);
+      return admittance();
     case Kind.xformer:
-      return xformer(partial.next, partial.value);
+      return xformer();
     case Kind.line:
-      return line(partial.next, partial.value);
+      return line();
     case Kind.series:
-      return series(partial.next);
+      return series();
     case Kind.shunt:
-      return shunt(partial.next, partial.value);
+      return shunt();
   }
 };
-
-const demote = <K extends Kind>(element: Elements[K]): PartialElements[K] => element;
-
-export const make = <K extends Kind>(kind: K): Elements[K] => (
-  promote<K>({ kind } as PartialElements[K]) // tslint:disable-line:no-object-literal-type-assertion
-);
 
 export const split = (element: Element) => {
   if (element.kind === Kind.connector) {
@@ -277,11 +261,28 @@ export const split = (element: Element) => {
 };
 
 export const join = (element: Element, next: Element) => {
-  if (element.kind === Kind.connector) {
-    throw new Error(`unexpected '${Kind.connector}'`);
+  switch (element.kind) {
+    case Kind.connector:
+      throw new Error(`unexpected '${Kind.connector}'`);
+    case Kind.ground:
+      return ground(next);
+    case Kind.vsrc:
+      return vsrc(next, element.value);
+    case Kind.isrc:
+      return isrc(next, element.value);
+    case Kind.impedance:
+      return impedance(next, element.value);
+    case Kind.admittance:
+      return admittance(next, element.value);
+    case Kind.xformer:
+      return xformer(next, element.value);
+    case Kind.line:
+      return line(next, element.value);
+    case Kind.series:
+      return series(next);
+    case Kind.shunt:
+      return shunt(next, element.value);
   }
-
-  return promote<typeof element.kind>(demote({ ...element, next }));
 };
 
 export const branch = (element: Element): Series => {
@@ -301,7 +302,7 @@ export const merge = (element: Element, value: Element): Shunt => {
     throw new Error(`expected '${Kind.series}', got '${value.kind}'`);
   }
 
-  return promote<typeof element.kind>(demote({ ...element, value }));
+  return shunt(element.next, value);
 };
 
 const isLineValue = (v: any): v is Line['value'] => (
@@ -310,20 +311,30 @@ const isLineValue = (v: any): v is Line['value'] => (
   'z' in v && isPhasor(v.z)
 );
 
-export const update = (element: Element, value: any): Parametric => {
-  if (isPhasor(value) && (
-    element.kind === Kind.vsrc ||
-    element.kind === Kind.isrc ||
-    element.kind === Kind.impedance ||
-    element.kind === Kind.admittance ||
-    element.kind === Kind.xformer
-  )) {
-    return promote<typeof element.kind>(demote({ ...element, value }));
-  } else if (isLineValue(value) && element.kind === Kind.line) {
-    return promote<typeof element.kind>(demote({ ...element, value }));
-  } else {
-    throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
+export const update = (element: Element, value: Phasor | Line['value']): Parametric => {
+  if (isPhasor(value)) {
+    switch (element.kind) {
+      case Kind.vsrc:
+        return vsrc(element.next, value);
+      case Kind.isrc:
+        return isrc(element.next, value);
+      case Kind.impedance:
+        return impedance(element.next, value);
+      case Kind.admittance:
+        return admittance(element.next, value);
+      case Kind.xformer:
+        return xformer(element.next, value);
+    }
   }
+
+  if (isLineValue(value)) {
+    switch (element.kind) {
+      case Kind.line:
+        return line(element.next, value);
+    }
+  }
+
+  throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
 };
 
 type Dictionary = {
@@ -376,14 +387,14 @@ export const unpack = (packed: any): Element => {
 
     case Kind.ground:
     case Kind.series:
-      return join(make<typeof kind>(kind), unpack(packed[1]));
+      return join(make(kind), unpack(packed[1]));
 
     case Kind.vsrc:
     case Kind.isrc:
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return update(join(make<typeof kind>(kind), unpack(packed[1])), unpk(packed[2]));
+      return update(join(make(kind), unpack(packed[1])), unpk(packed[2]));
 
     case Kind.line: {
       /* istanbul ignore next */
@@ -396,10 +407,10 @@ export const unpack = (packed: any): Element => {
         z: unpk(packed[2][1]),
       };
 
-      return update(join(make<typeof kind>(kind), unpack(packed[1])), value);
+      return update(join(make(kind), unpack(packed[1])), value);
     }
 
     case Kind.shunt:
-      return merge(join(make<typeof kind>(kind), unpack(packed[1])), unpack(packed[2]));
+      return merge(join(make(kind), unpack(packed[1])), unpack(packed[2]));
   }
 };
