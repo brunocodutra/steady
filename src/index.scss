@@ -597,6 +597,8 @@ footer {
   @extend .pb-2;
 
   .close {
+    @extend .m-0;
+
     &::after {
       @extend %cross;
     }

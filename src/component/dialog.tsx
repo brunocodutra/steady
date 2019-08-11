@@ -16,23 +16,21 @@ type Props = {
 export default class extends React.PureComponent<Props> {
   private portal = document.createElement('div');
 
-  public componentWillMount() {
+  constructor(props: Props) {
+    super(props);
     document.body.appendChild(this.portal);
-    this.componentWillReceiveProps(this.props);
   }
 
   public componentWillUnmount() {
-    this.componentWillReceiveProps({ show: false });
+    this.removeListeners();
     document.body.removeChild(this.portal);
   }
 
-  public componentWillReceiveProps({ show }: Pick<Props, 'show'>) {
-    if (show) {
-      document.addEventListener('keydown', this.onEnter);
-      document.addEventListener('keydown', this.onEsc);
+  public componentDidUpdate() {
+    if (this.props.show) {
+      this.addListeners();
     } else {
-      document.removeEventListener('keydown', this.onEnter);
-      document.removeEventListener('keydown', this.onEsc);
+      this.removeListeners();
     }
   }
 
@@ -78,4 +76,14 @@ export default class extends React.PureComponent<Props> {
 
   private onEnter = adapt(['Enter'], () => this.props.onConfirm && this.props.onConfirm());
   private onEsc = adapt(['Escape'], () => this.props.onDismiss());
+
+  private addListeners() {
+    document.addEventListener('keydown', this.onEnter);
+    document.addEventListener('keydown', this.onEsc);
+  }
+
+  private removeListeners() {
+    document.removeEventListener('keydown', this.onEnter);
+    document.removeEventListener('keydown', this.onEsc);
+  }
 }

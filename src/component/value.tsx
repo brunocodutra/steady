@@ -34,13 +34,6 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public componentWillReceiveProps({ value }: Props) {
-    this.setState({
-      mag: norm(value) + '',
-      ang: degrees(angle(value)) + '',
-    });
-  }
-
   public render() {
     const unit = this.props.unit && (
       <div className='input-group-append'>
@@ -83,6 +76,8 @@ export default class extends React.PureComponent<Props, State> {
     );
   }
 
+  private value = () => polar(parse(this.state.mag), radians(parse(this.state.ang)));
+
   private onMag = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     if (!isNaN(parse(value))) {
       this.setState({ mag: value.trim() });
@@ -96,7 +91,12 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   private onClick = () => {
-    this.setState({ prompt: true });
+    const value = this.value();
+    this.setState(() => ({
+      prompt: true,
+      mag: norm(value) + '',
+      ang: degrees(angle(value)) + '',
+    }));
   }
 
   private onDismiss = () => {
@@ -107,9 +107,5 @@ export default class extends React.PureComponent<Props, State> {
     }));
   }
 
-  private onConfirm = () => {
-    this.setState({ prompt: false }, () => this.props.onChange(
-      polar(parse(this.state.mag), radians(parse(this.state.ang))),
-    ));
-  }
+  private onConfirm = () => this.setState({ prompt: false }, () => this.props.onChange(this.value()));
 }
