@@ -5,7 +5,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
@@ -143,8 +143,8 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
       disable: mode !== 'production',
     }),
 
-    new WebappWebpackPlugin({
-      logo: 'icon/brand.svg',
+    new FaviconsWebpackPlugin({
+      logo: './src/icon/brand.svg',
       cache: cacheDirectory,
       favicons: {
         start_url: '/steady/',
