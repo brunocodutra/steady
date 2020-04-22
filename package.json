@@ -76,7 +76,7 @@
     "ts-loader": "^6.0.4",
     "tslint": "^5.18.0",
     "tslint-loader": "^3.6.0",
-    "tslint-react": "^4.0.0",
+    "tslint-react": "^5.0.0",
     "typescript": "^3.5.3",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.2",
