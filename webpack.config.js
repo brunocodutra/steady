@@ -2,7 +2,6 @@ const os = require('os');
 const path = require('path');
 const webpack = require('webpack');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
@@ -16,13 +15,6 @@ const cacheLoader = {
   loader: 'cache-loader',
   options: {
     cacheDirectory,
-  },
-};
-
-const tsLoader = {
-  loader: 'ts-loader',
-  options: {
-    happyPackMode: true,
   },
 };
 
@@ -65,7 +57,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
 
       {
         test: /\.tsx?$/,
-        use: [cacheLoader, tsLoader],
+        use: [cacheLoader, 'ts-loader'],
         exclude: /node_modules/,
       },
 
@@ -119,11 +111,6 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
     new StyleLintPlugin({
       glob: `${src}/**/*.scss`,
       emitErrors: false,
-    }),
-
-    new ForkTsCheckerWebpackPlugin({
-      async: false,
-      checkSyntacticErrors: true,
     }),
 
     new HtmlWebpackPlugin({
