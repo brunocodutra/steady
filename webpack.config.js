@@ -26,13 +26,6 @@ const tsLoader = {
   },
 };
 
-const cssLoader = {
-  loader: 'css-loader',
-  options: {
-    importLoaders: 2,
-  }
-};
-
 const stats = {
   children: false,
   hash: false,
@@ -86,7 +79,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
         test: /\.s?css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [cacheLoader, cssLoader, 'postcss-loader', 'sass-loader'],
+          use: [cacheLoader, 'css-loader', 'sass-loader'],
         })
       },
 
