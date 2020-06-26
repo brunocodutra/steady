@@ -65,14 +65,14 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
 
       {
         test: /\.tsx?$/,
-        use: [cacheLoader, 'thread-loader', tsLoader],
+        use: [cacheLoader, tsLoader],
         exclude: /node_modules/,
       },
 
       {
         test: /\.svg$/,
         issuer: /\.tsx$/,
-        use: [cacheLoader, 'thread-loader', 'svg-react-loader'],
+        use: [cacheLoader, 'svg-react-loader'],
       },
 
       {
