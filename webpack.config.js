@@ -85,8 +85,11 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
         test: /\.svg$/,
         issuer: /\.html$/,
         loader: 'url-loader',
+        options: {
+          esModule: false,
+        },
       },
-            
+
       {
         test: /\.html$/,
         loader: 'html-loader',
