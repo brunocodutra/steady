@@ -118,8 +118,8 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
     }),
 
     new HtmlWebpackPlugin({
-      inject: 'body',
       template: path.resolve(src, 'index.html'),
+      minify: false,
     }),
 
     new MiniCssExtractPlugin({
