@@ -3,8 +3,7 @@ import {matcherHint, printExpected, printReceived} from 'jest-matcher-utils';
 import {equal, isPhasor, Phasor} from 'lib/phasor';
 import {isQuadripole, Quadripole} from 'lib/quadripole';
 
-interface ArrayOfT extends Array<T> {}
-type T = number | Phasor | Quadripole | ArrayOfT;
+type T = number | Phasor | Quadripole | T[];
 
 const closeTo = (x: T, y: T, e: number): boolean => (
     (typeof x === 'number' && typeof y === 'number')
