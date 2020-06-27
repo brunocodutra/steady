@@ -3,20 +3,12 @@ const path = require('path');
 const webpack = require('webpack');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
-
-const cacheDirectory = path.resolve(os.tmpdir(), 'steady', 'cache');
-
-const cacheLoader = {
-  loader: 'cache-loader',
-  options: {
-    cacheDirectory,
-  },
-};
+const cache = path.resolve(os.tmpdir(), 'steady', 'cache');
 
 const stats = {
   children: false,
@@ -57,33 +49,48 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
 
       {
         test: /\.tsx?$/,
-        use: [cacheLoader, 'ts-loader'],
         exclude: /node_modules/,
+        use: [
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: cache,
+            },
+          },
+          'ts-loader'
+        ],
+      },
+
+      {
+        test: /\.s?css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+              hmr: mode === 'development',
+            },
+          },
+          'css-loader',
+          'sass-loader'
+        ],
       },
 
       {
         test: /\.svg$/,
         issuer: /\.tsx$/,
-        use: [cacheLoader, 'svg-react-loader'],
-      },
-
-      {
-        test: /\.s?css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [cacheLoader, 'css-loader', 'sass-loader'],
-        })
-      },
-
-      {
-        test: /\.html$/,
-        loader: 'html-loader',
+        loader: 'svg-react-loader',
       },
 
       {
         test: /\.svg$/,
         issuer: /\.html$/,
         loader: 'url-loader',
+      },
+            
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
       },
     ]
   },
@@ -118,14 +125,14 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
       template: path.resolve(src, 'index.html'),
     }),
 
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].css',
-      disable: mode !== 'production',
+      chunkFilename: '[id].css',
     }),
 
     new FaviconsWebpackPlugin({
       logo: './src/icon/brand.svg',
-      cache: cacheDirectory,
+      cache,
       favicons: {
         start_url: '/steady/',
         theme_color: '#343a40',
