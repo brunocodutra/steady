@@ -45,6 +45,7 @@ document.addEventListener('keypress', redo);
 // bottom
 history.replaceState(null, document.title, `${location.origin}${location.pathname}`);
 
-window.onpopstate = ({ state: packed }) => store.dispatch(hydrate(packed !== null ? unpack(packed) : state));
+window.onpopstate = ({ state: packed }: { state: any }) =>
+  store.dispatch(hydrate(packed !== null ? unpack(packed) : state));
 
 export default store;
