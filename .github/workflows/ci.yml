@@ -34,20 +34,10 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  update:
+  check-package-lock:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
     - uses: actions/checkout@master
-    - run: |
-        if [[ -n $(git diff --name-only package-lock.json) ]]
-        then
-          git config user.name "CI Bot"
-          git config user.email "\<\>"
-          git config credential.helper "store --file=.git/credentials"
-          echo "https://${{ secrets.CODECOV_TOKEN }}:@github.com" 2> /dev/null > .git/credentials
-          git remote set-url origin https://github.com/$GITHUB_REPOSITORY.git
-          git add package-lock.json
-          git commit -m "update package-lock.json"
-          git push origin HEAD:${GITHUB_REF#refs/heads/} &> /dev/null
-        fi
+    - run: npm install
+    - run: git diff --exit-code
