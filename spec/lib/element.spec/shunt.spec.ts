@@ -1,8 +1,8 @@
-import {branch, join, Kind, merge, pack, series, shunt, split, unpack, update} from 'lib/element';
-import {rect, sub} from 'lib/phasor';
-import {project, solve} from 'lib/quadripole';
+import { branch, join, Kind, merge, pack, series, shunt, split, unpack, update } from 'lib/element';
+import { rect } from 'lib/phasor';
+import { project, solve } from 'lib/quadripole';
 
-import {elements, parametric, phasors} from './util';
+import { elements, parametric, phasors } from './util';
 
 describe('Shunt', () => {
   it('should be default constructible', () => {
@@ -63,8 +63,8 @@ describe('Shunt', () => {
       parametric.map((e) => update(e, v)).forEach((x) => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
-            const {model, value} = shunt(undefined, series(join(x, y)));
-            expect(project(model, [v, i])).toBeCloseTo([v, sub(i, solve(value.model, [v, rect(0)])[1])]);
+            const { model, value } = shunt(undefined, series(join(x, y)));
+            expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(value.model, [v, rect(0)])[1])]);
           });
         });
       });
@@ -73,10 +73,10 @@ describe('Shunt', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(shunt(next)))).toEqual(shunt(next));
+      expect(unpack(pack(shunt(next)))).toBe(shunt(next));
 
       elements.forEach((value) => {
-        expect(unpack(pack(shunt(next, series(value))))).toEqual(shunt(next, series(value)));
+        expect(unpack(pack(shunt(next, series(value))))).toBe(shunt(next, series(value)));
       });
     });
   });

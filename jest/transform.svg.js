@@ -1,5 +1,5 @@
-const {createHash} = require('crypto');
-const {execSync} = require('child_process');
+const { createHash } = require('crypto');
+const { execSync } = require('child_process');
 
 const run = code => execSync(`node -e ${JSON.stringify(code)}`).toString();
 

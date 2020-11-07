@@ -1,7 +1,7 @@
-import {branch, join, Kind, merge, pack, series, split, unpack, update} from 'lib/element';
-import {connect} from 'lib/quadripole';
+import { branch, join, Kind, merge, pack, series, split, unpack, update } from 'lib/element';
+import { connect } from 'lib/quadripole';
 
-import {elements, parametric, phasors} from './util';
+import { elements, parametric, phasors } from './util';
 
 describe('Series', () => {
   it('should be default constructible', () => {
@@ -61,7 +61,7 @@ describe('Series', () => {
       elms.forEach((x) => {
         elms.forEach((y) => {
           elms.forEach((z) => {
-            const {model} = series(join(x, join(y, z)));
+            const { model } = series(join(x, join(y, z)));
             expect(model).toBeCloseTo(connect(connect(x.model, y.model), z.model));
           });
         });
@@ -71,7 +71,7 @@ describe('Series', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(series(next)))).toEqual(series(next));
+      expect(unpack(pack(series(next)))).toBe(series(next));
     });
   });
 });

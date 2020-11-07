@@ -1,8 +1,7 @@
-import {branch, join, Kind, merge, pack, split, unpack, update, xformer} from 'lib/element';
-import {div, mul} from 'lib/phasor';
-import {project} from 'lib/quadripole';
+import { branch, join, Kind, merge, pack, split, unpack, update, xformer } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('XFormer', () => {
   it('should be default constructible', () => {
@@ -61,8 +60,8 @@ describe('XFormer', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {model} = xformer(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([div(v, value), mul(i, value)]);
+          const { model } = xformer(undefined, value);
+          expect(project(model, [v, i])).toBeCloseTo([v.div(value), i.mul(value)]);
         });
       });
     });
@@ -70,10 +69,10 @@ describe('XFormer', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(xformer(next)))).toEqual(xformer(next));
+      expect(unpack(pack(xformer(next)))).toBe(xformer(next));
 
       phasors.forEach((value) => {
-        expect(unpack(pack(xformer(next, value)))).toEqual(xformer(next, value));
+        expect(unpack(pack(xformer(next, value)))).toBe(xformer(next, value));
       });
     });
   });

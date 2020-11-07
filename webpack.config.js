@@ -20,7 +20,7 @@ module.exports = ({ production } = {}) => ({
   },
 
   entry: {
-    index: ['index.tsx', 'index.scss'],
+    index: ['index.ts', 'index.scss'],
   },
 
   output: {
@@ -44,6 +44,10 @@ module.exports = ({ production } = {}) => ({
       chunks: 'all',
       name: 'vendors',
     },
+  },
+
+  experiments: {
+    asyncWebAssembly: true,
   },
 
   module: {
@@ -75,13 +79,7 @@ module.exports = ({ production } = {}) => ({
       {
         test: /\.s?css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              esModule: true,
-              hmr: !production,
-            },
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader'
         ],

@@ -9,7 +9,7 @@ describe('State', () => {
   it('should be packable', () => {
     elements.forEach((element) => {
       const state = init(element);
-      expect(unpack(pack(state))).toEqual(state);
+      expect(unpack(pack(state))).toBe(state);
     });
 
     expect(() => unpack([])).toThrowError();
@@ -18,10 +18,8 @@ describe('State', () => {
   });
 
   it('should be serializable', () => {
-    const digest = serialize(init());
-
-    expect(digest).toEqual(expect.stringMatching(Base64));
-    expect(unserialize(digest)).toEqual(init());
+    expect(serialize(init())).toEqual(expect.stringMatching(Base64));
+    expect(unserialize(serialize(init()))).toBe(init());
 
     expect(unserialize('')).toBeUndefined();
     expect(unserialize('?')).toBeUndefined();

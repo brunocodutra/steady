@@ -1,7 +1,7 @@
-import {branch, ground, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
-import {project} from 'lib/quadripole';
+import { branch, ground, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('Ground', () => {
   it('should be default constructible', () => {
@@ -57,7 +57,7 @@ describe('Ground', () => {
   it('should model an ideal conductor', () => {
     phasors.forEach((v) => {
       phasors.forEach((i) => {
-        const {model} = ground();
+        const { model } = ground();
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
       });
     });
@@ -65,7 +65,7 @@ describe('Ground', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(ground(next)))).toEqual(ground(next));
+      expect(unpack(pack(ground(next)))).toBe(ground(next));
     });
   });
 });

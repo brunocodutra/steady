@@ -1,8 +1,7 @@
-import {branch, impedance, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
-import {mul, sub} from 'lib/phasor';
-import {project} from 'lib/quadripole';
+import { branch, impedance, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('Impedance', () => {
   it('should be default constructible', () => {
@@ -61,8 +60,8 @@ describe('Impedance', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {model} = impedance(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([sub(v, mul(i, value)), i]);
+          const { model } = impedance(undefined, value);
+          expect(project(model, [v, i])).toBeCloseTo([v.sub(i.mul(value)), i]);
         });
       });
     });
@@ -70,10 +69,10 @@ describe('Impedance', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(impedance(next)))).toEqual(impedance(next));
+      expect(unpack(pack(impedance(next)))).toBe(impedance(next));
 
       phasors.forEach((value) => {
-        expect(unpack(pack(impedance(next, value)))).toEqual(impedance(next, value));
+        expect(unpack(pack(impedance(next, value)))).toBe(impedance(next, value));
       });
     });
   });

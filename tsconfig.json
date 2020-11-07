@@ -2,9 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["src/*"],
+      "*": [
+        "src/*"
+      ],
     },
     "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "jsx": "react",
@@ -15,5 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
 }

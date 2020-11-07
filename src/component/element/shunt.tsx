@@ -11,7 +11,6 @@ import Tile from 'component/tile';
 
 import { prefix } from 'lib/array';
 import { Shunt } from 'lib/element';
-import { sub } from 'lib/phasor';
 import { project } from 'lib/quadripole';
 import { Unit } from 'lib/unit';
 
@@ -40,7 +39,7 @@ export default removable<Shunt>(connect(mapState)(
           <Status value={vi[0]} unit={Unit.volt} />
           <Status value={vi[1]} unit={Unit.ampere} />
         </Tile>
-        <Element id={id} element={element.value} vi={[vi[0], sub(vi[1], project(element.model, vi)[1])]} />
+        <Element id={id} element={element.value} vi={[vi[0], vi[1].sub(project(element.model, vi)[1])]} />
       </Tile>
     );
   },

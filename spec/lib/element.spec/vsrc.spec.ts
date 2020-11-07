@@ -1,8 +1,7 @@
-import {branch, join, Kind, merge, pack, split, unpack, update, vsrc} from 'lib/element';
-import {add} from 'lib/phasor';
-import {project} from 'lib/quadripole';
+import { branch, join, Kind, merge, pack, split, unpack, update, vsrc } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('VSrc', () => {
   it('should be default constructible', () => {
@@ -61,8 +60,8 @@ describe('VSrc', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {model} = vsrc(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([add(value, v), i]);
+          const { model } = vsrc(undefined, value);
+          expect(project(model, [v, i])).toBeCloseTo([value.add(v), i]);
         });
       });
     });
@@ -70,10 +69,10 @@ describe('VSrc', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(vsrc(next)))).toEqual(vsrc(next));
+      expect(unpack(pack(vsrc(next)))).toBe(vsrc(next));
 
       phasors.forEach((value) => {
-        expect(unpack(pack(vsrc(next, value)))).toEqual(vsrc(next, value));
+        expect(unpack(pack(vsrc(next, value)))).toBe(vsrc(next, value));
       });
     });
   });

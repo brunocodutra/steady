@@ -1,6 +1,3 @@
-import base64 from 'base64url';
-import msgpack from 'msgpack-lite';
-
 import { depth, Element, ground, pack as packE, series, unpack as unpackE } from 'lib/element';
 
 export type State = {
@@ -37,11 +34,11 @@ export const unpack = (packed: any): State => {
   };
 };
 
-export const serialize = (s: State): string => base64.encode(msgpack.encode(pack(s)));
+export const serialize = (s: State): string => encodeURIComponent(btoa(JSON.stringify(pack(s))));
 
 export const unserialize = (encoded: string): State | undefined => {
   try {
-    return unpack(msgpack.decode(base64.toBuffer(encoded)));
+    return unpack(JSON.parse(atob(decodeURIComponent(encoded))));
   } catch (_) {
     return undefined;
   }
