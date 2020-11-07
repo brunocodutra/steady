@@ -1,8 +1,7 @@
-import {branch, isrc, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
-import {add} from 'lib/phasor';
-import {project} from 'lib/quadripole';
+import { branch, isrc, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('ISrc', () => {
   it('should be default constructible', () => {
@@ -61,8 +60,8 @@ describe('ISrc', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {model} = isrc(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([v, add(value, i)]);
+          const { model } = isrc(undefined, value);
+          expect(project(model, [v, i])).toBeCloseTo([v, value.add(i)]);
         });
       });
     });
@@ -70,10 +69,10 @@ describe('ISrc', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(isrc(next)))).toEqual(isrc(next));
+      expect(unpack(pack(isrc(next)))).toBe(isrc(next));
 
       phasors.forEach((value) => {
-        expect(unpack(pack(isrc(next, value)))).toEqual(isrc(next, value));
+        expect(unpack(pack(isrc(next, value)))).toBe(isrc(next, value));
       });
     });
   });

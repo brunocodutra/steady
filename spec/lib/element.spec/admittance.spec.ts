@@ -1,8 +1,7 @@
-import {admittance, branch, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
-import {div, sub} from 'lib/phasor';
-import {project} from 'lib/quadripole';
+import { admittance, branch, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('Admittance', () => {
   it('should be default constructible', () => {
@@ -61,8 +60,8 @@ describe('Admittance', () => {
     phasors.forEach((value) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const {model} = admittance(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([v, sub(i, div(v, value))]);
+          const { model } = admittance(undefined, value);
+          expect(project(model, [v, i])).toBeCloseTo([v, i.sub(v.div(value))]);
         });
       });
     });
@@ -70,10 +69,10 @@ describe('Admittance', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(admittance(next)))).toEqual(admittance(next));
+      expect(unpack(pack(admittance(next)))).toBe(admittance(next));
 
       phasors.forEach((value) => {
-        expect(unpack(pack(admittance(next, value)))).toEqual(admittance(next, value));
+        expect(unpack(pack(admittance(next, value)))).toBe(admittance(next, value));
       });
     });
   });

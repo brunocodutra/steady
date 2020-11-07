@@ -1,8 +1,8 @@
-import {branch, join, Kind, line, merge, pack, split, unpack, update} from 'lib/element';
-import {add, angle, div, mul, norm, rect, sub} from 'lib/phasor';
-import {project} from 'lib/quadripole';
+import { branch, join, Kind, line, merge, pack, split, unpack, update } from 'lib/element';
+import { polar } from 'lib/phasor';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('Line', () => {
   it('should be default constructible', () => {
@@ -48,7 +48,7 @@ describe('Line', () => {
   it('should have two values', () => {
     phasors.forEach((y) => {
       phasors.forEach((z) => {
-        expect(line(undefined, {y, z}).value).toEqual({y, z});
+        expect(line(undefined, { y, z }).value).toBe({ y, z });
       });
     });
   });
@@ -56,27 +56,27 @@ describe('Line', () => {
   it('should allow updating its values', () => {
     phasors.forEach((y) => {
       phasors.forEach((z) => {
-        expect(update(line(), {y, z}).value).toEqual({y, z});
+        expect(update(line(), { y, z }).value).toBe({ y, z });
       });
     });
   });
 
   it('should model a transmission line', () => {
     phasors.forEach((exp) => {
-      const y = rect(Math.log(norm(exp)), angle(exp));
+      const y = exp.ln();
       const z = exp;
       phasors.forEach((v) => {
-        const a = div(v, rect(2));
-        const d = div(a, z);
+        const a = v.div(polar(2));
+        const d = a.div(z);
         phasors.forEach((i) => {
-          const c = div(i, rect(2));
-          const b = mul(c, z);
+          const c = i.div(polar(2));
+          const b = c.mul(z);
 
-          const {model} = line(undefined, {y, z});
+          const { model } = line(undefined, { y, z });
 
           expect(project(model, [v, i])).toBeCloseTo([
-            add(mul(sub(a, b), exp), div(add(a, b), exp)),
-            add(mul(sub(c, d), exp), div(add(c, d), exp)),
+            a.sub(b).mul(exp).add(a.add(b).div(exp)),
+            c.sub(d).mul(exp).add(c.add(d).div(exp)),
           ]);
         });
       });
@@ -85,11 +85,11 @@ describe('Line', () => {
 
   it('should be packable', () => {
     elements.forEach((next) => {
-      expect(unpack(pack(line(next)))).toEqual(line(next));
+      expect(unpack(pack(line(next)))).toBe(line(next));
 
       phasors.forEach((y) => {
         phasors.forEach((z) => {
-          expect(unpack(pack(line(next, {y, z})))).toEqual(line(next, {y, z}));
+          expect(unpack(pack(line(next, { y, z })))).toBe(line(next, { y, z }));
         });
       });
     });

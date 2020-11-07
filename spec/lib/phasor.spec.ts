@@ -1,4 +1,4 @@
-import {pack, Phasor, polar, unpack} from 'lib/phasor';
+import { pack, Phasor, polar, unpack } from 'lib/phasor';
 
 export const samples: Phasor[] = [
   polar(0),
@@ -10,7 +10,7 @@ export const samples: Phasor[] = [
 describe('Phasor', () => {
   it('should be packable', () => {
     samples.forEach((p) => {
-      expect(unpack(pack(p))).toEqual(p);
+      expect(unpack(pack(p))).toBe(p);
     });
 
     expect(() => unpack([])).toThrowError();

@@ -1,4 +1,4 @@
-import { _0, _1, cosh, div, isPhasor, mul, neg, pack as pk, Phasor, rect, sinh, unpack as unpk } from 'lib/phasor';
+import { _0, _1, pack as packP, Phasor, polar, unpack as unpackP } from 'lib/phasor';
 import { connect, eye, Quadripole, quadripole, rotation, translation } from 'lib/quadripole';
 
 export enum Kind {
@@ -177,15 +177,15 @@ export const impedance = (next: Impedance['next'] = connector(), value = _0): Im
   kind: Kind.impedance,
   next,
   value,
-  model: quadripole([[_1, neg(value)], [_0, _1]]),
+  model: quadripole([[_1, value.neg()], [_0, _1]]),
   level: next.level,
 });
 
-export const admittance = (next: Admittance['next'] = connector(), value = rect(Infinity)): Admittance => ({
+export const admittance = (next: Admittance['next'] = connector(), value = polar(Infinity)): Admittance => ({
   kind: Kind.admittance,
   next,
   value,
-  model: quadripole([[_1, _0], [div(rect(-1), value), _1]]),
+  model: quadripole([[_1, _0], [value.recip().neg(), _1]]),
   level: next.level,
 });
 
@@ -193,7 +193,7 @@ export const xformer = (next: XFormer['next'] = connector(), value = _1): XForme
   kind: Kind.xformer,
   next,
   value,
-  model: quadripole([[div(_1, value), _0], [_0, value]]),
+  model: quadripole([[value.recip(), _0], [_0, value]]),
   level: next.level,
 });
 
@@ -201,7 +201,7 @@ export const line = (next: Line['next'] = connector(), { y, z } = { y: _0, z: _1
   kind: Kind.line,
   next,
   value: { y, z },
-  model: quadripole([[cosh(y), mul(neg(z), sinh(y))], [div(sinh(y), neg(z)), cosh(y)]]),
+  model: quadripole([[y.cosh(), y.sinh().mul(z.neg())], [y.sinh().div(z.neg()), y.cosh()]]),
   level: next.level,
 });
 
@@ -218,8 +218,8 @@ export const shunt = (next: Shunt['next'] = connector(), value = series()): Shun
   next,
   value,
   model: quadripole(
-    [[_1, _0], [div(rotation(value.model)[1][0], rotation(value.model)[1][1]), _1]],
-    [_0, div(translation(value.model)[1], rotation(value.model)[1][1])],
+    [[_1, _0], [rotation(value.model)[1][0].div(rotation(value.model)[1][1]), _1]],
+    [_0, translation(value.model)[1].div(rotation(value.model)[1][1])],
   ),
   level: next.level + value.level + 1,
 });
@@ -307,12 +307,12 @@ export const merge = (element: Element, value: Element): Shunt => {
 
 const isLineValue = (v: any): v is Line['value'] => (
   typeof v === 'object' &&
-  'y' in v && isPhasor(v.y) &&
-  'z' in v && isPhasor(v.z)
+  'y' in v && v.y instanceof Phasor &&
+  'z' in v && v.z instanceof Phasor
 );
 
 export const update = (element: Element, value: Phasor | Line['value']): Parametric => {
-  if (isPhasor(value)) {
+  if (value instanceof Phasor) {
     switch (element.kind) {
       case Kind.vsrc:
         return vsrc(element.next, value);
@@ -358,11 +358,11 @@ export const pack = (element: Element): any[] => {
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return [dictionary[element.kind], pack(element.next), pk(element.value)];
+      return [dictionary[element.kind], pack(element.next), packP(element.value)];
 
     case Kind.line: {
       const { y, z } = element.value;
-      return [dictionary[element.kind], pack(element.next), [pk(y), pk(z)]];
+      return [dictionary[element.kind], pack(element.next), [packP(y), packP(z)]];
     }
 
     case Kind.shunt:
@@ -394,7 +394,7 @@ export const unpack = (packed: any): Element => {
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return update(join(make(kind), unpack(packed[1])), unpk(packed[2]));
+      return update(join(make(kind), unpack(packed[1])), unpackP(packed[2]));
 
     case Kind.line: {
       /* istanbul ignore next */
@@ -403,8 +403,8 @@ export const unpack = (packed: any): Element => {
       }
 
       const value = {
-        y: unpk(packed[2][0]),
-        z: unpk(packed[2][1]),
+        y: unpackP(packed[2][0]),
+        z: unpackP(packed[2][1]),
       };
 
       return update(join(make(kind), unpack(packed[1])), value);

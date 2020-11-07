@@ -2,11 +2,11 @@ import classes from 'classnames';
 import React from 'react';
 
 import { pretty } from 'lib/number';
-import { angle, norm, Phasor } from 'lib/phasor';
+import { Phasor } from 'lib/phasor';
 import { degrees, Prefix, Unit } from 'lib/unit';
 
 const mag = (p: Phasor) => {
-  const m = norm(p);
+  const m = p.norm();
 
   return (
     (m < Prefix.femto)
@@ -37,10 +37,10 @@ const mag = (p: Phasor) => {
   );
 };
 
-const ang = (p: Phasor): string => pretty(degrees(angle(p)));
+const ang = (p: Phasor): string => pretty(degrees(p.angle()));
 
 const prefix = (p: Phasor): Prefix => {
-  const m = norm(p);
+  const m = p.norm();
 
   return (
     (m < Prefix.femto)

@@ -1,4 +1,4 @@
-import {parse, pretty} from 'lib/number';
+import { parse, pretty } from 'lib/number';
 
 describe('Number parse', () => {
   it('should format a number to the significant figures', () => {

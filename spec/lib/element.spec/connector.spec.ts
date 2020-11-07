@@ -1,7 +1,7 @@
-import {branch, connector, join, Kind, merge, pack, split, unpack, update} from 'lib/element';
-import {project} from 'lib/quadripole';
+import { branch, connector, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { project } from 'lib/quadripole';
 
-import {elements, phasors} from './util';
+import { elements, phasors } from './util';
 
 describe('Connector', () => {
   it('should be default constructible', () => {
@@ -49,13 +49,13 @@ describe('Connector', () => {
   it('should model an ideal conductor', () => {
     phasors.forEach((v) => {
       phasors.forEach((i) => {
-        const {model} = connector();
+        const { model } = connector();
         expect(project(model, [v, i])).toBeCloseTo([v, i]);
       });
     });
   });
 
   it('should be packable', () => {
-    expect(unpack(pack(connector()))).toEqual(connector());
+    expect(unpack(pack(connector()))).toBe(connector());
   });
 });

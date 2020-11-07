@@ -1,7 +1,7 @@
 import classes from 'classnames';
 import React from 'react';
 
-import { angle, norm, Phasor, polar } from 'lib/phasor';
+import { Phasor, polar } from 'lib/phasor';
 import { degrees, radians, Unit } from 'lib/unit';
 
 import Dialog from 'component/dialog';
@@ -29,8 +29,8 @@ export default class extends React.PureComponent<Props, State> {
 
     this.state = {
       prompt: false,
-      mag: norm(props.value) + '',
-      ang: degrees(angle(props.value)) + '',
+      mag: props.value.norm() + '',
+      ang: degrees(props.value.angle()) + '',
     };
   }
 
@@ -94,16 +94,16 @@ export default class extends React.PureComponent<Props, State> {
     const value = this.value();
     this.setState(() => ({
       prompt: true,
-      mag: norm(value) + '',
-      ang: degrees(angle(value)) + '',
+      mag: value.norm() + '',
+      ang: degrees(value.angle()) + '',
     }));
   }
 
   private onDismiss = () => {
     this.setState((_, { value }) => ({
       prompt: false,
-      mag: norm(value) + '',
-      ang: degrees(angle(value)) + '',
+      mag: value.norm() + '',
+      ang: degrees(value.angle()) + '',
     }));
   }
 

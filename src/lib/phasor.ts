@@ -12,5 +12,5 @@ export const unpack = (packed: any): Phasor => {
     throw new Error(`expected '[mag, tan]', got ${packed}`);
   }
 
-  return { mag: +packed[0], tan: +packed[1] };
+  return new Phasor(+packed[0], +packed[1]);
 };

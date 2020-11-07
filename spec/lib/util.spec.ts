@@ -1,4 +1,4 @@
-import {unwrap} from 'lib/util';
+import { unwrap } from 'lib/util';
 
 describe('unwrap', () => {
   it('should throw an exception for undefined values', () => {

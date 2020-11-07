@@ -1,11 +1,11 @@
-import { _0, _1, add, div, isPhasor, mul, Phasor, sub } from 'lib/phasor';
+import { _0, _1, Phasor } from 'lib/phasor';
 
 type P2 = [Phasor, Phasor];
 
 const isP2 = (p: any): p is P2 => (
   typeof p === 'object' &&
-  '0' in p && isPhasor(p[0]) &&
-  '1' in p && isPhasor(p[1])
+  '0' in p && p[0] instanceof Phasor &&
+  '1' in p && p[1] instanceof Phasor
 );
 
 type P22 = [P2, P2];
@@ -35,14 +35,14 @@ export const translation = ({ t }: Quadripole) => t;
 
 export const project = ({ r: [[a, b], [c, d]], t: [u, j] }: Quadripole, [v, i]: P2): P2 => {
   return [
-    add(add(mul(a, v), mul(b, i)), u),
-    add(add(mul(c, v), mul(d, i)), j),
+    u.add(a.mul(v)).add(b.mul(i)),
+    j.add(c.mul(v)).add(d.mul(i)),
   ];
 };
 
 export const solve = ({ r: [[a, b], [c, d]], t: [u, j] }: Quadripole, [vi, io]: P2 = [_0, _0]): P2 => {
-  const ii = div(sub(sub(io, j), mul(c, vi)), d);
-  const vo = add(add(mul(a, vi), mul(b, ii)), u);
+  const ii = io.sub(j).sub(c.mul(vi)).div(d);
+  const vo = u.add(a.mul(vi)).add(b.mul(ii));
 
   return [vo, ii];
 };
@@ -53,8 +53,8 @@ export const connect = (p: Quadripole, q: Quadripole): Quadripole => {
 
   return quadripole(
     [
-      [add(mul(e, a), mul(f, c)), add(mul(e, b), mul(f, d))],
-      [add(mul(g, a), mul(h, c)), add(mul(g, b), mul(h, d))],
+      [e.mul(a).add(f.mul(c)), e.mul(b).add(f.mul(d))],
+      [g.mul(a).add(h.mul(c)), g.mul(b).add(h.mul(d))],
     ],
     project(q, p.t),
   );

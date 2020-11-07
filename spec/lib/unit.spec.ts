@@ -1,4 +1,4 @@
-import {Prefix} from 'lib/unit';
+import { Prefix } from 'lib/unit';
 
 const values = Object.keys(Prefix).filter((p) => Number(p)).map((p) => Number(p)).sort((a, b) => a - b);
 const labels = Object.keys(Prefix).filter((p) => !Number(p));
