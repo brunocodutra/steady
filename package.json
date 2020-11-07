@@ -15,7 +15,7 @@
   "scripts": {
     "start": "webpack serve --progress --hot",
     "build": "webpack --progress --env=production",
-    "test": "tsc --noEmit -p spec/ && jest"
+    "test": "jest"
   },
   "dependencies": {
     "@types/classnames": "^2.2.11",
