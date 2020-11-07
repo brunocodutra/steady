@@ -4,7 +4,7 @@ import { Action, hydrate, Type } from 'action';
 import reducer from 'reducer';
 import { init, pack, State, unpack, unserialize } from 'state';
 
-const middleware: Array<Redux.Middleware<{}, State>> = [
+const middleware: Redux.Middleware<{}, State>[] = [
   ({ getState }) => (next) => (action: Action) => {
     const result = next(action);
 
