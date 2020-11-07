@@ -337,36 +337,30 @@ export const update = (element: Element, value: Phasor | Line['value']): Paramet
   throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
 };
 
-type Dictionary = {
-  [_: string]: number | string,
-};
-
-const dictionary = Object.keys(Kind).reduce((dict, entry, i) => {
-  dict[dict[entry] = i] = entry;
-  return dict;
-}, {} as Dictionary); // tslint:disable-line:no-object-literal-type-assertion
-
-export const pack = (element: Element): any[] => {
-  switch (element.kind) {
+export const pack = (element?: Element): any[] => {
+  switch (element?.kind) {
     case Kind.connector:
-      return [dictionary[element.kind]];
+      return [Object.keys(Kind).indexOf(element.kind)];
     case Kind.ground:
     case Kind.series:
-      return [dictionary[element.kind], pack(element.next)];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next)];
     case Kind.vsrc:
     case Kind.isrc:
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return [dictionary[element.kind], pack(element.next), packP(element.value)];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), packP(element.value)];
 
     case Kind.line: {
       const { y, z } = element.value;
-      return [dictionary[element.kind], pack(element.next), [packP(y), packP(z)]];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), [packP(y), packP(z)]];
     }
 
     case Kind.shunt:
-      return [dictionary[element.kind], pack(element.next), pack(element.value)];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), pack(element.value)];
+
+    case undefined:
+      return [];
   }
 };
 
@@ -375,7 +369,7 @@ export const unpack = (packed: any): Element => {
     throw new Error(`expected '[kind, next?, value?]', got ${packed}`);
   }
 
-  const kind = dictionary[packed[0]];
+  const kind = Object.keys(Kind)[packed[0]];
 
   if (!isKind(kind)) {
     throw new Error(`unknown element kind '${kind}'`);

@@ -17,7 +17,7 @@ export const init = (next?: Element): State => {
 };
 
 export const pack = ({ entry, active }: State): any[] => (
-  [packE((entry.next && entry.next.next) as Element), active]
+  [packE(entry?.next?.next), active]
 );
 
 export const unpack = (packed: any): State => {
