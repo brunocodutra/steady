@@ -4,22 +4,20 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
 const cache = path.resolve(os.tmpdir(), 'steady', 'cache');
 
-const stats = {
-  children: false,
-  hash: false,
-  modules: false,
-  version: false,
-};
-
-module.exports = mode => ((process.env.NODE_ENV = mode), {
-  mode,
+module.exports = ({ production } = {}) => ({
+  mode: production ? "production" : "development",
 
   context: __dirname,
+
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    modules: [src, 'node_modules'],
+  },
 
   entry: {
     index: ['index.tsx', 'index.scss'],
@@ -29,9 +27,23 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
     publicPath: '/steady/',
   },
 
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    modules: [src, 'node_modules'],
+  devServer: {
+    publicPath: '/steady/',
+    https: true,
+  },
+
+  devtool: production ? false : 'eval',
+
+  stats: {
+    children: false,
+    modules: false,
+  },
+
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      name: 'vendors',
+    },
   },
 
   module: {
@@ -67,7 +79,7 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
             loader: MiniCssExtractPlugin.loader,
             options: {
               esModule: true,
-              hmr: mode === 'development',
+              hmr: !production,
             },
           },
           'css-loader',
@@ -97,20 +109,6 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
     ]
   },
 
-  stats,
-
-  devServer: {
-    stats,
-    overlay: true,
-  },
-
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: 'vendors',
-    },
-  },
-
   plugins: [
     new StyleLintPlugin({
       context: src,
@@ -119,7 +117,6 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
 
     new HtmlWebpackPlugin({
       template: path.resolve(src, 'index.html'),
-      minify: false,
     }),
 
     new MiniCssExtractPlugin({
@@ -143,10 +140,10 @@ module.exports = mode => ((process.env.NODE_ENV = mode), {
       },
     }),
 
-    new SWPrecacheWebpackPlugin({
-      cacheId: 'steady',
-      filename: 'sw.js',
-      minify: mode === 'production',
+    new WorkboxPlugin.GenerateSW({
+      swDest: 'sw.js',
+      clientsClaim: true,
+      skipWaiting: true,
     }),
   ]
 });
