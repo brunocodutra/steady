@@ -4,7 +4,7 @@ import { Action, hydrate, Type } from 'action';
 import reducer from 'reducer';
 import { init, pack, State, unpack, unserialize } from 'state';
 
-const middleware: Redux.Middleware<{}, State>[] = [
+const middleware: Redux.Middleware<unknown, State>[] = [
   ({ getState }) => (next) => (action: Action) => {
     const result = next(action);
 
@@ -18,7 +18,7 @@ const middleware: Redux.Middleware<{}, State>[] = [
 
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'production') {
-  middleware.push(require('redux-logger').default);
+  import('redux-logger').then(m => middleware.push(m.default));
 }
 
 const state = unserialize(location.search.slice(1)) || init();
@@ -45,7 +45,7 @@ document.addEventListener('keypress', redo);
 // bottom
 history.replaceState(null, document.title, `${location.origin}${location.pathname}`);
 
-window.onpopstate = ({ state: packed }: { state: any }) =>
+window.onpopstate = ({ state: packed }: PopStateEvent) =>
   store.dispatch(hydrate(packed !== null ? unpack(packed) : state));
 
 export default store;

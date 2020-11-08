@@ -7,7 +7,7 @@ export const _1 = polar(1);
 
 export const pack = (p: Phasor) => [p.mag, p.tan];
 
-export const unpack = (packed: any): Phasor => {
+export const unpack = (packed: unknown): Phasor => {
   if (!Array.isArray(packed) || packed.length !== 2) {
     throw new Error(`expected '[mag, tan]', got ${packed}`);
   }

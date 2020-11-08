@@ -2,27 +2,26 @@ import { _0, _1, Phasor } from 'lib/phasor';
 
 type P2 = [Phasor, Phasor];
 
-const isP2 = (p: any): p is P2 => (
-  typeof p === 'object' &&
-  '0' in p && p[0] instanceof Phasor &&
-  '1' in p && p[1] instanceof Phasor
+const isP2 = (p: unknown): p is P2 => (
+  Array.isArray(p) && p.length === 2 &&
+  p[0] instanceof Phasor &&
+  p[1] instanceof Phasor
 );
 
 type P22 = [P2, P2];
 
-const isP22 = (p: any): p is P22 => (
-  typeof p === 'object' &&
-  '0' in p && isP2(p[0]) &&
-  '1' in p && isP2(p[1])
-);
+const isP22 = (p: unknown): p is P22 =>
+  Array.isArray(p) && p.length === 2 && isP2(p[0]) && isP2(p[1]);
 
 export type Quadripole = {
   r: P22,
   t: P2,
 };
 
+// microsoft/TypeScript/#21732
+// eslint-disable-next-line no-explicit-any
 export const isQuadripole = (q: any): q is Quadripole => (
-  typeof q === 'object' &&
+  typeof q === 'object' && q !== null &&
   'r' in q && isP22(q.r) &&
   't' in q && isP2(q.t)
 );
