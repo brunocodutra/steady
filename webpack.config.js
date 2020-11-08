@@ -1,5 +1,6 @@
 const os = require('os');
 const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -54,16 +55,6 @@ module.exports = ({ production } = {}) => ({
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'tslint-loader',
-        exclude: /node_modules/,
-        enforce: 'pre',
-        options: {
-          typeCheck: true,
-        },
-      },
-
-      {
-        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
           {
@@ -108,9 +99,14 @@ module.exports = ({ production } = {}) => ({
   },
 
   plugins: [
+    new ESLintPlugin({
+      context: src,
+      failOnError: true,
+    }),
+
     new StyleLintPlugin({
       context: src,
-      emitErrors: false,
+      failOnError: true,
     }),
 
     new HtmlWebpackPlugin({

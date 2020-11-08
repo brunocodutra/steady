@@ -14,7 +14,7 @@ export enum Kind {
   shunt = 'shunt',
 }
 
-export const isKind = (k: any): k is Kind => k in Kind;
+export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in Kind;
 
 export type Connector = {
   readonly kind: Kind.connector,
@@ -305,8 +305,10 @@ export const merge = (element: Element, value: Element): Shunt => {
   return shunt(element.next, value);
 };
 
+// microsoft/TypeScript/#21732
+// eslint-disable-next-line no-explicit-any
 const isLineValue = (v: any): v is Line['value'] => (
-  typeof v === 'object' &&
+  typeof v === 'object' && v !== null &&
   'y' in v && v.y instanceof Phasor &&
   'z' in v && v.z instanceof Phasor
 );
@@ -337,7 +339,7 @@ export const update = (element: Element, value: Phasor | Line['value']): Paramet
   throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
 };
 
-export const pack = (element?: Element): any[] => {
+export const pack = (element?: Element): unknown => {
   switch (element?.kind) {
     case Kind.connector:
       return [Object.keys(Kind).indexOf(element.kind)];
@@ -364,7 +366,7 @@ export const pack = (element?: Element): any[] => {
   }
 };
 
-export const unpack = (packed: any): Element => {
+export const unpack = (packed: unknown): Element => {
   if (!Array.isArray(packed) || !packed.length || packed.length > 3) {
     throw new Error(`expected '[kind, next?, value?]', got ${packed}`);
   }

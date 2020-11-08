@@ -2,7 +2,7 @@ import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 
 
 export default {
-  toBe(x: any, y: any) {
+  toBe(x: unknown, y: unknown) {
     const received = typeof x === 'object' ? JSON.stringify(x, null, 2) : x;
     const expected = typeof y === 'object' ? JSON.stringify(y, null, 2) : y;
     const pass = received === expected;

@@ -16,11 +16,11 @@ export const init = (next?: Element): State => {
   };
 };
 
-export const pack = ({ entry, active }: State): any[] => (
+export const pack = ({ entry, active }: State): unknown => (
   [packE(entry?.next?.next), active]
 );
 
-export const unpack = (packed: any): State => {
+export const unpack = (packed: unknown): State => {
   if (
     !Array.isArray(packed) || packed.length !== 2 ||
     !Array.isArray(packed[1]) || !packed[1].every(Number.isInteger)
