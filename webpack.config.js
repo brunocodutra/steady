@@ -21,7 +21,7 @@ module.exports = ({ production } = {}) => ({
   },
 
   entry: {
-    index: ['index.ts', 'index.scss'],
+    index: ['index.tsx', 'index.scss'],
   },
 
   output: {
@@ -38,13 +38,6 @@ module.exports = ({ production } = {}) => ({
   stats: {
     children: false,
     modules: false,
-  },
-
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: 'vendors',
-    },
   },
 
   experiments: {
