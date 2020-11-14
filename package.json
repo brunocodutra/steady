@@ -60,7 +60,7 @@
     "stylelint-webpack-plugin": "^2.1.1",
     "svg-react-loader": "^0.4.6",
     "ts-jest": "^26.4.3",
-    "ts-loader": "^8.0.7",
+    "ts-loader": "^8.0.11",
     "typescript": "^4.0.5",
     "url-loader": "^4.1.1",
     "webpack": "^5.4.0",
