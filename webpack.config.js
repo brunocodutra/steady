@@ -21,7 +21,7 @@ module.exports = ({ production } = {}) => ({
   },
 
   entry: {
-    index: ['index.tsx', 'index.scss'],
+    index: ['react-hot-loader/patch', 'index.tsx', 'index.scss'],
   },
 
   output: {
