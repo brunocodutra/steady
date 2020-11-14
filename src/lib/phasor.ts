@@ -1,6 +1,6 @@
-export * from 'phasor.js';
-
 import { Phasor, polar } from 'phasor.js';
+
+export * from 'phasor.js';
 
 export const _0 = polar(0);
 export const _1 = polar(1);

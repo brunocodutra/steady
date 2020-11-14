@@ -1,10 +1,8 @@
 import classes from 'classnames';
 import React from 'react';
-
 import Toggler from 'component/toggler';
 import Tool from 'component/tool';
 import { Kind } from 'lib/element';
-
 import { Icon as Admittance } from 'component/element/admittance';
 import { Icon as Impedance } from 'component/element/impedance';
 import { Icon as ISrc } from 'component/element/isrc';
@@ -13,10 +11,10 @@ import { Icon as Shunt } from 'component/element/shunt';
 import { Icon as VSrc } from 'component/element/vsrc';
 import { Icon as XFormer } from 'component/element/xformer';
 
-type Props = {};
+interface Props { };
 
-type State = {
-  open: boolean,
+interface State {
+  readonly open: boolean,
 };
 
 export default class extends React.PureComponent<Props, State> {

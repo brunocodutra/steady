@@ -1,8 +1,6 @@
 import React from 'react';
-
 import Element, { Props as PropsBase } from 'component/element';
 import Tile from 'component/tile';
-
 import { Element as ElementT, Series } from 'lib/element';
 import { project } from 'lib/quadripole';
 

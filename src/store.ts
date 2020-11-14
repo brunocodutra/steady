@@ -1,10 +1,9 @@
-import * as Redux from 'redux';
-
+import { createStore, Store, applyMiddleware, Middleware } from 'redux';
 import { Action, hydrate, Type } from 'action';
 import reducer from 'reducer';
 import { init, pack, State, unpack, unserialize } from 'state';
 
-const middleware: Redux.Middleware<unknown, State>[] = [
+const middleware: Middleware<unknown, State>[] = [
   ({ getState }) => (next) => (action: Action) => {
     const result = next(action);
 
@@ -22,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const state = unserialize(location.search.slice(1)) || init();
-const store = Redux.createStore(reducer, state, Redux.applyMiddleware(...middleware));
+const store: Store<State, Action> = createStore(reducer, state, applyMiddleware(...middleware));
 
 const undo = (e: KeyboardEvent) => {
   if (history.state !== null && (e.key === 'z' || e.key === 'Z') && e.ctrlKey && !e.shiftKey) {

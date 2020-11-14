@@ -15,7 +15,7 @@
   "scripts": {
     "start": "webpack serve --progress --hot",
     "build": "webpack --progress --env=production",
-    "test": "jest"
+    "test": "jest --no-cache"
   },
   "dependencies": {
     "@types/classnames": "^2.2.11",

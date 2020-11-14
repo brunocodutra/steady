@@ -1,6 +1,6 @@
 import { depth, Element, ground, pack as packE, series, unpack as unpackE } from 'lib/element';
 
-export type State = {
+export interface State {
   readonly entry: Element,
   readonly active: number[],
 };

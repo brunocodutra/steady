@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { Element, Kind } from 'lib/element';
 import { Phasor } from 'lib/phasor';
-
 import Admittance from 'component/element/admittance';
 import Connector from 'component/element/connector';
 import Ground from 'component/element/ground';
@@ -14,7 +12,7 @@ import Shunt from 'component/element/shunt';
 import VSrc from 'component/element/vsrc';
 import XFormer from 'component/element/xformer';
 
-export type Props<E extends Element = Element> = {
+export interface Props<E extends Element = Element> {
   readonly id: number[],
   readonly element: E,
   readonly vi: [Phasor, Phasor],

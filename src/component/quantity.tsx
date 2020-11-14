@@ -1,6 +1,5 @@
 import classes from 'classnames';
 import React from 'react';
-
 import { pretty } from 'lib/number';
 import { Phasor } from 'lib/phasor';
 import { degrees, Prefix, Unit } from 'lib/unit';
@@ -71,7 +70,7 @@ const prefix = (p: Phasor): Prefix => {
   );
 };
 
-type Props = {
+interface Props {
   readonly value: Phasor,
   readonly unit?: Unit,
 };

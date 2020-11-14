@@ -16,7 +16,7 @@ export enum Kind {
 
 export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in Kind;
 
-export type Connector = {
+export interface Connector {
   readonly kind: Kind.connector,
   readonly next: undefined,
   readonly value: undefined,
@@ -24,7 +24,7 @@ export type Connector = {
   readonly level: 0,
 };
 
-export type Ground = {
+export interface Ground {
   readonly kind: Kind.ground,
   readonly next: Element,
   readonly value: undefined,
@@ -32,7 +32,7 @@ export type Ground = {
   readonly level: number,
 };
 
-export type VSrc = {
+export interface VSrc {
   readonly kind: Kind.vsrc,
   readonly next: Element,
   readonly value: Phasor,
@@ -40,7 +40,7 @@ export type VSrc = {
   readonly level: number,
 };
 
-export type ISrc = {
+export interface ISrc {
   readonly kind: Kind.isrc,
   readonly next: Element,
   readonly value: Phasor,
@@ -48,7 +48,7 @@ export type ISrc = {
   readonly level: number,
 };
 
-export type Impedance = {
+export interface Impedance {
   readonly kind: Kind.impedance,
   readonly next: Element,
   readonly value: Phasor,
@@ -56,7 +56,7 @@ export type Impedance = {
   readonly level: number,
 };
 
-export type Admittance = {
+export interface Admittance {
   readonly kind: Kind.admittance,
   readonly next: Element,
   readonly value: Phasor,
@@ -64,7 +64,7 @@ export type Admittance = {
   readonly level: number,
 };
 
-export type XFormer = {
+export interface XFormer {
   readonly kind: Kind.xformer,
   readonly next: Element,
   readonly value: Phasor,
@@ -72,7 +72,7 @@ export type XFormer = {
   readonly level: number,
 };
 
-export type Line = {
+export interface Line {
   readonly kind: Kind.line,
   readonly next: Element,
   readonly value: { y: Phasor, z: Phasor },
@@ -80,7 +80,7 @@ export type Line = {
   readonly level: number,
 };
 
-export type Series = {
+export interface Series {
   readonly kind: Kind.series,
   readonly next: Element,
   readonly value: undefined,
@@ -88,7 +88,7 @@ export type Series = {
   readonly level: number,
 };
 
-export type Shunt = {
+export interface Shunt {
   readonly kind: Kind.shunt,
   readonly next: Element,
   readonly value: Series,
@@ -96,43 +96,11 @@ export type Shunt = {
   readonly level: number,
 };
 
-type StaticElements = {
-  [Kind.ground]: Ground;
-  [Kind.series]: Series;
-};
-
-export type StaticKind = keyof StaticElements;
-export type Static = StaticElements[StaticKind];
-
-type ParametricElements = {
-  [Kind.impedance]: Impedance;
-  [Kind.admittance]: Admittance;
-  [Kind.xformer]: XFormer;
-  [Kind.line]: Line;
-  [Kind.vsrc]: VSrc;
-  [Kind.isrc]: ISrc;
-};
-
-export type ParametricKind = keyof ParametricElements;
-export type Parametric = ParametricElements[ParametricKind];
-
-type RemovableElements = ParametricElements & {
-  [Kind.shunt]: Shunt;
-};
-
-export type RemovableKind = keyof RemovableElements;
-export type Removable = RemovableElements[RemovableKind];
-
-type ActivableElements = RemovableElements & {
-  [Kind.connector]: Connector;
-};
-
-export type ActivableKind = keyof ActivableElements;
-export type Activable = ActivableElements[ActivableKind];
-
-type Elements = StaticElements & ParametricElements & RemovableElements & ActivableElements;
-
-export type Element = Elements[keyof Elements];
+export type Static = Ground | Series;
+export type Parametric = Impedance | Admittance | XFormer | Line | VSrc | ISrc;
+export type Removable = Parametric | Shunt;
+export type Activable = Removable | Connector;
+export type Element = Static | Parametric | Removable | Activable;
 
 const collapse = (element: Element): Quadripole => element.kind !== Kind.connector
   ? connect(element.model, collapse(element.next))

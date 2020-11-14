@@ -1,8 +1,6 @@
 import { Reducer } from 'redux';
-
 import { Action, Type } from 'action';
 import { init, State } from 'state';
-
 import { prefix } from 'lib/array';
 import { branch, Element, join, make, merge, split, update } from 'lib/element';
 
@@ -18,7 +16,7 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
   }
 };
 
-const reducer: Reducer<State, Action> = (state = init(), action: Action): State => {
+const reducer: Reducer<State, Action> = (state: State = init(), action: Action): State => {
   const { entry, active } = state;
 
   switch (action.type) {

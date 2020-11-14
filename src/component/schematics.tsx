@@ -1,14 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { Element as ElementT } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { solve } from 'lib/quadripole';
 import { State } from 'state';
-
 import Element from 'component/element';
 
-type Props = {
+interface Props {
   readonly entry: ElementT,
 };
 

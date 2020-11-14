@@ -2,19 +2,16 @@ import classes from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import { Kind } from 'lib/element';
-
 import Interactive from 'component/interactive';
-
 import * as Actions from 'action';
 
-type PropsBase = {
+interface PropsBase {
   readonly kind: Kind,
   readonly children?: React.ReactNode,
 };
 
-type Props = PropsBase & {
+interface Props extends PropsBase {
   readonly insert: () => void,
 };
 

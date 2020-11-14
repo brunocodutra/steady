@@ -1,22 +1,20 @@
 import classes from 'classnames';
 import React from 'react';
-
 import { Phasor } from 'lib/phasor';
 import { Unit } from 'lib/unit';
-
 import Interactive from 'component/interactive';
 import Quantity from 'component/quantity';
 
 const V = require('icon/v.svg');
 const I = require('icon/i.svg');
 
-type Props = {
+interface Props {
   readonly value: Phasor,
   readonly unit: Unit.volt | Unit.ampere,
 };
 
-type State = {
-  show: boolean,
+interface State {
+  readonly show: boolean,
 };
 
 const Icon = ({ unit }: Pick<Props, 'unit'>) => {

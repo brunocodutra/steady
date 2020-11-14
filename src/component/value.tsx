@@ -1,15 +1,13 @@
 import classes from 'classnames';
 import React from 'react';
-
 import { Phasor, polar } from 'lib/phasor';
 import { degrees, radians, Unit } from 'lib/unit';
-
+import { parse } from 'lib/number';
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
 import Quantity from 'component/quantity';
-import { parse } from 'lib/number';
 
-type Props = {
+interface Props {
   readonly name?: string,
   readonly value: Phasor,
   readonly unit?: Unit,
@@ -17,10 +15,10 @@ type Props = {
   readonly onChange: (value: Phasor) => void,
 };
 
-type State = {
-  prompt: boolean,
-  mag: string,
-  ang: string,
+interface State {
+  readonly prompt: boolean,
+  readonly mag: string,
+  readonly ang: string,
 };
 
 export default class extends React.PureComponent<Props, State> {

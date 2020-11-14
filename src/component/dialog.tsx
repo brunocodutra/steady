@@ -6,11 +6,12 @@ import { adapt, isolate } from 'lib/event';
 
 import Interactive from 'component/interactive';
 
-type Props = {
-  show: boolean,
-  title: string,
-  onDismiss: () => void,
-  onConfirm?: () => void,
+interface Props {
+  readonly show: boolean,
+  readonly title: string,
+  readonly onDismiss: () => void,
+  readonly onConfirm?: () => void,
+  readonly children?: React.ReactNode,
 };
 
 export default class extends React.PureComponent<Props> {

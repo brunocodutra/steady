@@ -1,9 +1,8 @@
 import classes from 'classnames';
 import React from 'react';
-
 import Interactive from 'component/interactive';
 
-type Props = {
+interface Props {
   readonly active?: boolean,
   readonly activate?: () => void,
   readonly remove?: () => void,

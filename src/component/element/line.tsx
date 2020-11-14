@@ -1,14 +1,10 @@
 import React from 'react';
-
 import parametric, { Props as PropsBase } from 'container/parametric';
-
 import Status from 'component/status';
 import Tile from 'component/tile';
 import Value from 'component/value';
-
 import { Line } from 'lib/element';
 import { Unit } from 'lib/unit';
-
 export const Icon = require('icon/line.svg');
 
 type Props = PropsBase<Line>;
