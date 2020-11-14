@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { State } from 'state';
-
 import removable, { Props as PropsBase } from 'container/removable';
-
 import Element from 'component/element';
 import Status from 'component/status';
 import Tile from 'component/tile';
-
 import { prefix } from 'lib/array';
 import { Shunt } from 'lib/element';
 import { project } from 'lib/quadripole';
@@ -18,7 +14,7 @@ export const Icon = require('icon/shunt.svg');
 const Wire = require('icon/wire.svg');
 const Knee = require('icon/knee.svg');
 
-type Props = PropsBase<Shunt> & {
+interface Props extends PropsBase<Shunt> {
   readonly essential: boolean,
 };
 

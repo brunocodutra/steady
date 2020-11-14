@@ -13,9 +13,9 @@ type P22 = [P2, P2];
 const isP22 = (p: unknown): p is P22 =>
   Array.isArray(p) && p.length === 2 && isP2(p[0]) && isP2(p[1]);
 
-export type Quadripole = {
-  r: P22,
-  t: P2,
+export interface Quadripole {
+  readonly r: P22,
+  readonly t: P2,
 };
 
 // microsoft/TypeScript/#21732

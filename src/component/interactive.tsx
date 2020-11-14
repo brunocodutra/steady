@@ -1,9 +1,8 @@
 import classes from 'classnames';
 import React from 'react';
-
 import { adapt, isolate } from 'lib/event';
 
-type Props = {
+interface Props {
   readonly action?: () => void,
   readonly onFocus?: () => void,
   readonly onBlur?: () => void,

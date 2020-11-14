@@ -2,21 +2,19 @@ import Clipboard from 'clipboard';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-
 import { unwrap } from 'lib/util';
 import { serialize, State } from 'state';
-
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
 
 const Icon = require('icon/share.svg');
 
-type Props = {
-  state: State,
+interface Props {
+  readonly state: State,
 };
 
-type LocalState = {
-  show: boolean,
+interface LocalState {
+  readonly show: boolean,
 };
 
 const mapState = (state: State): Props => ({

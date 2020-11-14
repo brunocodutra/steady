@@ -1,9 +1,6 @@
 import React from 'react';
-
 import activable, { Props as PropsBase } from 'container/activable';
-
 import Tile from 'component/tile';
-
 import { Connector } from 'lib/element';
 
 export const Icon = require('icon/connector.svg');

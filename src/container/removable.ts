@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import * as Actions from 'action';
-
 import activable, { Props as PropsBase } from 'container/activable';
-
 import { Removable } from 'lib/element';
 
-export type Props<E extends Removable> = PropsBase<E> & {
+export interface Props<E extends Removable> extends PropsBase<E> {
   readonly remove: () => void,
 };
 

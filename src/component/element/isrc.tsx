@@ -1,11 +1,8 @@
 import React from 'react';
-
 import parametric, { Props as PropsBase } from 'container/parametric';
-
 import Status from 'component/status';
 import Tile from 'component/tile';
 import Value from 'component/value';
-
 import { ISrc } from 'lib/element';
 import { Unit } from 'lib/unit';
 

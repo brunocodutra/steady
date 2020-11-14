@@ -1,15 +1,12 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-
 import * as Actions from 'action';
 import { State } from 'state';
-
 import { Props as PropsBase } from 'component/element';
-
 import { equal } from 'lib/array';
 import { Activable } from 'lib/element';
 
-export type Props<E extends Activable> = PropsBase<E> & {
+export interface Props<E extends Activable> extends PropsBase<E> {
   readonly active: boolean,
   readonly activate: () => void,
 };

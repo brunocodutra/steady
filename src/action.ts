@@ -1,7 +1,4 @@
-import * as Redux from 'redux';
-
 import { State } from 'state';
-
 import { Kind, Parametric } from 'lib/element';
 
 export const enum Type {
@@ -12,23 +9,28 @@ export const enum Type {
   update = 'update',
 }
 
-type Hydrate = Redux.Action<Type.hydrate> & {
+interface Hydrate {
+  readonly type: Type.hydrate,
   readonly state: State,
 };
 
-type Activate = Redux.Action<Type.activate> & {
+interface Activate {
+  readonly type: Type.activate,
   readonly id: number[],
 };
 
-type Remove = Redux.Action<Type.remove> & {
+interface Remove {
+  readonly type: Type.remove,
   readonly id: number[],
 };
 
-type Insert = Redux.Action<Type.insert> & {
+interface Insert {
+  readonly type: Type.insert,
   readonly kind: Kind,
 };
 
-type Update = Redux.Action<Type.update> & {
+interface Update {
+  readonly type: Type.update,
   readonly id: number[],
   readonly value: Parametric['value'],
 };
