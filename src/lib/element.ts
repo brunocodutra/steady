@@ -274,14 +274,6 @@ export const merge = (element: Element, value: Element): Shunt => {
   return shunt(element.next, value);
 };
 
-// microsoft/TypeScript/#21732
-// eslint-disable-next-line no-explicit-any
-const isLineValue = (v: any): v is Line['value'] => (
-  typeof v === 'object' && v !== null &&
-  'y' in v && v.y instanceof Phasor &&
-  'z' in v && v.z instanceof Phasor
-);
-
 export const update = (element: Element, value: Phasor | Line['value']): Parametric => {
   if (value instanceof Phasor) {
     switch (element.kind) {
@@ -296,15 +288,10 @@ export const update = (element: Element, value: Phasor | Line['value']): Paramet
       case Kind.xformer:
         return xformer(element.next, value);
     }
-  }
-
-  if (isLineValue(value)) {
-    switch (element.kind) {
-      case Kind.line:
-        return line(element.next, value);
-    }
-  }
-
+  } else if (element.kind === Kind.line) {
+    return line(element.next, value);
+  } 
+  
   throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
 };
 

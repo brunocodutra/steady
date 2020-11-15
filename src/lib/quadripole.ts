@@ -1,5 +1,6 @@
 import * as Phasors from 'lib/phasor';
 import { _0, _1, Phasor } from 'lib/phasor';
+import { hasProperty } from './util';
 
 type P2 = [Phasor, Phasor];
 
@@ -19,12 +20,10 @@ export interface Quadripole {
   readonly t: P2,
 };
 
-// microsoft/TypeScript/#21732
-// eslint-disable-next-line no-explicit-any
-export const isQuadripole = (q: any): q is Quadripole => (
+export const isQuadripole = (q: unknown): q is Quadripole => (
   typeof q === 'object' && q !== null &&
-  'r' in q && isP22(q.r) &&
-  't' in q && isP2(q.t)
+  hasProperty(q, 'r') && isP22(q.r) &&
+  hasProperty(q, 't') && isP2(q.t)
 );
 
 export const eye: P22 = [[_1, _0], [_0, _1]];
