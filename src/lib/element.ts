@@ -1,5 +1,5 @@
 import { _0, _1, pack as packP, Phasor, polar, unpack as unpackP } from 'lib/phasor';
-import { connect, eye, Quadripole, quadripole, rotation, translation } from 'lib/quadripole';
+import { connect, eye, Quadripole, quadripole } from 'lib/quadripole';
 
 export enum Kind {
   connector = 'connector',
@@ -186,8 +186,8 @@ export const shunt = (next: Shunt['next'] = connector(), value = series()): Shun
   next,
   value,
   model: quadripole(
-    [[_1, _0], [rotation(value.model)[1][0].div(rotation(value.model)[1][1]), _1]],
-    [_0, translation(value.model)[1].div(rotation(value.model)[1][1])],
+    [[_1, _0], [value.model.r[1][0].div(value.model.r[1][1]), _1]],
+    [_0, value.model.t[1].div(value.model.r[1][1])],
   ),
   level: next.level + value.level + 1,
 });

@@ -1,7 +1,7 @@
 import { branch, join, Kind, merge, pack, series, split, unpack, update } from 'lib/element';
 import { connect } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from './util';
+import { elements, parametric, phasors } from '../../util';
 
 describe('Series', () => {
   it('should be default constructible', () => {

@@ -1,6 +1,6 @@
 import { pack, unpack } from 'lib/element';
 
-import { elements } from './element.spec/util';
+import { elements } from '../util';
 
 describe('Element', () => {
   it('should be packable', () => {
