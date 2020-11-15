@@ -1,19 +1,22 @@
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 
-import { Phasor } from 'lib/phasor';
+import * as Phasors from 'lib/phasor';
+import { Phasor, polar } from 'lib/phasor';
+
+import * as Quadripoles from 'lib/quadripole';
 import { isQuadripole, Quadripole } from 'lib/quadripole';
 
 type T = number | Phasor | Quadripole | T[];
 
 const closeTo = (x: T, y: T, e: number): boolean => (
-  (typeof x === 'number' && typeof y === 'number')
-    ? (x === y) || (Math.abs(x - y) < e) || (Math.abs(x - y) / Math.hypot(x, y)) < e
-    : (x instanceof Array && y instanceof Array)
-      ? x.reduce((a, b, i) => a && closeTo(b, y[i], e), x.length === y.length)
-      : (x instanceof Phasor && y instanceof Phasor)
-        ? (closeTo(x.mag, 0, e) && closeTo(y.mag, 0, e)) || x.isCloseTo(y, e, e / Number.EPSILON)
-        : (isQuadripole(x) && isQuadripole(y))
-          ? closeTo(x.r, y.r, e) && closeTo(x.t, y.t, e)
+  (x instanceof Phasor && y instanceof Phasor)
+    ? Phasors.closeTo(x, y, e)
+    : (typeof x === 'number' && typeof y === 'number')
+      ? Phasors.closeTo(polar(x), polar(y))
+      : (isQuadripole(x) && isQuadripole(y))
+        ? Quadripoles.closeTo(x, y, e)
+        : (Array.isArray(x) && Array.isArray(y))
+          ? x.length === y.length && x.every((a, i) => closeTo(a, y[i], e))
           : false
 );
 
