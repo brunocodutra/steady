@@ -6,9 +6,9 @@ export const _0 = polar(0);
 export const _1 = polar(1);
 
 export const closeTo = (p: Phasor, q: Phasor, e: number = Number.EPSILON) => (
-  p.isCloseTo(q, e, e / Number.EPSILON) || (
-    polar(p.norm()).isCloseTo(_0, e, 0) &&
-    polar(q.norm()).isCloseTo(_0, e, 0)
+  p.ulpsEq(q, e, e / Number.EPSILON) || (
+    polar(p.norm()).ulpsEq(_0, e, 0) &&
+    polar(q.norm()).ulpsEq(_0, e, 0)
   )
 );
 
