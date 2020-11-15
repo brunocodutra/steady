@@ -2,7 +2,7 @@ import { branch, join, Kind, line, merge, pack, split, unpack, update } from 'li
 import { polar } from 'lib/phasor';
 import { project } from 'lib/quadripole';
 
-import { elements, phasors } from './util';
+import { elements, phasors } from '../../util';
 
 describe('Line', () => {
   it('should be default constructible', () => {

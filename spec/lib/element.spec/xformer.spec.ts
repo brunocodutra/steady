@@ -1,7 +1,7 @@
 import { branch, join, Kind, merge, pack, split, unpack, update, xformer } from 'lib/element';
 import { project } from 'lib/quadripole';
 
-import { elements, phasors } from './util';
+import { elements, phasors } from '../../util';
 
 describe('XFormer', () => {
   it('should be default constructible', () => {

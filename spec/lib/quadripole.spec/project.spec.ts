@@ -1,18 +1,17 @@
 import { project, quadripole } from 'lib/quadripole';
 
-import { phasors, samples } from './util';
+import { phasors, quadripoles } from '../../util';
 
 describe('Quadripole', () => {
   it('should project pairs of voltage and current', () => {
-    samples.forEach(({ a, b, c, d, e, f }) => {
-      const q = quadripole([[a, b], [c, d]], [e, f]);
+    quadripoles.forEach((q) => {
+      const { r: [[a, b], [c, d]], t: [e, f] } = q;
+
       phasors.forEach((v) => {
-        const x = a.mul(v).add(e);
-        const y = c.mul(v).add(f);
         phasors.forEach((i) => {
           expect(project(q, [v, i])).toBeCloseTo([
-            b.mul(i).add(x),
-            d.mul(i).add(y),
+            e.add(a.mul(v)).add(b.mul(i)),
+            f.add(c.mul(v)).add(d.mul(i)),
           ]);
         });
       });

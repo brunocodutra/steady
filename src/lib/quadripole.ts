@@ -29,9 +29,6 @@ export const isQuadripole = (q: any): q is Quadripole => (
 export const eye: P22 = [[_1, _0], [_0, _1]];
 export const quadripole = (r = eye, t: P2 = [_0, _0]): Quadripole => ({ r, t });
 
-export const rotation = ({ r }: Quadripole) => r;
-export const translation = ({ t }: Quadripole) => t;
-
 export const project = ({ r: [[a, b], [c, d]], t: [u, j] }: Quadripole, [v, i]: P2): P2 => {
   return [
     u.add(a.mul(v)).add(b.mul(i)),

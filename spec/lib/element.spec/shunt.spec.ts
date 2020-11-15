@@ -2,7 +2,7 @@ import { branch, join, Kind, merge, pack, series, shunt, split, unpack, update }
 import { rect } from 'lib/phasor';
 import { project, solve } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from './util';
+import { elements, parametric, phasors } from '../../util';
 
 describe('Shunt', () => {
   it('should be default constructible', () => {

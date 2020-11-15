@@ -1,7 +1,7 @@
 import { admittance, branch, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
 import { project } from 'lib/quadripole';
 
-import { elements, phasors } from './util';
+import { elements, phasors } from '../../util';
 
 describe('Admittance', () => {
   it('should be default constructible', () => {
