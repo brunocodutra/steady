@@ -1,4 +1,5 @@
-import { _0, _1, pack as packP, Phasor, polar, unpack as unpackP } from 'lib/phasor';
+import * as Phasors from 'lib/phasor';
+import { _0, _1, Phasor, polar } from 'lib/phasor';
 import { connect, eye, Quadripole, quadripole } from 'lib/quadripole';
 
 export enum Kind {
@@ -319,11 +320,11 @@ export const pack = (element?: Element): unknown => {
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), packP(element.value)];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), Phasors.pack(element.value)];
 
     case Kind.line: {
       const { y, z } = element.value;
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), [packP(y), packP(z)]];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), [Phasors.pack(y), Phasors.pack(z)]];
     }
 
     case Kind.shunt:
@@ -358,7 +359,7 @@ export const unpack = (packed: unknown): Element => {
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return update(join(make(kind), unpack(packed[1])), unpackP(packed[2]));
+      return update(join(make(kind), unpack(packed[1])), Phasors.unpack(packed[2]));
 
     case Kind.line: {
       /* istanbul ignore next */
@@ -367,8 +368,8 @@ export const unpack = (packed: unknown): Element => {
       }
 
       const value = {
-        y: unpackP(packed[2][0]),
-        z: unpackP(packed[2][1]),
+        y: Phasors.unpack(packed[2][0]),
+        z: Phasors.unpack(packed[2][1]),
       };
 
       return update(join(make(kind), unpack(packed[1])), value);

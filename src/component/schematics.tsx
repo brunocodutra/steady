@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Element as ElementT } from 'lib/element';
+import * as Elements from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { solve } from 'lib/quadripole';
 import { State } from 'state';
 import Element from 'component/element';
 
 interface Props {
-  readonly entry: ElementT,
+  readonly entry: Elements.Element,
 };
 
 const mapState = ({ entry }: State): Props => ({

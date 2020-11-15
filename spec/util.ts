@@ -13,7 +13,10 @@ export const quadripoles: Quadripole[] = nil.concat(
   phasors.map((p) => quadripole([[_1, p], [_0, _1]])),
   phasors.map((p) => quadripole([[_1, _0], [p, _1]])),
   phasors.map((p) => quadripole([[p, _0], [_0, p.recip()]])),
-  phasors.map((p) => [p.ln().sinh(), p.ln().cosh()])
+  phasors
+    .map((p) => p.ln())
+    .filter((p) => !p.isZero())
+    .map((p) => [p.ln().sinh(), p.ln().cosh()])
     .map(([s, c]) => quadripole([[c, s], [s, c]])),
 );
 

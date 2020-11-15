@@ -1,4 +1,5 @@
-import { depth, Element, ground, pack as packE, series, unpack as unpackE } from 'lib/element';
+import * as Elements from 'lib/element';
+import { depth, Element, ground, series } from 'lib/element';
 
 export interface State {
   readonly entry: Element,
@@ -17,7 +18,7 @@ export const init = (next?: Element): State => {
 };
 
 export const pack = ({ entry, active }: State): unknown => (
-  [packE(entry?.next?.next), active]
+  [Elements.pack(entry?.next?.next), active]
 );
 
 export const unpack = (packed: unknown): State => {
@@ -29,7 +30,7 @@ export const unpack = (packed: unknown): State => {
   }
 
   return {
-    entry: schematics(unpackE(packed[0])),
+    entry: schematics(Elements.unpack(packed[0])),
     active: packed[1],
   };
 };

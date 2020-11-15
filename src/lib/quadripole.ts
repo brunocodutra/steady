@@ -1,3 +1,4 @@
+import * as Phasors from 'lib/phasor';
 import { _0, _1, Phasor } from 'lib/phasor';
 
 type P2 = [Phasor, Phasor];
@@ -28,6 +29,13 @@ export const isQuadripole = (q: any): q is Quadripole => (
 
 export const eye: P22 = [[_1, _0], [_0, _1]];
 export const quadripole = (r = eye, t: P2 = [_0, _0]): Quadripole => ({ r, t });
+
+export const closeTo = (p: Quadripole, q: Quadripole, e?: number) => {
+  const l: Phasor[] = [p.r, p.t].flat(2);
+  const r: Phasor[] = [q.r, q.t].flat(2);
+
+  return l.every((x, i) => Phasors.closeTo(x, r[i], e))
+};
 
 export const project = ({ r: [[a, b], [c, d]], t: [u, j] }: Quadripole, [v, i]: P2): P2 => {
   return [
