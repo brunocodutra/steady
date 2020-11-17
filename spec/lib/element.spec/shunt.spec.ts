@@ -13,7 +13,7 @@ describe('Shunt', () => {
     elements.forEach((x) => {
       elements.map(series).forEach((y) => {
         expect(shunt(x, y).next).toBe(x);
-        expect(shunt(x, y).value).toBe(y);
+        expect(shunt(x, y).branch).toBe(y);
       });
     });
   });
@@ -43,7 +43,7 @@ describe('Shunt', () => {
   it('should allow merging in', () => {
     elements.forEach((y) => {
       if (y.kind === Kind.series) {
-        expect(merge(shunt(), y).value).toBe(y);
+        expect(merge(shunt(), y).branch).toBe(y);
       } else {
         expect(() => merge(shunt(), y)).toThrow();
       }
@@ -63,8 +63,8 @@ describe('Shunt', () => {
       parametric.map((e) => update(e, v)).forEach((x) => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
-            const { model, value } = shunt(undefined, series(join(x, y)));
-            expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(value.model, [v, rect(0)])[1])]);
+            const { model, branch } = shunt(undefined, series(join(x, y)));
+            expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(branch.model, [v, rect(0)])[1])]);
           });
         });
       });
