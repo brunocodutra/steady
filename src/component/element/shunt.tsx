@@ -5,7 +5,7 @@ import removable, { Props as PropsBase } from 'container/removable';
 import Element from 'component/element';
 import Status from 'component/status';
 import Tile from 'component/tile';
-import { prefix } from 'lib/array';
+import { prefix } from 'lib/algorithm';
 import { Shunt } from 'lib/element';
 import { project } from 'lib/quadripole';
 import { Unit } from 'lib/unit';

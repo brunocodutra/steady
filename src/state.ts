@@ -1,5 +1,6 @@
+import { traverse } from 'lib/algorithm';
 import * as Elements from 'lib/element';
-import { depth, Element, ground, series } from 'lib/element';
+import { Element, ground, series } from 'lib/element';
 
 export interface State {
   readonly entry: Element,
@@ -13,7 +14,7 @@ export const init = (next?: Element): State => {
 
   return {
     entry,
-    active: [depth(entry)],
+    active: [traverse(entry.next).length],
   };
 };
 
