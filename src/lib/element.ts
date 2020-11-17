@@ -89,7 +89,7 @@ export interface Series {
 export interface Shunt {
   readonly kind: Kind.shunt,
   readonly next: Element,
-  readonly value: Series,
+  readonly branch: Series,
   readonly model: Quadripole,
   readonly level: number,
 }
@@ -108,14 +108,14 @@ const terminal: Connector = {
 
 export const connector = (): Connector => terminal;
 
-export const ground = (next: Ground['next'] = connector()): Ground => ({
+export const ground = (next: Element = connector()): Ground => ({
   kind: Kind.ground,
   next,
   model: quadripole(),
   level: next.level,
 });
 
-export const vsrc = (next: VSrc['next'] = connector(), value = _0): VSrc => ({
+export const vsrc = (next: Element = connector(), value = _0): VSrc => ({
   kind: Kind.vsrc,
   next,
   value,
@@ -123,7 +123,7 @@ export const vsrc = (next: VSrc['next'] = connector(), value = _0): VSrc => ({
   level: next.level,
 });
 
-export const isrc = (next: ISrc['next'] = connector(), value = _0): ISrc => ({
+export const isrc = (next: Element = connector(), value = _0): ISrc => ({
   kind: Kind.isrc,
   next,
   value,
@@ -131,7 +131,7 @@ export const isrc = (next: ISrc['next'] = connector(), value = _0): ISrc => ({
   level: next.level,
 });
 
-export const impedance = (next: Impedance['next'] = connector(), value = _0): Impedance => ({
+export const impedance = (next: Element = connector(), value = _0): Impedance => ({
   kind: Kind.impedance,
   next,
   value,
@@ -139,7 +139,7 @@ export const impedance = (next: Impedance['next'] = connector(), value = _0): Im
   level: next.level,
 });
 
-export const admittance = (next: Admittance['next'] = connector(), value = polar(Infinity)): Admittance => ({
+export const admittance = (next: Element = connector(), value = polar(Infinity)): Admittance => ({
   kind: Kind.admittance,
   next,
   value,
@@ -147,7 +147,7 @@ export const admittance = (next: Admittance['next'] = connector(), value = polar
   level: next.level,
 });
 
-export const xformer = (next: XFormer['next'] = connector(), value = _1): XFormer => ({
+export const xformer = (next: Element = connector(), value = _1): XFormer => ({
   kind: Kind.xformer,
   next,
   value,
@@ -155,30 +155,30 @@ export const xformer = (next: XFormer['next'] = connector(), value = _1): XForme
   level: next.level,
 });
 
-export const line = (next: Line['next'] = connector(), { y, z } = { y: _0, z: _1 }): Line => ({
+export const line = (next: Element = connector(), { y, z } = { y: _0, z: _1 }): Line => ({
   kind: Kind.line,
   next,
   value: { y, z },
-  model: quadripole([[y.cosh(), y.sinh().mul(z.neg())], [y.sinh().div(z.neg()), y.cosh()]]),
+  model: quadripole([[y.cosh(), y.sinh().mul(z).neg()], [y.sinh().div(z).neg(), y.cosh()]]),
   level: next.level,
 });
 
-export const series = (next: Series['next'] = connector()): Series => ({
+export const series = (next: Element = connector()): Series => ({
   kind: Kind.series,
   next,
   model: traverse(next).map((e) => e.model).reduce(connect),
   level: next.level,
 });
 
-export const shunt = (next: Shunt['next'] = connector(), value = series()): Shunt => ({
+export const shunt = (next: Element = connector(), branch = series()): Shunt => ({
   kind: Kind.shunt,
   next,
-  value,
+  branch,
   model: quadripole(
-    [[_1, _0], [value.model.r[1][0].div(value.model.r[1][1]), _1]],
-    [_0, value.model.t[1].div(value.model.r[1][1])],
+    [[_1, _0], [branch.model.r[1][0].div(branch.model.r[1][1]), _1]],
+    [_0, branch.model.t[1].div(branch.model.r[1][1])],
   ),
-  level: next.level + value.level + 1,
+  level: next.level + branch.level + 1,
 });
 
 export const make = (kind: Kind): Element => {
@@ -235,7 +235,7 @@ export const join = (element: Element, next: Element): Exclude<Element, Connecto
     case Kind.series:
       return series(next);
     case Kind.shunt:
-      return shunt(next, element.value);
+      return shunt(next, element.branch);
   }
 };
 
@@ -244,19 +244,19 @@ export const branch = (element: Element): Series => {
     throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
   }
 
-  return element.value;
+  return element.branch;
 };
 
-export const merge = (element: Element, value: Element): Shunt => {
+export const merge = (element: Element, branch: Element): Shunt => {
   if (element.kind !== Kind.shunt) {
     throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
   }
 
-  if (value.kind !== Kind.series) {
-    throw new Error(`expected '${Kind.series}', got '${value.kind}'`);
+  if (branch.kind !== Kind.series) {
+    throw new Error(`expected '${Kind.series}', got '${branch.kind}'`);
   }
 
-  return shunt(element.next, value);
+  return shunt(element.next, branch);
 };
 
 export const update = (element: Element, value: Phasor | Line['value']): Parametric => {
@@ -300,7 +300,7 @@ export const pack = (element?: Element): unknown => {
     }
 
     case Kind.shunt:
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), pack(element.value)];
+      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), pack(element.branch)];
 
     case undefined:
       return [];
