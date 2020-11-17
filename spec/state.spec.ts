@@ -1,7 +1,7 @@
 import {isKind, Kind, make} from 'lib/element';
 import {init, pack, serialize, unpack, unserialize} from 'state';
 
-const Base64 = /^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_]+$/;
+const Base64 = /^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%]+$/;
 
 const elements = Object.keys(Kind).filter(isKind).map(make);
 

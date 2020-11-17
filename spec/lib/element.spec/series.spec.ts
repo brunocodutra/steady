@@ -44,10 +44,6 @@ describe('Series', () => {
     });
   });
 
-  it('should have no value', () => {
-    expect(series().value).toBeUndefined();
-  });
-
   it('should not allow updating', () => {
     phasors.forEach((value) => {
       expect(() => update(series(), value)).toThrow();

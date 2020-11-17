@@ -20,8 +20,6 @@ export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in K
 
 export interface Connector {
   readonly kind: Kind.connector,
-  readonly next: undefined,
-  readonly value: undefined,
   readonly model: Quadripole,
   readonly level: 0,
 }
@@ -29,7 +27,6 @@ export interface Connector {
 export interface Ground {
   readonly kind: Kind.ground,
   readonly next: Element,
-  readonly value: undefined,
   readonly model: Quadripole,
   readonly level: number,
 }
@@ -85,7 +82,6 @@ export interface Line {
 export interface Series {
   readonly kind: Kind.series,
   readonly next: Element,
-  readonly value: undefined,
   readonly model: Quadripole,
   readonly level: number,
 }
@@ -106,8 +102,6 @@ export type Element = Static | Parametric | Removable | Activable;
 
 const terminal: Connector = {
   kind: Kind.connector,
-  next: undefined,
-  value: undefined,
   model: quadripole(),
   level: 0,
 };
@@ -117,7 +111,6 @@ export const connector = (): Connector => terminal;
 export const ground = (next: Ground['next'] = connector()): Ground => ({
   kind: Kind.ground,
   next,
-  value: undefined,
   model: quadripole(),
   level: next.level,
 });
@@ -173,7 +166,6 @@ export const line = (next: Line['next'] = connector(), { y, z } = { y: _0, z: _1
 export const series = (next: Series['next'] = connector()): Series => ({
   kind: Kind.series,
   next,
-  value: undefined,
   model: traverse(next).map((e) => e.model).reduce(connect),
   level: next.level,
 });

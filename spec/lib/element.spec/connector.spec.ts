@@ -9,7 +9,7 @@ describe('Connector', () => {
   });
 
   it('should have no successor', () => {
-    expect(connector().next).toBeUndefined();
+    expect(connector()).not.toHaveProperty('next');
   });
 
   it('should not allow splitting off', () => {
@@ -34,10 +34,6 @@ describe('Connector', () => {
 
   it('should have no level', () => {
     expect(connector().level).toBe(0);
-  });
-
-  it('should have no value', () => {
-    expect(connector().value).toBeUndefined();
   });
 
   it('should not allow updating', () => {
