@@ -1,4 +1,5 @@
 import * as Phasors from 'lib/phasor';
+import { traverse } from 'lib/algorithm';
 import { _0, _1, Phasor, polar } from 'lib/phasor';
 import { connect, eye, Quadripole, quadripole } from 'lib/quadripole';
 
@@ -103,11 +104,6 @@ export type Removable = Parametric | Shunt;
 export type Activable = Removable | Connector;
 export type Element = Static | Parametric | Removable | Activable;
 
-const collapse = (element: Element): Quadripole => element.kind !== Kind.connector
-  ? connect(element.model, collapse(element.next))
-  : element.model
-  ;
-
 const terminal: Connector = {
   kind: Kind.connector,
   next: undefined,
@@ -178,7 +174,7 @@ export const series = (next: Series['next'] = connector()): Series => ({
   kind: Kind.series,
   next,
   value: undefined,
-  model: collapse(next),
+  model: traverse(next).map((e) => e.model).reduce(connect),
   level: next.level,
 });
 
@@ -192,9 +188,6 @@ export const shunt = (next: Shunt['next'] = connector(), value = series()): Shun
   ),
   level: next.level + value.level + 1,
 });
-
-export const depth = (element: Element): number =>
-  element.kind === Kind.connector ? 0 : 1 + depth(element.next);
 
 export const make = (kind: Kind): Element => {
   switch (kind) {
@@ -290,8 +283,8 @@ export const update = (element: Element, value: Phasor | Line['value']): Paramet
     }
   } else if (element.kind === Kind.line) {
     return line(element.next, value);
-  } 
-  
+  }
+
   throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
 };
 

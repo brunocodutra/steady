@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { Action, activate } from 'action';
 import { State } from 'state';
 import { Props as PropsBase } from 'component/element';
-import { equal } from 'lib/array';
+import { equal } from 'lib/algorithm';
 import { Activable } from 'lib/element';
 
 export interface Props<E extends Activable> extends PropsBase<E> {

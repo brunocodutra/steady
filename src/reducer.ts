@@ -1,6 +1,6 @@
 import { Action, Type } from 'action';
 import { init, State } from 'state';
-import { equal, prefix } from 'lib/array';
+import { equal, prefix } from 'lib/algorithm';
 import { branch, Element, join, make, merge, split, update } from 'lib/element';
 
 const spin = (id: number[], i: number, n: number) => [...id.slice(0, i), id[i] + n, ...id.slice(i + 1)];
