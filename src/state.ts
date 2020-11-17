@@ -7,19 +7,13 @@ export interface State {
   readonly active: number[],
 }
 
-const schematics = (next?: Element) => series(ground(next));
-
-export const init = (next?: Element): State => {
-  const entry = schematics(next);
-
-  return {
-    entry,
-    active: [traverse(entry.next).length],
-  };
-};
+export const init = (next?: Element): State => ({
+  entry: series(ground(next)),
+  active: [traverse(next).length + 2],
+});
 
 export const pack = ({ entry, active }: State): unknown => (
-  [Elements.pack(entry?.next?.next), active]
+  [Elements.pack(entry), active]
 );
 
 export const unpack = (packed: unknown): State => {
@@ -31,7 +25,7 @@ export const unpack = (packed: unknown): State => {
   }
 
   return {
-    entry: schematics(Elements.unpack(packed[0])),
+    entry: Elements.unpack(packed[0]),
     active: packed[1],
   };
 };

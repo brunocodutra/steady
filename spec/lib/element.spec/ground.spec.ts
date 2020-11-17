@@ -44,10 +44,6 @@ describe('Ground', () => {
     });
   });
 
-  it('should have no value', () => {
-    expect(ground().value).toBeUndefined();
-  });
-
   it('should not allow updating', () => {
     phasors.forEach((value) => {
       expect(() => update(ground(), value)).toThrow();
