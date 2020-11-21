@@ -13,13 +13,13 @@ interface Props {
   readonly unit?: Unit,
   readonly description: string,
   readonly onChange: (value: Phasor) => void,
-};
+}
 
 interface State {
   readonly prompt: boolean,
   readonly mag: string,
   readonly ang: string,
-};
+}
 
 export default class extends React.PureComponent<Props, State> {
   constructor(props: Props) {
@@ -32,7 +32,7 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public render() {
+  public render(): JSX.Element {
     const unit = this.props.unit && (
       <div className='input-group-append'>
         <span className='input-group-text'>

@@ -11,11 +11,11 @@ const Icon = require('icon/share.svg');
 
 interface Props {
   readonly state: State,
-};
+}
 
 interface LocalState {
   readonly show: boolean,
-};
+}
 
 const mapState = (state: State): Props => ({
   state,
@@ -33,7 +33,7 @@ export default connect(mapState)(
       };
     }
 
-    public render() {
+    public render(): JSX.Element {
       const url = this.state.show ? `${location.origin}${location.pathname}?${serialize(this.props.state)}` : '';
 
       return ReactDOM.createPortal(

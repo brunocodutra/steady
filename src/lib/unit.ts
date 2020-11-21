@@ -23,7 +23,7 @@ export enum Prefix {
 const r2d = 180 / Math.PI;
 
 /* istanbul ignore next */
-export const radians = (x: number) => x / r2d;
+export const radians = (x: number): number => x / r2d;
 
 /* istanbul ignore next */
-export const degrees = (x: number) => x * r2d;
+export const degrees = (x: number): number => x * r2d;

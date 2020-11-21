@@ -16,7 +16,7 @@ export interface Props<E extends Element = Element> {
   readonly id: number[],
   readonly element: E,
   readonly vi: [Phasor, Phasor],
-};
+}
 
 export default ({ id, element, vi }: Props): JSX.Element => {
   switch (element.kind) {

@@ -8,7 +8,7 @@ import Element from 'component/element';
 
 interface Props {
   readonly entry: Elements.Element,
-};
+}
 
 const mapState = ({ entry }: State): Props => ({
   entry,

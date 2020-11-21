@@ -73,9 +73,9 @@ const prefix = (p: Phasor): Prefix => {
 interface Props {
   readonly value: Phasor,
   readonly unit?: Unit,
-};
+}
 
-export default ({ value, unit }: Props) => (
+export default ({ value, unit }: Props): JSX.Element => (
   <span className={'quantity'}>
     <span className='mag'>{mag(value)}</span>
     <span className='ang'>{ang(value)}</span>

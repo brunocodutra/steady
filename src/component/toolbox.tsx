@@ -11,11 +11,11 @@ import { Icon as Shunt } from 'component/element/shunt';
 import { Icon as VSrc } from 'component/element/vsrc';
 import { Icon as XFormer } from 'component/element/xformer';
 
-interface Props { };
+interface Props { }
 
 interface State {
   readonly open: boolean,
-};
+}
 
 export default class extends React.PureComponent<Props, State> {
   constructor(props: Props) {
@@ -26,7 +26,7 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { open } = this.state;
 
     return (

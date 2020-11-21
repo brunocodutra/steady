@@ -18,9 +18,9 @@ describe('unwrap', () => {
 
 describe('hasProperty', () => {
   it('should check whether the object has a property with that name', () => {
-    expect(hasProperty({ a: 42, b: undefined, c: null }, 'a')).toBeTruthy();
-    expect(hasProperty({ a: 42, b: undefined, c: null }, 'b')).toBeFalsy();
-    expect(hasProperty({ a: 42, b: undefined, c: null }, 'c')).toBeTruthy();
-    expect(hasProperty({ a: 42, b: undefined, c: null }, 'd')).toBeFalsy();
+    expect(hasProperty({ a: 42, b: null, c: undefined }, 'a')).toBeTruthy();
+    expect(hasProperty({ a: 42, b: null, c: undefined }, 'b')).toBeTruthy();
+    expect(hasProperty({ a: 42, b: null, c: undefined }, 'c')).toBeTruthy();
+    expect(hasProperty({ a: 42, b: null, c: undefined }, 'd')).toBeFalsy();
   });
 });

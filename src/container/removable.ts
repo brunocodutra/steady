@@ -1,20 +1,21 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import * as Actions from 'action';
+import { Action, remove } from 'action';
 import activable, { Props as PropsBase } from 'container/activable';
 import { Removable } from 'lib/element';
 
 export interface Props<E extends Removable> extends PropsBase<E> {
   readonly remove: () => void,
-};
+}
 
-const mapDispatch = <E extends Removable>(dispatch: Dispatch<Actions.Action>, props: PropsBase<E>) => ({
+const mapDispatch = <E extends Removable>(dispatch: Dispatch<Action>, props: PropsBase<E>) => ({
   remove: () => {
-    dispatch(Actions.remove(props.id));
+    dispatch(remove(props.id));
   },
 });
 
-export default <E extends Removable>(component: React.ComponentType<Props<E>>) => (
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export default <E extends Removable>(component: ComponentType<Props<E>>) => (
   activable<E>(connect(null, mapDispatch)(component))
 );

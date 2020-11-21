@@ -1,4 +1,4 @@
-import { _0, _1 } from 'lib/phasor';
+import { _1 } from 'lib/phasor';
 import { closeTo, connect, eye, quadripole } from 'lib/quadripole';
 
 import { quadripoles } from '../util';

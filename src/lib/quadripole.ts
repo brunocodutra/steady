@@ -18,7 +18,7 @@ const isP22 = (p: unknown): p is P22 =>
 export interface Quadripole {
   readonly r: P22,
   readonly t: P2,
-};
+}
 
 export const isQuadripole = (q: unknown): q is Quadripole => (
   typeof q === 'object' && q !== null &&
@@ -29,7 +29,7 @@ export const isQuadripole = (q: unknown): q is Quadripole => (
 export const eye: P22 = [[_1, _0], [_0, _1]];
 export const quadripole = (r = eye, t: P2 = [_0, _0]): Quadripole => ({ r, t });
 
-export const closeTo = (p: Quadripole, q: Quadripole, e?: number) => {
+export const closeTo = (p: Quadripole, q: Quadripole, e?: number): boolean => {
   const l: Phasor[] = [p.r, p.t].flat(2);
   const r: Phasor[] = [q.r, q.t].flat(2);
 

@@ -6,6 +6,5 @@ export const unwrap = <X>(x?: X | null, msg?: string): X => {
   return x;
 };
 
-export const hasProperty = <P extends PropertyKey>(o: object, p: P): o is { [K in P]: unknown } => (
-  p in o && (o as any)[p] !== undefined
-);
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const hasProperty = <O extends {}, P extends PropertyKey>(o: O, p: P): o is O & Record<P, unknown> => p in o;

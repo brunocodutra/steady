@@ -9,11 +9,11 @@ import * as Actions from 'action';
 interface PropsBase {
   readonly kind: Kind,
   readonly children?: React.ReactNode,
-};
+}
 
 interface Props extends PropsBase {
   readonly insert: () => void,
-};
+}
 
 const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
   insert: () => {
