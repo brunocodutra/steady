@@ -1,7 +1,7 @@
 import * as Phasors from 'lib/phasor';
 import { traverse } from 'lib/algorithm';
 import { _0, _1, Phasor, polar } from 'lib/phasor';
-import { connect, eye, Quadripole, quadripole } from 'lib/quadripole';
+import { connect, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
 
 export enum Kind {
   connector = 'connector',
@@ -349,5 +349,38 @@ export const unpack = (packed: unknown): Element => {
 
     case Kind.shunt:
       return merge(join(make(kind), unpack(packed[1])), unpack(packed[2]));
+  }
+};
+
+export type Energized<E extends Element = Element> =
+  E extends Element
+  ? {
+    readonly [P in Exclude<keyof E, 'next' | 'branch'>]: E[P];
+  } & {
+    readonly [P in Extract<keyof E, 'next' | 'branch'>]: Energized<Element>;
+  } & {
+    readonly vi: [Phasor, Phasor],
+  }
+  : never
+  ;
+
+export const energize = (element: Element, vi: [Phasor, Phasor] = [_0, solve(element.model)[1]]): Energized<Element> => {
+  switch (element.kind) {
+    case Kind.connector:
+      return { ...element, vi };
+    case Kind.ground:
+    case Kind.vsrc:
+    case Kind.isrc:
+    case Kind.impedance:
+    case Kind.admittance:
+    case Kind.xformer:
+    case Kind.line:
+      return { ...element, vi, next: energize(element.next, project(element.model, vi)) };
+    case Kind.series:
+      return { ...element, vi, next: energize(element.next, vi) };
+    case Kind.shunt:
+      const next = energize(element.next, project(element.model, vi));
+      const branch = energize(element.branch, [vi[0], vi[1].sub(next.vi[1])]);
+      return { ...element, vi, next, branch };
   }
 };

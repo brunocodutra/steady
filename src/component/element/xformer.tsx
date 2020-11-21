@@ -11,10 +11,10 @@ export const Icon = require('icon/xformer.svg');
 type Props = PropsBase<XFormer>;
 
 export default parametric<XFormer>(
-  ({ vi: [v, i], element, active, activate, remove, update }: Props) => (
-    <Tile active={active} activate={activate} remove={remove} className={element.kind}>
+  ({ element: { kind, value, vi: [v, i] }, active, activate, remove, update }: Props) => (
+    <Tile active={active} activate={activate} remove={remove} className={kind}>
       <Icon />
-      <Value value={element.value} description={'transformer ratio'} unit={Unit.ratio} onChange={update} />
+      <Value value={value} description={'transformer ratio'} unit={Unit.ratio} onChange={update} />
       <Status value={v} unit={Unit.volt} />
       <Status value={i} unit={Unit.ampere} />
     </Tile>

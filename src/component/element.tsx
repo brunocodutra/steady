@@ -1,6 +1,5 @@
 import React from 'react';
-import { Element, Kind } from 'lib/element';
-import { Phasor } from 'lib/phasor';
+import { Element, Energized, Kind } from 'lib/element';
 import Admittance from 'component/element/admittance';
 import Connector from 'component/element/connector';
 import Ground from 'component/element/ground';
@@ -14,40 +13,39 @@ import XFormer from 'component/element/xformer';
 
 export interface Props<E extends Element = Element> {
   readonly id: number[],
-  readonly element: E,
-  readonly vi: [Phasor, Phasor],
+  readonly element: Energized<E>,
 }
 
-export default ({ id, element, vi }: Props): JSX.Element => {
+export default ({ id, element }: Props): JSX.Element => {
   switch (element.kind) {
     case Kind.ground:
-      return <Ground id={id} element={element} vi={vi} />;
+      return <Ground id={id} element={element} />;
 
     case Kind.connector:
-      return <Connector id={id} element={element} vi={vi} />;
+      return <Connector id={id} element={element} />;
 
     case Kind.vsrc:
-      return <VSrc id={id} element={element} vi={vi} />;
+      return <VSrc id={id} element={element} />;
 
     case Kind.isrc:
-      return <ISrc id={id} element={element} vi={vi} />;
+      return <ISrc id={id} element={element} />;
 
     case Kind.impedance:
-      return <Impedance id={id} element={element} vi={vi} />;
+      return <Impedance id={id} element={element} />;
 
     case Kind.admittance:
-      return <Admittance id={id} element={element} vi={vi} />;
+      return <Admittance id={id} element={element} />;
 
     case Kind.xformer:
-      return <XFormer id={id} element={element} vi={vi} />;
+      return <XFormer id={id} element={element} />;
 
     case Kind.line:
-      return <Line id={id} element={element} vi={vi} />;
+      return <Line id={id} element={element} />;
 
     case Kind.series:
-      return <Series id={id} element={element} vi={vi} />;
+      return <Series id={id} element={element} />;
 
     case Kind.shunt:
-      return <Shunt id={id} element={element} vi={vi} />;
+      return <Shunt id={id} element={element} />;
   }
 };

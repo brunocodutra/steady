@@ -7,8 +7,8 @@ export const Icon = require('icon/ground.svg');
 
 type Props = PropsBase<Ground>;
 
-export default ({ element }: Props): JSX.Element => (
-  <Tile className={element.kind}>
+export default ({ element: { kind } }: Props): JSX.Element => (
+  <Tile className={kind}>
     <Icon />
   </Tile>
 );

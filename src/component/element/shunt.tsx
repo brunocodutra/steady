@@ -7,7 +7,6 @@ import Status from 'component/status';
 import Tile from 'component/tile';
 import { prefix } from 'lib/algorithm';
 import { Shunt } from 'lib/element';
-import { project } from 'lib/quadripole';
 import { Unit } from 'lib/unit';
 
 export const Icon = require('icon/shunt.svg');
@@ -23,19 +22,19 @@ const mapState = ({ active }: State, props: PropsBase<Shunt>) => ({
 });
 
 export default removable<Shunt>(connect(mapState)(
-  ({ id, element, vi, active, activate, essential, remove }: Props): JSX.Element => {
-    const fill = Array(element.level - element.branch.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k} />);
+  ({ id, element: { kind, branch, level, vi: [v, i] }, active, activate, essential, remove }: Props): JSX.Element => {
+    const fill = Array(level - branch.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k} />);
 
     return (
       <Tile>
-        <Tile activate={activate} active={active} remove={essential ? undefined : remove} className={element.kind}>
+        <Tile activate={activate} active={active} remove={essential ? undefined : remove} className={kind}>
           <Icon />
           {fill}
           <Knee />
-          <Status value={vi[0]} unit={Unit.volt} />
-          <Status value={vi[1]} unit={Unit.ampere} />
+          <Status value={v} unit={Unit.volt} />
+          <Status value={i} unit={Unit.ampere} />
         </Tile>
-        <Element id={id} element={element.branch} vi={[vi[0], vi[1].sub(project(element.model, vi)[1])]} />
+        <Element id={id} element={branch} />
       </Tile>
     );
   },
