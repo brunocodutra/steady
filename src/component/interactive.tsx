@@ -8,9 +8,9 @@ interface Props {
   readonly onBlur?: () => void,
   readonly className?: string,
   readonly children?: React.ReactNode,
-};
+}
 
-export default ({ action, onFocus, onBlur, className = '', children }: Props) => (
+export default ({ action, onFocus, onBlur, className = '', children }: Props): JSX.Element => (
   <span
     className={classes(className, { interactive: !!action })}
     onMouseDown={action && isolate(action)}

@@ -93,13 +93,11 @@ module.exports = ({ production } = {}) => ({
 
   plugins: [
     new ESLintPlugin({
-      context: src,
-      failOnError: true,
+      files: 'src/**/*.{ts,tsx}',
     }),
 
     new StyleLintPlugin({
-      context: src,
-      failOnError: true,
+      files: 'src/**/*.scss',
     }),
 
     new HtmlWebpackPlugin({

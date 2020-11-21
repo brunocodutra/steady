@@ -12,7 +12,7 @@ interface Props {
   readonly onDismiss: () => void,
   readonly onConfirm?: () => void,
   readonly children?: React.ReactNode,
-};
+}
 
 export default class extends React.PureComponent<Props> {
   private portal = document.createElement('div');
@@ -22,12 +22,12 @@ export default class extends React.PureComponent<Props> {
     document.body.appendChild(this.portal);
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     this.removeListeners();
     document.body.removeChild(this.portal);
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(): void {
     if (this.props.show) {
       this.addListeners();
     } else {
@@ -35,7 +35,7 @@ export default class extends React.PureComponent<Props> {
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { show, title, onDismiss } = this.props;
     return ReactDOM.createPortal(
       (

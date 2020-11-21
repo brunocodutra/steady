@@ -4,7 +4,7 @@ import { depth, Element, ground, series } from 'lib/element';
 export interface State {
   readonly entry: Element,
   readonly active: number[],
-};
+}
 
 const schematics = (next?: Element) => series(ground(next));
 

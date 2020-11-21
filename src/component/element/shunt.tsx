@@ -16,7 +16,7 @@ const Knee = require('icon/knee.svg');
 
 interface Props extends PropsBase<Shunt> {
   readonly essential: boolean,
-};
+}
 
 const mapState = ({ active }: State, props: PropsBase<Shunt>) => ({
   essential: prefix(props.id, active),

@@ -12,28 +12,28 @@ export const enum Type {
 interface Hydrate {
   readonly type: Type.hydrate,
   readonly state: State,
-};
+}
 
 interface Activate {
   readonly type: Type.activate,
   readonly id: number[],
-};
+}
 
 interface Remove {
   readonly type: Type.remove,
   readonly id: number[],
-};
+}
 
 interface Insert {
   readonly type: Type.insert,
   readonly kind: Kind,
-};
+}
 
 interface Update {
   readonly type: Type.update,
   readonly id: number[],
   readonly value: Parametric['value'],
-};
+}
 
 export type Action = Hydrate | Activate | Remove | Insert | Update;
 

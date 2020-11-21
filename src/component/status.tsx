@@ -11,11 +11,11 @@ const I = require('icon/i.svg');
 interface Props {
   readonly value: Phasor,
   readonly unit: Unit.volt | Unit.ampere,
-};
+}
 
 interface State {
   readonly show: boolean,
-};
+}
 
 const Icon = ({ unit }: Pick<Props, 'unit'>) => {
   switch (unit) {
@@ -36,7 +36,7 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { show } = this.state;
 
     return (

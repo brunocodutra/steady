@@ -23,7 +23,7 @@ export interface Connector {
   readonly value: undefined,
   readonly model: Quadripole,
   readonly level: 0,
-};
+}
 
 export interface Ground {
   readonly kind: Kind.ground,
@@ -31,7 +31,7 @@ export interface Ground {
   readonly value: undefined,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface VSrc {
   readonly kind: Kind.vsrc,
@@ -39,7 +39,7 @@ export interface VSrc {
   readonly value: Phasor,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface ISrc {
   readonly kind: Kind.isrc,
@@ -47,7 +47,7 @@ export interface ISrc {
   readonly value: Phasor,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface Impedance {
   readonly kind: Kind.impedance,
@@ -55,7 +55,7 @@ export interface Impedance {
   readonly value: Phasor,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface Admittance {
   readonly kind: Kind.admittance,
@@ -63,7 +63,7 @@ export interface Admittance {
   readonly value: Phasor,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface XFormer {
   readonly kind: Kind.xformer,
@@ -71,7 +71,7 @@ export interface XFormer {
   readonly value: Phasor,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface Line {
   readonly kind: Kind.line,
@@ -79,7 +79,7 @@ export interface Line {
   readonly value: { y: Phasor, z: Phasor },
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface Series {
   readonly kind: Kind.series,
@@ -87,7 +87,7 @@ export interface Series {
   readonly value: undefined,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export interface Shunt {
   readonly kind: Kind.shunt,
@@ -95,7 +95,7 @@ export interface Shunt {
   readonly value: Series,
   readonly model: Quadripole,
   readonly level: number,
-};
+}
 
 export type Static = Ground | Series;
 export type Parametric = Impedance | Admittance | XFormer | Line | VSrc | ISrc;
@@ -221,7 +221,7 @@ export const make = (kind: Kind): Element => {
   }
 };
 
-export const split = (element: Element) => {
+export const split = (element: Element): Element => {
   if (element.kind === Kind.connector) {
     throw new Error(`unexpected '${Kind.connector}'`);
   }
@@ -229,7 +229,7 @@ export const split = (element: Element) => {
   return element.next;
 };
 
-export const join = (element: Element, next: Element) => {
+export const join = (element: Element, next: Element): Exclude<Element, Connector> => {
   switch (element.kind) {
     case Kind.connector:
       throw new Error(`unexpected '${Kind.connector}'`);
