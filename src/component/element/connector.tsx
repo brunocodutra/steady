@@ -8,8 +8,8 @@ export const Icon = require('icon/connector.svg');
 type Props = PropsBase<Connector>;
 
 export default activable<Connector>(
-  ({ element, active, activate }: Props) => (
-    <Tile active={active} activate={activate} className={element.kind}>
+  ({ element: { kind }, active, activate }: Props) => (
+    <Tile active={active} activate={activate} className={kind}>
       <Icon />
     </Tile>
   ),

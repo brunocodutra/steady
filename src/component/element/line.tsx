@@ -10,21 +10,21 @@ export const Icon = require('icon/line.svg');
 type Props = PropsBase<Line>;
 
 export default parametric<Line>(
-  ({ vi: [v, i], element, active, activate, remove, update }: Props) => (
-    <Tile active={active} activate={activate} remove={remove} className={element.kind}>
+  ({ element: { kind, value, vi: [v, i] }, active, activate, remove, update }: Props) => (
+    <Tile active={active} activate={activate} remove={remove} className={kind}>
       <Icon />
       <Value
         name={'y'}
-        value={element.value.y}
+        value={value.y}
         description={'propagation constant'}
-        onChange={(y) => update({ ...element.value, y })}
+        onChange={(y) => update({ ...value, y })}
       />
       <Value
         name={'z'}
-        value={element.value.z}
+        value={value.z}
         description={'characteristic impedance'}
         unit={Unit.ohm}
-        onChange={(z) => update({ ...element.value, z })}
+        onChange={(z) => update({ ...value, z })}
       />
       <Status value={v} unit={Unit.volt} />
       <Status value={i} unit={Unit.ampere} />
