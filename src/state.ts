@@ -1,6 +1,6 @@
-import { traverse } from 'lib/algorithm';
 import * as Elements from 'lib/element';
 import { Element, ground, series } from 'lib/element';
+import { traverse } from 'lib/util';
 
 export interface State {
   readonly entry: Element,
