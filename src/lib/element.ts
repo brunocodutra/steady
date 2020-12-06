@@ -1,7 +1,7 @@
 import * as Phasors from 'lib/phasor';
-import { traverse } from 'lib/algorithm';
 import { _0, _1, Phasor, polar } from 'lib/phasor';
 import { connect, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
+import { traverse } from 'lib/util';
 
 export enum Kind {
   connector = 'connector',

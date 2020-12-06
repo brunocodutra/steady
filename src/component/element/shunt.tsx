@@ -5,9 +5,9 @@ import removable, { Props as PropsBase } from 'container/removable';
 import Element from 'component/element';
 import Status from 'component/status';
 import Tile from 'component/tile';
-import { prefix } from 'lib/algorithm';
 import { Shunt } from 'lib/element';
 import { Unit } from 'lib/unit';
+import { prefix } from 'lib/util';
 
 export const Icon = require('icon/shunt.svg');
 const Wire = require('icon/wire.svg');
