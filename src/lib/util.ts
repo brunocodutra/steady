@@ -18,3 +18,20 @@ export const unwrap = <X>(x?: X | null, msg?: string): X => {
 };
 
 export const hasProperty = <O extends {}, P extends PropertyKey>(o: O, p: P): o is O & Record<P, unknown> => p in o;
+
+export const memoize = <O extends {}>(o: O): O => {
+  const descriptors = Object.getOwnPropertyDescriptors(o);
+  const p: O = Object.defineProperties({}, descriptors);
+
+  for (const [prop, { configurable, get, set }] of Object.entries(descriptors)) {
+    if (configurable && get && !set) {
+      Object.defineProperty(p, prop, {
+        get() {
+          return Object.defineProperty(this, prop, { value: get.call(o) })[prop];
+        }
+      });
+    }
+  }
+
+  return p;
+}
