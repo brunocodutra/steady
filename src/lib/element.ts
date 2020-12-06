@@ -1,7 +1,7 @@
 import * as Phasors from 'lib/phasor';
 import { _0, _1, Phasor, polar } from 'lib/phasor';
 import { connect, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
-import { traverse } from 'lib/util';
+import { memoize, traverse } from 'lib/util';
 
 export enum Kind {
   connector = 'connector',
@@ -100,85 +100,125 @@ export type Removable = Parametric | Shunt;
 export type Activable = Removable | Connector;
 export type Element = Static | Parametric | Removable | Activable;
 
-const terminal: Connector = {
+const terminal: Connector = memoize({
   kind: Kind.connector,
-  model: quadripole(),
-  level: 0,
-};
+  get model() {
+    return quadripole();
+  },
+  get level(): 0 {
+    return 0;
+  },
+});
 
 export const connector = (): Connector => terminal;
 
-export const ground = (next: Element = connector()): Ground => ({
+export const ground = (next: Element = connector()): Ground => memoize({
   kind: Kind.ground,
   next,
-  model: quadripole(),
-  level: next.level,
+  get model() {
+    return quadripole();
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const vsrc = (next: Element = connector(), value = _0): VSrc => ({
+export const vsrc = (next: Element = connector(), value = _0): VSrc => memoize({
   kind: Kind.vsrc,
   next,
   value,
-  model: quadripole(eye, [value, _0]),
-  level: next.level,
+  get model() {
+    return quadripole(eye, [value, _0]);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const isrc = (next: Element = connector(), value = _0): ISrc => ({
+export const isrc = (next: Element = connector(), value = _0): ISrc => memoize({
   kind: Kind.isrc,
   next,
   value,
-  model: quadripole(eye, [_0, value]),
-  level: next.level,
+  get model() {
+    return quadripole(eye, [_0, value]);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const impedance = (next: Element = connector(), value = _0): Impedance => ({
+export const impedance = (next: Element = connector(), value = _0): Impedance => memoize({
   kind: Kind.impedance,
   next,
   value,
-  model: quadripole([[_1, value.neg()], [_0, _1]]),
-  level: next.level,
+  get model() {
+    return quadripole([[_1, value.neg()], [_0, _1]]);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const admittance = (next: Element = connector(), value = polar(Infinity)): Admittance => ({
+export const admittance = (next: Element = connector(), value = polar(Infinity)): Admittance => memoize({
   kind: Kind.admittance,
   next,
   value,
-  model: quadripole([[_1, _0], [value.recip().neg(), _1]]),
-  level: next.level,
+  get model() {
+    return quadripole([[_1, _0], [value.recip().neg(), _1]]);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const xformer = (next: Element = connector(), value = _1): XFormer => ({
+export const xformer = (next: Element = connector(), value = _1): XFormer => memoize({
   kind: Kind.xformer,
   next,
   value,
-  model: quadripole([[value.recip(), _0], [_0, value]]),
-  level: next.level,
+  get model() {
+    return quadripole([[value.recip(), _0], [_0, value]]);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const line = (next: Element = connector(), { y, z } = { y: _0, z: _1 }): Line => ({
+export const line = (next: Element = connector(), { y, z } = { y: _0, z: _1 }): Line => memoize({
   kind: Kind.line,
   next,
   value: { y, z },
-  model: quadripole([[y.cosh(), y.sinh().mul(z).neg()], [y.sinh().div(z).neg(), y.cosh()]]),
-  level: next.level,
+  get model() {
+    return quadripole([[y.cosh(), y.sinh().mul(z).neg()], [y.sinh().div(z).neg(), y.cosh()]]);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const series = (next: Element = connector()): Series => ({
+export const series = (next: Element = connector()): Series => memoize({
   kind: Kind.series,
   next,
-  model: traverse(next).map((e) => e.model).reduce(connect),
-  level: next.level,
+  get model() {
+    return traverse(next).map((e) => e.model).reduce(connect);
+  },
+  get level() {
+    return next.level;
+  },
 });
 
-export const shunt = (next: Element = connector(), branch = series()): Shunt => ({
+export const shunt = (next: Element = connector(), branch = series()): Shunt => memoize({
   kind: Kind.shunt,
   next,
   branch,
-  model: quadripole(
-    [[_1, _0], [branch.model.r[1][0].div(branch.model.r[1][1]), _1]],
-    [_0, branch.model.t[1].div(branch.model.r[1][1])],
-  ),
-  level: next.level + branch.level + 1,
+  get model() {
+    return quadripole(
+      [[_1, _0], [branch.model.r[1][0].div(branch.model.r[1][1]), _1]],
+      [_0, branch.model.t[1].div(branch.model.r[1][1])],
+    );
+  },
+  get level() {
+    return next.level + branch.level + 1;
+  },
 });
 
 export const make = (kind: Kind): Element => {
@@ -367,7 +407,7 @@ export type Energized<E extends Element = Element> =
 export const energize = (element: Element, vi: [Phasor, Phasor] = [_0, solve(element.model)[1]]): Energized<Element> => {
   switch (element.kind) {
     case Kind.connector:
-      return { ...element, vi };
+      return Object.assign(Object.create(element), { vi });
     case Kind.ground:
     case Kind.vsrc:
     case Kind.isrc:
@@ -375,12 +415,18 @@ export const energize = (element: Element, vi: [Phasor, Phasor] = [_0, solve(ele
     case Kind.admittance:
     case Kind.xformer:
     case Kind.line:
-      return { ...element, vi, next: energize(element.next, project(element.model, vi)) };
+      return Object.assign(Object.create(element), {
+        next: energize(element.next, project(element.model, vi)),
+        vi,
+      });
     case Kind.series:
-      return { ...element, vi, next: energize(element.next, vi) };
+      return Object.assign(Object.create(element), {
+        next: energize(element.next, vi),
+        vi,
+      });
     case Kind.shunt:
       const next = energize(element.next, project(element.model, vi));
       const branch = energize(element.branch, [vi[0], vi[1].sub(next.vi[1])]);
-      return { ...element, vi, next, branch };
+      return Object.assign(Object.create(element), { vi, next, branch });
   }
 };
