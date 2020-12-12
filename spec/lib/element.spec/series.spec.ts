@@ -38,9 +38,9 @@ describe('Series', () => {
     });
   });
 
-  it('should inherit its successor\'s level', () => {
+  it('should inherit its successor\'s subcircuits', () => {
     elements.forEach((next) => {
-      expect(series(next).level).toBe(next.level);
+      expect(series(next).subcircuits).toBe(next.subcircuits);
     });
   });
 

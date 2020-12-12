@@ -38,9 +38,9 @@ describe('ISrc', () => {
     });
   });
 
-  it('should inherit its successor\'s level', () => {
+  it('should inherit its successor\'s subcircuits', () => {
     elements.forEach((next) => {
-      expect(isrc(next).level).toBe(next.level);
+      expect(isrc(next).subcircuits).toBe(next.subcircuits);
     });
   });
 

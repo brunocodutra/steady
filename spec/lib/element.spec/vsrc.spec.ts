@@ -38,9 +38,9 @@ describe('VSrc', () => {
     });
   });
 
-  it('should inherit its successor\'s level', () => {
+  it('should inherit its successor\'s subcircuits', () => {
     elements.forEach((next) => {
-      expect(vsrc(next).level).toBe(next.level);
+      expect(vsrc(next).subcircuits).toBe(next.subcircuits);
     });
   });
 

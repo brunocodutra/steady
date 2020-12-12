@@ -22,8 +22,8 @@ const mapState = ({ active }: State, props: PropsBase<Shunt>) => ({
 });
 
 export default removable<Shunt>(connect(mapState)(
-  ({ id, element: { kind, branch, level, vi: [v, i] }, active, activate, essential, remove }: Props): JSX.Element => {
-    const fill = Array(level - branch.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k} />);
+  ({ id, element: { kind, branch, subcircuits, vi: [v, i] }, active, activate, essential, remove }: Props): JSX.Element => {
+    const fill = Array.from({ length: subcircuits - branch.subcircuits - 1 }, (_, k) => <Wire key={k} />);
 
     return (
       <Tile>
