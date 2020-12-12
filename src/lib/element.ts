@@ -21,14 +21,14 @@ export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in K
 export interface Connector {
   readonly kind: Kind.connector,
   readonly model: Quadripole,
-  readonly level: 0,
+  readonly subcircuits: 1,
 }
 
 export interface Ground {
   readonly kind: Kind.ground,
   readonly next: Element,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface VSrc {
@@ -36,7 +36,7 @@ export interface VSrc {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface ISrc {
@@ -44,7 +44,7 @@ export interface ISrc {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface Impedance {
@@ -52,7 +52,7 @@ export interface Impedance {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface Admittance {
@@ -60,7 +60,7 @@ export interface Admittance {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface XFormer {
@@ -68,7 +68,7 @@ export interface XFormer {
   readonly next: Element,
   readonly value: Phasor,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface Line {
@@ -76,14 +76,14 @@ export interface Line {
   readonly next: Element,
   readonly value: { y: Phasor, z: Phasor },
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface Series {
   readonly kind: Kind.series,
   readonly next: Element,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export interface Shunt {
@@ -91,7 +91,7 @@ export interface Shunt {
   readonly next: Element,
   readonly branch: Series,
   readonly model: Quadripole,
-  readonly level: number,
+  readonly subcircuits: number,
 }
 
 export type Static = Ground | Series;
@@ -105,8 +105,8 @@ const terminal: Connector = memoize({
   get model() {
     return quadripole();
   },
-  get level(): 0 {
-    return 0;
+  get subcircuits(): 1 {
+    return 1;
   },
 });
 
@@ -118,8 +118,8 @@ export const ground = (next: Element = connector()): Ground => memoize({
   get model() {
     return quadripole();
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -130,8 +130,8 @@ export const vsrc = (next: Element = connector(), value = _0): VSrc => memoize({
   get model() {
     return quadripole(eye, [value, _0]);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -142,8 +142,8 @@ export const isrc = (next: Element = connector(), value = _0): ISrc => memoize({
   get model() {
     return quadripole(eye, [_0, value]);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -154,8 +154,8 @@ export const impedance = (next: Element = connector(), value = _0): Impedance =>
   get model() {
     return quadripole([[_1, value.neg()], [_0, _1]]);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -166,8 +166,8 @@ export const admittance = (next: Element = connector(), value = polar(Infinity))
   get model() {
     return quadripole([[_1, _0], [value.recip().neg(), _1]]);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -178,8 +178,8 @@ export const xformer = (next: Element = connector(), value = _1): XFormer => mem
   get model() {
     return quadripole([[value.recip(), _0], [_0, value]]);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -190,8 +190,8 @@ export const line = (next: Element = connector(), { y, z } = { y: _0, z: _1 }): 
   get model() {
     return quadripole([[y.cosh(), y.sinh().mul(z).neg()], [y.sinh().div(z).neg(), y.cosh()]]);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -201,8 +201,8 @@ export const series = (next: Element = connector()): Series => memoize({
   get model() {
     return traverse(next).map((e) => e.model).reduce(connect);
   },
-  get level() {
-    return next.level;
+  get subcircuits() {
+    return next.subcircuits;
   },
 });
 
@@ -216,8 +216,8 @@ export const shunt = (next: Element = connector(), branch = series()): Shunt => 
       [_0, branch.model.t[1].div(branch.model.r[1][1])],
     );
   },
-  get level() {
-    return next.level + branch.level + 1;
+  get subcircuits() {
+    return next.subcircuits + branch.subcircuits;
   },
 });
 

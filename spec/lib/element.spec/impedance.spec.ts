@@ -38,9 +38,9 @@ describe('Impedance', () => {
     });
   });
 
-  it('should inherit its successor\'s level', () => {
+  it('should inherit its successor\'s subcircuits', () => {
     elements.forEach((next) => {
-      expect(impedance(next).level).toBe(next.level);
+      expect(impedance(next).subcircuits).toBe(next.subcircuits);
     });
   });
 

@@ -126,7 +126,7 @@ describe('Number parse', () => {
 describe('Number pretty', () => {
   it('should format a number given then minimum number of digits', () => {
     const N = 7;
-    const digits = Array.from(Array(N).keys());
+    const digits = Array.from({ length: N }, (_, i) => i);
     const samples = digits.map((d) => (999 / 10 ** d));
 
     samples.forEach((n) => {
