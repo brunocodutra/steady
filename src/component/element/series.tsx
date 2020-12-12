@@ -2,7 +2,7 @@ import React from 'react';
 import Element, { Props as PropsBase } from 'component/element';
 import Tile from 'component/tile';
 import { Series } from 'lib/element';
-import { traverse } from 'lib/algorithm';
+import { traverse } from 'lib/util';
 
 type Props = PropsBase<Series>;
 

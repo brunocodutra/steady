@@ -50,10 +50,10 @@ describe('Shunt', () => {
     });
   });
 
-  it('should add its successors\' levels plus one', () => {
+  it('should connect its successors\' subcircuits', () => {
     elements.forEach((x) => {
       elements.map(series).forEach((y) => {
-        expect(shunt(x, y).level).toBe(x.level + y.level + 1);
+        expect(shunt(x, y).subcircuits).toBe(x.subcircuits + y.subcircuits);
       });
     });
   });

@@ -4,8 +4,8 @@ import { Dispatch } from 'redux';
 import { Action, activate } from 'action';
 import { State } from 'state';
 import { Props as PropsBase } from 'component/element';
-import { equal } from 'lib/algorithm';
 import { Activable } from 'lib/element';
+import { equal } from 'lib/util';
 
 export interface Props<E extends Activable> extends PropsBase<E> {
   readonly active: boolean,

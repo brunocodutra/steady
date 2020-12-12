@@ -5,9 +5,9 @@ import removable, { Props as PropsBase } from 'container/removable';
 import Element from 'component/element';
 import Status from 'component/status';
 import Tile from 'component/tile';
-import { prefix } from 'lib/algorithm';
 import { Shunt } from 'lib/element';
 import { Unit } from 'lib/unit';
+import { prefix } from 'lib/util';
 
 export const Icon = require('icon/shunt.svg');
 const Wire = require('icon/wire.svg');
@@ -22,8 +22,8 @@ const mapState = ({ active }: State, props: PropsBase<Shunt>) => ({
 });
 
 export default removable<Shunt>(connect(mapState)(
-  ({ id, element: { kind, branch, level, vi: [v, i] }, active, activate, essential, remove }: Props): JSX.Element => {
-    const fill = Array(level - branch.level - 1).fill(0).map((_: 0, k: number) => <Wire key={k} />);
+  ({ id, element: { kind, branch, subcircuits, vi: [v, i] }, active, activate, essential, remove }: Props): JSX.Element => {
+    const fill = Array.from({ length: subcircuits - branch.subcircuits - 1 }, (_, k) => <Wire key={k} />);
 
     return (
       <Tile>

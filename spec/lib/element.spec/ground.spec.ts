@@ -38,9 +38,9 @@ describe('Ground', () => {
     });
   });
 
-  it('should inherit its successor\'s level', () => {
+  it('should inherit its successor\'s subcircuits', () => {
     elements.forEach((next) => {
-      expect(ground(next).level).toBe(next.level);
+      expect(ground(next).subcircuits).toBe(next.subcircuits);
     });
   });
 

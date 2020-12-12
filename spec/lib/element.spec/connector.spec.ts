@@ -32,8 +32,8 @@ describe('Connector', () => {
     });
   });
 
-  it('should have no level', () => {
-    expect(connector().level).toBe(0);
+  it('should terminate a subcircuit', () => {
+    expect(connector().subcircuits).toBe(1);
   });
 
   it('should not allow updating', () => {

@@ -3,7 +3,7 @@ import { Phasor, polar, _0, _1 } from 'lib/phasor';
 import { eye, quadripole, Quadripole } from 'lib/quadripole';
 
 export const phasors: Phasor[] = [1E-3, 1, 1E3].map((mag) =>
-  Array(8).fill(Math.PI / 4).map((p, k) => polar(mag, p * k)),
+  Array.from({ length: 8 }, (_, k) => polar(mag, Math.PI / 4 * k)),
 ).flat();
 
 const nil: Quadripole[] = [];
