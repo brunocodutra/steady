@@ -30,7 +30,8 @@ export const unpack = (packed: unknown): State => {
   };
 };
 
-export const serialize = (s: State): string => encodeURIComponent(btoa(JSON.stringify(pack(s))));
+export const serialize = (s: State): string =>
+  encodeURIComponent(btoa(JSON.stringify(pack(s), (_, v) => (typeof v !== 'number' || isFinite(v)) ? v : v.toString())));
 
 export const unserialize = (encoded: string): State | undefined => {
   try {
