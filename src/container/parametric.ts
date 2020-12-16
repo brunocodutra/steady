@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action, update } from 'action';
 import removable, { Props as PropsBase } from 'container/removable';
-import { Parametric } from 'lib/element';
+import { Admittance, Impedance, ISrc, Line, VSrc, XFormer } from 'lib/element';
+
+export type Parametric = Impedance | Admittance | XFormer | Line | VSrc | ISrc;
 
 export interface Props<E extends Parametric> extends PropsBase<E> {
   readonly update: (value: Parametric['value']) => void,

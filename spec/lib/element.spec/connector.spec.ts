@@ -1,39 +1,35 @@
-import { branch, connector, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { branch, connector, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
 
 describe('Connector', () => {
   it('should be default constructible', () => {
-    expect(connector().kind).toBe(Kind.connector);
+    expect(connector().kind).toEqual(Kind.connector);
   });
 
-  it('should have no successor', () => {
-    expect(connector()).not.toHaveProperty('next');
+  it('should not have a successor', () => {
+    expect(() => next(connector())).toThrow();
   });
 
-  it('should not allow splitting off', () => {
-    expect(() => split(connector())).toThrow();
-  });
-
-  it('should not allow joining in', () => {
-    elements.forEach((next) => {
-      expect(() => join(connector(), next)).toThrow();
+  it('should not allow connecting', () => {
+    elements.forEach((e) => {
+      expect(() => connect(connector(), e)).toThrow();
     });
   });
 
-  it('should not allow branching off', () => {
+  it('should not have a branch', () => {
     expect(() => branch(connector())).toThrow();
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(connector(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(connector(), e)).toThrow();
     });
   });
 
   it('should terminate a subcircuit', () => {
-    expect(connector().subcircuits).toBe(1);
+    expect(connector().subcircuits).toEqual(1);
   });
 
   it('should not allow updating', () => {
@@ -52,6 +48,7 @@ describe('Connector', () => {
   });
 
   it('should be packable', () => {
-    expect(unpack(pack(connector()))).toBe(connector());
+    expect(JSON.parse(JSON.stringify(unpack(pack(connector())))))
+      .toEqual(JSON.parse(JSON.stringify(connector())));
   });
 });

@@ -1,58 +1,52 @@
-import { branch, join, Kind, merge, pack, split, unpack, update, xformer } from 'lib/element';
+import { branch, connect, Kind, merge, pack, next, unpack, update, xformer } from 'lib/element';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
 
 describe('XFormer', () => {
   it('should be default constructible', () => {
-    expect(xformer().kind).toBe(Kind.xformer);
+    expect(xformer().kind).toEqual(Kind.xformer);
   });
 
   it('should have a successor', () => {
-    elements.forEach((next) => {
-      expect(xformer(next).next).toBe(next);
+    elements.forEach((e) => {
+      expect(next(xformer(e))).toEqual(e);
     });
   });
 
-  it('should allow splitting off', () => {
-    elements.forEach((next) => {
-      expect(split(xformer(next))).toBe(next);
+  it('should allow connecting', () => {
+    elements.forEach((e) => {
+      expect(next(connect(xformer(), e))).toEqual(e);
     });
   });
 
-  it('should allow joining in', () => {
-    elements.forEach((next) => {
-      expect(join(xformer(), next).next).toBe(next);
-    });
-  });
-
-  it('should not allow branching off', () => {
-    elements.forEach((next) => {
-      expect(() => branch(xformer(next))).toThrow();
+  it('should not have a branch', () => {
+    elements.forEach((e) => {
+      expect(() => branch(xformer(e))).toThrow();
     });
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(xformer(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(xformer(), e)).toThrow();
     });
   });
 
   it('should inherit its successor\'s subcircuits', () => {
-    elements.forEach((next) => {
-      expect(xformer(next).subcircuits).toBe(next.subcircuits);
+    elements.forEach((e) => {
+      expect(xformer(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should have a value', () => {
     phasors.forEach((value) => {
-      expect(xformer(undefined, value).value).toBe(value);
+      expect(xformer(undefined, value).value).toEqual(value);
     });
   });
 
   it('should allow updating its value', () => {
     phasors.forEach((value) => {
-      expect(update(xformer(), value).value).toBe(value);
+      expect(update(xformer(), value).value).toEqual(value);
     });
   });
 
@@ -68,11 +62,10 @@ describe('XFormer', () => {
   });
 
   it('should be packable', () => {
-    elements.forEach((next) => {
-      expect(unpack(pack(xformer(next)))).toBe(xformer(next));
-
+    elements.forEach((e) => {
       phasors.forEach((value) => {
-        expect(unpack(pack(xformer(next, value)))).toBe(xformer(next, value));
+        expect(JSON.parse(JSON.stringify(unpack(pack(xformer(e, value))))))
+          .toEqual(JSON.parse(JSON.stringify(xformer(e, value))));
       });
     });
   });

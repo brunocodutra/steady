@@ -1,14 +1,18 @@
-import { pack, unpack } from 'lib/element';
+import { make } from 'lib/element';
 
 import { elements } from '../util';
 
 describe('Element', () => {
-  it('should be packable', () => {
-    elements.forEach((element) => {
-      expect(unpack(pack(element))).toBe(element);
+  it('should have a kind', () => {
+    elements.forEach((e) => {
+      expect(e).toHaveProperty('kind');
     });
+  });
 
-    expect(() => unpack([])).toThrowError();
-    expect(() => unpack([null])).toThrowError();
+  it('should be constructible by kind', () => {
+    elements.forEach((e) => {
+      expect(JSON.parse(JSON.stringify(make(e.kind))))
+        .toEqual(JSON.parse(JSON.stringify(e)));
+    });
   });
 });

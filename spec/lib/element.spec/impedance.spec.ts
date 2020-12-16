@@ -1,58 +1,52 @@
-import { branch, impedance, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { branch, impedance, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
 
 describe('Impedance', () => {
   it('should be default constructible', () => {
-    expect(impedance().kind).toBe(Kind.impedance);
+    expect(impedance().kind).toEqual(Kind.impedance);
   });
 
   it('should have a successor', () => {
-    elements.forEach((next) => {
-      expect(impedance(next).next).toBe(next);
+    elements.forEach((e) => {
+      expect(next(impedance(e))).toEqual(e);
     });
   });
 
-  it('should allow splitting off', () => {
-    elements.forEach((next) => {
-      expect(split(impedance(next))).toBe(next);
+  it('should allow connecting', () => {
+    elements.forEach((e) => {
+      expect(next(connect(impedance(), e))).toEqual(e);
     });
   });
 
-  it('should allow joining in', () => {
-    elements.forEach((next) => {
-      expect(join(impedance(), next).next).toBe(next);
-    });
-  });
-
-  it('should not allow branching off', () => {
-    elements.forEach((next) => {
-      expect(() => branch(impedance(next))).toThrow();
+  it('should not have a branch', () => {
+    elements.forEach((e) => {
+      expect(() => branch(impedance(e))).toThrow();
     });
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(impedance(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(impedance(), e)).toThrow();
     });
   });
 
   it('should inherit its successor\'s subcircuits', () => {
-    elements.forEach((next) => {
-      expect(impedance(next).subcircuits).toBe(next.subcircuits);
+    elements.forEach((e) => {
+      expect(impedance(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should have a value', () => {
     phasors.forEach((value) => {
-      expect(impedance(undefined, value).value).toBe(value);
+      expect(impedance(undefined, value).value).toEqual(value);
     });
   });
 
   it('should allow updating its value', () => {
     phasors.forEach((value) => {
-      expect(update(impedance(), value).value).toBe(value);
+      expect(update(impedance(), value).value).toEqual(value);
     });
   });
 
@@ -68,11 +62,10 @@ describe('Impedance', () => {
   });
 
   it('should be packable', () => {
-    elements.forEach((next) => {
-      expect(unpack(pack(impedance(next)))).toBe(impedance(next));
-
+    elements.forEach((e) => {
       phasors.forEach((value) => {
-        expect(unpack(pack(impedance(next, value)))).toBe(impedance(next, value));
+        expect(JSON.parse(JSON.stringify(unpack(pack(impedance(e, value))))))
+          .toEqual(JSON.parse(JSON.stringify(impedance(e, value))));
       });
     });
   });

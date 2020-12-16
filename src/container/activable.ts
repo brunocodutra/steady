@@ -4,8 +4,11 @@ import { Dispatch } from 'redux';
 import { Action, activate } from 'action';
 import { State } from 'state';
 import { Props as PropsBase } from 'component/element';
-import { Activable } from 'lib/element';
+import { Removable } from 'container/removable';
+import { Connector } from 'lib/element';
 import { equal } from 'lib/util';
+
+export type Activable = Removable | Connector;
 
 export interface Props<E extends Activable> extends PropsBase<E> {
   readonly active: boolean,

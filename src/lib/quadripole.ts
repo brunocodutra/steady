@@ -50,7 +50,7 @@ export const solve = ({ r: [[a, b], [c, d]], t: [u, j] }: Quadripole, [vi, io]: 
   return [vo, ii];
 };
 
-export const connect = (p: Quadripole, q: Quadripole): Quadripole => {
+export const cascade = (p: Quadripole, q: Quadripole): Quadripole => {
   const { r: [[a, b], [c, d]] } = p;
   const { r: [[e, f], [g, h]] } = q;
 

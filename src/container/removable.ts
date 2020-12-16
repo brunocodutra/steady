@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action, remove } from 'action';
 import activable, { Props as PropsBase } from 'container/activable';
-import { Removable } from 'lib/element';
+import { Parametric } from 'container/parametric';
+import { Shunt } from 'lib/element';
+
+export type Removable = Parametric | Shunt;
 
 export interface Props<E extends Removable> extends PropsBase<E> {
   readonly remove: () => void,

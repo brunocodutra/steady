@@ -1,5 +1,6 @@
 import { State } from 'state';
-import { Kind, Parametric } from 'lib/element';
+import { Kind } from 'lib/element';
+import { Parametric } from 'container/parametric';
 
 export const enum Type {
   hydrate = 'hydrate',

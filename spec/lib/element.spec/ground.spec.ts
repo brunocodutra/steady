@@ -1,46 +1,40 @@
-import { branch, ground, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { branch, ground, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
 
 describe('Ground', () => {
   it('should be default constructible', () => {
-    expect(ground().kind).toBe(Kind.ground);
+    expect(ground().kind).toEqual(Kind.ground);
   });
 
   it('should have a successor', () => {
-    elements.forEach((next) => {
-      expect(ground(next).next).toBe(next);
+    elements.forEach((e) => {
+      expect(next(ground(e))).toEqual(e);
     });
   });
 
-  it('should allow splitting off', () => {
-    elements.forEach((next) => {
-      expect(split(ground(next))).toBe(next);
+  it('should allow connecting', () => {
+    elements.forEach((e) => {
+      expect(next(connect(ground(), e))).toEqual(e);
     });
   });
 
-  it('should allow joining in', () => {
-    elements.forEach((next) => {
-      expect(join(ground(), next).next).toBe(next);
-    });
-  });
-
-  it('should not allow branching off', () => {
-    elements.forEach((next) => {
-      expect(() => branch(ground(next))).toThrow();
+  it('should not have a branch', () => {
+    elements.forEach((e) => {
+      expect(() => branch(ground(e))).toThrow();
     });
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(ground(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(ground(), e)).toThrow();
     });
   });
 
   it('should inherit its successor\'s subcircuits', () => {
-    elements.forEach((next) => {
-      expect(ground(next).subcircuits).toBe(next.subcircuits);
+    elements.forEach((e) => {
+      expect(ground(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
@@ -60,8 +54,9 @@ describe('Ground', () => {
   });
 
   it('should be packable', () => {
-    elements.forEach((next) => {
-      expect(unpack(pack(ground(next)))).toBe(ground(next));
+    elements.forEach((e) => {
+      expect(JSON.parse(JSON.stringify(unpack(pack(ground(e))))))
+        .toEqual(JSON.parse(JSON.stringify(ground(e))));
     });
   });
 });

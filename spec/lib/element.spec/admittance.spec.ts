@@ -1,58 +1,52 @@
-import { admittance, branch, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { admittance, branch, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
 
 describe('Admittance', () => {
   it('should be default constructible', () => {
-    expect(admittance().kind).toBe(Kind.admittance);
+    expect(admittance().kind).toEqual(Kind.admittance);
   });
 
   it('should have a successor', () => {
-    elements.forEach((next) => {
-      expect(admittance(next).next).toBe(next);
+    elements.forEach((e) => {
+      expect(next(admittance(e))).toEqual(e);
     });
   });
 
-  it('should allow splitting off', () => {
-    elements.forEach((next) => {
-      expect(split(admittance(next))).toBe(next);
+  it('should allow connecting', () => {
+    elements.forEach((e) => {
+      expect(next(connect(admittance(), e))).toEqual(e);
     });
   });
 
-  it('should allow joining in', () => {
-    elements.forEach((next) => {
-      expect(join(admittance(), next).next).toBe(next);
-    });
-  });
-
-  it('should not allow branching off', () => {
-    elements.forEach((next) => {
-      expect(() => branch(admittance(next))).toThrow();
+  it('should not have a branch', () => {
+    elements.forEach((e) => {
+      expect(() => branch(admittance(e))).toThrow();
     });
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(admittance(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(admittance(), e)).toThrow();
     });
   });
 
   it('should inherit its successor\'s subcircuits', () => {
-    elements.forEach((next) => {
-      expect(admittance(next).subcircuits).toBe(next.subcircuits);
+    elements.forEach((e) => {
+      expect(admittance(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should have a value', () => {
     phasors.forEach((value) => {
-      expect(admittance(undefined, value).value).toBe(value);
+      expect(admittance(undefined, value).value).toEqual(value);
     });
   });
 
   it('should allow updating its value', () => {
     phasors.forEach((value) => {
-      expect(update(admittance(), value).value).toBe(value);
+      expect(update(admittance(), value).value).toEqual(value);
     });
   });
 
@@ -68,11 +62,10 @@ describe('Admittance', () => {
   });
 
   it('should be packable', () => {
-    elements.forEach((next) => {
-      expect(unpack(pack(admittance(next)))).toBe(admittance(next));
-
+    elements.forEach((e) => {
       phasors.forEach((value) => {
-        expect(unpack(pack(admittance(next, value)))).toBe(admittance(next, value));
+        expect(JSON.parse(JSON.stringify(unpack(pack(admittance(e, value))))))
+          .toEqual(JSON.parse(JSON.stringify(admittance(e, value))));
       });
     });
   });

@@ -8,7 +8,8 @@ describe('State', () => {
   it('should be packable', () => {
     elements.forEach((e) => {
       const state = init(e);
-      expect(unpack(pack(state))).toBe(state);
+      expect(JSON.parse(JSON.stringify(unpack(pack(state)))))
+        .toEqual(JSON.parse(JSON.stringify(state)));
     });
 
     expect(() => unpack([])).toThrowError();
@@ -20,7 +21,8 @@ describe('State', () => {
     elements.forEach((e) => {
       const state = init(e);
       expect(serialize(state)).toEqual(expect.stringMatching(Base64));
-      expect(unserialize(serialize(state))).toBe(state);
+      expect(JSON.parse(JSON.stringify(unserialize(serialize(state)))))
+        .toEqual(JSON.parse(JSON.stringify(state)));
     })
 
     expect(unserialize('')).toBeUndefined();
