@@ -1,14 +1,13 @@
-import {isKind, Kind, make} from 'lib/element';
-import {init, pack, serialize, unpack, unserialize} from 'state';
+import { init, pack, serialize, unpack, unserialize } from 'state';
+
+import { elements } from './util';
 
 const Base64 = /^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%]+$/;
 
-const elements = Object.keys(Kind).filter(isKind).map(make);
-
 describe('State', () => {
   it('should be packable', () => {
-    elements.forEach((element) => {
-      const state = init(element);
+    elements.forEach((e) => {
+      const state = init(e);
       expect(unpack(pack(state))).toBe(state);
     });
 
@@ -18,8 +17,11 @@ describe('State', () => {
   });
 
   it('should be serializable', () => {
-    expect(serialize(init())).toEqual(expect.stringMatching(Base64));
-    expect(unserialize(serialize(init()))).toBe(init());
+    elements.forEach((e) => {
+      const state = init(e);
+      expect(serialize(state)).toEqual(expect.stringMatching(Base64));
+      expect(unserialize(serialize(state))).toBe(state);
+    })
 
     expect(unserialize('')).toBeUndefined();
     expect(unserialize('?')).toBeUndefined();
