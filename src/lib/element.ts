@@ -5,7 +5,7 @@ import { json, memoized } from 'lib/decorator';
 import { traverse } from 'lib/util';
 
 export enum Kind {
-  connector = 'connector',
+  terminal = 'terminal',
   ground = 'ground',
   vsrc = 'vsrc',
   isrc = 'isrc',
@@ -48,8 +48,8 @@ abstract class Parametric<E extends ParametricElement> extends Connected<E> {
 }
 
 @json
-export class Connector extends Electric {
-  readonly kind = Kind.connector;
+export class Terminal extends Electric {
+  readonly kind = Kind.terminal;
 
   get subcircuits(): 1 {
     return 1;
@@ -204,24 +204,23 @@ export class Shunt extends Connected<Shunt> {
 
 type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
 type ConnectedElement = Ground | Series | Shunt | ParametricElement;
-export type Element = Connector | ConnectedElement;
+export type Element = Terminal | ConnectedElement;
 
-const terminal = new Connector();
-export const connector = (): Connector => terminal;
-export const ground = (next: Element = connector()): Ground => new Ground(next);
-export const vsrc = (next: Element = connector(), value = _0): VSrc => new VSrc(next, value);
-export const isrc = (next: Element = connector(), value = _0): ISrc => new ISrc(next, value);
-export const impedance = (next: Element = connector(), value = _0): Impedance => new Impedance(next, value);
-export const admittance = (next: Element = connector(), value = polar(Infinity)): Admittance => new Admittance(next, value);
-export const xformer = (next: Element = connector(), value = _1): XFormer => new XFormer(next, value);
-export const line = (next: Element = connector(), value = { y: _0, z: _1 }): Line => new Line(next, value);
-export const series = (next: Element = connector()): Series => new Series(next);
-export const shunt = (next: Element = connector(), branch = series()): Shunt => new Shunt(next, branch);
+export const terminal = (): Terminal => new Terminal();
+export const ground = (next: Element = terminal()): Ground => new Ground(next);
+export const vsrc = (next: Element = terminal(), value = _0): VSrc => new VSrc(next, value);
+export const isrc = (next: Element = terminal(), value = _0): ISrc => new ISrc(next, value);
+export const impedance = (next: Element = terminal(), value = _0): Impedance => new Impedance(next, value);
+export const admittance = (next: Element = terminal(), value = polar(Infinity)): Admittance => new Admittance(next, value);
+export const xformer = (next: Element = terminal(), value = _1): XFormer => new XFormer(next, value);
+export const line = (next: Element = terminal(), value = { y: _0, z: _1 }): Line => new Line(next, value);
+export const series = (next: Element = terminal()): Series => new Series(next);
+export const shunt = (next: Element = terminal(), branch = series()): Shunt => new Shunt(next, branch);
 
 export const make = (kind: Kind): Element => {
   switch (kind) {
-    case Kind.connector:
-      return connector();
+    case Kind.terminal:
+      return terminal();
     case Kind.ground:
       return ground();
     case Kind.vsrc:
@@ -295,7 +294,7 @@ export const update = (element: Element, value: ParametricElement['value']): Par
 
 export const pack = (element?: Element): unknown => {
   switch (element?.kind) {
-    case Kind.connector:
+    case Kind.terminal:
       return [Object.keys(Kind).indexOf(element.kind)];
     case Kind.ground:
     case Kind.series:
@@ -332,8 +331,8 @@ export const unpack = (packed: unknown): Element => {
   }
 
   switch (kind) {
-    case Kind.connector:
-      return connector();
+    case Kind.terminal:
+      return terminal();
 
     case Kind.ground:
     case Kind.series:
@@ -379,7 +378,7 @@ export type Energized<E extends Element = Element> =
 
 export const energize = (element: Element, vi: [Phasor, Phasor] = [_0, solve(element.model)[1]]): Energized<Element> => {
   switch (element.kind) {
-    case Kind.connector:
+    case Kind.terminal:
       return Object.assign(Object.create(element), { vi });
     case Kind.ground:
     case Kind.vsrc:
