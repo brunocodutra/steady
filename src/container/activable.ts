@@ -5,10 +5,10 @@ import { Action, activate } from 'action';
 import { State } from 'state';
 import { Props as PropsBase } from 'component/element';
 import { Removable } from 'container/removable';
-import { Connector } from 'lib/element';
+import { Terminal } from 'lib/element';
 import { equal } from 'lib/util';
 
-export type Activable = Removable | Connector;
+export type Activable = Removable | Terminal;
 
 export interface Props<E extends Activable> extends PropsBase<E> {
   readonly active: boolean,

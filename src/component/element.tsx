@@ -1,7 +1,7 @@
 import React from 'react';
 import { Element, Energized, Kind } from 'lib/element';
 import Admittance from 'component/element/admittance';
-import Connector from 'component/element/connector';
+import Terminal from 'component/element/terminal';
 import Ground from 'component/element/ground';
 import Impedance from 'component/element/impedance';
 import ISrc from 'component/element/isrc';
@@ -21,8 +21,8 @@ export default ({ id, element }: Props): JSX.Element => {
     case Kind.ground:
       return <Ground id={id} element={element} />;
 
-    case Kind.connector:
-      return <Connector id={id} element={element} />;
+    case Kind.terminal:
+      return <Terminal id={id} element={element} />;
 
     case Kind.vsrc:
       return <VSrc id={id} element={element} />;

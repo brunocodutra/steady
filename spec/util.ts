@@ -31,7 +31,7 @@ export const parametric = [
 ].map(make);
 
 export const elements = parametric.concat([
-  Kind.connector,
+  Kind.terminal,
   Kind.ground,
   Kind.line,
   Kind.series,

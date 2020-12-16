@@ -1,13 +1,13 @@
 import React from 'react';
 import activable, { Props as PropsBase } from 'container/activable';
 import Tile from 'component/tile';
-import { Connector } from 'lib/element';
+import { Terminal } from 'lib/element';
 
-export const Icon = require('icon/connector.svg');
+export const Icon = require('icon/terminal.svg');
 
-type Props = PropsBase<Connector>;
+type Props = PropsBase<Terminal>;
 
-export default activable<Connector>(
+export default activable<Terminal>(
   ({ element: { kind }, active, activate }: Props) => (
     <Tile active={active} activate={activate} className={kind}>
       <Icon />
