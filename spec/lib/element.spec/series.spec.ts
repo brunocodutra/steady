@@ -1,46 +1,40 @@
-import { branch, join, Kind, merge, pack, series, split, unpack, update } from 'lib/element';
-import { connect } from 'lib/quadripole';
+import { branch, connect, Kind, merge, pack, series, next, unpack, update } from 'lib/element';
+import { cascade } from 'lib/quadripole';
 
 import { elements, parametric, phasors } from '../../util';
 
 describe('Series', () => {
   it('should be default constructible', () => {
-    expect(series().kind).toBe(Kind.series);
+    expect(series().kind).toEqual(Kind.series);
   });
 
   it('should have a successor', () => {
-    elements.forEach((next) => {
-      expect(series(next).next).toBe(next);
+    elements.forEach((e) => {
+      expect(next(series(e))).toEqual(e);
     });
   });
 
-  it('should allow splitting off', () => {
-    elements.forEach((next) => {
-      expect(split(series(next))).toBe(next);
+  it('should allow connecting', () => {
+    elements.forEach((e) => {
+      expect(next(connect(series(), e))).toEqual(e);
     });
   });
 
-  it('should allow joining in', () => {
-    elements.forEach((next) => {
-      expect(join(series(), next).next).toBe(next);
-    });
-  });
-
-  it('should not allow branching off', () => {
-    elements.forEach((next) => {
-      expect(() => branch(series(next))).toThrow();
+  it('should not have a branch', () => {
+    elements.forEach((e) => {
+      expect(() => branch(series(e))).toThrow();
     });
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(series(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(series(), e)).toThrow();
     });
   });
 
   it('should inherit its successor\'s subcircuits', () => {
-    elements.forEach((next) => {
-      expect(series(next).subcircuits).toBe(next.subcircuits);
+    elements.forEach((e) => {
+      expect(series(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
@@ -57,8 +51,8 @@ describe('Series', () => {
       elms.forEach((x) => {
         elms.forEach((y) => {
           elms.forEach((z) => {
-            const { model } = series(join(x, join(y, z)));
-            expect(model).toBeCloseTo(connect(connect(x.model, y.model), z.model));
+            const { model } = series(connect(x, connect(y, z)));
+            expect(model).toBeCloseTo(cascade(cascade(x.model, y.model), z.model));
           });
         });
       });
@@ -66,8 +60,9 @@ describe('Series', () => {
   });
 
   it('should be packable', () => {
-    elements.forEach((next) => {
-      expect(unpack(pack(series(next)))).toBe(series(next));
+    elements.forEach((e) => {
+      expect(JSON.parse(JSON.stringify(unpack(pack(series(e))))))
+        .toEqual(JSON.parse(JSON.stringify(series(e))));
     });
   });
 });

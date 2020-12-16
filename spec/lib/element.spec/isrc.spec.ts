@@ -1,58 +1,52 @@
-import { branch, isrc, join, Kind, merge, pack, split, unpack, update } from 'lib/element';
+import { branch, isrc, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
 
 describe('ISrc', () => {
   it('should be default constructible', () => {
-    expect(isrc().kind).toBe(Kind.isrc);
+    expect(isrc().kind).toEqual(Kind.isrc);
   });
 
   it('should have a successor', () => {
-    elements.forEach((next) => {
-      expect(isrc(next).next).toBe(next);
+    elements.forEach((e) => {
+      expect(next(isrc(e))).toEqual(e);
     });
   });
 
-  it('should allow splitting off', () => {
-    elements.forEach((next) => {
-      expect(split(isrc(next))).toBe(next);
+  it('should allow connecting', () => {
+    elements.forEach((e) => {
+      expect(next(connect(isrc(), e))).toEqual(e);
     });
   });
 
-  it('should allow joining in', () => {
-    elements.forEach((next) => {
-      expect(join(isrc(), next).next).toBe(next);
-    });
-  });
-
-  it('should not allow branching off', () => {
-    elements.forEach((next) => {
-      expect(() => branch(isrc(next))).toThrow();
+  it('should not have a branch', () => {
+    elements.forEach((e) => {
+      expect(() => branch(isrc(e))).toThrow();
     });
   });
 
   it('should not allow merging in', () => {
-    elements.forEach((next) => {
-      expect(() => merge(isrc(), next)).toThrow();
+    elements.forEach((e) => {
+      expect(() => merge(isrc(), e)).toThrow();
     });
   });
 
   it('should inherit its successor\'s subcircuits', () => {
-    elements.forEach((next) => {
-      expect(isrc(next).subcircuits).toBe(next.subcircuits);
+    elements.forEach((e) => {
+      expect(isrc(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should have a value', () => {
     phasors.forEach((value) => {
-      expect(isrc(undefined, value).value).toBe(value);
+      expect(isrc(undefined, value).value).toEqual(value);
     });
   });
 
   it('should allow updating its value', () => {
     phasors.forEach((value) => {
-      expect(update(isrc(), value).value).toBe(value);
+      expect(update(isrc(), value).value).toEqual(value);
     });
   });
 
@@ -68,11 +62,10 @@ describe('ISrc', () => {
   });
 
   it('should be packable', () => {
-    elements.forEach((next) => {
-      expect(unpack(pack(isrc(next)))).toBe(isrc(next));
-
+    elements.forEach((e) => {
       phasors.forEach((value) => {
-        expect(unpack(pack(isrc(next, value)))).toBe(isrc(next, value));
+        expect(JSON.parse(JSON.stringify(unpack(pack(isrc(e, value))))))
+          .toEqual(JSON.parse(JSON.stringify(isrc(e, value))));
       });
     });
   });

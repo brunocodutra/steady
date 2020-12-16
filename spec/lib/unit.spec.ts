@@ -12,7 +12,7 @@ describe('Prefix', () => {
 
   it('should map powers of 1000 to their labels', () => {
     for (let i = 0; i < values.length; ++i) {
-      expect(Prefix[values[i]]).toBe(labels[i]);
+      expect(Prefix[values[i]]).toEqual(labels[i]);
     }
   });
 });

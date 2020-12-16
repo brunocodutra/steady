@@ -1,6 +1,6 @@
 import { Action, Type } from 'action';
 import { init, State } from 'state';
-import { branch, Element, join, make, merge, split, update } from 'lib/element';
+import { branch, Element, connect, make, merge, next, update } from 'lib/element';
 import { equal, prefix } from 'lib/util';
 
 const spin = (id: number[], i: number, n: number) => [...id.slice(0, i), id[i] + n, ...id.slice(i + 1)];
@@ -11,7 +11,7 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
   } else if (prefix([0], path)) {
     return merge(entry, patch(branch(entry), path.slice(1), f));
   } else {
-    return join(entry, patch(split(entry), spin(path, 0, -1), f));
+    return connect(entry, patch(next(entry), spin(path, 0, -1), f));
   }
 };
 
@@ -27,7 +27,7 @@ export default (state = init(), action: Action): State => {
 
     case Type.insert:
       return {
-        entry: patch(entry, active, (e) => join(make(action.kind), e)),
+        entry: patch(entry, active, (e) => connect(make(action.kind), e)),
         active: spin(active, active.length - 1, 1),
       };
 
@@ -35,7 +35,7 @@ export default (state = init(), action: Action): State => {
       const lead = action.id.slice(0, -1);
 
       return {
-        entry: patch(entry, action.id, split),
+        entry: patch(entry, action.id, next),
 
         active: (prefix(lead, active) && action.id[lead.length] < active[lead.length])
           ? spin(active, lead.length, -1)

@@ -1,7 +1,8 @@
 import * as Phasors from 'lib/phasor';
 import { _0, _1, Phasor, polar } from 'lib/phasor';
-import { connect, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
-import { memoize, traverse } from 'lib/util';
+import { cascade, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
+import { json, memoized } from 'lib/decorator';
+import { traverse } from 'lib/util';
 
 export enum Kind {
   connector = 'connector',
@@ -18,208 +19,204 @@ export enum Kind {
 
 export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in Kind;
 
-export interface Connector {
-  readonly kind: Kind.connector,
-  readonly model: Quadripole,
-  readonly subcircuits: 1,
-}
-
-export interface Ground {
-  readonly kind: Kind.ground,
-  readonly next: Element,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface VSrc {
-  readonly kind: Kind.vsrc,
-  readonly next: Element,
-  readonly value: Phasor,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface ISrc {
-  readonly kind: Kind.isrc,
-  readonly next: Element,
-  readonly value: Phasor,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface Impedance {
-  readonly kind: Kind.impedance,
-  readonly next: Element,
-  readonly value: Phasor,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface Admittance {
-  readonly kind: Kind.admittance,
-  readonly next: Element,
-  readonly value: Phasor,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface XFormer {
-  readonly kind: Kind.xformer,
-  readonly next: Element,
-  readonly value: Phasor,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface Line {
-  readonly kind: Kind.line,
-  readonly next: Element,
-  readonly value: { y: Phasor, z: Phasor },
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface Series {
-  readonly kind: Kind.series,
-  readonly next: Element,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export interface Shunt {
-  readonly kind: Kind.shunt,
-  readonly next: Element,
-  readonly branch: Series,
-  readonly model: Quadripole,
-  readonly subcircuits: number,
-}
-
-export type Static = Ground | Series;
-export type Parametric = Impedance | Admittance | XFormer | Line | VSrc | ISrc;
-export type Removable = Parametric | Shunt;
-export type Activable = Removable | Connector;
-export type Element = Static | Parametric | Removable | Activable;
-
-const terminal: Connector = memoize({
-  kind: Kind.connector,
-  get model() {
+abstract class Electric {
+  @memoized
+  get model(): Quadripole {
     return quadripole();
-  },
+  }
+}
+
+abstract class Connected<E extends ConnectedElement> extends Electric {
+  readonly abstract next: E['next'];
+
+  @memoized
+  get subcircuits(): number {
+    return this.next.subcircuits;
+  }
+
+  connect(next: E['next']): E {
+    return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { next });
+  }
+}
+
+abstract class Parametric<E extends ParametricElement> extends Connected<E> {
+  readonly abstract value: E['value'];
+
+  update(value: E['value']): E {
+    return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { value });
+  }
+}
+
+@json
+export class Connector extends Electric {
+  readonly kind = Kind.connector;
+
   get subcircuits(): 1 {
     return 1;
-  },
-});
+  }
+}
 
-export const connector = (): Connector => terminal;
+@json
+export class Ground extends Connected<Ground> {
+  readonly kind = Kind.ground;
+  constructor(
+    readonly next: Element,
+  ) {
+    super();
+  }
+}
 
-export const ground = (next: Element = connector()): Ground => memoize({
-  kind: Kind.ground,
-  next,
-  get model() {
-    return quadripole();
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+@json
+export class VSrc extends Parametric<VSrc> {
+  readonly kind = Kind.vsrc;
+  constructor(
+    readonly next: Element,
+    readonly value: Phasor,
+  ) {
+    super();
+  }
 
-export const vsrc = (next: Element = connector(), value = _0): VSrc => memoize({
-  kind: Kind.vsrc,
-  next,
-  value,
-  get model() {
-    return quadripole(eye, [value, _0]);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+  @memoized
+  get model(): Quadripole {
+    return quadripole(eye, [this.value, _0]);
+  }
+}
 
-export const isrc = (next: Element = connector(), value = _0): ISrc => memoize({
-  kind: Kind.isrc,
-  next,
-  value,
-  get model() {
-    return quadripole(eye, [_0, value]);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+@json
+export class ISrc extends Parametric<ISrc> {
+  readonly kind = Kind.isrc;
+  constructor(
+    readonly next: Element,
+    readonly value: Phasor,
+  ) {
+    super();
+  }
 
-export const impedance = (next: Element = connector(), value = _0): Impedance => memoize({
-  kind: Kind.impedance,
-  next,
-  value,
-  get model() {
-    return quadripole([[_1, value.neg()], [_0, _1]]);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+  @memoized
+  get model(): Quadripole {
+    return quadripole(eye, [_0, this.value]);
+  }
+}
 
-export const admittance = (next: Element = connector(), value = polar(Infinity)): Admittance => memoize({
-  kind: Kind.admittance,
-  next,
-  value,
-  get model() {
-    return quadripole([[_1, _0], [value.recip().neg(), _1]]);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+@json
+export class Impedance extends Parametric<Impedance> {
+  readonly kind = Kind.impedance;
+  constructor(
+    readonly next: Element,
+    readonly value: Phasor,
+  ) {
+    super();
+  }
 
-export const xformer = (next: Element = connector(), value = _1): XFormer => memoize({
-  kind: Kind.xformer,
-  next,
-  value,
-  get model() {
-    return quadripole([[value.recip(), _0], [_0, value]]);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+  @memoized
+  get model(): Quadripole {
+    return quadripole([[_1, this.value.neg()], [_0, _1]]);
+  }
+}
 
-export const line = (next: Element = connector(), { y, z } = { y: _0, z: _1 }): Line => memoize({
-  kind: Kind.line,
-  next,
-  value: { y, z },
-  get model() {
+@json
+export class Admittance extends Parametric<Admittance> {
+  readonly kind = Kind.admittance;
+  constructor(
+    readonly next: Element,
+    readonly value: Phasor,
+  ) {
+    super();
+  }
+
+  @memoized
+  get model(): Quadripole {
+    return quadripole([[_1, _0], [this.value.recip().neg(), _1]]);
+  }
+}
+
+@json
+export class XFormer extends Parametric<XFormer> {
+  readonly kind = Kind.xformer;
+  constructor(
+    readonly next: Element,
+    readonly value: Phasor,
+  ) {
+    super();
+  }
+
+  @memoized
+  get model(): Quadripole {
+    return quadripole([[this.value.recip(), _0], [_0, this.value]]);
+  }
+}
+
+@json
+export class Line extends Parametric<Line> {
+  readonly kind = Kind.line;
+  constructor(
+    readonly next: Element,
+    readonly value: { y: Phasor, z: Phasor },
+  ) {
+    super();
+  }
+
+  @memoized
+  get model(): Quadripole {
+    const { y, z } = this.value;
     return quadripole([[y.cosh(), y.sinh().mul(z).neg()], [y.sinh().div(z).neg(), y.cosh()]]);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+  }
+}
 
-export const series = (next: Element = connector()): Series => memoize({
-  kind: Kind.series,
-  next,
-  get model() {
-    return traverse(next).map((e) => e.model).reduce(connect);
-  },
-  get subcircuits() {
-    return next.subcircuits;
-  },
-});
+@json
+export class Series extends Connected<Series> {
+  readonly kind = Kind.series;
+  constructor(
+    readonly next: Element,
+  ) {
+    super();
+  }
 
-export const shunt = (next: Element = connector(), branch = series()): Shunt => memoize({
-  kind: Kind.shunt,
-  next,
-  branch,
-  get model() {
+  @memoized
+  get model(): Quadripole {
+    return traverse(this.next).map((e) => e.model).reduce(cascade);
+  }
+}
+
+@json
+export class Shunt extends Connected<Shunt> {
+  readonly kind = Kind.shunt;
+  constructor(
+    readonly next: Element,
+    readonly branch: Series,
+  ) {
+    super();
+  }
+
+  @memoized
+  get model(): Quadripole {
     return quadripole(
-      [[_1, _0], [branch.model.r[1][0].div(branch.model.r[1][1]), _1]],
-      [_0, branch.model.t[1].div(branch.model.r[1][1])],
+      [[_1, _0], [this.branch.model.r[1][0].div(this.branch.model.r[1][1]), _1]],
+      [_0, this.branch.model.t[1].div(this.branch.model.r[1][1])],
     );
-  },
-  get subcircuits() {
-    return next.subcircuits + branch.subcircuits;
-  },
-});
+  }
+
+  @memoized
+  get subcircuits(): number {
+    return this.next.subcircuits + this.branch.subcircuits;
+  }
+}
+
+type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
+type ConnectedElement = Ground | Series | Shunt | ParametricElement;
+export type Element = Connector | ConnectedElement;
+
+const terminal = new Connector();
+export const connector = (): Connector => terminal;
+export const ground = (next: Element = connector()): Ground => new Ground(next);
+export const vsrc = (next: Element = connector(), value = _0): VSrc => new VSrc(next, value);
+export const isrc = (next: Element = connector(), value = _0): ISrc => new ISrc(next, value);
+export const impedance = (next: Element = connector(), value = _0): Impedance => new Impedance(next, value);
+export const admittance = (next: Element = connector(), value = polar(Infinity)): Admittance => new Admittance(next, value);
+export const xformer = (next: Element = connector(), value = _1): XFormer => new XFormer(next, value);
+export const line = (next: Element = connector(), value = { y: _0, z: _1 }): Line => new Line(next, value);
+export const series = (next: Element = connector()): Series => new Series(next);
+export const shunt = (next: Element = connector(), branch = series()): Shunt => new Shunt(next, branch);
 
 export const make = (kind: Kind): Element => {
   switch (kind) {
@@ -246,45 +243,28 @@ export const make = (kind: Kind): Element => {
   }
 };
 
-export const split = (element: Element): Element => {
-  if (element.kind === Kind.connector) {
-    throw new Error(`unexpected '${Kind.connector}'`);
+export const next = (element: Element): Element => {
+  if (element instanceof Connected) {
+    return element.next;
+  } else {
+    throw new Error(`unexpected '${element.kind}'`);
   }
-
-  return element.next;
 };
 
-export const join = (element: Element, next: Element): Exclude<Element, Connector> => {
-  switch (element.kind) {
-    case Kind.connector:
-      throw new Error(`unexpected '${Kind.connector}'`);
-    case Kind.ground:
-      return ground(next);
-    case Kind.vsrc:
-      return vsrc(next, element.value);
-    case Kind.isrc:
-      return isrc(next, element.value);
-    case Kind.impedance:
-      return impedance(next, element.value);
-    case Kind.admittance:
-      return admittance(next, element.value);
-    case Kind.xformer:
-      return xformer(next, element.value);
-    case Kind.line:
-      return line(next, element.value);
-    case Kind.series:
-      return series(next);
-    case Kind.shunt:
-      return shunt(next, element.branch);
+export const connect = (element: Element, next: Element): ConnectedElement => {
+  if (element instanceof Connected) {
+    return element.connect(next);
+  } else {
+    throw new Error(`unexpected '${element.kind}'`);
   }
 };
 
 export const branch = (element: Element): Series => {
-  if (element.kind !== Kind.shunt) {
+  if (element instanceof Shunt) {
+    return element.branch;
+  } else {
     throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
   }
-
-  return element.branch;
 };
 
 export const merge = (element: Element, branch: Element): Shunt => {
@@ -299,22 +279,15 @@ export const merge = (element: Element, branch: Element): Shunt => {
   return shunt(element.next, branch);
 };
 
-export const update = (element: Element, value: Phasor | Line['value']): Parametric => {
-  if (value instanceof Phasor) {
-    switch (element.kind) {
-      case Kind.vsrc:
-        return vsrc(element.next, value);
-      case Kind.isrc:
-        return isrc(element.next, value);
-      case Kind.impedance:
-        return impedance(element.next, value);
-      case Kind.admittance:
-        return admittance(element.next, value);
-      case Kind.xformer:
-        return xformer(element.next, value);
+export const update = (element: Element, value: ParametricElement['value']): ParametricElement => {
+  if (element instanceof Line) {
+    if (!(value instanceof Phasor)) {
+      return element.update(value);
     }
-  } else if (element.kind === Kind.line) {
-    return line(element.next, value);
+  } else if (element instanceof Parametric) {
+    if (value instanceof Phasor) {
+      return element.update(value);
+    }
   }
 
   throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
@@ -364,14 +337,14 @@ export const unpack = (packed: unknown): Element => {
 
     case Kind.ground:
     case Kind.series:
-      return join(make(kind), unpack(packed[1]));
+      return connect(make(kind), unpack(packed[1]));
 
     case Kind.vsrc:
     case Kind.isrc:
     case Kind.impedance:
     case Kind.admittance:
     case Kind.xformer:
-      return update(join(make(kind), unpack(packed[1])), Phasors.unpack(packed[2]));
+      return update(connect(make(kind), unpack(packed[1])), Phasors.unpack(packed[2]));
 
     case Kind.line: {
       /* istanbul ignore next */
@@ -384,11 +357,11 @@ export const unpack = (packed: unknown): Element => {
         z: Phasors.unpack(packed[2][1]),
       };
 
-      return update(join(make(kind), unpack(packed[1])), value);
+      return update(connect(make(kind), unpack(packed[1])), value);
     }
 
     case Kind.shunt:
-      return merge(join(make(kind), unpack(packed[1])), unpack(packed[2]));
+      return merge(connect(make(kind), unpack(packed[1])), unpack(packed[2]));
   }
 };
 

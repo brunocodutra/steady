@@ -6,7 +6,7 @@ describe('Phasor', () => {
   it('should be comparable for approximate equality', () => {
     phasors.forEach((p) => {
       phasors.forEach((q) => {
-        expect(closeTo(p, q)).toBe(p == q);
+        expect(closeTo(p, q)).toEqual(p == q);
       });
     });
   });
@@ -21,7 +21,8 @@ describe('Phasor', () => {
 
   it('should be packable', () => {
     phasors.forEach((p) => {
-      expect(unpack(pack(p))).toBe(p);
+      expect(JSON.parse(JSON.stringify(unpack(pack(p)))))
+        .toEqual(JSON.parse(JSON.stringify(p)));
     });
 
     expect(() => unpack([])).toThrowError();

@@ -1,5 +1,5 @@
 import { _1 } from 'lib/phasor';
-import { closeTo, connect, eye, quadripole } from 'lib/quadripole';
+import { closeTo, cascade, eye, quadripole } from 'lib/quadripole';
 
 import { quadripoles } from '../util';
 
@@ -14,14 +14,14 @@ describe('Quadripole', () => {
     quadripoles.forEach((q) => {
       const r = quadripole(q.r);
       const t = quadripole(eye, q.t);
-      expect(connect(r, t)).toBeCloseTo(q);
+      expect(cascade(r, t)).toBeCloseTo(q);
     });
   });
 
   it('should be comparable for approximate equality', () => {
     quadripoles.forEach((p) => {
       quadripoles.forEach((q) => {
-        expect(closeTo(p, q)).toBe(p == q);
+        expect(closeTo(p, q)).toEqual(p == q);
       });
     });
   });
