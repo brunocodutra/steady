@@ -1,5 +1,5 @@
 import * as Phasors from 'lib/phasor';
-import { _0, _1, Phasor, polar } from 'lib/phasor';
+import { _0, _1, Inf, Phasor } from 'lib/phasor';
 import { cascade, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
 import { json, memoized } from 'lib/decorator';
 import { traverse } from 'lib/util';
@@ -19,14 +19,23 @@ export enum Kind {
 
 export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in Kind;
 
-abstract class Electric {
+abstract class Electric<E extends Element> {
   @memoized
   get model(): Quadripole {
     return quadripole();
   }
+
+  @memoized
+  get equivalent(): Quadripole {
+    return traverse(this).map((e) => e.model).reduce(cascade);
+  }
+
+  power(vi: [Phasor, Phasor] = [_0, solve(this.equivalent)[1]]): Powered<E> {
+    return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { vi });
+  }
 }
 
-abstract class Connected<E extends ConnectedElement> extends Electric {
+abstract class Connected<E extends ConnectedElement> extends Electric<E> {
   readonly abstract next: E['next'];
 
   @memoized
@@ -36,6 +45,13 @@ abstract class Connected<E extends ConnectedElement> extends Electric {
 
   connect(next: E['next']): E {
     return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { next });
+  }
+
+  power(vi?: [Phasor, Phasor]): Powered<E> {
+    const powered = super.power(vi);
+    return Object.assign(Object.create(Object.getPrototypeOf(powered), Object.getOwnPropertyDescriptors(powered)), {
+      next: this.next.power(project(powered.model, powered.vi))
+    });
   }
 }
 
@@ -48,7 +64,7 @@ abstract class Parametric<E extends ParametricElement> extends Connected<E> {
 }
 
 @json
-export class Terminal extends Electric {
+export class Terminal extends Electric<Terminal> {
   readonly kind = Kind.terminal;
 
   get subcircuits(): 1 {
@@ -171,11 +187,6 @@ export class Series extends Connected<Series> {
   ) {
     super();
   }
-
-  @memoized
-  get model(): Quadripole {
-    return traverse(this.next).map((e) => e.model).reduce(cascade);
-  }
 }
 
 @json
@@ -190,9 +201,10 @@ export class Shunt extends Connected<Shunt> {
 
   @memoized
   get model(): Quadripole {
+    const { r, t } = this.branch.equivalent;
     return quadripole(
-      [[_1, _0], [this.branch.model.r[1][0].div(this.branch.model.r[1][1]), _1]],
-      [_0, this.branch.model.t[1].div(this.branch.model.r[1][1])],
+      [[_1, _0], [r[1][0].div(r[1][1]), _1]],
+      [_0, t[1].div(r[1][1])],
     );
   }
 
@@ -200,18 +212,37 @@ export class Shunt extends Connected<Shunt> {
   get subcircuits(): number {
     return this.next.subcircuits + this.branch.subcircuits;
   }
+
+  power(vi?: [Phasor, Phasor]): Powered<Shunt> {
+    const powered = super.power(vi);
+    return Object.assign(Object.create(Object.getPrototypeOf(powered), Object.getOwnPropertyDescriptors(powered)), {
+      branch: this.branch.power([powered.vi[0], powered.vi[1].sub(powered.next.vi[1])])
+    });
+  }
 }
 
 type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
 type ConnectedElement = Ground | Series | Shunt | ParametricElement;
 export type Element = Terminal | ConnectedElement;
 
+export type Powered<E extends Element = Element> =
+  E extends Element
+  ? {
+    readonly [P in Exclude<keyof E, 'next' | 'branch'>]: E[P];
+  } & {
+    readonly [P in Extract<keyof E, 'next' | 'branch'>]: Powered<Element>;
+  } & {
+    readonly vi: [Phasor, Phasor],
+  }
+  : never
+  ;
+
 export const terminal = (): Terminal => new Terminal();
 export const ground = (next: Element = terminal()): Ground => new Ground(next);
 export const vsrc = (next: Element = terminal(), value = _0): VSrc => new VSrc(next, value);
 export const isrc = (next: Element = terminal(), value = _0): ISrc => new ISrc(next, value);
 export const impedance = (next: Element = terminal(), value = _0): Impedance => new Impedance(next, value);
-export const admittance = (next: Element = terminal(), value = polar(Infinity)): Admittance => new Admittance(next, value);
+export const admittance = (next: Element = terminal(), value = Inf): Admittance => new Admittance(next, value);
 export const xformer = (next: Element = terminal(), value = _1): XFormer => new XFormer(next, value);
 export const line = (next: Element = terminal(), value = { y: _0, z: _1 }): Line => new Line(next, value);
 export const series = (next: Element = terminal()): Series => new Series(next);
@@ -361,44 +392,5 @@ export const unpack = (packed: unknown): Element => {
 
     case Kind.shunt:
       return merge(connect(make(kind), unpack(packed[1])), unpack(packed[2]));
-  }
-};
-
-export type Energized<E extends Element = Element> =
-  E extends Element
-  ? {
-    readonly [P in Exclude<keyof E, 'next' | 'branch'>]: E[P];
-  } & {
-    readonly [P in Extract<keyof E, 'next' | 'branch'>]: Energized<Element>;
-  } & {
-    readonly vi: [Phasor, Phasor],
-  }
-  : never
-  ;
-
-export const energize = (element: Element, vi: [Phasor, Phasor] = [_0, solve(element.model)[1]]): Energized<Element> => {
-  switch (element.kind) {
-    case Kind.terminal:
-      return Object.assign(Object.create(element), { vi });
-    case Kind.ground:
-    case Kind.vsrc:
-    case Kind.isrc:
-    case Kind.impedance:
-    case Kind.admittance:
-    case Kind.xformer:
-    case Kind.line:
-      return Object.assign(Object.create(element), {
-        next: energize(element.next, project(element.model, vi)),
-        vi,
-      });
-    case Kind.series:
-      return Object.assign(Object.create(element), {
-        next: energize(element.next, vi),
-        vi,
-      });
-    case Kind.shunt:
-      const next = energize(element.next, project(element.model, vi));
-      const branch = energize(element.branch, [vi[0], vi[1].sub(next.vi[1])]);
-      return Object.assign(Object.create(element), { vi, next, branch });
   }
 };

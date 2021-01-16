@@ -1,6 +1,6 @@
 import { branch, connect, Kind, merge, pack, series, shunt, next, unpack, update } from 'lib/element';
-import { rect } from 'lib/phasor';
-import { project, solve } from 'lib/quadripole';
+import { rect, _0 } from 'lib/phasor';
+import { cascade, project, solve } from 'lib/quadripole';
 
 import { elements, parametric, phasors } from '../../util';
 
@@ -41,7 +41,7 @@ describe('Shunt', () => {
     });
   });
 
-  it('should cascade its successors\' subcircuits', () => {
+  it('should connect two subcircuits', () => {
     elements.forEach((x) => {
       elements.map(series).forEach((y) => {
         expect(shunt(x, y).subcircuits).toEqual(x.subcircuits + y.subcircuits);
@@ -55,7 +55,34 @@ describe('Shunt', () => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
             const { model, branch } = shunt(undefined, series(connect(x, y)));
-            expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(branch.model, [v, rect(0)])[1])]);
+            expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(branch.equivalent, [v, rect(0)])[1])]);
+          });
+        });
+      });
+    });
+  });
+
+  it('should have an equivalent model for the series subcircuit', () => {
+    phasors.forEach((v) => {
+      parametric.map((e) => update(e, v)).forEach((x) => {
+        phasors.forEach((i) => {
+          parametric.map((e) => update(e, i)).forEach((y) => {
+            const self = shunt(x, series(y));
+            expect(self.equivalent).toBeCloseTo(cascade(self.model, x.model));
+          });
+        });
+      });
+    });
+  });
+
+  it('should be powerable', () => {
+    phasors.forEach((v) => {
+      parametric.map((e) => update(e, v)).forEach((x) => {
+        phasors.forEach((i) => {
+          parametric.map((e) => update(e, i)).forEach((y) => {
+            const self = shunt(x, series(y));
+            expect(self.power()).toMatchObject(self);
+            expect(self.power().vi).toBeCloseTo([_0, solve(self.equivalent)[1]]);
           });
         });
       });

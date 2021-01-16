@@ -4,6 +4,7 @@ export * from 'phasor.js';
 
 export const _0 = polar(0);
 export const _1 = polar(1);
+export const Inf = polar(Infinity);
 
 export const closeTo = (p: Phasor, q: Phasor, e: number = Number.EPSILON): boolean => (
   p.ulpsEq(q, e, e / Number.EPSILON) || (

@@ -6,8 +6,7 @@ import { phasors, quadripoles } from '../../util';
 describe('Quadripole', () => {
   it('should have a unique solution', () => {
     quadripoles.forEach((q) => {
-      const [v, i] = solve(q);
-      expect(project(q, [_0, i])).toBeCloseTo([v, _0]);
+      expect(solve(q)).toBeCloseTo(solve(q, [_0, _0]));
       phasors.forEach((vi) => {
         phasors.forEach((io) => {
           const [vo, ii] = solve(q, [vi, io]);

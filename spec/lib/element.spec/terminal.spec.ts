@@ -1,4 +1,5 @@
 import { branch, terminal, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
+import { _0 } from 'lib/phasor';
 import { project } from 'lib/quadripole';
 
 import { elements, phasors } from '../../util';
@@ -33,18 +34,26 @@ describe('Terminal', () => {
   });
 
   it('should not allow updating', () => {
-    phasors.forEach((value) => {
-      expect(() => update(terminal(), value)).toThrow();
+    phasors.forEach((p) => {
+      expect(() => update(terminal(), p)).toThrow();
     });
   });
 
   it('should model an ideal conductor', () => {
     phasors.forEach((v) => {
       phasors.forEach((i) => {
-        const { model } = terminal();
-        expect(project(model, [v, i])).toBeCloseTo([v, i]);
+        expect(project(terminal().model, [v, i])).toBeCloseTo([v, i]);
       });
     });
+  });
+
+  it('should have an equivalent model for the series subcircuit', () => {
+    expect(terminal().equivalent).toBeCloseTo(terminal().model);
+  });
+
+  it('should be powerable', () => {
+    expect(terminal().power()).toMatchObject(terminal());
+    expect(terminal().power().vi).toBeCloseTo([_0, _0]);
   });
 
   it('should be packable', () => {

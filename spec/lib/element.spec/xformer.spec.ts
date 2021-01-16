@@ -1,7 +1,8 @@
 import { branch, connect, Kind, merge, pack, next, unpack, update, xformer } from 'lib/element';
-import { project } from 'lib/quadripole';
+import { _0 } from 'lib/phasor';
+import { cascade, project, solve } from 'lib/quadripole';
 
-import { elements, phasors } from '../../util';
+import { elements, parametric, phasors } from '../../util';
 
 describe('XFormer', () => {
   it('should be default constructible', () => {
@@ -32,30 +33,54 @@ describe('XFormer', () => {
     });
   });
 
-  it('should inherit its successor\'s subcircuits', () => {
+  it('should connect a single subcircuit', () => {
     elements.forEach((e) => {
       expect(xformer(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should have a value', () => {
-    phasors.forEach((value) => {
-      expect(xformer(undefined, value).value).toEqual(value);
+    phasors.forEach((p) => {
+      expect(xformer(undefined, p).value).toEqual(p);
     });
   });
 
   it('should allow updating its value', () => {
-    phasors.forEach((value) => {
-      expect(update(xformer(), value).value).toEqual(value);
+    phasors.forEach((p) => {
+      expect(update(xformer(), p)).toEqual(xformer(undefined, p));
     });
   });
 
   it('should model an ideal transformer', () => {
-    phasors.forEach((value) => {
+    phasors.forEach((p) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const { model } = xformer(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([v.div(value), i.mul(value)]);
+          const { model } = xformer(undefined, p);
+          expect(project(model, [v, i])).toBeCloseTo([v.div(p), i.mul(p)]);
+        });
+      });
+    });
+  });
+
+  it('should have an equivalent model for the series subcircuit', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        phasors.forEach((q) => {
+          const next = update(e, q);
+          const self = xformer(next, p);
+          expect(self.equivalent).toBeCloseTo(cascade(self.model, next.model));
+        });
+      });
+    });
+  });
+
+  it('should be powerable', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        phasors.forEach((q) => {
+          const self = xformer(update(e, q), p);
+          expect(self.power()).toMatchObject(self);
+          expect(self.power().vi).toBeCloseTo([_0, solve(self.equivalent)[1]]);
         });
       });
     });
@@ -63,9 +88,9 @@ describe('XFormer', () => {
 
   it('should be packable', () => {
     elements.forEach((e) => {
-      phasors.forEach((value) => {
-        expect(JSON.parse(JSON.stringify(unpack(pack(xformer(e, value))))))
-          .toEqual(JSON.parse(JSON.stringify(xformer(e, value))));
+      phasors.forEach((p) => {
+        expect(JSON.parse(JSON.stringify(unpack(pack(xformer(e, p))))))
+          .toEqual(JSON.parse(JSON.stringify(xformer(e, p))));
       });
     });
   });

@@ -1,7 +1,8 @@
 import { branch, connect, Kind, merge, pack, next, unpack, update, vsrc } from 'lib/element';
-import { project } from 'lib/quadripole';
+import { _0 } from 'lib/phasor';
+import { cascade, project, solve } from 'lib/quadripole';
 
-import { elements, phasors } from '../../util';
+import { elements, parametric, phasors } from '../../util';
 
 describe('VSrc', () => {
   it('should be default constructible', () => {
@@ -32,30 +33,54 @@ describe('VSrc', () => {
     });
   });
 
-  it('should inherit its successor\'s subcircuits', () => {
+  it('should connect a single subcircuit', () => {
     elements.forEach((e) => {
       expect(vsrc(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should have a value', () => {
-    phasors.forEach((value) => {
-      expect(vsrc(undefined, value).value).toEqual(value);
+    phasors.forEach((p) => {
+      expect(vsrc(undefined, p).value).toEqual(p);
     });
   });
 
   it('should allow updating its value', () => {
-    phasors.forEach((value) => {
-      expect(update(vsrc(), value).value).toEqual(value);
+    phasors.forEach((p) => {
+      expect(update(vsrc(), p)).toEqual(vsrc(undefined, p));
     });
   });
 
   it('should model a voltage source', () => {
-    phasors.forEach((value) => {
+    phasors.forEach((p) => {
       phasors.forEach((v) => {
         phasors.forEach((i) => {
-          const { model } = vsrc(undefined, value);
-          expect(project(model, [v, i])).toBeCloseTo([value.add(v), i]);
+          const { model } = vsrc(undefined, p);
+          expect(project(model, [v, i])).toBeCloseTo([p.add(v), i]);
+        });
+      });
+    });
+  });
+
+  it('should have an equivalent model for the series subcircuit', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        phasors.forEach((q) => {
+          const next = update(e, q);
+          const self = vsrc(next, p);
+          expect(self.equivalent).toBeCloseTo(cascade(self.model, next.model));
+        });
+      });
+    });
+  });
+
+  it('should be powerable', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        phasors.forEach((q) => {
+          const self = vsrc(update(e, q), p);
+          expect(self.power()).toMatchObject(self);
+          expect(self.power().vi).toBeCloseTo([_0, solve(self.equivalent)[1]]);
         });
       });
     });
@@ -63,9 +88,9 @@ describe('VSrc', () => {
 
   it('should be packable', () => {
     elements.forEach((e) => {
-      phasors.forEach((value) => {
-        expect(JSON.parse(JSON.stringify(unpack(pack(vsrc(e, value))))))
-          .toEqual(JSON.parse(JSON.stringify(vsrc(e, value))));
+      phasors.forEach((p) => {
+        expect(JSON.parse(JSON.stringify(unpack(pack(vsrc(e, p))))))
+          .toEqual(JSON.parse(JSON.stringify(vsrc(e, p))));
       });
     });
   });
