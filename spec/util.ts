@@ -2,8 +2,6 @@ import { Kind, make } from 'lib/element';
 import { Phasor, polar, _0, _1 } from 'lib/phasor';
 import { eye, quadripole, Quadripole } from 'lib/quadripole';
 
-export const rand = (n = 10): number => Math.floor(Math.random() * n);
-
 export const phasors: Phasor[] = [1E-3, 1, 1E3].map((mag) =>
   Array.from({ length: 8 }, (_, k) => polar(mag, Math.PI / 4 * k)),
 ).flat();

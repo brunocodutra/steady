@@ -1,6 +1,6 @@
 import * as Phasors from 'lib/phasor';
 import { _0, _1, Phasor } from 'lib/phasor';
-import { hasProperty } from './util';
+import { hasProperty } from 'lib/util';
 
 type P2 = [Phasor, Phasor];
 

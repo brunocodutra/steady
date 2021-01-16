@@ -18,3 +18,17 @@ export const unwrap = <X>(x?: X | null, msg?: string): X => {
 };
 
 export const hasProperty = <O extends {}, P extends PropertyKey>(o: O, p: P): o is O & Record<P, unknown> => p in o;
+
+export const rescue = <T>(...fs: [() => T, ...(() => T)[]]): T => {
+  let error;
+
+  for (const f of fs) {
+    try {
+      return f();
+    } catch (e) {
+      error = e;
+    }
+  }
+
+  throw error;
+} 
