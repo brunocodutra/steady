@@ -1,7 +1,5 @@
 import { json, memoized } from 'lib/decorator';
 
-import { rand } from '../util';
-
 describe('memoized', () => {
   it('should fail for methods', () => {
     expect(() => {
@@ -36,7 +34,7 @@ describe('memoized', () => {
   });
 
   it('should memoize immutable properties', () => {
-    const mock = jest.fn(rand);
+    const mock = jest.fn(Math.random);
 
     class Class {
       @memoized

@@ -1,7 +1,9 @@
 import { createStore, Store, applyMiddleware, Middleware } from 'redux';
 import { Action, hydrate, Type } from 'action';
 import reducer from 'reducer';
-import { init, pack, State, unpack, unserialize } from 'state';
+import { init, pack, State, unpack } from 'state';
+import { deserialize } from 'lib/serde';
+import { rescue } from 'lib/util';
 
 const middleware: Middleware<unknown, State>[] = [
   ({ getState }) => (next) => (action: Action) => {
@@ -20,7 +22,7 @@ if (process.env.NODE_ENV !== 'production') {
   import('redux-logger').then(m => middleware.push(m.default));
 }
 
-const state = unserialize(location.search.slice(1)) || init();
+const state = rescue(() => unpack(deserialize(location.search.slice(1))), init);
 const store: Store<State, Action> = createStore(reducer, state, applyMiddleware(...middleware));
 
 const undo = (e: KeyboardEvent) => {
