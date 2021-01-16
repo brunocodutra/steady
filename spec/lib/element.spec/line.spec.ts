@@ -1,8 +1,8 @@
 import { branch, connect, Kind, line, merge, pack, next, unpack, update } from 'lib/element';
-import { polar } from 'lib/phasor';
-import { project } from 'lib/quadripole';
+import { polar, _0 } from 'lib/phasor';
+import { cascade, project, solve } from 'lib/quadripole';
 
-import { elements, phasors } from '../../util';
+import { elements, parametric, phasors } from '../../util';
 
 describe('Line', () => {
   it('should be default constructible', () => {
@@ -33,7 +33,7 @@ describe('Line', () => {
     });
   });
 
-  it('should inherit its successor\'s subcircuits', () => {
+  it('should connect a single subcircuit', () => {
     elements.forEach((e) => {
       expect(line(e).subcircuits).toEqual(e.subcircuits);
     });
@@ -72,6 +72,30 @@ describe('Line', () => {
             a.sub(b).mul(exp).add(a.add(b).div(exp)),
             c.sub(d).mul(exp).add(c.add(d).div(exp)),
           ]);
+        });
+      });
+    });
+  });
+
+  it('should have an equivalent model for the series subcircuit', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        phasors.forEach((q) => {
+          const next = update(e, q);
+          const self = line(next, { y: q.ln(), z: p });
+          expect(self.equivalent).toBeCloseTo(cascade(self.model, next.model));
+        });
+      });
+    });
+  });
+
+  it('should be powerable', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        phasors.forEach((q) => {
+          const self = line(update(e, q), { y: q.ln(), z: p });
+          expect(self.power()).toMatchObject(self);
+          expect(self.power().vi).toBeCloseTo([_0, solve(self.equivalent)[1]]);
         });
       });
     });

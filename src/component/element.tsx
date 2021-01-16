@@ -1,5 +1,5 @@
 import React from 'react';
-import { Element, Energized, Kind } from 'lib/element';
+import { Element, Powered, Kind } from 'lib/element';
 import Admittance from 'component/element/admittance';
 import Terminal from 'component/element/terminal';
 import Ground from 'component/element/ground';
@@ -13,7 +13,7 @@ import XFormer from 'component/element/xformer';
 
 export interface Props<E extends Element = Element> {
   readonly id: number[],
-  readonly element: Energized<E>,
+  readonly element: Powered<E>,
 }
 
 export default ({ id, element }: Props): JSX.Element => {

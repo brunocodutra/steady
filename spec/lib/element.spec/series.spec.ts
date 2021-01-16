@@ -1,5 +1,6 @@
 import { branch, connect, Kind, merge, pack, series, next, unpack, update } from 'lib/element';
-import { cascade } from 'lib/quadripole';
+import { _0 } from 'lib/phasor';
+import { project, solve } from 'lib/quadripole';
 
 import { elements, parametric, phasors } from '../../util';
 
@@ -32,29 +33,42 @@ describe('Series', () => {
     });
   });
 
-  it('should inherit its successor\'s subcircuits', () => {
+  it('should connect a single subcircuit', () => {
     elements.forEach((e) => {
       expect(series(e).subcircuits).toEqual(e.subcircuits);
     });
   });
 
   it('should not allow updating', () => {
-    phasors.forEach((value) => {
-      expect(() => update(series(), value)).toThrow();
+    phasors.forEach((p) => {
+      expect(() => update(series(), p)).toThrow();
     });
   });
 
-  it('should model a series sub-circuit', () => {
-    phasors.forEach((value) => {
-      const elms = parametric.map((e) => update(e, value));
+  it('should model an ideal conductor', () => {
+    phasors.forEach((v) => {
+      phasors.forEach((i) => {
+        const { model } = series();
+        expect(project(model, [v, i])).toBeCloseTo([v, i]);
+      });
+    });
+  });
 
-      elms.forEach((x) => {
-        elms.forEach((y) => {
-          elms.forEach((z) => {
-            const { model } = series(connect(x, connect(y, z)));
-            expect(model).toBeCloseTo(cascade(cascade(x.model, y.model), z.model));
-          });
-        });
+  it('should have an equivalent model for the series subcircuit', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        const next = update(e, p);
+        expect(series(next).equivalent).toBeCloseTo(next.model);
+      });
+    });
+  });
+
+  it('should be powerable', () => {
+    parametric.forEach((e) => {
+      phasors.forEach((p) => {
+        const self = series(update(e, p));
+        expect(self.power()).toMatchObject(self);
+        expect(self.power().vi).toBeCloseTo([_0, solve(self.equivalent)[1]]);
       });
     });
   });
