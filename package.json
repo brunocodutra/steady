@@ -52,7 +52,7 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "sass": "^1.30.0",
+    "sass": "^1.32.4",
     "sass-loader": "^10.1.0",
     "stylelint": "^13.8.0",
     "stylelint-config-property-sort-order-smacss": "^7.0.0",
