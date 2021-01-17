@@ -1,6 +1,5 @@
 import { State } from 'state';
-import { Kind } from 'lib/element';
-import { Parametric } from 'container/parametric';
+import { Kind, Value } from 'lib/element';
 
 export const enum Type {
   hydrate = 'hydrate',
@@ -33,7 +32,7 @@ interface Insert {
 interface Update {
   readonly type: Type.update,
   readonly id: number[],
-  readonly value: Parametric['value'],
+  readonly value: Value,
 }
 
 export type Action = Hydrate | Activate | Remove | Insert | Update;
@@ -58,7 +57,7 @@ export const insert = (kind: Kind): Insert => ({
   kind,
 });
 
-export const update = (id: number[], value: Parametric['value']): Update => ({
+export const update = (id: number[], value: Value): Update => ({
   type: Type.update,
   id,
   value,

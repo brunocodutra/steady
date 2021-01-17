@@ -1,4 +1,3 @@
-import * as Phasors from 'lib/phasor';
 import { _0, _1, Phasor } from 'lib/phasor';
 import { hasProperty } from 'lib/util';
 
@@ -33,7 +32,7 @@ export const closeTo = (p: Quadripole, q: Quadripole, e?: number): boolean => {
   const l: Phasor[] = [p.r, p.t].flat(2);
   const r: Phasor[] = [q.r, q.t].flat(2);
 
-  return l.every((x, i) => Phasors.closeTo(x, r[i], e))
+  return l.every((x, i) => x.closeTo(r[i], e))
 };
 
 export const project = ({ r: [[a, b], [c, d]], t: [u, j] }: Quadripole, [v, i]: P2): P2 => {

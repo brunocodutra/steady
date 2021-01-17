@@ -1,6 +1,7 @@
-import { Kind, make } from 'lib/element';
+import { Element, Kind } from 'lib/element';
 import { Phasor, polar, _0, _1 } from 'lib/phasor';
 import { eye, quadripole, Quadripole } from 'lib/quadripole';
+import { deserialize, serialize, Json } from 'lib/serde';
 
 export const phasors: Phasor[] = [1E-3, 1, 1E3].map((mag) =>
   Array.from({ length: 8 }, (_, k) => polar(mag, Math.PI / 4 * k)),
@@ -26,7 +27,7 @@ export const parametric = [
   Kind.impedance,
   Kind.admittance,
   Kind.xformer,
-].map(make);
+].map(Element.fromKind);
 
 export const elements = parametric.concat([
   Kind.terminal,
@@ -34,4 +35,6 @@ export const elements = parametric.concat([
   Kind.line,
   Kind.series,
   Kind.shunt,
-].map(make));
+].map(Element.fromKind));
+
+export const toJSON = (x: unknown): Json => deserialize(serialize(x));

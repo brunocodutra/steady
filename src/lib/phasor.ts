@@ -1,4 +1,5 @@
 import { Phasor, polar } from 'phasor.js';
+import { hasProperty } from './util';
 
 export * from 'phasor.js';
 
@@ -6,19 +7,35 @@ export const _0 = polar(0);
 export const _1 = polar(1);
 export const Inf = polar(Infinity);
 
-export const closeTo = (p: Phasor, q: Phasor, e: number = Number.EPSILON): boolean => (
-  p.ulpsEq(q, e, e / Number.EPSILON) || (
-    polar(p.norm()).ulpsEq(_0, e, 0) &&
-    polar(q.norm()).ulpsEq(_0, e, 0)
-  )
-);
-
-export const pack = (p: Phasor): unknown => [p.mag, p.tan];
-
-export const unpack = (packed: unknown): Phasor => {
-  if (!Array.isArray(packed) || packed.length !== 2) {
-    throw new Error(`expected '[mag, tan]', got ${packed}`);
+declare module 'phasor.js' {
+  export interface Phasor {
+    closeTo(p: Phasor, e?: number): boolean;
   }
 
-  return new Phasor(packed[0], packed[1]);
-};
+  namespace Phasor {
+    const fromJSON: (json: unknown) => Phasor;
+  }
+}
+
+Object.assign(Phasor.prototype, {
+  closeTo(this: Phasor, p: Phasor, e: number = Number.EPSILON): boolean {
+    return this.ulpsEq(p, e, e / Number.EPSILON) || (
+      polar(this.norm()).ulpsEq(_0, e, 0) &&
+      polar(p.norm()).ulpsEq(_0, e, 0)
+    );
+  },
+});
+
+Object.assign(Phasor, {
+  fromJSON(json: unknown): Phasor {
+    if (
+      typeof json !== 'object' || json === null ||
+      !hasProperty(json, 'mag') || typeof json.mag !== 'number' ||
+      !hasProperty(json, 'tan') || typeof json.tan !== 'number'
+    ) {
+      throw new Error(`expected Phasor, got '${json}'`);
+    }
+
+    return new Phasor(json.mag, json.tan);
+  }
+});

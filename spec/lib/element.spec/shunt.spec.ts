@@ -1,8 +1,8 @@
-import { branch, connect, Kind, merge, pack, series, shunt, next, unpack, update } from 'lib/element';
+import { branch, connect, Element, Kind, merge, series, shunt, next, update } from 'lib/element';
 import { rect, _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from '../../util';
+import { elements, parametric, phasors, toJSON } from '../../util';
 
 describe('Shunt', () => {
   it('should be default constructible', () => {
@@ -89,11 +89,11 @@ describe('Shunt', () => {
     });
   });
 
-  it('should be packable', () => {
+  it('should be serializable', () => {
     elements.forEach((x) => {
       elements.forEach((y) => {
-        expect(JSON.parse(JSON.stringify(unpack(pack(shunt(x, series(y)))))))
-          .toEqual(JSON.parse(JSON.stringify(shunt(x, series(y)))));
+        const json = toJSON(shunt(x, series(y)));
+        expect(toJSON(Element.fromJSON(json))).toEqual(json);
       });
     });
   });

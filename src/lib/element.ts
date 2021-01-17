@@ -1,8 +1,7 @@
-import * as Phasors from 'lib/phasor';
 import { _0, _1, Inf, Phasor } from 'lib/phasor';
 import { cascade, eye, project, Quadripole, quadripole, solve } from 'lib/quadripole';
 import { json, memoized } from 'lib/decorator';
-import { traverse } from 'lib/util';
+import { hasProperty, traverse } from 'lib/util';
 
 export enum Kind {
   terminal = 'terminal',
@@ -221,8 +220,8 @@ export class Shunt extends Connected<Shunt> {
   }
 }
 
-type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
-type ConnectedElement = Ground | Series | Shunt | ParametricElement;
+export type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
+export type ConnectedElement = Ground | Series | Shunt | ParametricElement;
 export type Element = Terminal | ConnectedElement;
 
 export type Powered<E extends Element = Element> =
@@ -237,6 +236,24 @@ export type Powered<E extends Element = Element> =
   : never
   ;
 
+export type Value = ParametricElement['value'];
+
+namespace Value {
+  export const fromJSON = (json: unknown): Value => {
+    if (
+      typeof json === 'object' && json !== null &&
+      hasProperty(json, 'y') && hasProperty(json, 'z')
+    ) {
+      return {
+        y: Phasor.fromJSON(json.y),
+        z: Phasor.fromJSON(json.z),
+      };
+    } else {
+      return Phasor.fromJSON(json);
+    }
+  }
+}
+
 export const terminal = (): Terminal => new Terminal();
 export const ground = (next: Element = terminal()): Ground => new Ground(next);
 export const vsrc = (next: Element = terminal(), value = _0): VSrc => new VSrc(next, value);
@@ -248,30 +265,56 @@ export const line = (next: Element = terminal(), value = { y: _0, z: _1 }): Line
 export const series = (next: Element = terminal()): Series => new Series(next);
 export const shunt = (next: Element = terminal(), branch = series()): Shunt => new Shunt(next, branch);
 
-export const make = (kind: Kind): Element => {
-  switch (kind) {
-    case Kind.terminal:
-      return terminal();
-    case Kind.ground:
-      return ground();
-    case Kind.vsrc:
-      return vsrc();
-    case Kind.isrc:
-      return isrc();
-    case Kind.impedance:
-      return impedance();
-    case Kind.admittance:
-      return admittance();
-    case Kind.xformer:
-      return xformer();
-    case Kind.line:
-      return line();
-    case Kind.series:
-      return series();
-    case Kind.shunt:
-      return shunt();
-  }
-};
+export namespace Element {
+  export const fromKind = (kind: Kind): Element => {
+    switch (kind) {
+      case Kind.terminal:
+        return terminal();
+      case Kind.ground:
+        return ground();
+      case Kind.vsrc:
+        return vsrc();
+      case Kind.isrc:
+        return isrc();
+      case Kind.impedance:
+        return impedance();
+      case Kind.admittance:
+        return admittance();
+      case Kind.xformer:
+        return xformer();
+      case Kind.line:
+        return line();
+      case Kind.series:
+        return series();
+      case Kind.shunt:
+        return shunt();
+    }
+  };
+
+  export const fromJSON = (json: unknown): Element => {
+    if (typeof json !== 'object' || json === null || !hasProperty(json, 'kind') || !isKind(json.kind)) {
+      throw new Error(`expected Element, got '${json}'`);
+    }
+
+    const electric = fromKind(json.kind);
+
+    if (!hasProperty(json, 'next')) {
+      return electric;
+    }
+
+    const connected = connect(electric, fromJSON(json.next));
+
+    if (hasProperty(json, 'branch')) {
+      return merge(connected, fromJSON(json.branch));
+    }
+
+    if (hasProperty(json, 'value')) {
+      return update(connected, Value.fromJSON(json.value));
+    }
+
+    return connected;
+  };
+}
 
 export const next = (element: Element): Element => {
   if (element instanceof Connected) {
@@ -309,7 +352,7 @@ export const merge = (element: Element, branch: Element): Shunt => {
   return shunt(element.next, branch);
 };
 
-export const update = (element: Element, value: ParametricElement['value']): ParametricElement => {
+export const update = (element: Element, value: Value): ParametricElement => {
   if (element instanceof Line) {
     if (!(value instanceof Phasor)) {
       return element.update(value);
@@ -321,76 +364,4 @@ export const update = (element: Element, value: ParametricElement['value']): Par
   }
 
   throw new Error(`cannot update element of kind '${element.kind}' with value '${value}'`);
-};
-
-export const pack = (element?: Element): unknown => {
-  switch (element?.kind) {
-    case Kind.terminal:
-      return [Object.keys(Kind).indexOf(element.kind)];
-    case Kind.ground:
-    case Kind.series:
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next)];
-    case Kind.vsrc:
-    case Kind.isrc:
-    case Kind.impedance:
-    case Kind.admittance:
-    case Kind.xformer:
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), Phasors.pack(element.value)];
-
-    case Kind.line: {
-      const { y, z } = element.value;
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), [Phasors.pack(y), Phasors.pack(z)]];
-    }
-
-    case Kind.shunt:
-      return [Object.keys(Kind).indexOf(element.kind), pack(element.next), pack(element.branch)];
-
-    case undefined:
-      return [];
-  }
-};
-
-export const unpack = (packed: unknown): Element => {
-  if (!Array.isArray(packed) || !packed.length || packed.length > 3) {
-    throw new Error(`expected '[kind, next?, value?]', got ${packed}`);
-  }
-
-  const kind = Object.keys(Kind)[packed[0]];
-
-  if (!isKind(kind)) {
-    throw new Error(`unknown element kind '${kind}'`);
-  }
-
-  switch (kind) {
-    case Kind.terminal:
-      return terminal();
-
-    case Kind.ground:
-    case Kind.series:
-      return connect(make(kind), unpack(packed[1]));
-
-    case Kind.vsrc:
-    case Kind.isrc:
-    case Kind.impedance:
-    case Kind.admittance:
-    case Kind.xformer:
-      return update(connect(make(kind), unpack(packed[1])), Phasors.unpack(packed[2]));
-
-    case Kind.line: {
-      /* istanbul ignore next */
-      if (!Array.isArray(packed[2]) || packed[2].length !== 2) {
-        throw new Error(`expected '[y, z]', got ${packed}`);
-      }
-
-      const value = {
-        y: Phasors.unpack(packed[2][0]),
-        z: Phasors.unpack(packed[2][1]),
-      };
-
-      return update(connect(make(kind), unpack(packed[1])), value);
-    }
-
-    case Kind.shunt:
-      return merge(connect(make(kind), unpack(packed[1])), unpack(packed[2]));
-  }
 };

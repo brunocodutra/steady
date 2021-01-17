@@ -1,6 +1,5 @@
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 
-import * as Phasors from 'lib/phasor';
 import { Phasor, polar } from 'lib/phasor';
 
 import * as Quadripoles from 'lib/quadripole';
@@ -10,9 +9,9 @@ type T = number | Phasor | Quadripole | T[];
 
 const closeTo = (x: T, y: T, e: number): boolean => (
   (x instanceof Phasor && y instanceof Phasor)
-    ? Phasors.closeTo(x, y, e)
+    ? x.closeTo(y, e)
     : (typeof x === 'number' && typeof y === 'number')
-      ? Phasors.closeTo(polar(x), polar(y))
+      ? polar(x).closeTo(polar(y), e)
       : (isQuadripole(x) && isQuadripole(y))
         ? Quadripoles.closeTo(x, y, e)
         : (Array.isArray(x) && Array.isArray(y))

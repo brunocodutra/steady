@@ -1,6 +1,6 @@
 import { Action, Type } from 'action';
-import { init, State } from 'state';
-import { branch, Element, connect, make, merge, next, update } from 'lib/element';
+import { State } from 'state';
+import { branch, Element, connect, merge, next, update } from 'lib/element';
 import { equal, prefix } from 'lib/util';
 
 const spin = (id: number[], i: number, n: number) => [...id.slice(0, i), id[i] + n, ...id.slice(i + 1)];
@@ -15,7 +15,7 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
   }
 };
 
-export default (state = init(), action: Action): State => {
+export default (state = State.init(), action: Action): State => {
   const { entry, active } = state;
 
   switch (action.type) {
@@ -27,7 +27,7 @@ export default (state = init(), action: Action): State => {
 
     case Type.insert:
       return {
-        entry: patch(entry, active, (e) => connect(make(action.kind), e)),
+        entry: patch(entry, active, (e) => connect(Element.fromKind(action.kind), e)),
         active: spin(active, active.length - 1, 1),
       };
 

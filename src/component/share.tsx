@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { unwrap } from 'lib/util';
 import { serialize } from 'lib/serde';
-import { pack, State } from 'state';
+import { State } from 'state';
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
 
@@ -35,7 +35,7 @@ export default connect(mapState)(
     }
 
     public render(): JSX.Element {
-      const url = this.state.show ? `${location.origin}${location.pathname}?${serialize(pack(this.props.state))}` : '';
+      const url = this.state.show ? `${location.origin}${location.pathname}?${serialize(this.props.state)}` : '';
 
       return ReactDOM.createPortal(
         (

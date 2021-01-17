@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action, update } from 'action';
 import removable, { Props as PropsBase } from 'container/removable';
-import { Admittance, Impedance, ISrc, Line, VSrc, XFormer } from 'lib/element';
+import { ParametricElement, Value } from 'lib/element';
 
-export type Parametric = Impedance | Admittance | XFormer | Line | VSrc | ISrc;
+export type Parametric = ParametricElement;
 
 export interface Props<E extends Parametric> extends PropsBase<E> {
-  readonly update: (value: Parametric['value']) => void,
+  readonly update: (value: Value) => void,
 }
 
 const mapDispatch = <E extends Parametric>(dispatch: Dispatch<Action>, props: PropsBase<E>) => ({
-  update: (value: Parametric['value']) => {
+  update: (value: Value) => {
     dispatch(update(props.id, value));
   },
 });

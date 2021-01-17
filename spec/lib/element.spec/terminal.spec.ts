@@ -1,8 +1,8 @@
-import { branch, terminal, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
+import { branch, terminal, connect, Element, Kind, merge, next, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { project } from 'lib/quadripole';
 
-import { elements, phasors } from '../../util';
+import { elements, phasors, toJSON } from '../../util';
 
 describe('Terminal', () => {
   it('should be default constructible', () => {
@@ -56,8 +56,8 @@ describe('Terminal', () => {
     expect(terminal().power().vi).toBeCloseTo([_0, _0]);
   });
 
-  it('should be packable', () => {
-    expect(JSON.parse(JSON.stringify(unpack(pack(terminal())))))
-      .toEqual(JSON.parse(JSON.stringify(terminal())));
+  it('should be serializable', () => {
+    const json = toJSON(terminal());
+    expect(toJSON(Element.fromJSON(json))).toEqual(json);
   });
 });

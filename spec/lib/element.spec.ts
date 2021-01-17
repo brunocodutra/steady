@@ -1,6 +1,6 @@
-import { make } from 'lib/element';
+import { Element } from 'lib/element';
 
-import { elements } from '../util';
+import { elements, toJSON } from '../util';
 
 describe('Element', () => {
   it('should have a kind', () => {
@@ -11,8 +11,19 @@ describe('Element', () => {
 
   it('should be constructible by kind', () => {
     elements.forEach((e) => {
-      expect(JSON.parse(JSON.stringify(make(e.kind))))
-        .toEqual(JSON.parse(JSON.stringify(e)));
+      expect(toJSON(Element.fromKind(e.kind))).toEqual(toJSON(e));
     });
+  });
+
+  it('should be serializable', () => {
+    elements.forEach((e) => {
+      const json = toJSON(e);
+      expect(toJSON(Element.fromJSON(json))).toEqual(json)
+    });
+
+    expect(() => Element.fromJSON(undefined)).toThrow();
+    expect(() => Element.fromJSON(null)).toThrow();
+    expect(() => Element.fromJSON({})).toThrow();
+    expect(() => Element.fromJSON({ kind: '' })).toThrow();
   });
 });
