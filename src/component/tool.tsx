@@ -2,12 +2,11 @@ import classes from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Kind } from 'lib/element';
 import Interactive from 'component/interactive';
-import { Action, insert } from 'action';
+import { Action, insert, Insertable } from 'action';
 
 interface PropsBase {
-  readonly kind: Kind,
+  readonly kind: Insertable,
   readonly children?: React.ReactNode,
 }
 

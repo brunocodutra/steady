@@ -1,10 +1,10 @@
-import { activate, insert, remove, Type, update } from 'action';
+import { activate, insert, Insertable, remove, Type, update } from 'action';
 import { Kind } from 'lib/element';
 import { rect } from 'lib/phasor';
 
 export const rand = (n = 10): number => Math.floor(Math.random() * n);
 
-const kinds: Kind[] = [
+const kinds: Insertable[] = [
   Kind.vsrc,
   Kind.isrc,
   Kind.impedance,

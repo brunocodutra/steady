@@ -18,7 +18,7 @@ export enum Kind {
 
 export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in Kind;
 
-abstract class Electric<E extends Element> {
+export abstract class Electric<E extends Element> {
   @memoized
   get model(): Quadripole {
     return quadripole();
@@ -32,9 +32,18 @@ abstract class Electric<E extends Element> {
   power(vi: [Phasor, Phasor] = [_0, solve(this.equivalent)[1]]): Powered<E> {
     return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { vi });
   }
+
+  static fromKind(kind: Element['kind']): Element {
+    switch (kind) {
+      case Kind.terminal:
+        return terminal();
+      default:
+        return Connected.fromKind(kind);
+    }
+  }
 }
 
-abstract class Connected<E extends ConnectedElement> extends Electric<E> {
+export abstract class Connected<E extends ConnectedElement> extends Electric<E> {
   readonly abstract next: E['next'];
 
   @memoized
@@ -52,13 +61,43 @@ abstract class Connected<E extends ConnectedElement> extends Electric<E> {
       next: this.next.power(project(powered.model, powered.vi))
     });
   }
+
+  static fromKind(kind: ConnectedElement['kind']): ConnectedElement {
+    switch (kind) {
+      case Kind.ground:
+        return ground();
+      case Kind.series:
+        return series();
+      case Kind.shunt:
+        return shunt();
+      default:
+        return Parametric.fromKind(kind)
+    }
+  }
 }
 
-abstract class Parametric<E extends ParametricElement> extends Connected<E> {
+export abstract class Parametric<E extends ParametricElement> extends Connected<E> {
   readonly abstract value: E['value'];
 
   update(value: E['value']): E {
     return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { value });
+  }
+
+  static fromKind(kind: ParametricElement['kind']): ParametricElement {
+    switch (kind) {
+      case Kind.vsrc:
+        return vsrc();
+      case Kind.isrc:
+        return isrc();
+      case Kind.impedance:
+        return impedance();
+      case Kind.admittance:
+        return admittance();
+      case Kind.xformer:
+        return xformer();
+      case Kind.line:
+        return line();
+    }
   }
 }
 
@@ -266,30 +305,7 @@ export const series = (next: Element = terminal()): Series => new Series(next);
 export const shunt = (next: Element = terminal(), branch = series()): Shunt => new Shunt(next, branch);
 
 export namespace Element {
-  export const fromKind = (kind: Kind): Element => {
-    switch (kind) {
-      case Kind.terminal:
-        return terminal();
-      case Kind.ground:
-        return ground();
-      case Kind.vsrc:
-        return vsrc();
-      case Kind.isrc:
-        return isrc();
-      case Kind.impedance:
-        return impedance();
-      case Kind.admittance:
-        return admittance();
-      case Kind.xformer:
-        return xformer();
-      case Kind.line:
-        return line();
-      case Kind.series:
-        return series();
-      case Kind.shunt:
-        return shunt();
-    }
-  };
+  export const fromKind = (kind: Kind): Element => Electric.fromKind(kind);
 
   export const fromJSON = (json: unknown): Element => {
     if (typeof json !== 'object' || json === null || !hasProperty(json, 'kind') || !isKind(json.kind)) {
