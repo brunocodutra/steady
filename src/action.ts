@@ -1,6 +1,8 @@
 import { State } from 'state';
 import { Kind, Value } from 'lib/element';
 
+export type Insertable = Exclude<Kind, Kind.terminal | Kind.ground | Kind.series>;
+
 export const enum Type {
   hydrate = 'hydrate',
   activate = 'activate',
@@ -26,7 +28,7 @@ interface Remove {
 
 interface Insert {
   readonly type: Type.insert,
-  readonly kind: Kind,
+  readonly kind: Insertable,
 }
 
 interface Update {
@@ -52,7 +54,7 @@ export const remove = (id: number[]): Remove => ({
   id,
 });
 
-export const insert = (kind: Kind): Insert => ({
+export const insert = (kind: Insertable): Insert => ({
   type: Type.insert,
   kind,
 });
