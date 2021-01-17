@@ -105,7 +105,7 @@ describe('json', () => {
       }
     });
 
-    expect(JSON.parse(JSON.stringify(object))).toEqual({
+    expect(object.toJSON()).toEqual({
       a: 'a',
       b: 'b',
       c: 'c',

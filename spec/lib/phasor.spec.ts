@@ -1,12 +1,12 @@
-import { closeTo, pack, polar, unpack } from 'lib/phasor';
+import { Phasor, polar } from 'lib/phasor';
 
-import { phasors } from '../util';
+import { phasors, toJSON } from '../util';
 
 describe('Phasor', () => {
   it('should be comparable for approximate equality', () => {
     phasors.forEach((p) => {
       phasors.forEach((q) => {
-        expect(closeTo(p, q)).toEqual(p == q);
+        expect(p.closeTo(q)).toEqual(p == q);
       });
     });
   });
@@ -14,17 +14,23 @@ describe('Phasor', () => {
   it('should be approximately equal if norms are close to 0', () => {
     phasors.forEach((p) => {
       phasors.forEach((q) => {
-        expect(closeTo(polar(0, p.angle()), polar(0, q.angle()))).toBeTruthy();
+        expect(polar(0, p.angle()).closeTo(polar(0, q.angle()))).toBeTruthy();
       });
     });
   });
 
-  it('should be packable', () => {
+  it('should be serializable', () => {
     phasors.forEach((p) => {
-      expect(JSON.parse(JSON.stringify(unpack(pack(p)))))
-        .toEqual(JSON.parse(JSON.stringify(p)));
+      const json = toJSON(p);
+      expect(toJSON(Phasor.fromJSON(json))).toEqual(json);
     });
 
-    expect(() => unpack([])).toThrowError();
+    expect(() => Phasor.fromJSON(undefined)).toThrow();
+    expect(() => Phasor.fromJSON(null)).toThrow();
+    expect(() => Phasor.fromJSON({})).toThrow();
+    expect(() => Phasor.fromJSON({ mag: {} })).toThrow();
+    expect(() => Phasor.fromJSON({ tan: {} })).toThrow();
+    expect(() => Phasor.fromJSON({ mag: Math.random(), tan: {} })).toThrow();
+    expect(() => Phasor.fromJSON({ mag: {}, tan: Math.random() })).toThrow();
   });
 });

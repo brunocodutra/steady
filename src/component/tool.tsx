@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Kind } from 'lib/element';
 import Interactive from 'component/interactive';
-import * as Actions from 'action';
+import { Action, insert } from 'action';
 
 interface PropsBase {
   readonly kind: Kind,
@@ -15,9 +15,9 @@ interface Props extends PropsBase {
   readonly insert: () => void,
 }
 
-const mapDispatch = (dispatch: Dispatch<Actions.Action>, props: PropsBase) => ({
+const mapDispatch = (dispatch: Dispatch<Action>, props: PropsBase) => ({
   insert: () => {
-    dispatch(Actions.insert(props.kind));
+    dispatch(insert(props.kind));
   },
 });
 

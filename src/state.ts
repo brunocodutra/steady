@@ -1,32 +1,30 @@
-import * as Elements from 'lib/element';
 import { Element, ground, series } from 'lib/element';
-import { traverse } from 'lib/util';
+import { hasProperty, traverse } from 'lib/util';
 
 export interface State {
   readonly entry: Element,
   readonly active: number[],
 }
 
-export const init = (next?: Element): State => ({
-  entry: series(ground(next)),
-  active: [traverse(next).length + 2],
-});
+export namespace State {
+  export const init = (next?: Element): State => ({
+    entry: series(ground(next)),
+    active: [traverse(next).length + 2],
+  });
 
-export const pack = ({ entry, active }: State): unknown => (
-  [Elements.pack(entry), active]
-);
+  export const fromJSON = (json: unknown): State => {
+    if (
+      typeof json !== 'object' || json === null ||
+      !hasProperty(json, 'entry') || !hasProperty(json, 'active') ||
+      !Array.isArray(json.active) || !json.active.every(Number.isInteger) ||
+      json.active.length < 1
+    ) {
+      throw new Error(`expected State, got '${json}'`);
+    }
 
-export const unpack = (packed: unknown): State => {
-  if (
-    !Array.isArray(packed) || packed.length !== 2 ||
-    !Array.isArray(packed[1]) || !packed[1].every(Number.isInteger)
-  ) {
-    throw new Error(`expected '[entry, active]', got ${packed}`);
-  }
-
-  return {
-    entry: Elements.unpack(packed[0]),
-    active: packed[1],
+    return {
+      entry: Element.fromJSON(json.entry),
+      active: json.active,
+    };
   };
-};
-
+}

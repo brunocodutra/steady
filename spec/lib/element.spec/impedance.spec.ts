@@ -1,8 +1,8 @@
-import { branch, impedance, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
+import { branch, impedance, connect, Element, Kind, merge, next, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from '../../util';
+import { elements, parametric, phasors, toJSON } from '../../util';
 
 describe('Impedance', () => {
   it('should be default constructible', () => {
@@ -86,11 +86,11 @@ describe('Impedance', () => {
     });
   });
 
-  it('should be packable', () => {
+  it('should be serializable', () => {
     elements.forEach((e) => {
       phasors.forEach((p) => {
-        expect(JSON.parse(JSON.stringify(unpack(pack(impedance(e, p))))))
-          .toEqual(JSON.parse(JSON.stringify(impedance(e, p))));
+        const json = toJSON(impedance(e, p));
+        expect(toJSON(Element.fromJSON(json))).toEqual(json);
       });
     });
   });

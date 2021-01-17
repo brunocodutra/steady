@@ -1,8 +1,8 @@
-import { admittance, branch, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
+import { admittance, branch, connect, Element, Kind, merge, next, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from '../../util';
+import { elements, parametric, phasors, toJSON } from '../../util';
 
 describe('Admittance', () => {
   it('should be default constructible', () => {
@@ -86,11 +86,11 @@ describe('Admittance', () => {
     });
   });
 
-  it('should be packable', () => {
+  it('should be serializable', () => {
     elements.forEach((e) => {
       phasors.forEach((p) => {
-        expect(JSON.parse(JSON.stringify(unpack(pack(admittance(e, p))))))
-          .toEqual(JSON.parse(JSON.stringify(admittance(e, p))));
+        const json = toJSON(admittance(e, p));
+        expect(toJSON(Element.fromJSON(json))).toEqual(json)
       });
     });
   });

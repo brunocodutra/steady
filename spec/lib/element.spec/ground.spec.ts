@@ -1,8 +1,8 @@
-import { branch, ground, connect, Kind, merge, pack, next, unpack, update } from 'lib/element';
+import { branch, ground, connect, Element, Kind, merge, next, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { project, solve } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from '../../util';
+import { elements, parametric, phasors, toJSON } from '../../util';
 
 describe('Ground', () => {
   it('should be default constructible', () => {
@@ -73,10 +73,10 @@ describe('Ground', () => {
     });
   });
 
-  it('should be packable', () => {
+  it('should be serializable', () => {
     elements.forEach((e) => {
-      expect(JSON.parse(JSON.stringify(unpack(pack(ground(e))))))
-        .toEqual(JSON.parse(JSON.stringify(ground(e))));
+      const json = toJSON(ground(e));
+      expect(toJSON(Element.fromJSON(json))).toEqual(json);
     });
   });
 });

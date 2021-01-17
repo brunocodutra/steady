@@ -1,8 +1,8 @@
-import { branch, connect, Kind, merge, pack, series, next, unpack, update } from 'lib/element';
+import { branch, connect, Element, Kind, merge, series, next, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { project, solve } from 'lib/quadripole';
 
-import { elements, parametric, phasors } from '../../util';
+import { elements, parametric, phasors, toJSON } from '../../util';
 
 describe('Series', () => {
   it('should be default constructible', () => {
@@ -73,10 +73,10 @@ describe('Series', () => {
     });
   });
 
-  it('should be packable', () => {
+  it('should be serializable', () => {
     elements.forEach((e) => {
-      expect(JSON.parse(JSON.stringify(unpack(pack(series(e))))))
-        .toEqual(JSON.parse(JSON.stringify(series(e))));
+      const json = toJSON(series(e));
+      expect(toJSON(Element.fromJSON(json))).toEqual(json);
     });
   });
 });
