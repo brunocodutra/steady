@@ -1,4 +1,4 @@
-import { Element, ground, series } from 'lib/element';
+import { Element, ground } from 'lib/element';
 import { hasProperty, traverse } from 'lib/util';
 
 export interface State {
@@ -8,8 +8,8 @@ export interface State {
 
 export namespace State {
   export const init = (next?: Element): State => ({
-    entry: series(ground(next)),
-    active: [traverse(next).length + 2],
+    entry: ground(next),
+    active: [traverse(next).length + 1],
   });
 
   export const fromJSON = (json: unknown): State => {

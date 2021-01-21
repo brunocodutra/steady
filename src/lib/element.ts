@@ -12,7 +12,6 @@ export enum Kind {
   admittance = 'admittance',
   xformer = 'xformer',
   line = 'line',
-  series = 'series',
   shunt = 'shunt',
 }
 
@@ -66,8 +65,6 @@ export abstract class Connected<E extends ConnectedElement> extends Electric<E> 
     switch (kind) {
       case Kind.ground:
         return ground();
-      case Kind.series:
-        return series();
       case Kind.shunt:
         return shunt();
       default:
@@ -218,21 +215,11 @@ export class Line extends Parametric<Line> {
 }
 
 @json
-export class Series extends Connected<Series> {
-  readonly kind = Kind.series;
-  constructor(
-    readonly next: Element,
-  ) {
-    super();
-  }
-}
-
-@json
 export class Shunt extends Connected<Shunt> {
   readonly kind = Kind.shunt;
   constructor(
     readonly next: Element,
-    readonly branch: Series,
+    readonly branch: Element,
   ) {
     super();
   }
@@ -260,7 +247,7 @@ export class Shunt extends Connected<Shunt> {
 }
 
 export type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
-export type ConnectedElement = Ground | Series | Shunt | ParametricElement;
+export type ConnectedElement = Ground | Shunt | ParametricElement;
 export type Element = Terminal | ConnectedElement;
 
 export type Powered<E extends Element = Element> =
@@ -301,8 +288,7 @@ export const impedance = (next: Element = terminal(), value = _0): Impedance => 
 export const admittance = (next: Element = terminal(), value = Inf): Admittance => new Admittance(next, value);
 export const xformer = (next: Element = terminal(), value = _1): XFormer => new XFormer(next, value);
 export const line = (next: Element = terminal(), value = { y: _0, z: _1 }): Line => new Line(next, value);
-export const series = (next: Element = terminal()): Series => new Series(next);
-export const shunt = (next: Element = terminal(), branch = series()): Shunt => new Shunt(next, branch);
+export const shunt = (next: Element = terminal(), branch: Element = terminal()): Shunt => new Shunt(next, branch);
 
 export namespace Element {
   export const fromKind = (kind: Kind): Element => Electric.fromKind(kind);
@@ -348,7 +334,7 @@ export const connect = (element: Element, next: Element): ConnectedElement => {
   }
 };
 
-export const branch = (element: Element): Series => {
+export const branch = (element: Element): Element => {
   if (element instanceof Shunt) {
     return element.branch;
   } else {
@@ -357,15 +343,11 @@ export const branch = (element: Element): Series => {
 };
 
 export const merge = (element: Element, branch: Element): Shunt => {
-  if (element.kind !== Kind.shunt) {
+  if (element instanceof Shunt) {
+    return shunt(element.next, branch);
+  } else {
     throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
   }
-
-  if (branch.kind !== Kind.series) {
-    throw new Error(`expected '${Kind.series}', got '${branch.kind}'`);
-  }
-
-  return shunt(element.next, branch);
 };
 
 export const update = (element: Element, value: Value): ParametricElement => {

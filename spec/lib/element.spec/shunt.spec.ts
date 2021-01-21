@@ -1,4 +1,4 @@
-import { branch, connect, Element, Kind, merge, series, shunt, next, update } from 'lib/element';
+import { branch, connect, Element, Kind, merge, shunt, next, update } from 'lib/element';
 import { rect, _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,7 +11,7 @@ describe('Shunt', () => {
 
   it('should have a successor', () => {
     elements.forEach((x) => {
-      elements.map(series).forEach((y) => {
+      elements.forEach((y) => {
         expect(next(shunt(x, y))).toEqual(x);
       });
     });
@@ -25,7 +25,7 @@ describe('Shunt', () => {
 
   it('should have a branch', () => {
     elements.forEach((x) => {
-      elements.map(series).forEach((y) => {
+      elements.forEach((y) => {
         expect(branch(shunt(x, y))).toEqual(y);
       });
     });
@@ -33,17 +33,13 @@ describe('Shunt', () => {
 
   it('should allow merging in', () => {
     elements.forEach((y) => {
-      if (y.kind === Kind.series) {
-        expect(merge(shunt(), y).branch).toEqual(y);
-      } else {
-        expect(() => merge(shunt(), y)).toThrow();
-      }
+      expect(merge(shunt(), y).branch).toEqual(y);
     });
   });
 
   it('should connect two subcircuits', () => {
     elements.forEach((x) => {
-      elements.map(series).forEach((y) => {
+      elements.forEach((y) => {
         expect(shunt(x, y).subcircuits).toEqual(x.subcircuits + y.subcircuits);
       });
     });
@@ -54,7 +50,7 @@ describe('Shunt', () => {
       parametric.map((e) => update(e, v)).forEach((x) => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
-            const { model, branch } = shunt(undefined, series(connect(x, y)));
+            const { model, branch } = shunt(undefined, connect(x, y));
             expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(branch.equivalent, [v, rect(0)])[1])]);
           });
         });
@@ -67,7 +63,7 @@ describe('Shunt', () => {
       parametric.map((e) => update(e, v)).forEach((x) => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
-            const self = shunt(x, series(y));
+            const self = shunt(x, y);
             expect(self.equivalent).toBeCloseTo(cascade(self.model, x.model));
           });
         });
@@ -80,7 +76,7 @@ describe('Shunt', () => {
       parametric.map((e) => update(e, v)).forEach((x) => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
-            const self = shunt(x, series(y));
+            const self = shunt(x, y);
             expect(self.power()).toMatchObject(self);
             expect(self.power().vi).toBeCloseTo([_0, solve(self.equivalent)[1]]);
           });
@@ -92,7 +88,7 @@ describe('Shunt', () => {
   it('should be serializable', () => {
     elements.forEach((x) => {
       elements.forEach((y) => {
-        const json = toJSON(shunt(x, series(y)));
+        const json = toJSON(shunt(x, y));
         expect(toJSON(Element.fromJSON(json))).toEqual(json);
       });
     });

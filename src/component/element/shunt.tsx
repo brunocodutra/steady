@@ -34,7 +34,9 @@ export default removable<Shunt>(connect(mapState)(
           <Status value={v} unit={Unit.volt} />
           <Status value={i} unit={Unit.ampere} />
         </Tile>
-        <Element id={id} element={branch} />
+        <Tile className={'branch'}>
+          <Element id={id} element={branch} />
+        </Tile>
       </Tile>
     );
   },

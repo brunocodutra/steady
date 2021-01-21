@@ -339,19 +339,15 @@ footer {
     color: theme-color('info');
   }
 
-  &.ground {
-    margin-left: -$tile-size;
-  }
-
-  &.series {
-    margin-left: $tile-size;
-  }
-
   &.shunt {
     @extend .d-flex, .flex-column;
 
     height: auto;
     margin-bottom: -$tile-size;
+  }
+
+  &.branch {
+    margin-left: $tile-size;
   }
 
   > .remove {
