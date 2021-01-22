@@ -25,25 +25,6 @@ if (process.env.NODE_ENV !== 'production') {
 const state = rescue(() => State.fromJSON(deserialize(location.search.slice(1))), State.init);
 const store: Store<State, Action> = createStore(reducer, state, applyMiddleware(...middleware));
 
-const undo = (e: KeyboardEvent) => {
-  if (history.state !== null && (e.key === 'z' || e.key === 'Z') && e.ctrlKey && !e.shiftKey) {
-    history.back();
-  }
-};
-
-const redo = (e: KeyboardEvent) => {
-  if (e.ctrlKey && (
-    ((e.key === 'z' || e.key === 'Z') && e.shiftKey) ||
-    ((e.key === 'y' || e.key === 'Y') && !e.shiftKey)
-  )) {
-    history.forward();
-  }
-};
-
-document.addEventListener('keypress', undo);
-document.addEventListener('keypress', redo);
-
-// bottom
 history.replaceState(null, document.title, `${location.origin}${location.pathname}`);
 
 window.onpopstate = ({ state: serialized }: PopStateEvent) =>
