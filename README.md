@@ -3,15 +3,6 @@
 [![Coverage Status](https://codecov.io/gh/brunocodutra/steady/branch/master/graph/badge.svg)](https://codecov.io/gh/brunocodutra/steady)
 [![Join the chat at https://gitter.im/brunocodutra/steady](https://badges.gitter.im/brunocodutra/steady.svg)](https://gitter.im/brunocodutra/steady?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Hotkeys
-
-| Hotkey            | Description |
-| ----------------- | ----------- |
-| Ctrl + Z          | Undo        |
-| Ctrl + Y          | Redo        |
-| Ctrl + Shift + Z  | Redo        |
-
-
 ## Components
 
 | Component                             | Description       |
