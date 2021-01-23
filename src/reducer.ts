@@ -1,6 +1,6 @@
 import { Action, Type } from 'action';
 import { State } from 'state';
-import { branch, Element, connect, merge, next, update, Connected } from 'lib/element';
+import { Element, Connected, Terminal, Shunt, update } from 'lib/element';
 import { equal, prefix } from 'lib/util';
 
 const spin = (id: number[], i: number, n: number) => [...id.slice(0, i), id[i] + n, ...id.slice(i + 1)];
@@ -9,9 +9,17 @@ const patch = (entry: Element, path: number[], f: (_: Element) => Element): Elem
   if (equal([0], path)) {
     return f(entry);
   } else if (prefix([0], path)) {
-    return merge(entry, patch(branch(entry), path.slice(1), f));
+    if (entry instanceof Shunt) {
+      return entry.merge(patch(entry.branch, path.slice(1), f));
+    } else {
+      throw new Error(`expected '${Shunt.name}', got '${entry.kind}'`);
+    }
   } else {
-    return connect(entry, patch(next(entry), spin(path, 0, -1), f));
+    if (entry instanceof Connected) {
+      return entry.connect(patch(entry.next, spin(path, 0, -1), f));
+    } else {
+      throw new Error(`expected ${Connected.name}, got '${entry.kind}'`);
+    }
   }
 };
 
@@ -35,7 +43,13 @@ export default (state = State.init(), action: Action): State => {
       const lead = action.id.slice(0, -1);
 
       return {
-        entry: patch(entry, action.id, next),
+        entry: patch(entry, action.id, (e) => {
+          if (e instanceof Terminal) {
+            throw new Error(`element of kind '${e.kind}' cannot be removed`);
+          }
+
+          return e.next;
+        }),
 
         active: (prefix(lead, active) && action.id[lead.length] < active[lead.length])
           ? spin(active, lead.length, -1)

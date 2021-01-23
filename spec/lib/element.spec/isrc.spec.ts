@@ -1,4 +1,4 @@
-import { branch, isrc, connect, Element, Kind, merge, next, update } from 'lib/element';
+import { isrc, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('ISrc', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(isrc(e))).toEqual(e);
+      expect(isrc(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(connect(isrc(), e)).toEqual(isrc(e));
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(isrc(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(isrc(), e)).toThrow();
+      expect(isrc().connect(e)).toEqual(isrc(e));
     });
   });
 

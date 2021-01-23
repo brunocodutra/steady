@@ -1,32 +1,12 @@
-import { branch, terminal, connect, Element, Kind, merge, next, update } from 'lib/element';
+import { terminal, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { project } from 'lib/quadripole';
 
-import { elements, phasors, toJSON } from '../../util';
+import { phasors, toJSON } from '../../util';
 
 describe('Terminal', () => {
   it('should be default constructible', () => {
     expect(terminal().kind).toEqual(Kind.terminal);
-  });
-
-  it('should not have a successor', () => {
-    expect(() => next(terminal())).toThrow();
-  });
-
-  it('should not allow connecting', () => {
-    elements.forEach((e) => {
-      expect(() => connect(terminal(), e)).toThrow();
-    });
-  });
-
-  it('should not have a branch', () => {
-    expect(() => branch(terminal())).toThrow();
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(terminal(), e)).toThrow();
-    });
   });
 
   it('should terminate a subcircuit', () => {

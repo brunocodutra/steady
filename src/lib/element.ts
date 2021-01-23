@@ -244,6 +244,10 @@ export class Shunt extends Connected<Shunt> {
       branch: this.branch.power([powered.vi[0], powered.vi[1].sub(powered.next.vi[1])])
     });
   }
+
+  merge(branch: Element): Shunt {
+    return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { branch });
+  }
 }
 
 export type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
@@ -300,55 +304,23 @@ export namespace Element {
 
     const electric = fromKind(json.kind);
 
-    if (!hasProperty(json, 'next')) {
+    if (!hasProperty(json, 'next') || !(electric instanceof Connected)) {
       return electric;
     }
 
-    const connected = connect(electric, fromJSON(json.next));
+    const connected = electric.connect(fromJSON(json.next));
 
-    if (hasProperty(json, 'branch')) {
-      return merge(connected, fromJSON(json.branch));
+    if (hasProperty(json, 'branch') && connected instanceof Shunt) {
+      return connected.merge(fromJSON(json.branch));
     }
 
-    if (hasProperty(json, 'value')) {
+    if (hasProperty(json, 'value') && connected instanceof Parametric) {
       return update(connected, Value.fromJSON(json.value));
     }
 
     return connected;
   };
 }
-
-export const next = (element: Element): Element => {
-  if (element instanceof Connected) {
-    return element.next;
-  } else {
-    throw new Error(`unexpected '${element.kind}'`);
-  }
-};
-
-export const connect = (element: Element, next: Element): ConnectedElement => {
-  if (element instanceof Connected) {
-    return element.connect(next);
-  } else {
-    throw new Error(`unexpected '${element.kind}'`);
-  }
-};
-
-export const branch = (element: Element): Element => {
-  if (element instanceof Shunt) {
-    return element.branch;
-  } else {
-    throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
-  }
-};
-
-export const merge = (element: Element, branch: Element): Shunt => {
-  if (element instanceof Shunt) {
-    return shunt(element.next, branch);
-  } else {
-    throw new Error(`expected '${Kind.shunt}', got '${element.kind}'`);
-  }
-};
 
 export const update = (element: Element, value: Value): ParametricElement => {
   if (element instanceof Line) {

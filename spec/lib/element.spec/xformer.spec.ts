@@ -1,4 +1,4 @@
-import { branch, connect, Element, Kind, merge, next, update, xformer } from 'lib/element';
+import { xformer, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('XFormer', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(xformer(e))).toEqual(e);
+      expect(xformer(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(next(connect(xformer(), e))).toEqual(e);
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(xformer(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(xformer(), e)).toThrow();
+      expect(xformer().connect(e).next).toEqual(e);
     });
   });
 

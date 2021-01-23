@@ -1,4 +1,4 @@
-import { branch, connect, Element, Kind, line, merge, next, update } from 'lib/element';
+import { line, Element, Kind, update } from 'lib/element';
 import { polar, _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('Line', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(line(e))).toEqual(e);
+      expect(line(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(next(connect(line(), e))).toEqual(e);
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(line(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(line(), e)).toThrow();
+      expect(line().connect(e).next).toEqual(e);
     });
   });
 
