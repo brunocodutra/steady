@@ -1,7 +1,7 @@
 import { State } from 'state';
 import { Kind, Value } from 'lib/element';
 
-export type Insertable = Exclude<Kind, Kind.terminal | Kind.ground>;
+export type Insertable = Exclude<Kind, Kind.terminal>;
 
 export const enum Type {
   hydrate = 'hydrate',
