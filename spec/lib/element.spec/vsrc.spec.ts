@@ -1,4 +1,4 @@
-import { branch, connect, Element, Kind, merge, next, update, vsrc } from 'lib/element';
+import { vsrc, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('VSrc', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(vsrc(e))).toEqual(e);
+      expect(vsrc(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(next(connect(vsrc(), e))).toEqual(e);
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(vsrc(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(vsrc(), e)).toThrow();
+      expect(vsrc().connect(e).next).toEqual(e);
     });
   });
 

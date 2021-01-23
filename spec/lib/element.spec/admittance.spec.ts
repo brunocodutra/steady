@@ -1,4 +1,4 @@
-import { admittance, branch, connect, Element, Kind, merge, next, update } from 'lib/element';
+import { admittance, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('Admittance', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(admittance(e))).toEqual(e);
+      expect(admittance(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(connect(admittance(), e)).toEqual(admittance(e));
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(admittance(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(admittance(), e)).toThrow();
+      expect(admittance().connect(e)).toEqual(admittance(e));
     });
   });
 

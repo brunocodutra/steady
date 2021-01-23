@@ -1,4 +1,4 @@
-import { branch, ground, connect, Element, Kind, merge, next, update } from 'lib/element';
+import { ground, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('Ground', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(ground(e))).toEqual(e);
+      expect(ground(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(connect(ground(), e)).toEqual(ground(e));
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(ground(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(ground(), e)).toThrow();
+      expect(ground().connect(e)).toEqual(ground(e));
     });
   });
 

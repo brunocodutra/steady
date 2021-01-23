@@ -1,4 +1,4 @@
-import { branch, impedance, connect, Element, Kind, merge, next, update } from 'lib/element';
+import { impedance, Element, Kind, update } from 'lib/element';
 import { _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -11,25 +11,13 @@ describe('Impedance', () => {
 
   it('should have a successor', () => {
     elements.forEach((e) => {
-      expect(next(impedance(e))).toEqual(e);
+      expect(impedance(e).next).toEqual(e);
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(connect(impedance(), e)).toEqual(impedance(e));
-    });
-  });
-
-  it('should not have a branch', () => {
-    elements.forEach((e) => {
-      expect(() => branch(impedance(e))).toThrow();
-    });
-  });
-
-  it('should not allow merging in', () => {
-    elements.forEach((e) => {
-      expect(() => merge(impedance(), e)).toThrow();
+      expect(impedance().connect(e)).toEqual(impedance(e));
     });
   });
 

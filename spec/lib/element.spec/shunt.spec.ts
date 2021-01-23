@@ -1,4 +1,4 @@
-import { branch, connect, Element, Kind, merge, shunt, next, update } from 'lib/element';
+import { shunt, Element, Kind, update } from 'lib/element';
 import { rect, _0 } from 'lib/phasor';
 import { cascade, project, solve } from 'lib/quadripole';
 
@@ -12,28 +12,28 @@ describe('Shunt', () => {
   it('should have a successor', () => {
     elements.forEach((x) => {
       elements.forEach((y) => {
-        expect(next(shunt(x, y))).toEqual(x);
+        expect(shunt(x, y).next).toEqual(x);
       });
     });
   });
 
   it('should allow connecting', () => {
     elements.forEach((e) => {
-      expect(next(connect(shunt(), e))).toEqual(e);
+      expect(shunt().connect(e).next).toEqual(e);
     });
   });
 
   it('should have a branch', () => {
     elements.forEach((x) => {
       elements.forEach((y) => {
-        expect(branch(shunt(x, y))).toEqual(y);
+        expect(shunt(x, y).branch).toEqual(y);
       });
     });
   });
 
   it('should allow merging in', () => {
     elements.forEach((y) => {
-      expect(merge(shunt(), y).branch).toEqual(y);
+      expect(shunt().merge(y).branch).toEqual(y);
     });
   });
 
@@ -45,12 +45,18 @@ describe('Shunt', () => {
     });
   });
 
+  it('should not allow updating', () => {
+    phasors.forEach((p) => {
+      expect(() => update(shunt(), p)).toThrow();
+    });
+  });
+
   it('should model a shunt sub-circuit', () => {
     phasors.forEach((v) => {
       parametric.map((e) => update(e, v)).forEach((x) => {
         phasors.forEach((i) => {
           parametric.map((e) => update(e, i)).forEach((y) => {
-            const { model, branch } = shunt(undefined, connect(x, y));
+            const { model, branch } = shunt(undefined, x.connect(y));
             expect(project(model, [v, i])).toBeCloseTo([v, i.sub(solve(branch.equivalent, [v, rect(0)])[1])]);
           });
         });
