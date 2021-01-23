@@ -1,4 +1,4 @@
-Promise.all([import('react'), import('react-dom')]).then(async ([React, ReactDOM]) => {
+export default Promise.all([import('react'), import('react-dom')]).then(async ([React, ReactDOM]) => {
   const { default: Steady } = await import('component/steady');
   ReactDOM.render(<Steady />, document.getElementById('steady'));
 });
