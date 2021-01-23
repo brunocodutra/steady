@@ -1,14 +1,6 @@
-import { unwrap } from 'lib/util';
-
-Promise.all([import('react'), import('react-dom')]).then(([React, ReactDOM]) => {
-  const Steady = React.lazy(() => import('component/steady'));
-
-  ReactDOM.render(
-    <React.Suspense fallback={null}>
-      <Steady />
-    </React.Suspense >,
-    unwrap(document.getElementById('steady'), '#steady not found'),
-  );
+Promise.all([import('react'), import('react-dom')]).then(async ([React, ReactDOM]) => {
+  const { default: Steady } = await import('component/steady');
+  ReactDOM.render(<Steady />, document.getElementById('steady'));
 });
 
 /* istanbul ignore next */
