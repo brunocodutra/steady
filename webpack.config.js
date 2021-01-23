@@ -1,4 +1,3 @@
-const os = require('os');
 const path = require('path');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
@@ -8,7 +7,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const src = path.resolve(__dirname, 'src');
-const cache = path.resolve(os.tmpdir(), 'steady', 'cache');
 
 module.exports = ({ production } = {}) => ({
   mode: production ? "production" : "development",
@@ -49,15 +47,7 @@ module.exports = ({ production } = {}) => ({
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'cache-loader',
-            options: {
-              cacheDirectory: cache,
-            },
-          },
-          'ts-loader'
-        ],
+        loader: 'ts-loader',
       },
 
       {
@@ -111,7 +101,6 @@ module.exports = ({ production } = {}) => ({
 
     new FaviconsWebpackPlugin({
       logo: './src/icon/brand.svg',
-      cache,
       favicons: {
         start_url: '/steady/',
         theme_color: '#343a40',
