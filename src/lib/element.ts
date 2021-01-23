@@ -5,7 +5,6 @@ import { hasProperty, traverse } from 'lib/util';
 
 export enum Kind {
   terminal = 'terminal',
-  ground = 'ground',
   vsrc = 'vsrc',
   isrc = 'isrc',
   impedance = 'impedance',
@@ -18,10 +17,7 @@ export enum Kind {
 export const isKind = (k: unknown): k is Kind => typeof k === 'string' && k in Kind;
 
 export abstract class Electric<E extends Element> {
-  @memoized
-  get model(): Quadripole {
-    return quadripole();
-  }
+  abstract get model(): Quadripole;
 
   @memoized
   get equivalent(): Quadripole {
@@ -63,8 +59,6 @@ export abstract class Connected<E extends ConnectedElement> extends Electric<E> 
 
   static fromKind(kind: ConnectedElement['kind']): ConnectedElement {
     switch (kind) {
-      case Kind.ground:
-        return ground();
       case Kind.shunt:
         return shunt();
       default:
@@ -102,18 +96,13 @@ export abstract class Parametric<E extends ParametricElement> extends Connected<
 export class Terminal extends Electric<Terminal> {
   readonly kind = Kind.terminal;
 
+  @memoized
+  get model(): Quadripole {
+    return quadripole();
+  }
+
   get subcircuits(): 1 {
     return 1;
-  }
-}
-
-@json
-export class Ground extends Connected<Ground> {
-  readonly kind = Kind.ground;
-  constructor(
-    readonly next: Element,
-  ) {
-    super();
   }
 }
 
@@ -251,7 +240,7 @@ export class Shunt extends Connected<Shunt> {
 }
 
 export type ParametricElement = VSrc | ISrc | Impedance | Admittance | XFormer | Line
-export type ConnectedElement = Ground | Shunt | ParametricElement;
+export type ConnectedElement = Shunt | ParametricElement;
 export type Element = Terminal | ConnectedElement;
 
 export type Powered<E extends Element = Element> =
@@ -285,7 +274,6 @@ namespace Value {
 }
 
 export const terminal = (): Terminal => new Terminal();
-export const ground = (next: Element = terminal()): Ground => new Ground(next);
 export const vsrc = (next: Element = terminal(), value = _0): VSrc => new VSrc(next, value);
 export const isrc = (next: Element = terminal(), value = _0): ISrc => new ISrc(next, value);
 export const impedance = (next: Element = terminal(), value = _0): Impedance => new Impedance(next, value);

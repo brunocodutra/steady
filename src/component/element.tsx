@@ -2,7 +2,6 @@ import React from 'react';
 import { Element, Powered, Kind } from 'lib/element';
 import Admittance from 'component/element/admittance';
 import Terminal from 'component/element/terminal';
-import Ground from 'component/element/ground';
 import Impedance from 'component/element/impedance';
 import ISrc from 'component/element/isrc';
 import Line from 'component/element/line';
@@ -20,9 +19,6 @@ export default ({ id, element }: Props): JSX.Element => (
   <>
     {traverse(element).map((e, i) => {
       switch (e.kind) {
-        case Kind.ground:
-          return <Ground id={[...id, i]} element={e} key={i} />;
-
         case Kind.terminal:
           return <Terminal id={[...id, i]} element={e} key={i} />;
 
