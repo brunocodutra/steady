@@ -19,7 +19,7 @@ const middleware: Middleware<unknown, State>[] = [
 
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'production') {
-  import('redux-logger').then(m => middleware.push(m.default));
+  middleware.push(require('redux-logger').default);
 }
 
 const state = rescue(() => State.fromJSON(deserialize(location.search.slice(1))), State.init);
