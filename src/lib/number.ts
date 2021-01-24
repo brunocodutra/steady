@@ -14,21 +14,14 @@ export const pretty = (x: number, d = 3): string => {
 };
 
 export const parse = (s: string): number => {
-  s = s.trimLeft();
+  const trimmed = s.trim();
 
-  return (
-    (/^\-\.?(e|E)/.test(s))
-      ? -+`1${s.slice(1)}`
-      : (s.startsWith('-'))
-        ? -+`0${s.slice(1)}`
-        : (/^\+\.?(e|E)/.test(s))
-          ? +`1${s.slice(1)}`
-          : (s.startsWith('+'))
-            ? +`0${s.slice(1)}`
-            : (/^\.?(e|E)/.test(s))
-              ? +`1${s}`
-              : (s.startsWith('.'))
-                ? +`0${s}`
-                : +s
-  );
+  if (
+    trimmed.endsWith('e') || trimmed.endsWith('E') ||
+    trimmed.endsWith('+') || trimmed.endsWith('-')
+  ) {
+    return +`${trimmed}0`;
+  } else {
+    return +trimmed;
+  }
 };

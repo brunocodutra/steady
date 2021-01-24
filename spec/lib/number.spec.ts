@@ -1,125 +1,85 @@
 import { parse, pretty } from 'lib/number';
 
-describe('Number parse', () => {
-  it('should format a number to the significant figures', () => {
-    expect(parse('     ')).toEqual(+0);
-    expect(parse('  .  ')).toEqual(+0);
-    expect(parse('   0 ')).toEqual(+0);
-    expect(parse('  .0 ')).toEqual(+0);
-    expect(parse(' +   ')).toEqual(+0);
-    expect(parse(' +.  ')).toEqual(+0);
-    expect(parse(' +.0 ')).toEqual(+0);
-    expect(parse(' -   ')).toEqual(-0);
-    expect(parse(' -.  ')).toEqual(-0);
-    expect(parse(' -.0 ')).toEqual(-0);
+describe('parse', () => {
+  it('should accept any valid number', () => {
+    const n = Math.random() * 1E6;
 
-    expect(parse('   e1 ')).toEqual(10);
-    expect(parse('  .e1 ')).toEqual(10);
-    expect(parse(' .1e1 ')).toEqual(1);
-    expect(parse('  +e1 ')).toEqual(10);
-    expect(parse(' +.e1 ')).toEqual(10);
-    expect(parse('+.1e1 ')).toEqual(1);
-    expect(parse('  -e1 ')).toEqual(-10);
-    expect(parse(' -.e1 ')).toEqual(-10);
-    expect(parse('-.1e1 ')).toEqual(-1);
+    expect(parse(n.toString())).toEqual(n);
 
-    expect(parse('  e+1 ')).toEqual(10);
-    expect(parse(' .e+1 ')).toEqual(10);
-    expect(parse(' +e+1 ')).toEqual(10);
-    expect(parse('+.e+1 ')).toEqual(10);
-    expect(parse(' -e+1 ')).toEqual(-10);
-    expect(parse('-.e+1 ')).toEqual(-10);
+    expect(parse(n.toFixed(20))).toEqual(n);
+    expect(parse(n.toExponential(20))).toEqual(n);
+    expect(parse(n.toPrecision(21))).toEqual(n);
 
-    expect(parse('  e-1 ')).toEqual(.1);
-    expect(parse(' .e-1 ')).toEqual(.1);
-    expect(parse(' +e-1 ')).toEqual(.1);
-    expect(parse('+.e-1 ')).toEqual(.1);
-    expect(parse(' -e-1 ')).toEqual(-.1);
-    expect(parse('-.e-1 ')).toEqual(-.1);
+    expect(parse((-n).toFixed(20))).toEqual(-n);
+    expect(parse((-n).toExponential(20))).toEqual(-n);
+    expect(parse((-n).toPrecision(21))).toEqual(-n);
+  });
 
-    expect(parse('  E1 ')).toEqual(10);
-    expect(parse(' .E1 ')).toEqual(10);
-    expect(parse(' +E1 ')).toEqual(10);
-    expect(parse('+.E1 ')).toEqual(10);
-    expect(parse(' -E1 ')).toEqual(-10);
-    expect(parse('-.E1 ')).toEqual(-10);
+  it('should accept empty string', () => {
+    expect(parse('     ')).toEqual(0);
+  });
 
-    expect(parse('  E+1 ')).toEqual(10);
-    expect(parse(' .E+1 ')).toEqual(10);
-    expect(parse(' +E+1 ')).toEqual(10);
-    expect(parse('+.E+1 ')).toEqual(10);
-    expect(parse(' -E+1 ')).toEqual(-10);
-    expect(parse('-.E+1 ')).toEqual(-10);
+  it('should accept individual plus or minus sign', () => {
+    expect(parse('  +  ')).toEqual(+0);
+    expect(parse('  -  ')).toEqual(-0);
 
-    expect(parse('  E-1 ')).toEqual(.1);
-    expect(parse(' .E-1 ')).toEqual(.1);
-    expect(parse(' +E-1 ')).toEqual(.1);
-    expect(parse('+.E-1 ')).toEqual(.1);
-    expect(parse(' -E-1 ')).toEqual(-.1);
-    expect(parse('-.E-1 ')).toEqual(-.1);
-
-    expect(parse('00000')).toEqual(+0);
-    expect(parse('00.00')).toEqual(+0);
-    expect(parse('+0000')).toEqual(+0);
-    expect(parse('+0.00')).toEqual(+0);
-    expect(parse('-0000')).toEqual(-0);
-    expect(parse('-0.00')).toEqual(-0);
-
-    expect(parse(' 0123456789 ')).toEqual(123456789);
-    expect(parse(' 0123456789.')).toEqual(123456789);
-    expect(parse('.0123456789 ')).toEqual(.0123456789);
-    expect(parse(' 01234.56789')).toEqual(1234.56789);
-    expect(parse(' 01234e56789')).toEqual(Infinity);
-    expect(parse(' 01234E56789')).toEqual(Infinity);
-    expect(parse('+0123456789 ')).toEqual(123456789);
-    expect(parse('+0123456789.')).toEqual(123456789);
-    expect(parse('+.0123456789')).toEqual(.0123456789);
-    expect(parse('+01234.56789')).toEqual(1234.56789);
-    expect(parse('+01234e56789')).toEqual(Infinity);
-    expect(parse('+01234E56789')).toEqual(Infinity);
-    expect(parse('-0123456789 ')).toEqual(-123456789);
-    expect(parse('-0123456789.')).toEqual(-123456789);
-    expect(parse('-.0123456789')).toEqual(-.0123456789);
-    expect(parse('-01234.56789')).toEqual(-1234.56789);
-    expect(parse('-01234e56789')).toEqual(-Infinity);
-    expect(parse('-01234E56789')).toEqual(-Infinity);
-
-    expect(parse('  e ')).toBeNaN();
-    expect(parse('  E ')).toBeNaN();
-    expect(parse(' 1e ')).toBeNaN();
-    expect(parse(' 1E ')).toBeNaN();
-    expect(parse(' ee ')).toBeNaN();
-    expect(parse(' eE ')).toBeNaN();
-    expect(parse(' Ee ')).toBeNaN();
-    expect(parse(' EE ')).toBeNaN();
-    expect(parse(' .. ')).toBeNaN();
     expect(parse(' ++ ')).toBeNaN();
     expect(parse(' +- ')).toBeNaN();
     expect(parse(' -+ ')).toBeNaN();
     expect(parse(' -- ')).toBeNaN();
+    expect(parse(' +. ')).toBeNaN();
+    expect(parse(' -. ')).toBeNaN();
     expect(parse(' .+ ')).toBeNaN();
     expect(parse(' .- ')).toBeNaN();
+  });
 
-    expect(parse(' 01234 56789')).toBeNaN();
-    expect(parse('.0123456789.')).toBeNaN();
-    expect(parse('.01234.56789')).toBeNaN();
-    expect(parse('01234..56789')).toBeNaN();
-    expect(parse('e0123456789e')).toBeNaN();
-    expect(parse('e01234e56789')).toBeNaN();
-    expect(parse('01234ee56789')).toBeNaN();
-    expect(parse('E0123456789E')).toBeNaN();
-    expect(parse('E01234E56789')).toBeNaN();
-    expect(parse('01234EE56789')).toBeNaN();
-    expect(parse(' 0123456789+')).toBeNaN();
-    expect(parse('+0123456789+')).toBeNaN();
-    expect(parse(' 01234+56789')).toBeNaN();
-    expect(parse('+01234+56789')).toBeNaN();
-    expect(parse('.01234+56789')).toBeNaN();
-    expect(parse(' 0123456789-')).toBeNaN();
-    expect(parse('-0123456789-')).toBeNaN();
-    expect(parse(' 01234-56789')).toBeNaN();
-    expect(parse('-01234-56789')).toBeNaN();
-    expect(parse('.01234-56789')).toBeNaN();
+  it('should accept numbers that end with exponential marker', () => {
+    expect(parse(' 123456789e ')).toEqual(123456789);
+    expect(parse(' 123456789E ')).toEqual(123456789);
+    expect(parse('+123456789e ')).toEqual(123456789);
+    expect(parse('+123456789E ')).toEqual(123456789);
+    expect(parse('-123456789e ')).toEqual(-123456789);
+    expect(parse('-123456789E ')).toEqual(-123456789);
+    expect(parse('.123456789e ')).toEqual(.123456789);
+    expect(parse('.123456789E ')).toEqual(.123456789);
+
+    expect(parse('  e  ')).toBeNaN();
+    expect(parse('  E  ')).toBeNaN();
+    expect(parse(' .e  ')).toBeNaN();
+    expect(parse(' .E  ')).toBeNaN();
+    expect(parse(' +e  ')).toBeNaN();
+    expect(parse(' +E  ')).toBeNaN();
+    expect(parse(' -e  ')).toBeNaN();
+    expect(parse(' -E  ')).toBeNaN();
+
+    expect(parse(' ee ')).toBeNaN();
+    expect(parse(' eE ')).toBeNaN();
+    expect(parse(' Ee ')).toBeNaN();
+    expect(parse(' EE ')).toBeNaN();
+  });
+
+  it('should accept numbers that end with exponential marker followed by plus or minus sign', () => {
+    expect(parse(' 123456789e+')).toEqual(123456789);
+    expect(parse(' 123456789E+')).toEqual(123456789);
+    expect(parse(' 123456789e-')).toEqual(123456789);
+    expect(parse(' 123456789E-')).toEqual(123456789);
+    expect(parse('+123456789e+')).toEqual(123456789);
+    expect(parse('+123456789E+')).toEqual(123456789);
+    expect(parse('+123456789e-')).toEqual(123456789);
+    expect(parse('+123456789E-')).toEqual(123456789);
+    expect(parse('-123456789e+')).toEqual(-123456789);
+    expect(parse('-123456789E+')).toEqual(-123456789);
+    expect(parse('-123456789e-')).toEqual(-123456789);
+    expect(parse('-123456789E-')).toEqual(-123456789);
+    expect(parse('.123456789e+')).toEqual(.123456789);
+    expect(parse('.123456789E+')).toEqual(.123456789);
+    expect(parse('.123456789e-')).toEqual(.123456789);
+    expect(parse('.123456789E-')).toEqual(.123456789);
+
+    expect(parse('  e+ ')).toBeNaN();
+    expect(parse('  E+ ')).toBeNaN();
+    expect(parse('  e- ')).toBeNaN();
+    expect(parse('  E- ')).toBeNaN();
   });
 });
 
