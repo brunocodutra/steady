@@ -27,20 +27,12 @@ export default class extends React.PureComponent<Props, State> {
 
     this.state = {
       prompt: false,
-      mag: props.value.norm() + '',
-      ang: degrees(props.value.angle()) + '',
+      mag: props.value.norm().toString(),
+      ang: degrees(props.value.angle()).toString(),
     };
   }
 
   public render(): JSX.Element {
-    const unit = this.props.unit && (
-      <div className='input-group-append'>
-        <span className='input-group-text'>
-          <span className={classes('unit', this.props.unit)} />
-        </span>
-      </div>
-    );
-
     return (
       <Interactive action={this.onClick} className={classes('value control', this.props.name)}>
         <Quantity value={this.props.value} unit={this.props.unit} />
@@ -53,7 +45,11 @@ export default class extends React.PureComponent<Props, State> {
           <div className='form-row'>
             <div className='col input-group'>
               <input value={this.state.mag} onChange={this.onMag} className='form-control' />
-              {unit}
+              <div className='input-group-append'>
+                <span className='input-group-text'>
+                  <span className={classes('unit', this.props.unit)} />
+                </span>
+              </div>
             </div>
             <div className='col input-group'>
               <div className='input-group-prepend'>
@@ -74,8 +70,6 @@ export default class extends React.PureComponent<Props, State> {
     );
   }
 
-  private value = () => polar(parse(this.state.mag), radians(parse(this.state.ang)));
-
   private onMag = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
     if (!isNaN(parse(value))) {
       this.setState({ mag: value.trim() });
@@ -89,21 +83,19 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   private onClick = () => {
-    const value = this.value();
-    this.setState(() => ({
-      prompt: true,
-      mag: value.norm() + '',
-      ang: degrees(value.angle()) + '',
-    }));
+    this.setState(({ prompt: true }));
   }
 
   private onDismiss = () => {
     this.setState((_, { value }) => ({
       prompt: false,
-      mag: value.norm() + '',
-      ang: degrees(value.angle()) + '',
+      mag: value.norm().toString(),
+      ang: degrees(value.angle()).toString(),
     }));
   }
 
-  private onConfirm = () => this.setState({ prompt: false }, () => this.props.onChange(this.value()));
+  private onConfirm = () => {
+    const value = polar(parse(this.state.mag), radians(parse(this.state.ang)));
+    this.setState({ prompt: false }, () => this.props.onChange(value))
+  };
 }
