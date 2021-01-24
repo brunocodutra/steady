@@ -494,7 +494,7 @@ footer {
     margin-left: 0.3ch;
   }
 
-  .prefix:not(.mono) + .unit.ratio {
+  .prefix:not(.none) + .unit.ratio {
     padding-left: 0.4ch;
   }
 }
