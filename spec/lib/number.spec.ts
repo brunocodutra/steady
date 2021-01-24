@@ -124,12 +124,11 @@ describe('Number parse', () => {
 });
 
 describe('Number pretty', () => {
-  it('should format a number given then minimum number of digits', () => {
-    const N = 7;
-    const digits = Array.from({ length: N }, (_, i) => i);
-    const samples = digits.map((d) => (999 / 10 ** d));
+  const N = 7;
+  const digits = Array.from({ length: N }, (_, i) => i);
 
-    samples.forEach((n) => {
+  it('should format a number given a minimum number of digits', () => {
+    digits.map((d) => (999 / 10 ** d)).forEach((n) => {
       expect(pretty(n)).toEqual(pretty(n, 3));
       expect(pretty(-n)).toEqual(pretty(-n, 3));
 
@@ -141,6 +140,20 @@ describe('Number pretty', () => {
         expect(pretty(n, d)).toEqual(result);
         expect(pretty(-n, d)).toEqual(+result ? `-${result}` : result);
       });
+    });
+  });
+
+  it('should handle Infinity', () => {
+    digits.forEach((d) => {
+      expect(pretty(Infinity, d)).toEqual('∞');
+      expect(pretty(-Infinity, d)).toEqual('-∞');
+    });
+  });
+
+  it('should handle NaN', () => {
+    digits.forEach((d) => {
+      expect(pretty(NaN, d)).toEqual(NaN.toString());
+      expect(pretty(-NaN, d)).toEqual(NaN.toString());
     });
   });
 });
