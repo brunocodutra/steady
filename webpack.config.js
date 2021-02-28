@@ -60,6 +60,11 @@ module.exports = ({ production } = {}) => ({
       },
 
       {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
+
+      {
         test: /\.svg$/,
         issuer: /\.tsx$/,
         loader: 'svg-react-loader',
@@ -68,15 +73,7 @@ module.exports = ({ production } = {}) => ({
       {
         test: /\.svg$/,
         issuer: /\.html$/,
-        loader: 'url-loader',
-        options: {
-          esModule: false,
-        },
-      },
-
-      {
-        test: /\.html$/,
-        loader: 'html-loader',
+        type: 'asset/inline',
       },
     ]
   },
