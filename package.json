@@ -37,7 +37,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.24.0",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react": "^7.23.2",
     "eslint-webpack-plugin": "^2.5.0",
     "favicons": "^6.2.1",
     "favicons-webpack-plugin": "^5.0.1",
