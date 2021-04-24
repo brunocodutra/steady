@@ -18,7 +18,7 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
-    "@types/classnames": "^2.2.11",
+    "@types/classnames": "^2.3.1",
     "@types/clipboard": "^2.0.1",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",
