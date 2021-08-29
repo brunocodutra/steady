@@ -34,7 +34,7 @@ export default connect(mapState)(
       };
     }
 
-    public render(): JSX.Element {
+    public override render(): JSX.Element {
       const url = this.state.show ? `${location.origin}${location.pathname}?${serialize(this.props.state)}` : '';
 
       return ReactDOM.createPortal(

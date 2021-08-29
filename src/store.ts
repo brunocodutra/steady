@@ -18,7 +18,7 @@ const middleware: Middleware<unknown, State>[] = [
 ];
 
 /* istanbul ignore next */
-if (process.env.NODE_ENV !== 'production') {
+if (process.env['NODE_ENV'] !== 'production') {
   middleware.push(require('redux-logger').default);
 }
 
