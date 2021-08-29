@@ -26,7 +26,7 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { open } = this.state;
 
     return (

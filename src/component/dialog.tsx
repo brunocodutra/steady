@@ -22,12 +22,12 @@ export default class extends React.PureComponent<Props> {
     document.body.appendChild(this.portal);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     this.removeListeners();
     document.body.removeChild(this.portal);
   }
 
-  public componentDidUpdate(): void {
+  public override componentDidUpdate(): void {
     if (this.props.show) {
       this.addListeners();
     } else {
@@ -35,7 +35,7 @@ export default class extends React.PureComponent<Props> {
     }
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { show, title, onDismiss } = this.props;
     return ReactDOM.createPortal(
       (

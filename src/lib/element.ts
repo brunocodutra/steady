@@ -50,14 +50,14 @@ export abstract class Connected<E extends ConnectedElement> extends Electric<E> 
     return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { next });
   }
 
-  power(vi?: [Phasor, Phasor]): Powered<E> {
+  override power(vi?: [Phasor, Phasor]): Powered<E> {
     const powered = super.power(vi);
     return Object.assign(Object.create(Object.getPrototypeOf(powered), Object.getOwnPropertyDescriptors(powered)), {
       next: this.next.power(project(powered.model, powered.vi))
     });
   }
 
-  static fromKind(kind: ConnectedElement['kind']): ConnectedElement {
+  static override fromKind(kind: ConnectedElement['kind']): ConnectedElement {
     switch (kind) {
       case Kind.shunt:
         return shunt();
@@ -74,7 +74,7 @@ export abstract class Parametric<E extends ParametricElement> extends Connected<
     return Object.assign(Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this)), { value });
   }
 
-  static fromKind(kind: ParametricElement['kind']): ParametricElement {
+  static override fromKind(kind: ParametricElement['kind']): ParametricElement {
     switch (kind) {
       case Kind.vsrc:
         return vsrc();
@@ -223,11 +223,11 @@ export class Shunt extends Connected<Shunt> {
   }
 
   @memoized
-  get subcircuits(): number {
+  override get subcircuits(): number {
     return this.next.subcircuits + this.branch.subcircuits;
   }
 
-  power(vi?: [Phasor, Phasor]): Powered<Shunt> {
+  override power(vi?: [Phasor, Phasor]): Powered<Shunt> {
     const powered = super.power(vi);
     return Object.assign(Object.create(Object.getPrototypeOf(powered), Object.getOwnPropertyDescriptors(powered)), {
       branch: this.branch.power([powered.vi[0], powered.vi[1].sub(powered.next.vi[1])])

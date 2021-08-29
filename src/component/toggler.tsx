@@ -10,7 +10,7 @@ interface Props {
 export default class extends React.PureComponent<Props> {
   private toggler = unwrap(document.getElementById('toggler'), '#toggler not found');
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return ReactDOM.createPortal(
       <Interactive action={this.props.toggle} className='toggler' />,
       this.toggler,

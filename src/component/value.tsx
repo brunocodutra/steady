@@ -32,7 +32,7 @@ export default class extends React.PureComponent<Props, State> {
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <Interactive action={this.onClick} className={classes('value control', this.props.name)}>
         <Quantity value={this.props.value} unit={this.props.unit} />
