@@ -15,29 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
-        node-version: 14.x
-    - run: npm install
+        node-version: lts/*
+    - run: npm ci
     - run: npm run build
 
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: actions/setup-node@v1
+    - uses: actions/setup-node@v2
       with:
-        node-version: 14.x
-    - run: npm install
+        node-version: lts/*
+    - run: npm ci
     - run: npm test
     - run: bash <(curl -s https://codecov.io/bash) -C $GITHUB_SHA -B ${GITHUB_REF#refs/heads/} -Z
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-  check-package-lock:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-    - uses: actions/checkout@master
-    - run: npm install
-    - run: git diff --exit-code
