@@ -27,7 +27,6 @@ module.exports = ({ production } = {}) => ({
   },
 
   devServer: {
-    publicPath: '/steady/',
     https: true,
   },
 
