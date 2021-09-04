@@ -7,7 +7,9 @@ module.exports = {
   },
   testURL: 'http://localhost',
   testMatch: ['**/spec/**/*.spec.(ts|tsx)'],
+  testEnvironment: "jsdom",
   collectCoverage: true,
+  coverageProvider: "v8",
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
   coverageReporters: ['lcov', 'text'],
 }
