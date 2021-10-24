@@ -41,7 +41,7 @@
     "favicons-webpack-plugin": "^5.0.1",
     "html-loader": "^3.0.0",
     "html-webpack-plugin": "^5.4.0",
-    "jest": "^27.2.5",
+    "jest": "^27.3.1",
     "mini-css-extract-plugin": "^2.4.3",
     "phasor.js": "^2.1.0",
     "react": "^16.14.0",
