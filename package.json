@@ -40,7 +40,7 @@
     "favicons": "^6.2.2",
     "favicons-webpack-plugin": "^5.0.1",
     "html-loader": "^2.1.2",
-    "html-webpack-plugin": "^5.3.2",
+    "html-webpack-plugin": "^5.4.0",
     "jest": "^27.2.5",
     "mini-css-extract-plugin": "^2.4.3",
     "phasor.js": "^2.1.0",
