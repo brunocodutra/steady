@@ -42,7 +42,7 @@
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.2.5",
-    "mini-css-extract-plugin": "^2.2.2",
+    "mini-css-extract-plugin": "^2.4.3",
     "phasor.js": "^2.1.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
