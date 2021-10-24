@@ -250,11 +250,6 @@ footer {
   fill: currentcolor;
 }
 
-.gitter {
-  margin: 15%;
-  fill: currentcolor;
-}
-
 .copyright {
   @extend .text-muted, .text-right, %white-space-nowrap;
 
