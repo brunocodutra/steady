@@ -1,61 +1,40 @@
 $grid-breakpoints: (
   xs: 0,
-  sm: 320px,
+  sm: 240px,
   md: 576px,
   lg: 768px,
-  xl: 992px
+  xl: 992px,
+  xxl: 1200px
 );
 
-$spacers: (
-  0: 0,
-  1: 0.25rem,
-  2: 0.5rem,
-  3: 0.75rem,
-  4: 1rem,
-  5: 1.25rem,
-);
+$dark: #343a40;
+$orange: #ffb31a;
+$info: $orange;
+$primary: lighten($info, 15%);
+$body-color: $dark;
 
-$colors: (
-  'orange': hsl(40, 100%, 55%),
-);
+$spacer: 0.5rem;
 
-$theme-colors: (
-  'info': map-get($colors, 'orange'),
-  'primary': lighten(map-get($colors, 'orange'), 15%),
-);
-
-$font-size-sm: 0.7rem;
-
-$transition-base: all 0.15s ease-in-out;
-$transition-fade: opacity 0.15s ease-in-out;
-
-$navbar-dark-color: map-get($colors, 'orange');
+$navbar-dark-color: $orange;
 $navbar-dark-active-color: $navbar-dark-color;
-
-$nav-link-padding-y: 0;
-$navbar-toggler-padding-x: 0;
 $navbar-dark-toggler-border-color: transparent;
+$navbar-toggler-padding-x: 0;
+$navbar-toggler-padding-y: 0;
+$navbar-nav-link-padding-x: 0;
+$nav-link-padding-x: 0;
+$nav-link-padding-y: 0;
 
-$modal-header-padding: 0;
-$modal-footer-border-width: 0;
+$modal-header-padding-x: 0;
 
+$tooltip-bg: $dark;
 $tooltip-opacity: 1;
-$tooltip-padding-x: 0.2rem;
-$tooltip-padding-y: 0.1rem;
 $tooltip-max-width: 100%;
-$tooltip-font-size: $font-size-sm;
-$tooltip-border-radius: 0.2rem;
-
-$tooltip-arrow-height: 0.4rem;
-$tooltip-arrow-width: 2 * $tooltip-arrow-height;
-
-$zindex-tooltip: 0;
 
 @import '~bootstrap/scss/bootstrap';
 
 @mixin transition($properties...) {
   transition: $transition-base;
-  @if length($properties) != 0 {
+  @if length($properties) > 0 {
     transition-property: $properties;
   }
 }
@@ -76,18 +55,7 @@ $tile-size: 6rem;
 }
 
 %cross {
-  @extend .d-inline-block, .align-middle, .font-weight-bold;
-
   content: '\d7';
-  line-height: 1;
-}
-
-%flex-grow {
-  flex-grow: 1 !important;
-}
-
-%white-space-nowrap {
-  white-space: nowrap !important;
 }
 
 %interactive {
@@ -103,8 +71,7 @@ $tile-size: 6rem;
 
 .fade {
   @extend .invisible;
-
-  transition-property: visibility, opacity;
+  @include transition(visibility, opacity);
 
   &.show {
     @extend .visible;
@@ -113,9 +80,8 @@ $tile-size: 6rem;
 
 html,
 body {
-  @extend .d-flex, .flex-column, .h-100;
+  @extend .d-flex, .flex-column, .h-100, .overflow-hidden, .text-nowrap;
 
-  overflow: hidden;
   font-size: 12px;
 
   @include media-breakpoint-up(md) {
@@ -136,32 +102,32 @@ svg {
 }
 
 header {
-  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .font-weight-bold;
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .fw-bold;
 
-  #navbar {
-    @extend .navbar-nav, .flex-row, .ml-auto;
-  }
+  nav {
+    @extend .container-fluid;
 
-  #toggler {
-    @extend .navbar-toggler, .ml-3;
+    #navbar {
+      @extend .navbar-nav, .ms-auto;
+    }
+
+    #toggler {
+      @extend .navbar-toggler, .ms-2;
+    }
   }
 }
 
 .brand {
   @extend .navbar-brand, .text-uppercase;
-  @include transition(text-shadow);
-
-  transition-duration: 1s;
-  letter-spacing: 0.1ch;
 
   img {
-    @extend .mr-1;
+    @extend .d-inline-block, .align-top;
     @include size(2rem);
   }
 }
 
 .share {
-  @extend .nav-link, .ml-auto;
+  @extend .nav-link;
 
   line-height: 0;
 
@@ -186,10 +152,10 @@ header {
 }
 
 main {
-  @extend .container-fluid, .d-flex, .flex-column, %flex-grow, .my-3;
+  @extend .container-fluid, .d-flex, .flex-column, .flex-grow-1, .my-3;
 
   > .row {
-    @extend %flex-grow;
+    @extend .flex-grow-1;
 
     > .col {
       @extend .d-flex, .flex-column;
@@ -220,21 +186,22 @@ footer {
 .social {
   @extend .text-md-center;
 
+  line-height: 0;
+
   .button {
     @extend .d-inline-block, .border, .rounded-circle, .align-middle, .text-secondary, %interactive;
     @include transition(color, transform);
     @include size(1.5rem);
 
-    transition-duration: 0.3s;
     border-color: currentColor !important;
 
     &:focus,
     &:hover {
-      transform: rotate(360deg) scale(1.3);
+      transform: rotate(360deg) scale(1.25);
     }
 
     +.button {
-      @extend .ml-1;
+      @extend .ms-2;
     }
   }
 }
@@ -251,27 +218,11 @@ footer {
 }
 
 .copyright {
-  @extend .text-muted, .text-right, %white-space-nowrap;
-
-  @include media-breakpoint-up(md) {
-    font-size: 0.9rem;
-  }
-
-  @include media-breakpoint-up(xl) {
-    font-size: 0.8rem;
-  }
+  @extend .text-muted, .text-end;
+  @include font-size(1rem);
 
   &::before {
-    @extend .align-middle;
     content: '©';
-  }
-
-  .year {
-    @extend .d-none, .d-md-inline-block, .align-middle;
-  }
-
-  .author {
-    @extend .align-middle, .text-nowrap;
   }
 }
 
@@ -279,15 +230,8 @@ footer {
   @extend %interactive;
 }
 
-.toolbox,
-.schematics {
-  @extend %white-space-nowrap;
-
-  overflow: auto;
-}
-
 .toolbox {
-  @extend .d-none, .d-md-block, .text-center, .mb-2;
+  @extend .d-none, .d-md-block, .text-center, .mb-2, .overflow-auto;
 
   &.open {
     @extend .d-block;
@@ -297,7 +241,7 @@ footer {
 .tool {
   @extend .d-inline-block, .p-1, .border, .rounded;
   @include transition(color, border-color);
-  @include size(0.75 * $tile-size);
+  @include size(calc(0.7 * $tile-size));
 
   &:hover,
   &:focus {
@@ -305,18 +249,16 @@ footer {
   }
 
   +.tool {
-    @extend .ml-1;
+    @extend .ms-1;
   }
 }
 
 .schematics {
-  @extend .d-flex, %flex-grow, .border, .rounded, .p-3;
-
-  flex-basis: 0;
+  @extend .d-flex, .flex-grow-1, .border, .rounded, .p-3, .overflow-auto;
 }
 
 .tile {
-  @extend .position-relative, .d-inline-block, .align-top;
+  @extend .position-relative, .d-inline-block, .align-top, .flex-shrink-0;
 
   @include transition(color);
   @include size($tile-size);
@@ -331,7 +273,7 @@ footer {
 
   &.active {
     animation: blink 1s ease-in-out infinite;
-    color: theme-color('info');
+    color: $info;
   }
 
   &.shunt {
@@ -357,36 +299,36 @@ footer {
 
   &.vsrc > .value,
   &.impedance > .value {
-    top: 0.36 * $tile-size;
+    top: calc(0.36 * $tile-size);
   }
 
   &.line > .value.y {
-    top: 0.67 * $tile-size;
+    top: calc(0.67 * $tile-size);
   }
 
   &.isrc > .value,
   &.admittance > .value,
   &.xformer > .value,
   &.line > .value.z {
-    top: 0.82 * $tile-size;
+    top: calc(0.82 * $tile-size);
   }
 
   > .status {
     &.volt {
-      top: 0.33 * $tile-size;
+      top: calc(0.33 * $tile-size);
       left: 0;
       padding: 0 0.6rem 0 0;
     }
 
     &.ampere {
-      top: 0.2 * $tile-size;
+      top: calc(0.2 * $tile-size);
       left: 0;
       padding: 0.3rem 0;
     }
 
     &.tooltip {
       top: 0;
-      left: -0.5 * $tile-size;
+      left: calc(-0.25 * $tile-size);
     }
   }
 }
@@ -397,17 +339,17 @@ footer {
     @include transition(border-color);
 
     content: '';
-    top: 10%;
-    right: 10%;
-    bottom: 10%;
-    left: 10%;
+    top: 5%;
+    right: 5%;
+    bottom: 5%;
+    left: 5%;
     border: 0.15rem dashed transparent;
   }
 
   &.active::after,
   &:focus::after,
   &:hover::after {
-    border-color: theme-color('info');
+    border-color: $info;
   }
 
   &.active::after {
@@ -425,27 +367,26 @@ footer {
 .control {
   @extend .position-absolute;
 
-  color: theme-color('secondary');
+  color: $secondary;
 
   &.remove {
-    line-height: 0;
+    @extend .lh-1;
+    @include font-size(1.2rem);
 
     &::after {
-      @extend %cross, .text-right;
-      @include size(1rem);
+      @extend %cross;
     }
   }
 
   &.value {
-    @extend .d-inline-block, .text-center, .font-weight-bold;
-
-    font-size: $font-size-sm;
-    line-height: 1.2;
+    @extend .d-inline-block, .text-center, .text-nowrap, .fw-bold, .lh-1, .user-select-none;
+    @include font-size(0.7rem);
   }
 
   &.status {
+    @include font-size(0);
+
     stroke: currentColor;
-    font-size: 0;
 
     &.volt,
     &.ampere {
@@ -455,42 +396,13 @@ footer {
 }
 
 .tooltip {
-  @extend .font-weight-bold, .text-nowrap, .text-center;
-  @include size(100%, auto);
+  @extend .fw-bold, .bs-tooltip-top, .p-0;
+  @include font-size(0.7rem);
 
-  line-height: 0;
-
-  .arrow {
+  > .tooltip-arrow {
     bottom: -$tooltip-arrow-height;
-    left: 50%;
-    margin-left: -$tooltip-arrow-width;
-
-    &::before {
-      top: 0;
-      border-width: $tooltip-arrow-height ($tooltip-arrow-width / 2) 0;
-      border-top-color: $tooltip-arrow-color;
-    }
-  }
-}
-
-.tooltip-inner {
-  @extend .d-inline-block;
-
-  font-size: $font-size-sm;
-  line-height: 1;
-}
-
-.quantity {
-  .prefix {
-    margin: 0 -0.3ch 0 0.3ch;
-  }
-
-  .unit {
-    margin-left: 0.3ch;
-  }
-
-  .prefix:not(.none) + .unit.ratio {
-    padding-left: 0.4ch;
+    left: calc(0.25 * $tile-size);
+    margin-left: calc(-0.5 * $tooltip-arrow-width);
   }
 }
 
@@ -559,13 +471,8 @@ footer {
     content: 'Ω';
   }
 
-  &.ratio::before {
-    content: ':';
-    margin-right: 0.3ch;
-  }
-
-  &.ratio::after {
-    content: '1';
+  &.one::after {
+    content: ' : 1';
   }
 
   &.degree::after {
@@ -585,10 +492,9 @@ footer {
 }
 
 .modal-header {
-  @extend .pb-2;
-
   .close {
-    @extend .m-0;
+    @extend .m-0, .lh-1;
+    @include font-size(1.75rem);
 
     &::after {
       @extend %cross;
@@ -607,12 +513,10 @@ footer {
 .modal-body {
   @extend .d-flex, .align-items-center, .px-0;
 
-  min-height: 6rem;
+  min-height: 5rem;
 }
 
 .modal-footer {
-  @extend .p-0;
-
   .btn {
     min-width: 15%;
   }

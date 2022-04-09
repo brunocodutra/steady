@@ -18,7 +18,9 @@ export default ({ value, unit }: Props): JSX.Element => {
       <span className='mag'>{pretty(mag)}</span>
       <span className='ang'>{pretty(ang)}</span>
       <span className={classes('prefix', Scale[scale])} />
-      <span className={classes('unit', unit)} />
+      {!unit ? null : (
+        <span className={classes('unit', unit)} />
+      )}
     </span>
   );
 }

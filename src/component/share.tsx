@@ -44,16 +44,14 @@ export default connect(mapState)(
             <Dialog show={this.state.show} title={'Share Link'} onDismiss={this.onDismiss}>
               <div className='input-group'>
                 <input id='url' defaultValue={url} className='form-control' />
-                <div className='input-group-append'>
-                  <button
-                    ref={(e) => e && new Clipboard(e)}
-                    data-clipboard-target='#url'
-                    className='copy'
-                    type='button'
-                  >
-                    copy
-                  </button>
-                </div>
+                <button
+                  ref={(e) => e && new Clipboard(e)}
+                  data-clipboard-target='#url'
+                  className='copy'
+                  type='button'
+                >
+                  Copy
+                </button>
               </div>
             </Dialog>
           </Interactive>

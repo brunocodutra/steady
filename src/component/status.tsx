@@ -50,7 +50,7 @@ export default class extends React.PureComponent<Props, State> {
           <Icon unit={this.props.unit} />
         </Interactive>
         <span className={classes('status tooltip fade', { show })}>
-          <span className='arrow' />
+          <span className='tooltip-arrow' />
           <span className='tooltip-inner'>
             <Quantity value={this.props.value} unit={this.props.unit} />
           </span>

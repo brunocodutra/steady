@@ -2,7 +2,7 @@ export const enum Unit {
   volt = 'volt',
   ampere = 'ampere',
   ohm = 'ohm',
-  ratio = 'ratio',
+  one = 'one',
 }
 
 export enum Scale {
