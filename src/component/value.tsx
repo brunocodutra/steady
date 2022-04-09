@@ -42,27 +42,21 @@ export default class extends React.PureComponent<Props, State> {
           onDismiss={this.onDismiss}
           onConfirm={this.onConfirm}
         >
-          <div className='form-row'>
+          <div className='row'>
             <div className='col input-group'>
               <input value={this.state.mag} onChange={this.onMag} className='form-control' />
-              <div className='input-group-append'>
+              <span className='input-group-text'>
+                <span className={'symbol angle'} />
+              </span>
+              <input value={this.state.ang} onChange={this.onAng} className='form-control' />
+              <span className='input-group-text'>
+                <span className={'unit degree'} />
+              </span>
+              {!this.props.unit ? null : (
                 <span className='input-group-text'>
                   <span className={classes('unit', this.props.unit)} />
                 </span>
-              </div>
-            </div>
-            <div className='col input-group'>
-              <div className='input-group-prepend'>
-                <span className='input-group-text'>
-                  <span className={'symbol angle'} />
-                </span>
-              </div>
-              <input value={this.state.ang} onChange={this.onAng} className='form-control' />
-              <div className='input-group-append'>
-                <span className='input-group-text'>
-                  <span className={'unit degree'} />
-                </span>
-              </div>
+              )}
             </div>
           </div>
         </Dialog>
