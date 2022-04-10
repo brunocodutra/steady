@@ -50,7 +50,7 @@
     "react-redux": "^7.2.8",
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
-    "sass": "^1.49.9",
+    "sass": "^1.50.0",
     "sass-loader": "^12.6.0",
     "stylelint": "^14.6.1",
     "stylelint-config-property-sort-order-smacss": "^9.0.0",
