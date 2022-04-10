@@ -18,7 +18,7 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
-    "@types/enzyme": "^3.10.11",
+    "@types/enzyme": "^3.10.12",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^27.4.1",
     "@types/react": "^18.0.1",
