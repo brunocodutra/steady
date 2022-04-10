@@ -19,7 +19,7 @@ module.exports = ({ production } = {}) => ({
   },
 
   entry: {
-    index: ['react-hot-loader/patch', 'index.tsx', 'index.scss'],
+    index: ['index.tsx', 'index.scss'],
   },
 
   output: {
@@ -28,6 +28,12 @@ module.exports = ({ production } = {}) => ({
 
   devServer: {
     https: true,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
   },
 
   devtool: production ? false : 'eval',

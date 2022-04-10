@@ -1,6 +1,8 @@
-export default Promise.all([import('react'), import('react-dom')]).then(async ([React, ReactDOM]) => {
-  const { default: Steady } = await import('component/steady');
-  ReactDOM.render(<Steady />, document.getElementById('steady'));
+export default Promise.all([import('react'), import('react-dom/client')]).then(async ([React, ReactDOM]) => {
+  const [{ default: Steady }, { unwrap }] = await Promise.all([import('component/steady'), import('lib/util')]);
+  const container = unwrap(document.getElementById('steady'), '#steady not found');
+  const root = ReactDOM.createRoot(container);
+  root.render(<Steady />);
 });
 
 window.addEventListener('load', async () => {
