@@ -18,7 +18,7 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
-    "@testing-library/react": "^13.1.1",
+    "@testing-library/react": "^13.2.0",
     "@types/jest": "^27.5.0",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
