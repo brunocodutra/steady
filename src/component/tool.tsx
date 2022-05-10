@@ -1,7 +1,7 @@
 import classes from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import Interactive from 'component/interactive';
 import { Action, insert, Insertable } from 'action';
 

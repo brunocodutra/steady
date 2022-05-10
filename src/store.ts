@@ -1,4 +1,4 @@
-import { createStore, Store, applyMiddleware, Middleware } from 'redux';
+import { configureStore, Store, Middleware } from '@reduxjs/toolkit';
 import { Action, hydrate, Type } from 'action';
 import reducer from 'reducer';
 import { deserialize, serialize } from 'lib/serde';
@@ -22,8 +22,14 @@ if (process.env['NODE_ENV'] !== 'production') {
   middleware.push(require('redux-logger').default);
 }
 
-const state = rescue(() => State.fromJSON(deserialize(location.search.slice(1))), State.init);
-const store: Store<State, Action> = createStore(reducer, state, applyMiddleware(...middleware));
+const state: State = rescue(() => State.fromJSON(deserialize(location.search.slice(1))), State.init);
+const store: Store<State, Action> = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false, serializableCheck: false }).concat(middleware),
+  devTools: process.env['NODE_ENV'] !== 'production',
+  preloadedState: state,
+});
 
 history.replaceState(null, document.title, `${location.origin}${location.pathname}`);
 
