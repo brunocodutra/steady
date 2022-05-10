@@ -1,6 +1,6 @@
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import { Action, activate } from 'action';
 import { State } from 'state';
 import { Props as PropsBase } from 'component/element';

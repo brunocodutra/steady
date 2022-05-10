@@ -1,6 +1,6 @@
 import { ComponentType } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import { Action, update } from 'action';
 import removable, { Props as PropsBase } from 'container/removable';
 import { ParametricElement, Value } from 'lib/element';

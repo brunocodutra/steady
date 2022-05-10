@@ -18,6 +18,7 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/react": "^13.2.0",
     "@types/jest": "^27.5.0",
     "@types/react": "^18.0.9",
@@ -44,7 +45,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.1.0",
     "react-redux": "^7.2.8",
-    "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
     "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
