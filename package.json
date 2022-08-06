@@ -45,7 +45,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "redux-logger": "^3.0.6",
-    "sass": "^1.54.0",
+    "sass": "^1.54.3",
     "sass-loader": "^13.0.2",
     "stylelint": "^14.9.1",
     "stylelint-config-property-sort-order-smacss": "^9.0.0",
