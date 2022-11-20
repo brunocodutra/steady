@@ -5,7 +5,9 @@ const run = code => execSync(`node -e ${JSON.stringify(code)}`).toString();
 
 module.exports = {
   process(src) {
-    return run(`require('svg-react-loader/lib')({}, ${JSON.stringify(src)}).subscribe(console.log)`);
+    return {
+      code: run(`require('svg-react-loader/lib')({}, ${JSON.stringify(src)}).subscribe(console.log)`),
+    }
   },
 
   getCacheKey(src) {
