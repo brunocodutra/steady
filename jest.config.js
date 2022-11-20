@@ -5,9 +5,11 @@ module.exports = {
   transform: {
     '^.+\\.svg$': './jest/transform.svg.js',
   },
-  testURL: 'http://localhost',
   testMatch: ['**/spec/**/*.spec.(ts|tsx)'],
   testEnvironment: "jsdom",
+  testEnvironmentOptions: {
+    url: 'http://localhost',
+  },
   collectCoverage: true,
   coverageProvider: "v8",
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
