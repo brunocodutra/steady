@@ -4,9 +4,8 @@ import { Phasor } from 'lib/phasor';
 import { Unit } from 'lib/unit';
 import Interactive from 'component/interactive';
 import Quantity from 'component/quantity';
-
-const V = require('icon/v.svg');
-const I = require('icon/i.svg');
+import V from 'icon/v.svg';
+import I from 'icon/i.svg';
 
 interface Props {
   readonly value: Phasor,

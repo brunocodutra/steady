@@ -5,8 +5,9 @@ import Tile from 'component/tile';
 import Value from 'component/value';
 import { XFormer } from 'lib/element';
 import { Unit } from 'lib/unit';
+import Icon from 'icon/xformer.svg';
 
-export const Icon = require('icon/xformer.svg');
+export { default as Icon } from 'icon/xformer.svg';
 
 type Props = PropsBase<XFormer>;
 

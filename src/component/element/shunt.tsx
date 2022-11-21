@@ -8,10 +8,11 @@ import Tile from 'component/tile';
 import { Shunt } from 'lib/element';
 import { Unit } from 'lib/unit';
 import { prefix } from 'lib/util';
+import Wire from 'icon/wire.svg';
+import Knee from 'icon/knee.svg';
+import Icon from 'icon/shunt.svg';
 
-export const Icon = require('icon/shunt.svg');
-const Wire = require('icon/wire.svg');
-const Knee = require('icon/knee.svg');
+export { default as Icon } from 'icon/shunt.svg';
 
 interface Props extends PropsBase<Shunt> {
   readonly essential: boolean,

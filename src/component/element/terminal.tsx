@@ -2,8 +2,9 @@ import React from 'react';
 import activable, { Props as PropsBase } from 'container/activable';
 import Tile from 'component/tile';
 import { Terminal } from 'lib/element';
+import Icon from 'icon/terminal.svg';
 
-export const Icon = require('icon/terminal.svg');
+export { default as Icon } from 'icon/terminal.svg';
 
 type Props = PropsBase<Terminal>;
 
