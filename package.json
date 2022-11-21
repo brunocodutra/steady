@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
+    "@svgr/webpack": "^6.5.1",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.2.3",
     "@types/react": "^18.0.19",
@@ -52,7 +53,6 @@
     "stylelint-config-property-sort-order-smacss": "^9.0.0",
     "stylelint-config-sass-guidelines": "^9.0.1",
     "stylelint-webpack-plugin": "^3.3.0",
-    "svg-react-loader": "^0.4.6",
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.3.1",
     "typescript": "^4.8.3",
