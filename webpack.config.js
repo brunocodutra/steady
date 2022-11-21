@@ -72,7 +72,7 @@ module.exports = ({ production } = {}) => ({
       {
         test: /\.svg$/,
         issuer: /\.tsx$/,
-        loader: 'svg-react-loader',
+        loader: '@svgr/webpack',
       },
 
       {
