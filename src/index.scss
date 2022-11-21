@@ -396,10 +396,12 @@ footer {
 }
 
 .tooltip {
-  @extend .fw-bold, .bs-tooltip-top, .p-0;
+  @extend .position-absolute, .fw-bold, .bs-tooltip-top, .p-0;
   @include font-size(0.7rem);
 
   > .tooltip-arrow {
+    @extend .position-absolute;
+
     bottom: -$tooltip-arrow-height;
     left: calc(0.25 * $tile-size);
     margin-left: calc(-0.5 * $tooltip-arrow-width);
