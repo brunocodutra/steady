@@ -5,8 +5,9 @@ import Tile from 'component/tile';
 import Value from 'component/value';
 import { Admittance } from 'lib/element';
 import { Unit } from 'lib/unit';
+import Icon from 'icon/admittance.svg';
 
-export const Icon = require('icon/admittance.svg');
+export { default as Icon } from 'icon/admittance.svg';
 
 type Props = PropsBase<Admittance>;
 

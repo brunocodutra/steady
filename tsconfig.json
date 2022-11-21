@@ -20,7 +20,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true,
     "experimentalDecorators": true,
   },
   "include": [

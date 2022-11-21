@@ -5,8 +5,9 @@ import Tile from 'component/tile';
 import Value from 'component/value';
 import { Line } from 'lib/element';
 import { Unit } from 'lib/unit';
+import Icon from 'icon/line.svg';
 
-export const Icon = require('icon/line.svg');
+export { default as Icon } from 'icon/line.svg';
 
 type Props = PropsBase<Line>;
 

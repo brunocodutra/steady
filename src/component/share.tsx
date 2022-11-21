@@ -7,8 +7,7 @@ import { serialize } from 'lib/serde';
 import { State } from 'state';
 import Dialog from 'component/dialog';
 import Interactive from 'component/interactive';
-
-const Icon = require('icon/share.svg');
+import Icon from 'icon/share.svg';
 
 interface Props {
   readonly state: State,

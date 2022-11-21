@@ -5,8 +5,9 @@ import Tile from 'component/tile';
 import Value from 'component/value';
 import { VSrc } from 'lib/element';
 import { Unit } from 'lib/unit';
+import Icon from 'icon/vsrc.svg';
 
-export const Icon = require('icon/vsrc.svg');
+export { default as Icon } from 'icon/vsrc.svg';
 
 type Props = PropsBase<VSrc>;
 

@@ -4,8 +4,7 @@ import { Powered } from 'lib/element';
 import { State } from 'state';
 import Element from 'component/element';
 import Tile from 'component/tile';
-
-const Ground = require('icon/ground.svg');
+import Ground from 'icon/ground.svg';
 
 interface Props {
   readonly entry: Powered,
