@@ -41,7 +41,7 @@
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
-    "mini-css-extract-plugin": "^2.7.2",
+    "mini-css-extract-plugin": "^2.7.5",
     "phasor.js": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
