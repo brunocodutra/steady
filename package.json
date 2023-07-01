@@ -18,7 +18,7 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.5",
+    "@reduxjs/toolkit": "^1.9.5",
     "@svgr/webpack": "^6.5.1",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.5.1",
