@@ -33,7 +33,7 @@
     "clipboard": "^2.0.11",
     "css-loader": "^6.8.1",
     "eslint": "^8.47.0",
-    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-webpack-plugin": "^4.0.1",
     "favicons": "^7.1.2",
     "favicons-webpack-plugin": "^6.0.0",
